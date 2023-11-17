@@ -15,7 +15,7 @@ function ContentPage() {
 /*
 async function MapProvider() {
     const loader = new Loader({
-        apiKey: "AIzaSyAdN6UrD5cyvKtNz2hr_nIMC436NEDy2iM",
+        apiKey: "",
         version: "weekly",
     });
 
