@@ -15,5 +15,6 @@
 }
 
 .map-container {
-    height: 400px; /* Adjust as needed */
+    height: 900px; /* Adjust as needed */
+    width: 90%;
 }
