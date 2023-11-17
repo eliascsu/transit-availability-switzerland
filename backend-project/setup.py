@@ -42,7 +42,7 @@ setup(
         "flask-restful>=0.3.9,<0.4",
         "flask-cors>=3.0.10,<3.1",
         "pandas>=1.4.1,<1.5",
-        "scikit-learn>=1.0.2,<1.1",
+        "scikit-learn",
     ],
     packages=find_packages(where="src", include=["dummy_server*"]),
     package_dir={"": "src"},
