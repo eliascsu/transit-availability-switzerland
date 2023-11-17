@@ -13,3 +13,7 @@
     font-size: 1.5rem;
     font-weight: 700;
 }
+
+.map-container {
+    height: 400px; /* Adjust as needed */
+}
