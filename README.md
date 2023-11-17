@@ -3,23 +3,58 @@
 [[_TOC_]]
 
 ## Team Members
-1. Team member 1
-2. Team member 2
-3. Team member 3
-4. ...
+1. Joshua Durrant \<jdurrant>
+2. Leander Hemmi \<hemmil>
+3. Mathias Schmid \<smathia>
+4. Cedric Koller \<cekoller>
+5. Elias Csuka \<ecsuka>
 
 ## Project Description 
-Describe here your project in detail and define your goals.
+
+### Transit Availability in Urban and Suburban AreaS
+
+The goal of this project is to provide an application to display urban mobility data in contrast to population density. The issue consists of possible unequal access to mobility for some people living in urban and suburban areas. The application will visualize this, using OGD provided by the city of Zurich, with the possibility of extending the functionality for other urban areas. We do this by showing a map of the city, and overlaying a heatmap of the population over said area. Then, transit lines are added to the map, to visualize them. In the backend we use points spaced 100m from eachother, and calculate the time it would take to get from said points to a city-center/POI. The longer it takes, the more unequal is the access to mobility. For this we consider 4 main modes of transport: Public transit (Rail, Bus, etc.), Walking, Cycling and Driving. The user can then select which mode of transport they want to use, and the map will update accordingly. The user can also select a specific point on the map, and the application will show the time it takes to get to the c
+tity-center/POI from said point. As an extension, we could also display land value and rent prices, to show the correlation between these and the access to mobility, and some possible inequalities.
+
+
+### Ideas
+Night lines in contrast to population age
 
 ### Users
-List your projects target Users.
+Urban developers, transit planners, city planners, urban mobility researchers, etc.
 
 ### Datasets
 Add here all used datasets.\
 Document here where to find the data and how to download it. 
+- Population Density per ha
+  https://www.bfs.admin.ch/bfs/de/home/dienstleistungen/geostat/geodaten-bundesstatistik/gebaeude-wohnungen-haushalte-personen/bevoelkerung-haushalte-ab-2010.html
+- Public transport stops and lines
+  https://data.stadt-zuerich.ch/dataset/vbz_fahrplanogd
+
+- Calculation of PT quality
+  https://www.are.admin.ch/verkehrserschliessung
+  Possibly reimplement the calculation oneself, so as to use other cities as well.
+- Other datasets on https://map.geo.admin.ch/
+  - [Travel time to centers](https://map.geo.admin.ch/?topic=are&lang=en&bgLayer=ch.swisstopo.pixelkarte-grau&catalogNodes=954%2C959%2C965&E=2617385.70&N=1186832.86&zoom=1.98685302734375&layers=ch.are.reisezeit-oev%2Cch.are.reisezeit-miv&layers_opacity=0.75%2C0.75&layers_visibility=true%2Cfalse)
 
 ### Tasks
 Define all the tasks you want your dashboard solve.
+
+### Frontend
+- [x] Create content page and add base map with leaflet
+- [x] Visualize population density
+- [x] Draw quality of transit as heatmap
+- [x] Make transit stops selectable and editable to redraw heatmap
+- [x] Create a feature where one can draw a polyline as a new transit line, then send points of recalculation to backend, and then redraw the map.
+- [x] Create account system to store user edited maps (optional)
+
+### Backend
+- [x] Implement backend crawler for population density
+- [x] Implement route for population density
+- [x] Describe logic on calculation for public transit quality
+- [x] Implement backend crawler for public transit stops & lines
+- [x] Implement calculation for public transit quality [Optional]: Do this for other cities
+- [x] Implement route for public transit quality
 
 - - -
 ## Folder Structure
@@ -85,6 +120,24 @@ Specify here the structure of you code and comment what the most important files
 │   └── tsconfig.json
 └── requirements.txt
 ```
+## Resources
+
+- [TransitLayer](https://developers.google.com/maps/documentation/javascript/trafficlayer), hopefully we might come up with a different source for the transitlayer, because apparently one cant use it with leaflet.js without compromising googles TOS
+- [OpenTransportData](https://opentransportdata.swiss/en/), this will be used to calculate the quality of transit stops using the frequency of train/bus/tram services
+- [Google Maps API](https://developers.google.com/maps)
+- [Visualizing data with gmaps](https://mapsplatform.google.com/solutions/visualize-data/)
+- [Working with heatmaps in google](https://developers.google.com/maps/documentation/javascript/examples/layer-heatmap)
+  - [Example](https://jsfiddle.net/gh/get/library/pure/googlemaps/js-samples/tree/master/dist/samples/layer-heatmap/jsfiddle)
+- [Add dataset to gmaps](https://developers.google.com/maps/documentation/javascript/dds-datasets/add-dataset-to-map)
+- [Using WFS data in leaflet](https://gis.stackexchange.com/questions/64406/getting-wfs-data-from-geoserver-into-leaflet)
+- [Shapefiles in leaflet](https://stackoverflow.com/questions/43478121/display-shapefile-on-leaflet-map-using-an-uploaded-file-zip)
+
+
+### Zurich
+- https://opendatazurich.github.io/geoportal/ some guidance on how to use leaflet with OGD
+- https://openzh.github.io/starter-code-openZH/ starter code for using OGD with leaflet
+
+
 
 ## Requirements
 Write here all intructions to build the environment and run your code.\
