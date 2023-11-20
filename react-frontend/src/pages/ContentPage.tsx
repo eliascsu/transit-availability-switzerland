@@ -25,8 +25,9 @@ interface CsvData {
 // Base URL for WMS requests to map.geo.admin.ch
 const WMS_GEOCH = "https://wms.geo.admin.ch/services/service?";
 
-const EPSG2056 = '+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +k_0=1 +x_0=2600000 +y_0=1200000 +ellps=bessel +towgs84=674.374,15.056,405.346,0,0,0,0 +units=m +no_defs';
-const EPSG4326 = 'EPSG:4326';
+const EPSG2056 = '+proj=somerc +lat_0=46.9524055555556 +lon_0=7.43958333333333 +k_0=1 +x_0=2600000 +y_0=1200000 +ellps=bessel +towgs84=674.374,15.056,405.346,0,0,0,0 +units=m +no_defs +type=crs';
+const EPSG4326 = '+proj=longlat +datum=WGS84 +no_defs';
+//proj4.defs("EPSG:2056","+proj=somerc +lat_0=46.9524055555556 +lon_0=7.43958333333333 +k_0=1 +x_0=2600000 +y_0=1200000 +ellps=bessel +towgs84=674.374,15.056,405.346,0,0,0,0 +units=m +no_defs +type=crs");
 
 // Coordinate Reference System for map.geo.admin.ch
 
@@ -60,7 +61,6 @@ function Map(){
     const map = useMap();
     //L.Util.setOptions(map, {crs: myCrs})
     const marker = L.circle([47.36, 8.53], 100).addTo(map);
-    const marker3 = L.circle([47.36, 8.53], 100).addTo(map);
     const [csvData, setCsvData] = useState<CsvData[]>();
 
     useEffect(() => {
@@ -77,15 +77,15 @@ function Map(){
     }, []);
     
     if(csvData != undefined){
-        console.log(csvData[0].X_Koord);
-        console.log(csvData[0].Y_Koord);
         let x_coord = csvData[0].X_Koord;
         let y_coord = csvData[0].Y_Koord;
+        console.log("x: " + x_coord);
+        console.log("y: " + y_coord);
         
-        let converted = proj4(EPSG2056, EPSG4326, [x_coord, y_coord]);
-        console.log("conv0: " + converted[0]);
-        console.log("conv1: " + converted[1]);
-        const marker2 = L.circle([converted[0], converted[1]], 10000).addTo(map);
+        let converted = proj4(EPSG2056, EPSG4326, proj4.toPoint([2616053, 1270295]));
+        console.log(converted);
+        const marker2 = L.circle([converted.y, converted.x], 20000).addTo(map);
+        //const marker3 = L.circle([47.56, 7.60], 10000).addTo(map);
     }
     //L.Util.setOptions(map, {crs: L.CRS.EPSG4326})
     
