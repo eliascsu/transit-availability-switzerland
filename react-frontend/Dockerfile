@@ -4,8 +4,9 @@ COPY . /srv
 
 WORKDIR /srv
 
-RUN npm install
+RUN npm install --force
 RUN npm install -g serve
+RUN npm install --save-dev @types/leaflet
 
 RUN npm run build
 
