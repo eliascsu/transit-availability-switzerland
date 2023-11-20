@@ -6,6 +6,7 @@ import { Control } from 'leaflet';
 import { useEffect, useState } from 'react';
 import Papa from 'papaparse';
 import "proj4leaflet";
+import proj4 from "proj4";
 
 interface CsvData {
     Haltestellen_No: number;
@@ -24,20 +25,10 @@ interface CsvData {
 // Base URL for WMS requests to map.geo.admin.ch
 const WMS_GEOCH = "https://wms.geo.admin.ch/services/service?";
 
-const myCrs = new L.Proj.CRS(
-    'EPSG:2056',
-    "+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +k_0=1 +x_0=2600000 +y_0=1200000 +ellps=bessel +towgs84=674.374,15.056,405.346,0,0,0,0 +units=m +no_defs",
-    {
-        resolutions: [
-            8192, 4096, 2048, 1024, 512, 256, 128
-          ],
-          origin: [2485869.5728, 1076443.1884]
-    },
-)
-
+const EPSG2056 = '+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +k_0=1 +x_0=2600000 +y_0=1200000 +ellps=bessel +towgs84=674.374,15.056,405.346,0,0,0,0 +units=m +no_defs';
+const EPSG4326 = 'EPSG:4326';
 
 // Coordinate Reference System for map.geo.admin.ch
-const WMS_GEOCH_CRS = myCrs;
 
 // Layer names for map.geo.admin.ch
 const PT_QUAL = "ch.are.gueteklassen_oev"
@@ -57,9 +48,8 @@ function MapWrapper() {
     
     return (
         
-        <MapContainer className="map-container" center={[47.36, 8.53]} zoom={10} scrollWheelZoom={true} crs={L.CRS.EPSG4326}>
-            <WMSTileLayer url={WMS_GEOCH} layers={BASEMAP} format='image/png' crs={L.CRS.EPSG4326}/>
-            <WMSTileLayer url={WMS_GEOCH} layers={POP_DENS} format="image/png" crs={L.CRS.EPSG4326} transparent={true} opacity={0.5}/>
+        <MapContainer className="map-container" center={[47.36, 8.53]} zoom={10} scrollWheelZoom={true}>
+            <TileLayer url="https://tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey=119ad4f25bed4ec2a70aeba31a0fb12a" attribution="&copy; <a href=&quot;https://www.thunderforest.com/&quot;>Thunderforest</a> contributors"/>
             <Map></Map>
         </MapContainer>
         
@@ -68,8 +58,9 @@ function MapWrapper() {
 
 function Map(){
     const map = useMap();
-    L.Util.setOptions(map, {crs: myCrs})
+    //L.Util.setOptions(map, {crs: myCrs})
     const marker = L.circle([47.36, 8.53], 100).addTo(map);
+    const marker3 = L.circle([47.36, 8.53], 100).addTo(map);
     const [csvData, setCsvData] = useState<CsvData[]>();
 
     useEffect(() => {
@@ -88,8 +79,13 @@ function Map(){
     if(csvData != undefined){
         console.log(csvData[0].X_Koord);
         console.log(csvData[0].Y_Koord);
-
-        //const marker2 = L.circle([csvData[0].X_Koord, csvData[0].Y_Koord], 10000).addTo(map);
+        let x_coord = csvData[0].X_Koord;
+        let y_coord = csvData[0].Y_Koord;
+        
+        let converted = proj4(EPSG2056, EPSG4326, [x_coord, y_coord]);
+        console.log("conv0: " + converted[0]);
+        console.log("conv1: " + converted[1]);
+        const marker2 = L.circle([converted[0], converted[1]], 10000).addTo(map);
     }
     //L.Util.setOptions(map, {crs: L.CRS.EPSG4326})
     
