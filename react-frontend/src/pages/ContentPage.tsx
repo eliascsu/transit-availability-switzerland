@@ -7,6 +7,8 @@ import { useEffect, useState } from 'react';
 import Papa from 'papaparse';
 import "proj4leaflet";
 import proj4 from "proj4";
+import { assertDebuggerStatement } from '@babel/types';
+import { color } from 'd3-color';
 
 
 interface CsvData {
@@ -20,7 +22,14 @@ interface CsvData {
     Seilbahn_Anz: number;
     A_Intervall: number;
     B_Intervall: number;
-    Hst_Kat: number;
+    Hst_Kat: string;
+  }
+
+  const classColors = {
+    ClassA: "#ff0022",
+    ClassB: "#c300ff",
+    ClassC: "#006915",
+    ClassD: "#40ff66"
   }
 
 // Base URL for WMS requests to map.geo.admin.ch
@@ -77,21 +86,57 @@ function Map(){
     
     useEffect(() => {
         if (csvData) {
-            //const markers = new L.MarkerClusterGroup();
+            const ACircles = new L.LayerGroup();
+            const BCircles = new L.LayerGroup();
+            const CCircles = new L.LayerGroup();
+            const DCircles = new L.LayerGroup();
+            
             let i= 0
             for(let row of csvData){
-                if (row.Name !== '' && i++<50000) {
+                if (row.Name !== '' && i++<5000) {
                     if(i % 800 == 0 || i == 23811){
                         console.log(Math.round(i/23812*100) +"% of dataset")
                     }
                     let x_coord = parseFloat(row.X_Koord);
                     let y_coord = parseFloat(row.Y_Koord);
                     let converted = proj4(EPSG2056, EPSG4326, proj4.toPoint([y_coord, x_coord]));
-                    const marker = L.circle([converted.y, converted.x], 50).addTo(map);
-                    //arkers.addLayer(marker);
+                    let radius = 0;
+                    switch(parseFloat(row.Hst_Kat)){
+                        case 0:
+                            console.log("Hst is 0");
+                            break;
+                        case 1:
+                            L.circle([converted.y, converted.x], {radius: 500, color: classColors.ClassA, stroke: false, fillOpacity: 1}).addTo(ACircles);
+                            L.circle([converted.y, converted.x], {radius: 750, color: classColors.ClassB, stroke: false, fillOpacity: 1}).addTo(BCircles);
+                            L.circle([converted.y, converted.x], {radius: 1000, color: classColors.ClassC, stroke: false, fillOpacity: 1}).addTo(CCircles);
+                            break;
+                        case 2:
+                            L.circle([converted.y, converted.x], {radius: 300, color: classColors.ClassA, stroke: false, fillOpacity: 1}).addTo(ACircles);
+                            L.circle([converted.y, converted.x], {radius: 500, color: classColors.ClassB, stroke: false, fillOpacity: 1}).addTo(BCircles);
+                            L.circle([converted.y, converted.x], {radius: 750, color: classColors.ClassC, stroke: false, fillOpacity: 1}).addTo(CCircles);
+                            L.circle([converted.y, converted.x], {radius: 1000, color: classColors.ClassD, stroke: false, fillOpacity: 1}).addTo(DCircles);
+                            break;
+                        case 3:
+                            L.circle([converted.y, converted.x], {radius: 300, color: classColors.ClassB, stroke: false, fillOpacity: 1}).addTo(BCircles);
+                            L.circle([converted.y, converted.x], {radius: 500, color: classColors.ClassC, stroke: false, fillOpacity: 1}).addTo(CCircles);
+                            L.circle([converted.y, converted.x], {radius: 750, color: classColors.ClassD, stroke: false, fillOpacity: 1}).addTo(CCircles);
+                            break;
+                        case 4:
+                            L.circle([converted.y, converted.x], {radius: 300, color: classColors.ClassC, stroke: false, fillOpacity: 1}).addTo(CCircles);
+                            L.circle([converted.y, converted.x], {radius: 500, color: classColors.ClassD, stroke: false, fillOpacity: 1}).addTo(CCircles);
+                            break;
+                        case 5:
+                            L.circle([converted.y, converted.x], {radius: 300, color: classColors.ClassD, stroke: false, fillOpacity: 1 }).addTo(CCircles);
+                            break;
+                        default:
+                            console.log("Invalid datapoint");
+                    }
                 }
             };
-            //map.addLayer(markers);
+            map.addLayer(DCircles);
+            map.addLayer(CCircles);
+            map.addLayer(BCircles);
+            map.addLayer(ACircles);
         }
     }, [csvData, map]);
     
