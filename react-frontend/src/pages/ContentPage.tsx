@@ -3,7 +3,7 @@ import L, { LatLng } from "leaflet";
 import 'leaflet/dist/leaflet.css';
 import './pages.css';
 import { Control } from 'leaflet';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Papa from 'papaparse';
 import "proj4leaflet";
 import proj4 from "proj4";
@@ -66,28 +66,26 @@ function MapWrapper() {
 function Map(){
     const map = useMap();
     const [csvData, setCsvData] = useState<CsvData[]>();
-    
-
-    let geoJsonLayer: L.GeoJSON<any, any>;
+    const geoJsonLayerRef = useRef<L.GeoJSON<any, any>>();
 
     useEffect(() => {
         fetch("/OeV_Haltestellen_ARE.geojson").then(response => response.json())
             .then(data => {
                 console.log("HEREEEEEEEEEEEEEEEEEEEEEEEEEEE" + data);
                 var geojsonMarkerOptions = {
-                    radius: 8,
+                    radius: 20,
                     fillColor: "#ff7800",
                     color: "#000",
                     weight: 1,
                     opacity: 1,
-                    fillOpacity: 0.8
+                    fillOpacity: 0.8,
                 };
-                geoJsonLayer = L.geoJSON(data, {
+                geoJsonLayerRef.current = L.geoJSON(data, {
                     pointToLayer: function (feature, latlng) {
-                        return L.circleMarker(latlng, geojsonMarkerOptions);
+                        return L.circle(latlng, geojsonMarkerOptions);
                     }
                 }).addTo(map);
-
+                geoJsonLayerRef.current.setStyle({ opacity: 0, fillOpacity: 0 });
             }
     );  
         fetch('/OeV_Haltestellen_ARE.csv')
@@ -111,7 +109,7 @@ function Map(){
             
             let i= 0
             for(let row of csvData){
-                if (row.Name !== '' && i++<5000) {
+                if (row.Name !== '' && i++<24000) {
                     if(i % 800 == 0 || i == 23811){
                         console.log(Math.round(i/23812*100) +"% of dataset")
                     }
@@ -154,11 +152,21 @@ function Map(){
             map.addLayer(CCircles);
             map.addLayer(BCircles);
             map.addLayer(ACircles);
-            if(geoJsonLayer != undefined){
-                geoJsonLayer.bringToFront();
+            if(geoJsonLayerRef.current != undefined){
+                geoJsonLayerRef.current.bringToFront();
                 console.log("go to front");
             }
-            console.log(geoJsonLayer);
+            console.log(geoJsonLayerRef.current);
+            map.on('zoomend', () => {
+                const zoomLevel = map.getZoom();
+                if (geoJsonLayerRef.current) {
+                    if (zoomLevel < 14) {
+                        geoJsonLayerRef.current.setStyle({ opacity: 0, fillOpacity: 0 });
+                    } else {
+                        geoJsonLayerRef.current.setStyle({ opacity: 1, fillOpacity: 0.8 });
+                    }
+                }
+            });
         }
     }, [csvData, map]);
     
