@@ -10,7 +10,6 @@ import proj4 from "proj4";
 import { assertDebuggerStatement } from '@babel/types';
 import { color } from 'd3-color';
 
-
 interface CsvData {
     Haltestellen_No: number;
     Y_Koord: string;
@@ -37,9 +36,6 @@ const WMS_GEOCH = "https://wms.geo.admin.ch/services/service?";
 
 const EPSG2056 = '+proj=somerc +lat_0=46.9524055555556 +lon_0=7.43958333333333 +k_0=1 +x_0=2600000 +y_0=1200000 +ellps=bessel +towgs84=674.374,15.056,405.346,0,0,0,0 +units=m +no_defs +type=crs';
 const EPSG4326 = '+proj=longlat +datum=WGS84 +no_defs';
-//proj4.defs("EPSG:2056","+proj=somerc +lat_0=46.9524055555556 +lon_0=7.43958333333333 +k_0=1 +x_0=2600000 +y_0=1200000 +ellps=bessel +towgs84=674.374,15.056,405.346,0,0,0,0 +units=m +no_defs +type=crs");
-
-// Coordinate Reference System for map.geo.admin.ch
 
 // Layer names for map.geo.admin.ch
 const PT_QUAL = "ch.are.gueteklassen_oev"
@@ -72,6 +68,25 @@ function Map(){
     const [csvData, setCsvData] = useState<CsvData[]>();
 
     useEffect(() => {
+        fetch("/OeV_Haltestellen_ARE.geojson").then(response => response.json())
+            .then(data => {
+                console.log("HEREEEEEEEEEEEEEEEEEEEEEEEEEEE" + data);
+                var geojsonMarkerOptions = {
+                    radius: 8,
+                    fillColor: "#ff7800",
+                    color: "#000",
+                    weight: 1,
+                    opacity: 1,
+                    fillOpacity: 0.8
+                };
+                L.geoJSON(data, {
+                    pointToLayer: function (feature, latlng) {
+                        return L.circleMarker(latlng, geojsonMarkerOptions);
+                    }
+                }).addTo(map);
+
+            }
+    );  /*
         fetch('/OeV_Haltestellen_ARE.csv')
         .then(response => response.text())
         .then(text => {
@@ -81,10 +96,10 @@ function Map(){
                 setCsvData(results.data);
             }
             });
-        });
+        });*/
     }, []);
     
-    useEffect(() => {
+    /*useEffect(() => {
         if (csvData) {
             const ACircles = new L.LayerGroup();
             const BCircles = new L.LayerGroup();
@@ -137,8 +152,9 @@ function Map(){
             map.addLayer(CCircles);
             map.addLayer(BCircles);
             map.addLayer(ACircles);
+            map.getBounds()
         }
-    }, [csvData, map]);
+    }, [csvData, map]);*/
     
     //L.Util.setOptions(map, {crs: L.CRS.EPSG4326})
     
