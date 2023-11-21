@@ -66,6 +66,9 @@ function MapWrapper() {
 function Map(){
     const map = useMap();
     const [csvData, setCsvData] = useState<CsvData[]>();
+    
+
+    let geoJsonLayer: L.GeoJSON<any, any>;
 
     useEffect(() => {
         fetch("/OeV_Haltestellen_ARE.geojson").then(response => response.json())
@@ -79,14 +82,14 @@ function Map(){
                     opacity: 1,
                     fillOpacity: 0.8
                 };
-                L.geoJSON(data, {
+                geoJsonLayer = L.geoJSON(data, {
                     pointToLayer: function (feature, latlng) {
                         return L.circleMarker(latlng, geojsonMarkerOptions);
                     }
                 }).addTo(map);
 
             }
-    );  /*
+    );  
         fetch('/OeV_Haltestellen_ARE.csv')
         .then(response => response.text())
         .then(text => {
@@ -96,10 +99,10 @@ function Map(){
                 setCsvData(results.data);
             }
             });
-        });*/
+        });
     }, []);
     
-    /*useEffect(() => {
+    useEffect(() => {
         if (csvData) {
             const ACircles = new L.LayerGroup();
             const BCircles = new L.LayerGroup();
@@ -108,14 +111,13 @@ function Map(){
             
             let i= 0
             for(let row of csvData){
-                if (row.Name !== '' && i++<24000) {
+                if (row.Name !== '' && i++<5000) {
                     if(i % 800 == 0 || i == 23811){
                         console.log(Math.round(i/23812*100) +"% of dataset")
                     }
                     let x_coord = parseFloat(row.X_Koord);
                     let y_coord = parseFloat(row.Y_Koord);
                     let converted = proj4(EPSG2056, EPSG4326, proj4.toPoint([y_coord, x_coord]));
-                    let radius = 0;
                     switch(parseFloat(row.Hst_Kat)){
                         case 0:
                             console.log("Hst is 0");
@@ -152,9 +154,13 @@ function Map(){
             map.addLayer(CCircles);
             map.addLayer(BCircles);
             map.addLayer(ACircles);
-            map.getBounds()
+            if(geoJsonLayer != undefined){
+                geoJsonLayer.bringToFront();
+                console.log("go to front");
+            }
+            console.log(geoJsonLayer);
         }
-    }, [csvData, map]);*/
+    }, [csvData, map]);
     
     //L.Util.setOptions(map, {crs: L.CRS.EPSG4326})
     
