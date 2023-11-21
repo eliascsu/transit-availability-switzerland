@@ -8,10 +8,11 @@ import Papa from 'papaparse';
 import "proj4leaflet";
 import proj4 from "proj4";
 
+
 interface CsvData {
     Haltestellen_No: number;
-    Y_Koord: number;
-    X_Koord: number;
+    Y_Koord: string;
+    X_Koord: string;
     Name: string;
     Bahnknoten: number;
     Bahnlinie_Anz: number;
@@ -59,8 +60,6 @@ function MapWrapper() {
 
 function Map(){
     const map = useMap();
-    //L.Util.setOptions(map, {crs: myCrs})
-    const marker = L.circle([47.36, 8.53], 100).addTo(map);
     const [csvData, setCsvData] = useState<CsvData[]>();
 
     useEffect(() => {
@@ -76,26 +75,28 @@ function Map(){
         });
     }, []);
     
-    if(csvData != undefined){
-        let x_coord = csvData[0].X_Koord;
-        let y_coord = csvData[0].Y_Koord;
-        console.log("x: " + x_coord);
-        console.log("y: " + y_coord);
-        
-        let converted = proj4(EPSG2056, EPSG4326, proj4.toPoint([2616053, 1270295]));
-        console.log(converted);
-        const marker2 = L.circle([converted.y, converted.x], 20000).addTo(map);
-        //const marker3 = L.circle([47.56, 7.60], 10000).addTo(map);
-    }
+    useEffect(() => {
+        if (csvData) {
+            //const markers = new L.MarkerClusterGroup();
+            let i= 0
+            for(let row of csvData){
+                if (row.Name !== '' && i++<50000) {
+                    if(i % 800 == 0 || i == 23811){
+                        console.log(Math.round(i/23812*100) +"% of dataset")
+                    }
+                    let x_coord = parseFloat(row.X_Koord);
+                    let y_coord = parseFloat(row.Y_Koord);
+                    let converted = proj4(EPSG2056, EPSG4326, proj4.toPoint([y_coord, x_coord]));
+                    const marker = L.circle([converted.y, converted.x], 50).addTo(map);
+                    //arkers.addLayer(marker);
+                }
+            };
+            //map.addLayer(markers);
+        }
+    }, [csvData, map]);
+    
     //L.Util.setOptions(map, {crs: L.CRS.EPSG4326})
     
-    /*
-    for(let row of csvData){
-        const marker = L.circle([row["X_Koord"], row["Y_Koord"]], 1).addTo(map);
-        //console.log(row["X_Koord"]);
-    }
-    */
-
     return null;
 }
 
