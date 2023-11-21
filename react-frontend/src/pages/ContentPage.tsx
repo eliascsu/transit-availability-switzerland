@@ -93,7 +93,7 @@ function Map(){
             
             let i= 0
             for(let row of csvData){
-                if (row.Name !== '' && i++<5000) {
+                if (row.Name !== '' && i++<24000) {
                     if(i % 800 == 0 || i == 23811){
                         console.log(Math.round(i/23812*100) +"% of dataset")
                     }
@@ -119,14 +119,14 @@ function Map(){
                         case 3:
                             L.circle([converted.y, converted.x], {radius: 300, color: classColors.ClassB, stroke: false, fillOpacity: 1}).addTo(BCircles);
                             L.circle([converted.y, converted.x], {radius: 500, color: classColors.ClassC, stroke: false, fillOpacity: 1}).addTo(CCircles);
-                            L.circle([converted.y, converted.x], {radius: 750, color: classColors.ClassD, stroke: false, fillOpacity: 1}).addTo(CCircles);
+                            L.circle([converted.y, converted.x], {radius: 750, color: classColors.ClassD, stroke: false, fillOpacity: 1}).addTo(DCircles);
                             break;
                         case 4:
                             L.circle([converted.y, converted.x], {radius: 300, color: classColors.ClassC, stroke: false, fillOpacity: 1}).addTo(CCircles);
-                            L.circle([converted.y, converted.x], {radius: 500, color: classColors.ClassD, stroke: false, fillOpacity: 1}).addTo(CCircles);
+                            L.circle([converted.y, converted.x], {radius: 500, color: classColors.ClassD, stroke: false, fillOpacity: 1}).addTo(DCircles);
                             break;
                         case 5:
-                            L.circle([converted.y, converted.x], {radius: 300, color: classColors.ClassD, stroke: false, fillOpacity: 1 }).addTo(CCircles);
+                            L.circle([converted.y, converted.x], {radius: 300, color: classColors.ClassD, stroke: false, fillOpacity: 1 }).addTo(DCircles);
                             break;
                         default:
                             console.log("Invalid datapoint");
