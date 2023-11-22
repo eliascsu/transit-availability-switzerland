@@ -82,7 +82,16 @@ function Map(){
                 };
                 geoJsonLayerRef.current = L.geoJSON(data, {
                     pointToLayer: function (feature, latlng) {
-                        return L.circle(latlng, geojsonMarkerOptions);
+                        const circle = L.circle(latlng, geojsonMarkerOptions);
+                        // Add a click event listener to each circle for displaying a tooltip
+                        circle.on('click', function (e) {
+                            const properties = feature.properties;
+                            const tooltipContent = `Name: ${properties.Name}<br>Bahnlinie_Anz: ${properties.Bahnlinie_Anz}`;
+                            // Create a tooltip and bind it to the circle
+                            circle.bindPopup(tooltipContent).openPopup();
+                        });
+
+            return circle;
                     }
                 }).addTo(map);
                 geoJsonLayerRef.current.setStyle({ opacity: 0, fillOpacity: 0 });
