@@ -1,25 +1,18 @@
 import { MapContainer, TileLayer, useMap, WMSTileLayer } from 'react-leaflet'
-import L, { LatLng } from "leaflet";
+import L, { HeatLatLngTuple, LatLng } from "leaflet";
 import 'leaflet/dist/leaflet.css';
 import './pages.css';
 import { Control } from 'leaflet';
 import { useEffect, useState, useRef } from 'react';
 import "proj4leaflet";
 import Papa from 'papaparse';
+import "leaflet.heat";
 
 
 interface CsvData {
-    Haltestellen_No: number;
-    Y_Koord: string;
-    X_Koord: string;
-    Name: string;
-    Bahnknoten: number;
-    Bahnlinie_Anz: number;
-    TramBus_Anz: number;
-    Seilbahn_Anz: number;
-    A_Intervall: number;
-    B_Intervall: number;
-    Hst_Kat: string;
+    lat: string,
+    lng: string,
+    pop: string
   }
 
   const classColors = {
@@ -198,16 +191,17 @@ function Map(){
                         return circle; 
                     }
                 });
-                let heatArray = [];
+                let heatArray: HeatLatLngTuple[] = [];
                 if(csvData != undefined){
                     for(let row of csvData){
-                        
+                        heatArray.push([parseFloat(row.lat), parseFloat(row.lng), 1] as HeatLatLngTuple);
                     }
                 }
-                geoJsonLayerD.addTo(map);
-                geoJsonLayerC.addTo(map);
-                geoJsonLayerB.addTo(map);
-                geoJsonLayerA.addTo(map);
+                //geoJsonLayerD.addTo(map);
+                //geoJsonLayerC.addTo(map);
+                //geoJsonLayerB.addTo(map);
+                //geoJsonLayerA.addTo(map);
+                let heat = L.heatLayer(heatArray, {radius: 25}).addTo(map);
                 //geoJsonInfoLayer.addTo(map);
             });  
     }, []);
