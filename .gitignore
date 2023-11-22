@@ -3,6 +3,7 @@ node_modules
 .vscode
 *.config
 clips
+tmp
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
