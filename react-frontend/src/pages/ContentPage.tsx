@@ -5,6 +5,7 @@ import './pages.css';
 import { Control } from 'leaflet';
 import { useEffect, useState, useRef } from 'react';
 import "proj4leaflet";
+import Papa from 'papaparse';
 
 
 interface CsvData {
@@ -62,8 +63,20 @@ function MapWrapper() {
 
 function Map(){
     const map = useMap();
+    const [csvData, setCsvData] = useState<CsvData[]>();
 
     useEffect(() => {
+        fetch('/population-updated.csv')
+        .then(response => response.text())
+        .then(text => {
+            Papa.parse<CsvData>(text, {
+            header: true,
+            complete: (results) => {
+                setCsvData(results.data);
+            }
+            });
+        });
+
         fetch("/OeV_Haltestellen_ARE.geojson").then(response => response.json())
             .then(data => {
                 console.log("HEREEEEEEEEEEEEEEEEEEEEEEEEEEE" + data);
@@ -185,6 +198,12 @@ function Map(){
                         return circle; 
                     }
                 });
+                let heatArray = [];
+                if(csvData != undefined){
+                    for(let row of csvData){
+                        
+                    }
+                }
                 geoJsonLayerD.addTo(map);
                 geoJsonLayerC.addTo(map);
                 geoJsonLayerB.addTo(map);
