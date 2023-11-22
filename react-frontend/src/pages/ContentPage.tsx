@@ -65,7 +65,21 @@ function Map(){
             Papa.parse<CsvData>(text, {
             header: true,
             complete: (results) => {
-                setCsvData(results.data);
+                let i = 0;
+                let heatArray: HeatLatLngTuple[] = [];
+                let pops = []
+                for(let row of results.data){
+                    if(!Number.isNaN(parseFloat(row.lat)) && i++<1000000){
+                        heatArray.push([parseFloat(row.lat), parseFloat(row.lng), parseFloat(row.pop)] as HeatLatLngTuple);
+                        pops.push(parseFloat(row.pop));
+                    }
+                }
+                pops.sort((a, b) => b - a); // Sort in descending order
+                    if (pops.length > 1000) {
+                        pops = pops.slice(0, 1000); // Keep only top 10 values
+                    }
+                console.log(pops);
+                let heat = L.heatLayer(heatArray, {radius: 100}).addTo(map);
             }
             });
         });
@@ -191,17 +205,11 @@ function Map(){
                         return circle; 
                     }
                 });
-                let heatArray: HeatLatLngTuple[] = [];
-                if(csvData != undefined){
-                    for(let row of csvData){
-                        heatArray.push([parseFloat(row.lat), parseFloat(row.lng), 1] as HeatLatLngTuple);
-                    }
-                }
-                //geoJsonLayerD.addTo(map);
-                //geoJsonLayerC.addTo(map);
-                //geoJsonLayerB.addTo(map);
-                //geoJsonLayerA.addTo(map);
-                let heat = L.heatLayer(heatArray, {radius: 25}).addTo(map);
+    
+                geoJsonLayerD.addTo(map);
+                geoJsonLayerC.addTo(map);
+                geoJsonLayerB.addTo(map);
+                geoJsonLayerA.addTo(map);
                 //geoJsonInfoLayer.addTo(map);
             });  
     }, []);
