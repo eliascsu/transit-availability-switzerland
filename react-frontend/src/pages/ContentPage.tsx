@@ -100,22 +100,27 @@ function Map(){
     useEffect(() => {
         getPopulationDensity()
         .then(popArray => {
-            console.log(popArray);
+            //console.log(popArray);
             let i = 0;
             let heatArray: HeatLatLngTuple[] = [];
             let pops = []
             if(popArray != undefined){
                 for(let row of popArray){
                     if(row.lat && i++<1000000){
-                        heatArray.push([row.lat, row.lng, row.intensity] as HeatLatLngTuple);
+                        heatArray.push([parseFloat(row.lat), parseFloat(row.lng), parseFloat(row.intensity)] as HeatLatLngTuple);
+                        //console.log(row.intensity);
                         pops.push(row.intensity);
                     }
                 }
+                /*
                 pops.sort((a, b) => b - a); // Sort in descending order
                     if (pops.length > 1000) {
                         pops = pops.slice(0, 1000); // Keep only top 10 values
                     }
                 console.log(pops);
+                */
+                console.log(heatArray);
+                
                 let heat = L.heatLayer(heatArray, {radius: 15, max: 10}).addTo(map);
             }
         });
@@ -243,10 +248,10 @@ function Map(){
                     }
                 });
     
-                geoJsonLayerD.addTo(map);
-                geoJsonLayerC.addTo(map);
-                geoJsonLayerB.addTo(map);
-                geoJsonLayerA.addTo(map);
+                //geoJsonLayerD.addTo(map);
+                //geoJsonLayerC.addTo(map);
+                //geoJsonLayerB.addTo(map);
+                //geoJsonLayerA.addTo(map);
                 //geoJsonInfoLayer.addTo(map);
                 map.on("click", function(e){
                     let uuid = uuidv4();
