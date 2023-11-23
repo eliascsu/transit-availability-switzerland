@@ -4,11 +4,8 @@ import 'leaflet/dist/leaflet.css';
 import './pages.css';
 import { Control } from 'leaflet';
 import { useEffect, useState, useRef } from 'react';
-import Papa from 'papaparse';
 import "proj4leaflet";
-import proj4 from "proj4";
-import { assertDebuggerStatement } from '@babel/types';
-import { color } from 'd3-color';
+
 
 interface CsvData {
     Haltestellen_No: number;
@@ -65,22 +62,20 @@ function MapWrapper() {
 
 function Map(){
     const map = useMap();
-    const [csvData, setCsvData] = useState<CsvData[]>();
-    const geoJsonLayerRef = useRef<L.GeoJSON<any, any>>();
 
     useEffect(() => {
         fetch("/OeV_Haltestellen_ARE.geojson").then(response => response.json())
             .then(data => {
                 console.log("HEREEEEEEEEEEEEEEEEEEEEEEEEEEE" + data);
                 var geojsonMarkerOptions = {
-                    radius: 20,
-                    fillColor: "#ff7800",
-                    color: "#000",
-                    weight: 1,
+                    radius: 50,
+                    color: "#ff7800",
+                    stroke: false,
                     opacity: 1,
-                    fillOpacity: 0.8,
+                    fillOpacity: 1,
                 };
-                geoJsonLayerRef.current = L.geoJSON(data, {
+                /*
+                let geoJsonInfoLayer = L.geoJSON(data, {
                     pointToLayer: function (feature, latlng) {
                         const circle = L.circle(latlng, geojsonMarkerOptions);
                         // Add a click event listener to each circle for displaying a tooltip
@@ -91,95 +86,112 @@ function Map(){
                             circle.bindPopup(tooltipContent).openPopup();
                         });
 
-            return circle;
+                        return circle;
                     }
                 }).addTo(map);
-                geoJsonLayerRef.current.setStyle({ opacity: 0, fillOpacity: 0 });
-            }
-    );  
-        fetch('/OeV_Haltestellen_ARE.csv')
-        .then(response => response.text())
-        .then(text => {
-            Papa.parse<CsvData>(text, {
-            header: true,
-            complete: (results) => {
-                setCsvData(results.data);
-            }
-            });
-        });
+                */
+
+                let geoJsonLayerA = L.geoJSON(data, {
+                    filter(geoJsonFeature) {
+                        let kat = geoJsonFeature.properties.Hst_Kat;
+                        return kat == 1 || kat == 2;
+                    },
+                    pointToLayer: function (geoJsonFeature, latlng) {
+                        const properties = geoJsonFeature.properties;
+                        geojsonMarkerOptions.color = classColors.ClassA;
+                        const circle = L.circle(latlng, geojsonMarkerOptions);
+                        // Add a click event listener to each circle for displaying a tooltip
+                        if(properties.Hst_Kat == 1){
+                            circle.setRadius(500);
+                        }
+                        else{
+                            circle.setRadius(300);
+                        }
+                        return circle; 
+                    }
+                });
+
+                let geoJsonLayerB = L.geoJSON(data, {
+                    filter(geoJsonFeature) {
+                        let kat = geoJsonFeature.properties.Hst_Kat;
+                        return kat == 1 || kat == 2 || kat == 3;
+                    },
+                    pointToLayer: function (geoJsonFeature, latlng) {
+                        const properties = geoJsonFeature.properties;
+                        const circle = L.circle(latlng, geojsonMarkerOptions);
+                        circle.setStyle({color: classColors.ClassB, stroke: false, fillOpacity: 1});
+                            // Add a click event listener to each circle for displaying a tooltip
+                        if(properties.Hst_Kat == 1){
+                            circle.setRadius(750);
+                        }
+                        else if(properties.Hst_Kat == 2){
+                            circle.setRadius(500);
+                        }
+                        else{
+                            circle.setRadius(300);
+                        }
+                        return circle; 
+                    }
+                });
+
+                let geoJsonLayerC = L.geoJSON(data, {
+                    filter(geoJsonFeature) {
+                        let kat = geoJsonFeature.properties.Hst_Kat;
+                        return kat == 1 || kat == 2 || kat == 3 || kat == 4;
+                    },
+                    pointToLayer: function (geoJsonFeature, latlng) {
+                        const properties = geoJsonFeature.properties;
+                        const circle = L.circle(latlng, geojsonMarkerOptions);
+                        circle.setStyle({color: classColors.ClassC, stroke: false, fillOpacity: 1});
+                            // Add a click event listener to each circle for displaying a tooltip
+                        if(properties.Hst_Kat == 1){
+                            circle.setRadius(1000);
+                        }
+                        else if(properties.Hst_Kat == 2){
+                            circle.setRadius(750);
+                        }
+                        else if(properties.Hst_Kat == 3){
+                            circle.setRadius(500);
+                        }
+                        else{
+                            circle.setRadius(300);
+                        }
+                        return circle; 
+                    }
+                });
+
+                let geoJsonLayerD = L.geoJSON(data, {
+                    filter(geoJsonFeature) {
+                        let kat = geoJsonFeature.properties.Hst_Kat;
+                        return kat == 2 || kat == 3 || kat == 4 || kat == 5;
+                    },
+                    pointToLayer: function (geoJsonFeature, latlng) {
+                        const properties = geoJsonFeature.properties;
+                        const circle = L.circle(latlng, geojsonMarkerOptions);
+                        circle.setStyle({color: classColors.ClassD, stroke: false, fillOpacity: 1});
+                            // Add a click event listener to each circle for displaying a tooltip
+                        if(properties.Hst_Kat == 2){
+                            circle.setRadius(1000);
+                        }
+                        else if(properties.Hst_Kat == 3){
+                            circle.setRadius(750);
+                        }
+                        else if(properties.Hst_Kat == 4){
+                            circle.setRadius(500);
+                        }
+                        else{
+                            circle.setRadius(300);
+                        }
+                        return circle; 
+                    }
+                });
+                geoJsonLayerD.addTo(map);
+                geoJsonLayerC.addTo(map);
+                geoJsonLayerB.addTo(map);
+                geoJsonLayerA.addTo(map);
+                //geoJsonInfoLayer.addTo(map);
+            });  
     }, []);
-    
-    useEffect(() => {
-        if (csvData) {
-            const ACircles = new L.LayerGroup();
-            const BCircles = new L.LayerGroup();
-            const CCircles = new L.LayerGroup();
-            const DCircles = new L.LayerGroup();
-            
-            let i= 0
-            for(let row of csvData){
-                if (row.Name !== '' && i++<24000) {
-                    if(i % 800 == 0 || i == 23811){
-                        console.log(Math.round(i/23812*100) +"% of dataset")
-                    }
-                    let x_coord = parseFloat(row.X_Koord);
-                    let y_coord = parseFloat(row.Y_Koord);
-                    let converted = proj4(EPSG2056, EPSG4326, proj4.toPoint([y_coord, x_coord]));
-                    switch(parseFloat(row.Hst_Kat)){
-                        case 0:
-                            console.log("Hst is 0");
-                            break;
-                        case 1:
-                            L.circle([converted.y, converted.x], {radius: 500, color: classColors.ClassA, stroke: false, fillOpacity: 1}).addTo(ACircles);
-                            L.circle([converted.y, converted.x], {radius: 750, color: classColors.ClassB, stroke: false, fillOpacity: 1}).addTo(BCircles);
-                            L.circle([converted.y, converted.x], {radius: 1000, color: classColors.ClassC, stroke: false, fillOpacity: 1}).addTo(CCircles);
-                            break;
-                        case 2:
-                            L.circle([converted.y, converted.x], {radius: 300, color: classColors.ClassA, stroke: false, fillOpacity: 1}).addTo(ACircles);
-                            L.circle([converted.y, converted.x], {radius: 500, color: classColors.ClassB, stroke: false, fillOpacity: 1}).addTo(BCircles);
-                            L.circle([converted.y, converted.x], {radius: 750, color: classColors.ClassC, stroke: false, fillOpacity: 1}).addTo(CCircles);
-                            L.circle([converted.y, converted.x], {radius: 1000, color: classColors.ClassD, stroke: false, fillOpacity: 1}).addTo(DCircles);
-                            break;
-                        case 3:
-                            L.circle([converted.y, converted.x], {radius: 300, color: classColors.ClassB, stroke: false, fillOpacity: 1}).addTo(BCircles);
-                            L.circle([converted.y, converted.x], {radius: 500, color: classColors.ClassC, stroke: false, fillOpacity: 1}).addTo(CCircles);
-                            L.circle([converted.y, converted.x], {radius: 750, color: classColors.ClassD, stroke: false, fillOpacity: 1}).addTo(DCircles);
-                            break;
-                        case 4:
-                            L.circle([converted.y, converted.x], {radius: 300, color: classColors.ClassC, stroke: false, fillOpacity: 1}).addTo(CCircles);
-                            L.circle([converted.y, converted.x], {radius: 500, color: classColors.ClassD, stroke: false, fillOpacity: 1}).addTo(DCircles);
-                            break;
-                        case 5:
-                            L.circle([converted.y, converted.x], {radius: 300, color: classColors.ClassD, stroke: false, fillOpacity: 1 }).addTo(DCircles);
-                            break;
-                        default:
-                            console.log("Invalid datapoint");
-                    }
-                }
-            };
-            map.addLayer(DCircles);
-            map.addLayer(CCircles);
-            map.addLayer(BCircles);
-            map.addLayer(ACircles);
-            if(geoJsonLayerRef.current != undefined){
-                geoJsonLayerRef.current.bringToFront();
-                console.log("go to front");
-            }
-            console.log(geoJsonLayerRef.current);
-            map.on('zoomend', () => {
-                const zoomLevel = map.getZoom();
-                if (geoJsonLayerRef.current) {
-                    if (zoomLevel < 14) {
-                        geoJsonLayerRef.current.setStyle({ opacity: 0, fillOpacity: 0 });
-                    } else {
-                        geoJsonLayerRef.current.setStyle({ opacity: 1, fillOpacity: 0.8 });
-                    }
-                }
-            });
-        }
-    }, [csvData, map]);
-    
-    //L.Util.setOptions(map, {crs: L.CRS.EPSG4326})
     
     return null;
 }
