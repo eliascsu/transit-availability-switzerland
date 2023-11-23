@@ -100,12 +100,13 @@ function Map(){
     useEffect(() => {
         getPopulationDensity()
         .then(popArray => {
+            console.log(popArray);
             let i = 0;
             let heatArray: HeatLatLngTuple[] = [];
             let pops = []
             if(popArray != undefined){
                 for(let row of popArray){
-                    if(!Number.isNaN(row.lat) && i++<1000000){
+                    if(row.lat && i++<1000000){
                         heatArray.push([row.lat, row.lng, row.intensity] as HeatLatLngTuple);
                         pops.push(row.intensity);
                     }
