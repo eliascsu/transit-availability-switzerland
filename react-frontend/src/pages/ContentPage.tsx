@@ -98,19 +98,16 @@ function Map(){
     const addedPoints = useRef<Point[]>([]);
 
     useEffect(() => {
-        fetch('/population-updated.csv')
-        .then(response => response.text())
-        .then(text => {
-            Papa.parse<CsvData>(text, {
-            header: true,
-            complete: (results) => {
-                let i = 0;
-                let heatArray: HeatLatLngTuple[] = [];
-                let pops = []
-                for(let row of results.data){
-                    if(!Number.isNaN(parseFloat(row.lat)) && i++<1000000){
-                        heatArray.push([parseFloat(row.lat), parseFloat(row.lng), parseFloat(row.pop)] as HeatLatLngTuple);
-                        pops.push(parseFloat(row.pop));
+        getPopulationDensity()
+        .then(popArray => {
+            let i = 0;
+            let heatArray: HeatLatLngTuple[] = [];
+            let pops = []
+            if(popArray != undefined){
+                for(let row of popArray){
+                    if(!Number.isNaN(row.lat) && i++<1000000){
+                        heatArray.push([row.lat, row.lng, row.intensity] as HeatLatLngTuple);
+                        pops.push(row.intensity);
                     }
                 }
                 pops.sort((a, b) => b - a); // Sort in descending order
@@ -120,8 +117,8 @@ function Map(){
                 console.log(pops);
                 let heat = L.heatLayer(heatArray, {radius: 15, max: 10}).addTo(map);
             }
-            });
         });
+        
 
         fetch("/OeV_Haltestellen_ARE.geojson").then(response => response.json()) 
             .then(data => {
