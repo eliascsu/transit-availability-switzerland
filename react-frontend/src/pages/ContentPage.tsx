@@ -248,10 +248,10 @@ function Map(){
                     }
                 });
     
-                //geoJsonLayerD.addTo(map);
-                //geoJsonLayerC.addTo(map);
-                //geoJsonLayerB.addTo(map);
-                //geoJsonLayerA.addTo(map);
+                geoJsonLayerD.addTo(map);
+                geoJsonLayerC.addTo(map);
+                geoJsonLayerB.addTo(map);
+                geoJsonLayerA.addTo(map);
                 //geoJsonInfoLayer.addTo(map);
                 map.on("click", function(e){
                     let uuid = uuidv4();
