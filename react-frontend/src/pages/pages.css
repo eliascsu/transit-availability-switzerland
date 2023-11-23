@@ -21,9 +21,6 @@
 
 .layout {
     background-color: #081526;
-    display: grid;
-    grid-template-rows: 1fr 3rem;
-    height: 100vh;
 }
 
 #title {
@@ -76,7 +73,7 @@
 }
 
 g {
-    opacity: 0.4;
+    opacity: 0.6;
 }
 
 div {
@@ -93,4 +90,76 @@ div {
 
 h5 {
     color: #122640;
+}
+
+#landingPage {
+    height: 100vh;
+}
+
+/* contentPage*/
+
+#mapContent {
+    padding-top: 0px;
+}
+#contentPage {
+    height: 200vh;
+}
+
+#titelPage {
+    color: antiquewhite;
+    height: 100vh;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+}
+
+#mapPage {
+    height: 100vh;
+    display: grid;
+    grid-template-rows: 1fr 4fr;
+    grid-template-columns: 5fr 1fr;
+    grid-template-areas: 
+        "titel titel"
+        "map   legend";
+}
+
+#mapHeader {
+    grid-area: titel;
+}
+
+#map-zurich {
+    height: 90%;
+    grid-area: map;
+}
+
+#legend-zurich {
+    grid-area: legend;
+    height: 10rem;
+}
+
+#mapFooter {
+    background-color: #081526;
+}
+
+#contentTitel {
+    color:antiquewhite;
+}
+
+#mapHeader {
+    align-self: center;
+    margin-left: 3rem;
+    color: antiquewhite;
+}
+
+#map-zurich a{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+#map-zurich div {
+    border: none;
+    height: 15%;
+    background: none;
 }
