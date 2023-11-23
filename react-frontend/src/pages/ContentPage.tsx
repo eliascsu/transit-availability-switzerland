@@ -79,12 +79,12 @@ function Map(){
                         pops = pops.slice(0, 1000); // Keep only top 10 values
                     }
                 console.log(pops);
-                let heat = L.heatLayer(heatArray, {radius: 100}).addTo(map);
+                let heat = L.heatLayer(heatArray, {radius: 15, max: 10}).addTo(map);
             }
             });
         });
 
-        fetch("/OeV_Haltestellen_ARE.geojson").then(response => response.json())
+        fetch("/OeV_Haltestellen_ARE.geojson").then(response => response.json()) 
             .then(data => {
                 console.log("HEREEEEEEEEEEEEEEEEEEEEEEEEEEE" + data);
                 var geojsonMarkerOptions = {
