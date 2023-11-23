@@ -85,7 +85,7 @@ function MapWrapper() {
     return (
 
         <MapContainer className="map-container" id="map-zurich" center={[47.36, 8.53]} zoom={10} scrollWheelZoom={true}>
-            <TileLayer url="https://tile.thunderforest.com/transport/%7Bz%7D/%7Bx%7D/%7By%7D.png?apikey=119ad4f25bed4ec2a70aeba31a0fb12a" attribution="&copy; <a href=&quot;https://www.thunderforest.com/&quot;>Thunderforest</a> contributors"/>
+            <TileLayer url="https://tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey=119ad4f25bed4ec2a70aeba31a0fb12a" attribution="&copy; <a href=&quot;https://www.thunderforest.com/&quot;>Thunderforest</a> contributors"/>
             <Map></Map>
         </MapContainer>
 
@@ -267,7 +267,7 @@ function Map(){
                 });
             });  
     }, []);
-
+    /*
     useEffect(() => {
         let pointsToSend = addedPoints.current;
         let formdata = new FormData();
@@ -275,7 +275,7 @@ function Map(){
         fetch("/points", {
             method: "POST",
             body: formdata})
-    }, [addedPoints]);
+    }, [addedPoints]);*/
     
     return null;
 }
