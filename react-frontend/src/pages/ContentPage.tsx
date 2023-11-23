@@ -7,6 +7,7 @@ import { useEffect, useState, useRef } from 'react';
 import "proj4leaflet";
 import Papa from 'papaparse';
 import "leaflet.heat";
+import {v4 as uuidv4} from 'uuid';
 
 
 interface CsvData {
@@ -16,7 +17,7 @@ interface CsvData {
   }
 
 interface Point {
-    Haltestellen_No: number;
+    Haltestellen_No: string;
     Y_Koord: number;
     X_Koord: number;
     Name: string;
@@ -238,8 +239,9 @@ function Map(){
                 geoJsonLayerA.addTo(map);
                 //geoJsonInfoLayer.addTo(map);
                 map.on("click", function(e){
+                    let uuid = uuidv4();
                     let newPoint: Point = {
-                        Haltestellen_No: -1,
+                        Haltestellen_No: uuid,
                         Y_Koord: e.latlng.lng,
                         X_Koord: e.latlng.lat,
                         Name: defaultName,
@@ -252,6 +254,7 @@ function Map(){
                         Hst_Kat: defaultHst_Kat
                     }
                     addedPoints.current = [...addedPoints.current, newPoint];
+                    console.log(addedPoints.current);
                 });
             });  
     }, []);
