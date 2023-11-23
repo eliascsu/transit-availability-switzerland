@@ -8,7 +8,9 @@ import "proj4leaflet";
 import Papa from 'papaparse';
 import "leaflet.heat";
 import {v4 as uuidv4} from 'uuid';
+import { Button, Checkbox, Form, Input, Layout, Col, Row } from 'antd';
 
+const {Content, Footer} = Layout;
 
 interface CsvData {
     lat: string,
@@ -38,45 +40,54 @@ let defaultA_Intervall = 0;
 let defaultB_Intervall = 8;
 let defaultHst_Kat = -1;
 
-
-
-
-  const classColors = {
+const classColors = {
     ClassA: "#ff0022",
     ClassB: "#c300ff",
     ClassC: "#006915",
     ClassD: "#40ff66"
-  }
+}
 
-// Base URL for WMS requests to map.geo.admin.ch
-const WMS_GEOCH = "https://wms.geo.admin.ch/services/service?";
-
-const EPSG2056 = '+proj=somerc +lat_0=46.9524055555556 +lon_0=7.43958333333333 +k_0=1 +x_0=2600000 +y_0=1200000 +ellps=bessel +towgs84=674.374,15.056,405.346,0,0,0,0 +units=m +no_defs +type=crs';
-const EPSG4326 = '+proj=longlat +datum=WGS84 +no_defs';
-
-// Layer names for map.geo.admin.ch
-const PT_QUAL = "ch.are.gueteklassen_oev"
-const POP_DENS = "ch.bfs.volkszaehlung-bevoelkerungsstatistik_einwohner"
-const BASEMAP = "ch.swisstopo.pixelkarte-farbe-pk100.noscale"
+interface PointBoxOption extends HTMLCollection {
+    Name: HTMLInputElement;
+    Bahnknoten: HTMLInputElement;
+    Bahnlinie_Anz: HTMLInputElement;
+    TramBus_Anz: HTMLInputElement;
+    Seilbahn_Anz: HTMLInputElement;
+    A_Intervall: HTMLInputElement;
+    B_Intervall: HTMLInputElement;
+}
 
 function ContentPage() {
     return (
-        <>
-        <h1>Content Page</h1>
-        <MapWrapper/>
-        <Legend/>
-        </>)
+        <Layout className="layout" id="contentPage">
+            <Content className="content" id="mapContent">
+                <Row id="titelPage">
+                    <h1 id="contentTitel">Zürich</h1>
+                </Row>
+                <Row id="mapPage">
+                    <h1 id="mapHeader">Content Page</h1>
+                    <MapWrapper/>
+                    <Legend/>
+                </Row>
+            </Content>
+            <Footer className="footer" id="mapFooter">
+                <span id="footerText">
+                    <h5 id="fortnite">Elias Csuka, Joshua Durrant, Leander Hemmi, Cedric Koller, Mathias Schmid</h5>
+                </span>
+            </Footer>
+        </Layout>
+    );
 }
 
 function MapWrapper() {
-    
+
     return (
-        
-        <MapContainer className="map-container" center={[47.36, 8.53]} zoom={10} scrollWheelZoom={true}>
-            <TileLayer url="https://tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey=119ad4f25bed4ec2a70aeba31a0fb12a" attribution="&copy; <a href=&quot;https://www.thunderforest.com/&quot;>Thunderforest</a> contributors"/>
+
+        <MapContainer className="map-container" id="map-zurich" center={[47.36, 8.53]} zoom={10} scrollWheelZoom={true}>
+            <TileLayer url="https://tile.thunderforest.com/transport/%7Bz%7D/%7Bx%7D/%7By%7D.png?apikey=119ad4f25bed4ec2a70aeba31a0fb12a" attribution="&copy; <a href=&quot;https://www.thunderforest.com/&quot;>Thunderforest</a> contributors"/>
             <Map></Map>
         </MapContainer>
-        
+
     );
 }
 
@@ -271,11 +282,56 @@ function Map(){
     return null;
 }
 
+function PointControlBox(){
+    
+    const onFinish = (values: any) => {
+        console.log('Success:', values);
+      };
+    const onFinishFailed = (errorInfo: any) => {
+    console.log('Failed:', errorInfo);
+    };
+    return(
+        <Form
+            name="basic"
+            labelCol={{ span: 8 }}
+            wrapperCol={{ span: 16 }}
+            style={{ maxWidth: 600 }}
+            initialValues={{ remember: true }}
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
+            autoComplete="off"
+        >
+
+            <Form.Item<PointBoxOption>
+            label="Password"
+            name="password"
+            rules={[{ required: true, message: 'Please input your password!' }]}
+            >
+            <Input.Password />
+            </Form.Item>
+
+            <Form.Item<PointBoxOption>
+            name="remember"
+            valuePropName="checked"
+            wrapperCol={{ offset: 8, span: 16 }}
+            >
+            <Checkbox>Remember me</Checkbox>
+            </Form.Item>
+
+            <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+            <Button type="primary" htmlType="submit">
+                Submit
+            </Button>
+            </Form.Item>
+        </Form>
+    );
+}
+
 function Legend() {
 
     const legend = new Control({ position: 'bottomright' });
     return (
-        <div className="legend">
+        <div className="legend" id="legend-zurich">
             <img src={"https://api3.geo.admin.ch/static/images/legends/ch.bfs.volkszaehlung-bevoelkerungsstatistik_einwohner_en.png"} alt="Legend"/>
             
         </div>
