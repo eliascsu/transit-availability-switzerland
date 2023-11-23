@@ -2,29 +2,37 @@ import { Layout, Col, Row, Button } from 'antd';
 import { Link } from 'react-router-dom';
 import "./pages.css";
 
-const {Content} = Layout;
+const {Content, Footer} = Layout;
 
 function LandingPage() {
     return (
-        <Content className="content">
-            <Row>
-                <Col span={8}>
-                    <div>
-                        <span id="topic">
-                            <h5>FWE 2023</h5>
-                        </span>
-                        <h1 id="title">Open Data Map</h1>
-                    </div>
-                </Col>
-                <Col span={12}/>
-                <Col span={4}>
-                    <Button type="text" icon={<i className="fa-solid fa-bars"></i>}>HERE</Button>
-                    <Link to="/content">
-                        <Button>CONTENT</Button>
-                    </Link>
-                </Col>
-            </Row> 
-        </Content>
+        <Layout className="layout">
+            <Content className="content">
+                <Row>
+                    <Col span={6}>
+                        <div>
+                            <span id="topic">
+                                <h5>FWE 2023</h5>
+                            </span>
+                        </div>
+                    </Col>
+                    <Col span={12}>
+                        <div id="titelDiv">
+                            <h1 id="title">Open Data Map</h1>
+                            <Link id="contentLink" to="/content">
+                                <Button id="startButton">Start</Button>
+                            </Link>
+                        </div>
+                    </Col>
+                    <Col span={6}/>
+                </Row>
+            </Content>
+            <Footer className="footer" id="footerLanding">
+                <span id="footerText">
+                    <h5 id="fortnite">Elias Csuka, Joshua Durrant, Leander Hemmi, Cedric Koller, Mathias Schmid</h5>
+                </span>
+            </Footer>
+        </Layout>
     );
 }
 

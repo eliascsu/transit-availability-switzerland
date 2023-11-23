@@ -1,15 +1,71 @@
 .content {
-    padding: 10vh;
+    padding: 2.5rem;
+    padding-bottom: 0rem;
+    height: 1fr;
+}
+
+.footer {
+    display: grid;
+    background-color: #081526;
+    align-items: center;
+}
+
+#footerText {
+    color: #122640;
+    align-self: center;
+    justify-self: center;
+    height: inherit;
+    font-size: 3rem;
+    font-weight: 700;
+}
+
+.layout {
+    background-color: #081526;
+    display: grid;
+    grid-template-rows: 1fr 3rem;
+    height: 100vh;
 }
 
 #title {
     font-size: 7rem;
     font-weight: 700;
     line-height: 100%;
-    
+    color: antiquewhite;
+    text-align: center;
+    align-self: end;
+}
+
+#titelDiv {
+    display: grid;
+    grid-template-rows: 1.5fr 1fr;
+}
+
+#contentLink {
+    display: grid;
+    height: 100%;
+}
+
+#startButton {
+    background-color: #7E97B8;
+    color: antiquewhite;
+    border-color: antiquewhite;
+    border-width: 3px;
+    justify-self: center;
+    align-items: center;
+    text-align: center;
+    font-size: 1.25rem;
+    font-weight: 500;
+    height:2.5rem;
+    width: 15rem;
+}
+
+#startButton:hover {
+    background-color: #55677D;
+    border-color: #55677D;
 }
 
 #topic {
+    color: #122640;
     font-size: 1.5rem;
     font-weight: 700;
 }
@@ -21,4 +77,20 @@
 
 g {
     opacity: 0.6;
+}
+
+div {
+    height: 100%
+}
+
+#fortnite {
+    margin-bottom: 0px;
+}
+
+#footerLanding {
+    padding: 0px;
+}
+
+h5 {
+    color: #122640;
 }
