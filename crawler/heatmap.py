@@ -1,10 +1,7 @@
 import pandas as pd
 import requests
 from zipfile import ZipFile
-import os
-import numpy
 import pyproj
-from geojson import Point, Feature, FeatureCollection, dumps
 from pyproj import CRS, transform
 import warnings
 LV95 = CRS.from_epsg(2056)
@@ -31,20 +28,29 @@ with open(TMP_PATH + FNAME + "/ag-b-00.03-vz2022statpop/" + "STATPOP2022" + ".cs
     df = pd.read_csv(f, sep=";")
     lat = df["E_KOORD"]
     lng = df["N_KOORD"]
-    df = df.drop(columns=["E_KOORD", "N_KOORD", "RELI", "B22B11"])
     pop = df["B22BTOT"]
-    max_pop = max(pop)
-    transformer = pyproj.Transformer.from_crs(LV95, WGS84, always_xy=True)
+    # Simplify df
     new_df = pd.DataFrame({"lat": lat, "lng": lng, "pop": pop})
+
+    # Remove max two values of df without changing new_df
+    new_df = new_df.drop(new_df["pop"].idxmax())
+    new_df = new_df.drop(new_df["pop"].idxmax())
+
+    max_pop = new_df["pop"].max()
+    transformer = pyproj.Transformer.from_crs(LV95, WGS84, always_xy=True)
     
-    for i, (longitude, latitude, population) in enumerate(zip(lat, lng, pop)):
+    for i, (longitude, latitude, population) in enumerate(zip(new_df["lat"], new_df["lng"], new_df["pop"])):
         if i % 10000 == 0:
             print(f"{i} of {len(lat.index)} done.")
         new_lat, new_lng = transformer.transform(longitude, latitude)
-        lng.loc[i] = new_lat
-        lat.loc[i] = new_lng
-        pop.loc[i] = population / max_pop
-    print(lat, lng, pop)
+        new_df["lng"].loc[i] = new_lat
+        new_df["lat"].loc[i] = new_lng
+        # new_df["pop"].loc[i] = population / max_pop # Linear calculation
+
+        new_df["pop"].loc[i] = ((population / 20) ** 2) + 0.5 if ((population / 20) ** 2) + 0.5 < 40 else 40
+        
     # Write to csv
-    nndf = pd.DataFrame({"lat": lat, "lng": lng, "pop": pop})
-    nndf.to_csv(TMP_PATH + FNAME + "-updated.csv", index=False)
+    # drop two last rows
+    new_df = new_df.drop(new_df.tail(2).index)
+
+    new_df.to_csv(TMP_PATH + FNAME + "-updated.csv", index=False)
