@@ -1,5 +1,5 @@
 import { MapContainer, TileLayer, useMap, WMSTileLayer } from 'react-leaflet'
-import L, { HeatLatLngTuple, LatLng } from "leaflet";
+import L, { HeatLatLngTuple, LatLng, point } from "leaflet";
 import 'leaflet/dist/leaflet.css';
 import './pages.css';
 import { Control } from 'leaflet';
@@ -14,6 +14,31 @@ interface CsvData {
     lng: string,
     pop: string
   }
+
+interface Point {
+    Haltestellen_No: number;
+    Y_Koord: number;
+    X_Koord: number;
+    Name: string;
+    Bahnknoten: number;
+    Bahnlinie_Anz: number;
+    TramBus_Anz: number;
+    Seilbahn_Anz: number;
+    A_Intervall: number;
+    B_Intervall: number;
+    Hst_Kat: number;
+}
+let defaultName: string = "";
+let defaultBahnknoten = 0;
+let defaultBahnlinie_Anz = 0;
+let defaultTramBus_Anz = 1;
+let defaultSeilbahn_Anz = 0;
+let defaultA_Intervall = 0;
+let defaultB_Intervall = 8;
+let defaultHst_Kat = -1;
+
+
+
 
   const classColors = {
     ClassA: "#ff0022",
@@ -57,6 +82,7 @@ function MapWrapper() {
 function Map(){
     const map = useMap();
     const [csvData, setCsvData] = useState<CsvData[]>();
+    const addedPoints = useRef<Point[]>([]);
 
     useEffect(() => {
         fetch('/population-updated.csv')
@@ -211,8 +237,33 @@ function Map(){
                 geoJsonLayerB.addTo(map);
                 geoJsonLayerA.addTo(map);
                 //geoJsonInfoLayer.addTo(map);
+                map.on("click", function(e){
+                    let newPoint: Point = {
+                        Haltestellen_No: -1,
+                        Y_Koord: e.latlng.lng,
+                        X_Koord: e.latlng.lat,
+                        Name: defaultName,
+                        Bahnknoten: defaultBahnknoten,
+                        Bahnlinie_Anz: defaultBahnlinie_Anz,
+                        TramBus_Anz: defaultTramBus_Anz,
+                        Seilbahn_Anz: defaultSeilbahn_Anz,
+                        A_Intervall: defaultA_Intervall,
+                        B_Intervall: defaultB_Intervall,
+                        Hst_Kat: defaultHst_Kat
+                    }
+                    addedPoints.current = [...addedPoints.current, newPoint];
+                });
             });  
     }, []);
+
+    useEffect(() => {
+        let pointsToSend = addedPoints.current;
+        let formdata = new FormData();
+        formdata.append("points", pointsToSend.toString());
+        fetch("/points", {
+            method: "POST",
+            body: formdata})
+    }, [addedPoints]);
     
     return null;
 }
