@@ -6,7 +6,7 @@ const {Content, Footer} = Layout;
 
 function LandingPage() {
     return (
-        <Layout className="layout">
+        <Layout className="layout" id="landingPage">
             <Content className="content">
                 <Row>
                     <Col span={6}>
