@@ -4,7 +4,7 @@ import os
 from flask import Flask
 from flask_cors import CORS
 
-from dummy_server.router.routes import add_routes
+from server.router.routes import add_routes
 
 
 def create_app():
