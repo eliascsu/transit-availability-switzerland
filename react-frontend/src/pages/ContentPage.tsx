@@ -1,24 +1,18 @@
 import { MapContainer, TileLayer, useMap, WMSTileLayer } from 'react-leaflet'
-import L, { LatLng } from "leaflet";
+import L, { HeatLatLngTuple, LatLng } from "leaflet";
 import 'leaflet/dist/leaflet.css';
 import './pages.css';
 import { Control } from 'leaflet';
 import { useEffect, useState, useRef } from 'react';
 import "proj4leaflet";
+import Papa from 'papaparse';
+import "leaflet.heat";
 
 
 interface CsvData {
-    Haltestellen_No: number;
-    Y_Koord: string;
-    X_Koord: string;
-    Name: string;
-    Bahnknoten: number;
-    Bahnlinie_Anz: number;
-    TramBus_Anz: number;
-    Seilbahn_Anz: number;
-    A_Intervall: number;
-    B_Intervall: number;
-    Hst_Kat: string;
+    lat: string,
+    lng: string,
+    pop: string
   }
 
   const classColors = {
@@ -62,9 +56,35 @@ function MapWrapper() {
 
 function Map(){
     const map = useMap();
+    const [csvData, setCsvData] = useState<CsvData[]>();
 
     useEffect(() => {
-        fetch("/OeV_Haltestellen_ARE.geojson").then(response => response.json())
+        fetch('/population-updated.csv')
+        .then(response => response.text())
+        .then(text => {
+            Papa.parse<CsvData>(text, {
+            header: true,
+            complete: (results) => {
+                let i = 0;
+                let heatArray: HeatLatLngTuple[] = [];
+                let pops = []
+                for(let row of results.data){
+                    if(!Number.isNaN(parseFloat(row.lat)) && i++<1000000){
+                        heatArray.push([parseFloat(row.lat), parseFloat(row.lng), parseFloat(row.pop)] as HeatLatLngTuple);
+                        pops.push(parseFloat(row.pop));
+                    }
+                }
+                pops.sort((a, b) => b - a); // Sort in descending order
+                    if (pops.length > 1000) {
+                        pops = pops.slice(0, 1000); // Keep only top 10 values
+                    }
+                console.log(pops);
+                let heat = L.heatLayer(heatArray, {radius: 15, max: 10}).addTo(map);
+            }
+            });
+        });
+
+        fetch("/OeV_Haltestellen_ARE.geojson").then(response => response.json()) 
             .then(data => {
                 console.log("HEREEEEEEEEEEEEEEEEEEEEEEEEEEE" + data);
                 var geojsonMarkerOptions = {
@@ -185,6 +205,7 @@ function Map(){
                         return circle; 
                     }
                 });
+    
                 geoJsonLayerD.addTo(map);
                 geoJsonLayerC.addTo(map);
                 geoJsonLayerB.addTo(map);
