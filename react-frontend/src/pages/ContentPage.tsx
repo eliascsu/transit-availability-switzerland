@@ -9,6 +9,7 @@ import Papa from 'papaparse';
 import "leaflet.heat";
 import {v4 as uuidv4} from 'uuid';
 import { Button, Checkbox, Form, Input, Layout, Col, Row } from 'antd';
+import { getPopulationDensity } from '../router/resources/data';
 
 const {Content, Footer} = Layout;
 
@@ -282,6 +283,7 @@ function Map(){
     return null;
 }
 
+/*
 function PointControlBox(){
     
     const onFinish = (values: any) => {
@@ -326,6 +328,7 @@ function PointControlBox(){
         </Form>
     );
 }
+*/
 
 function Legend() {
 
