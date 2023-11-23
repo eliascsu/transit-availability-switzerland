@@ -5,3 +5,11 @@ export interface DataPoint {
 }
 
 export type DataArray = DataPoint[];
+
+export interface PopulationPoint {
+    lat: number;
+    lng: number;
+    intensity: number;
+}
+
+export type PopulationArray = PopulationPoint[];

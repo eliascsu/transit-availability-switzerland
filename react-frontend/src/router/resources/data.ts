@@ -1,4 +1,4 @@
-import { DataArray } from '../../types/data';
+import { DataArray, PopulationArray } from '../../types/data';
 import axiosClient from '../apiClient'
 
 /**
@@ -20,9 +20,9 @@ export function postPoints(id: string): Promise<DataArray | undefined> {
       throw err;
     });
 }
-export function getPopulationDensity(): Promise<DataArray | undefined> {
+export function getPopulationDensity(): Promise<PopulationArray | undefined> {
   const url = `data/population`
-  const promise = axiosClient.get<DataArray>(url)
+  const promise = axiosClient.get<PopulationArray>(url)
   return promise
     .then((res) => {
       if (res.status !== 204) {
