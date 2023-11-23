@@ -7,9 +7,9 @@ export interface DataPoint {
 export type DataArray = DataPoint[];
 
 export interface PopulationPoint {
-    lat: String;
-    lng: String;
-    intensity: String;
+    lat: string;
+    lng: string;
+    intensity: string;
 }
 
 export type PopulationArray = PopulationPoint[];
