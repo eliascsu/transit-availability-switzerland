@@ -20,3 +20,18 @@ export function postPoints(id: string): Promise<DataArray | undefined> {
       throw err;
     });
 }
+export function getPopulationDensity(): Promise<DataArray | undefined> {
+  const url = `data/population`
+  const promise = axiosClient.get<DataArray>(url)
+  return promise
+    .then((res) => {
+      if (res.status !== 204) {
+        return res.data;
+      }
+      return undefined;
+    })
+    .catch((err) => {
+      console.error(err);
+      throw err;
+    });
+}
