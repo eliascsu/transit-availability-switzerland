@@ -9,7 +9,8 @@ import "proj4leaflet";
 import "leaflet.heat";
 import {v4 as uuidv4} from 'uuid';
 import { Button, Checkbox, Form, Input, Layout, Col, Row } from 'antd';
-import { getPopulationDensity, getPTData } from '../router/resources/data';
+import { getPopulationDensity, getPTData, postPoints } from '../router/resources/data';
+import { UserPoint, UserPointArray } from '../types/data';
 
 const {Content, Footer} = Layout;
 
@@ -18,8 +19,8 @@ interface CsvData {
     lng: string,
     pop: string
   }
-
-interface Point {
+/*
+interface UserPoint {
     Haltestellen_No: string;
     Y_Koord: number;
     X_Koord: number;
@@ -32,6 +33,7 @@ interface Point {
     B_Intervall: number;
     Hst_Kat: number;
 }
+*/
 let defaultName: string = "";
 let defaultBahnknoten = 0;
 let defaultBahnlinie_Anz = 0;
@@ -95,7 +97,7 @@ function MapWrapper() {
 function Map(){
     const map = useMap();
     const [csvData, setCsvData] = useState<CsvData[]>();
-    const addedPoints = useRef<Point[]>([]);
+    const addedPoints = useRef<UserPointArray>([]);
 
     useEffect(() => {
         getPopulationDensity()
@@ -255,7 +257,7 @@ function Map(){
                 //geoJsonInfoLayer.addTo(map);
                 map.on("click", function(e){
                     let uuid = uuidv4();
-                    let newPoint: Point = {
+                    let newPoint: UserPoint = {
                         Haltestellen_No: uuid,
                         Y_Koord: e.latlng.lng,
                         X_Koord: e.latlng.lat,
@@ -269,7 +271,9 @@ function Map(){
                         Hst_Kat: defaultHst_Kat
                     }
                     addedPoints.current = [...addedPoints.current, newPoint];
-                    console.log(addedPoints.current);
+                    let userAddedPoints: UserPointArray = addedPoints.current;
+                    console.log(userAddedPoints);
+                    postPoints(userAddedPoints);
                 });
             });  
     }, []);

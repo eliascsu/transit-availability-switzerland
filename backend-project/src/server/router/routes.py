@@ -9,4 +9,5 @@ def add_routes(app):
 
     api.add_resource(res.population_data.PopulationResource, API + "data/population")
     api.add_resource(res.OeV_Haltestellen_data.OeVHaltestellenResource, API + "data/OeV_Haltestellen_ARE")
+    api.add_resource(res.user_Haltestellen.userHaltestellenResource, API + "data/user_Haltestellen")
     return api

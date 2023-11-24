@@ -1,6 +1,6 @@
-import { PopulationArray } from '../../types/data';
+import { PopulationArray, UserPointArray } from '../../types/data';
 import axiosClient from '../apiClient';
-import { GeoJsonObject } from 'geojson';
+import { GeoJsonObject, FeatureCollection, Feature } from 'geojson';
 
 /**
  * get the data points through a post request
@@ -25,6 +25,22 @@ export function getPopulationDensity(): Promise<PopulationArray | undefined> {
 export function getPTData(): Promise<GeoJsonObject | undefined> {
   const url = `data/OeV_Haltestellen_ARE`;
   const promise = axiosClient.get<GeoJsonObject>(url);
+  return promise
+    .then((res) => {
+      if (res.status !== 204) {
+        return res.data;
+      }
+      return undefined;
+    })
+    .catch((err) => {
+      console.error(err);
+      throw err;
+    });
+}
+
+export function postPoints(userPoints: UserPointArray): Promise<string | undefined> {
+  const url = `data/user_Haltestellen`;
+  const promise = axiosClient.post<string>(url, userPoints);
   return promise
     .then((res) => {
       if (res.status !== 204) {
