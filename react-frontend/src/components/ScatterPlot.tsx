@@ -1,12 +1,13 @@
+
 import { useEffect, createRef } from 'react'
 import * as d3 from 'd3'
-import { DataArray } from "../types/data";
+import { DataPointArray } from "../types/data";
 import { ChartStyle, getChildOrAppend, getMargin } from './utils';
 import './ScatterPlot.css'
 
 
 interface ScatterPlotProp extends ChartStyle {
-    data?: DataArray
+    data?: DataPointArray
 }
 
 const ScatterPlot = (props: ScatterPlotProp) => {
@@ -32,7 +33,7 @@ const ScatterPlot = (props: ScatterPlotProp) => {
 */
 function renderScatterPlot(
     root: SVGElement | SVGGElement,
-    data: DataArray,
+    data: DataPointArray,
     props: ChartStyle
 ) {
     const margin = getMargin(props.margin)

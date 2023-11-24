@@ -4,7 +4,7 @@ export interface DataPoint {
     cluster: string
 }
 
-export type DataArray = DataPoint[];
+export type DataPointArray = DataPoint[];
 
 export interface PopulationPoint {
     lat: string;
