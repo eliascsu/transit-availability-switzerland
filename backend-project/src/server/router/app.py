@@ -16,10 +16,6 @@ def create_app():
     def version():
         return f"Job ID: {os.environ['JOB_ID']}\nCommit ID: {os.environ['COMMIT_ID']}"
 
-    @app.route('/dargons')
-    def dargons():
-        return f"There be dragons here!"
-
     return app
 
 
