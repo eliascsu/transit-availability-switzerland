@@ -5,11 +5,11 @@ import './pages.css';
 import { Control } from 'leaflet';
 import { useEffect, useState, useRef } from 'react';
 import "proj4leaflet";
-import Papa from 'papaparse';
+//import Papa from 'papaparse';
 import "leaflet.heat";
 import {v4 as uuidv4} from 'uuid';
 import { Button, Checkbox, Form, Input, Layout, Col, Row } from 'antd';
-import { getPopulationDensity } from '../router/resources/data';
+import { getPopulationDensity, getPTData } from '../router/resources/data';
 
 const {Content, Footer} = Layout;
 
@@ -126,7 +126,7 @@ function Map(){
         });
         
 
-        fetch("/OeV_Haltestellen_ARE.geojson").then(response => response.json()) 
+        getPTData()
             .then(data => {
                 console.log("HEREEEEEEEEEEEEEEEEEEEEEEEEEEE" + data);
                 var geojsonMarkerOptions = {

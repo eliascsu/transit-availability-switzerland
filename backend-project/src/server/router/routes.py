@@ -9,4 +9,5 @@ def add_routes(app):
 
     api.add_resource(res.scatter_data.DatasetResource, API + "data/<string:name>")
     api.add_resource(res.population_data.PopulationResource, API + "data/population")
+    api.add_resource(res.OeV_Haltestellen_data.OeVHaltestellenResource, API + "data/OeV_Haltestellen_ARE")
     return api
