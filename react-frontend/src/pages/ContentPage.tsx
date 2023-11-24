@@ -1,5 +1,5 @@
 import { MapContainer, TileLayer, useMap, WMSTileLayer } from 'react-leaflet'
-import L, { HeatLatLngTuple, LatLng, point } from "leaflet";
+import L, { HeatLatLngTuple, LatLng, LatLngTuple, point } from "leaflet";
 import 'leaflet/dist/leaflet.css';
 import './pages.css';
 import { Control } from 'leaflet';
@@ -10,7 +10,7 @@ import "leaflet.heat";
 import {v4 as uuidv4} from 'uuid';
 import { Button, Checkbox, Form, Input, Layout, Col, Row } from 'antd';
 import { getPopulationDensity, getPTData, postPoints } from '../router/resources/data';
-import { UserPoint, UserPointArray } from '../types/data';
+import { FeatureCollection, Feature, Geometry, Properties } from '../types/data';
 
 const {Content, Footer} = Layout;
 
@@ -41,7 +41,7 @@ let defaultTramBus_Anz = 1;
 let defaultSeilbahn_Anz = 0;
 let defaultA_Intervall = 0;
 let defaultB_Intervall = 8;
-let defaultHst_Kat = -1;
+let defaultHst_Kat = 3;
 
 const classColors = {
     ClassA: "#ff0022",
@@ -97,7 +97,7 @@ function MapWrapper() {
 function Map(){
     const map = useMap();
     const [csvData, setCsvData] = useState<CsvData[]>();
-    const addedPoints = useRef<UserPointArray>([]);
+    const addedPoints = useRef<FeatureCollection>({type: "FeatureCollection", features: []});
 
     useEffect(() => {
         getPopulationDensity()
@@ -257,24 +257,30 @@ function Map(){
                 //geoJsonInfoLayer.addTo(map);
                 map.on("click", function(e){
                     let uuid = uuidv4();
-                    let newPoint: UserPoint = {
-                        Haltestellen_No: uuid,
-                        Y_Koord: e.latlng.lng,
-                        X_Koord: e.latlng.lat,
-                        Name: defaultName,
-                        Bahnknoten: defaultBahnknoten,
-                        Bahnlinie_Anz: defaultBahnlinie_Anz,
-                        TramBus_Anz: defaultTramBus_Anz,
-                        Seilbahn_Anz: defaultSeilbahn_Anz,
-                        A_Intervall: defaultA_Intervall,
-                        B_Intervall: defaultB_Intervall,
-                        Hst_Kat: defaultHst_Kat
+                    let newPoint: Feature = {
+                        type: "Feature",
+                        geometry: {
+                            type: 'Point',
+                            coordinates: [e.latlng.lat, e.latlng.lng] as LatLngTuple
+                        },
+                        properties:{
+                            Haltestellen_No: uuid,
+                            Name: defaultName,
+                            Bahnknoten: defaultBahnknoten,
+                            Bahnlinie_Anz: defaultBahnlinie_Anz,
+                            TramBus_Anz: defaultTramBus_Anz,
+                            Seilbahn_Anz: defaultSeilbahn_Anz,
+                            A_Intervall: defaultA_Intervall,
+                            B_Intervall: defaultB_Intervall,
+                            Hst_Kat: defaultHst_Kat
+                        }
                     }
-                    addedPoints.current = [...addedPoints.current, newPoint];
-                    let userAddedPoints: UserPointArray = addedPoints.current;
-                    console.log(userAddedPoints);
+                    addedPoints.current.features = [...addedPoints.current.features, newPoint];
+                    let userAddedPoints: FeatureCollection = addedPoints.current;
+                    console.log(addedPoints.current);
                     postPoints(userAddedPoints);
                 });
+                console.log("reloaded");
             });  
     }, []);
     /*
