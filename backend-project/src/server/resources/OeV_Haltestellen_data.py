@@ -11,7 +11,7 @@ class OeVHaltestellenResource(Resource):
     data_root = os.path.join(".", "data")
 
     def get(self):
-        path_name = os.path.join(self.data_root, "dataset_OeV_Haltestellen_ARE")
-       
+        path_name = os.path.join(self.data_root, "dataset_OeV_Haltestellen_ARE.geojson")
+        data = read_geojson(path_name)
 
         return data
