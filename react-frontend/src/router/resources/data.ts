@@ -39,9 +39,9 @@ export function getPTData(): Promise<GeoJsonObject | undefined> {
     });
 }
 
-export function postPoints(userPoints: FeatureCollection) {
+export function postAndGetPoints(userPoints: FeatureCollection): Promise<GeoJsonObject | undefined> {
   const url = `data/user_Haltestellen`;
-  const promise = axiosClient.post<string>(url, userPoints);
+  const promise = axiosClient.post<GeoJsonObject>(url, userPoints);
   return promise
     .then((res) => {
       if (res.status !== 204) {
@@ -54,4 +54,5 @@ export function postPoints(userPoints: FeatureCollection) {
       throw err;
     });
 }
+
 
