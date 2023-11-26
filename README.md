@@ -190,15 +190,17 @@ Take a look at [Issues and Branches](https://www.youtube.com/watch?v=DSuSBuVYpys
 This will help you have a clearer overview of what you are currently doing, track your progress and organise your work among yourselves. Moreover it gives us more insights on your progress.  
 
 ## Weekly Summary 
-Write here a short summary with weekly progress, including challanges and open questions.\
+Write here a short summary with weekly progress, including challenges and open questions.\
 We will use this to understand what your struggles and where did the weekly effort go to.
+
+So the main stuff we did this week was creating the main content page and adding the datasets to it. First we simply used WMS Tile Layers (directly from geo.admin.ch), which were very performant but we realized, that it was not very modular, because we couldn't add our datapoints to pre-rendered layers. Then we took the datasets and modeled the layers ourself, which was wayy more work, especially because the geo.admin.ch uses a different coordinate reference system (EPSG2056) to WGS84. Therefore we had to write a few scripts to create our own datasets with the right coordinates. Performance is also kind of an issue because we are working with fairly large amounts of data (~24000 datapoints for the transit availability and ~340000 for the population heatmap). We are fairly content with the performance at the moment, so it is not our top priority right now. We're still working on an attribution page, to properly credit the authors of the datasets and map tiles.
 
 ## Versioning
 Create stable versions of your code each week by using gitlab tags.\
 Take a look at [Gitlab Tags](https://docs.gitlab.com/ee/topics/git/tags.html) for more details. 
 
 Then list here the weekly tags. \
-We will evaluate your code every week, based on the corresponding version.
+We will evaluate your code every week, based on the corresponding version.Versioning
 
 Tags:
 - Week 1: [Stable Release](https://gitlab.inf.ethz.ch/course-fwe2023/students/project/flask/ecsuka_project_flask/-/tags/stable-week-1)
