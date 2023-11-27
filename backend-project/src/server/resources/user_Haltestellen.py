@@ -12,8 +12,13 @@ class userHaltestellenResource(Resource):
     data_root = os.path.join(".", "data")
 
     def post(self):
-        pprint.pprint(dict(request.form))
+        point_data = request.get_json()
+        
         #path_name = os.path.join(self.data_root, "dataset_OeV_Haltestellen_ARE.geojson")
-        #write_geojson(geo_json, filename='random.geojson', indent=4)
+        with open(os.path.join(self.data_root, "dataset_user_Haltestellen.geojson"), "w+") as f:
+            f.write(str(point_data).replace("'", '"'))
+        
+        path_name = os.path.join(self.data_root, "dataset_user_Haltestellen.geojson")
+        data = read_geojson(path_name)
 
-        return None
+        return data

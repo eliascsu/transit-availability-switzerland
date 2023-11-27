@@ -1,5 +1,5 @@
 import { MapContainer, TileLayer, useMap, WMSTileLayer } from 'react-leaflet'
-import L, { HeatLatLngTuple, LatLng, point } from "leaflet";
+import L, { HeatLatLngTuple, LatLng, LatLngTuple, point } from "leaflet";
 import 'leaflet/dist/leaflet.css';
 import './pages.css';
 import { Control } from 'leaflet';
@@ -9,8 +9,9 @@ import "proj4leaflet";
 import "leaflet.heat";
 import {v4 as uuidv4} from 'uuid';
 import { Button, Checkbox, Form, Input, Layout, Col, Row } from 'antd';
-import { getPopulationDensity, getPTData, postPoints } from '../router/resources/data';
-import { UserPoint, UserPointArray } from '../types/data';
+import { postAndGetPoints, getPopulationDensity, getPTData } from '../router/resources/data';
+import { FeatureCollection, Feature, Geometry, Properties, GeoJsonObject } from '../types/data';
+import { features } from 'process';
 
 const {Content, Footer} = Layout;
 
@@ -41,7 +42,7 @@ let defaultTramBus_Anz = 1;
 let defaultSeilbahn_Anz = 0;
 let defaultA_Intervall = 0;
 let defaultB_Intervall = 8;
-let defaultHst_Kat = -1;
+let defaultHst_Kat = 3;
 
 const classColors = {
     ClassA: "#ff0022",
@@ -97,7 +98,11 @@ function MapWrapper() {
 function Map(){
     const map = useMap();
     const [csvData, setCsvData] = useState<CsvData[]>();
-    const addedPoints = useRef<UserPointArray>([]);
+    const [updatePing, setUpdatePing] = useState<number>(0);
+    const addedPointsRef = useRef<FeatureCollection>({type: "FeatureCollection", features: []});
+    const addedPointsGeoJsonRef = useRef<GeoJsonObject>();
+    const geoJsonLayersRef = useRef<L.GeoJSON<any, any>[]>([]);
+    const userGeoJsonLayersRef = useRef<L.GeoJSON<any, any>[]>([]);
 
     useEffect(() => {
         getPopulationDensity()
@@ -121,7 +126,7 @@ function Map(){
                     }
                 console.log(pops);
                 */
-                console.log(heatArray);
+                //console.log(heatArray);
                 
                 let heat = L.heatLayer(heatArray, {radius: 15, max: 10}).addTo(map);
             }
@@ -130,15 +135,178 @@ function Map(){
 
         getPTData()
             .then(data => {
-                console.log("HEREEEEEEEEEEEEEEEEEEEEEEEEEEE" + data);
-                var geojsonMarkerOptions = {
-                    radius: 50,
-                    color: "#ff7800",
-                    stroke: false,
-                    opacity: 1,
-                    fillOpacity: 1,
-                };
-                /*
+                if(data != undefined){
+                    if(addedPointsGeoJsonRef.current != undefined){
+                        (data as FeatureCollection)['features'].push(...((addedPointsGeoJsonRef.current as FeatureCollection)['features']));
+                    }
+                    console.log("data being rendered: " + data);
+                    geoJsonLayersRef.current = makePTCirclesFromData(data as GeoJsonObject);
+        
+                    geoJsonLayersRef.current[0].addTo(map);
+                    geoJsonLayersRef.current[1].addTo(map);
+                    geoJsonLayersRef.current[2].addTo(map);
+                    geoJsonLayersRef.current[3].addTo(map);
+                    //geoJsonInfoLayer.addTo(map);
+                }
+                map.on("click", function(e){
+                    let uuid = uuidv4();
+                    let newPoint: Feature = {
+                        type: "Feature",
+                        geometry: {
+                            type: 'Point',
+                            coordinates: [e.latlng.lng, e.latlng.lat] as LatLngTuple
+                        },
+                        properties:{
+                            Haltestellen_No: uuid,
+                            Name: defaultName,
+                            Bahnknoten: defaultBahnknoten,
+                            Bahnlinie_Anz: defaultBahnlinie_Anz,
+                            TramBus_Anz: defaultTramBus_Anz,
+                            Seilbahn_Anz: defaultSeilbahn_Anz,
+                            A_Intervall: defaultA_Intervall,
+                            B_Intervall: defaultB_Intervall,
+                            Hst_Kat: defaultHst_Kat
+                        }
+                    }
+                    addedPointsRef.current.features = [...addedPointsRef.current.features, newPoint];
+                    let userAddedPoints: FeatureCollection = addedPointsRef.current;
+                    postAndGetPoints(userAddedPoints)
+                    .then(userGeoJson => {
+                        if(userGeoJson != undefined){
+                            addedPointsGeoJsonRef.current = userGeoJson as GeoJsonObject;
+                            setUpdatePing(updatePing + 1);
+                        }
+                    })
+                    .then( () => {
+                        if(addedPointsGeoJsonRef.current != undefined){
+                            let data: GeoJsonObject = addedPointsGeoJsonRef.current;
+                            userGeoJsonLayersRef.current = makePTCirclesFromData(data);        
+                            userGeoJsonLayersRef.current[0].addTo(map);
+                            userGeoJsonLayersRef.current[1].addTo(map);
+                            userGeoJsonLayersRef.current[2].addTo(map);
+                            userGeoJsonLayersRef.current[3].addTo(map);
+                            console.log("added userpoints");
+                        }
+                    });
+                    console.log("onClick: " + addedPointsGeoJsonRef.current)
+                    setUpdatePing(updatePing + 1);
+                    console.log(updatePing);
+                });
+                console.log("useEffect: " + (addedPointsGeoJsonRef.current as FeatureCollection)['features']);
+            });  
+    }, []); 
+    return null;
+}
+
+function makePTCirclesFromData(data: GeoJsonObject){
+    let layers: L.GeoJSON<any, any>[] = [];
+    let geojsonMarkerOptions = {
+        radius: 50,
+        color: "#ff7800",
+        stroke: false,
+        opacity: 1,
+        fillOpacity: 1,
+    };
+    let geoJsonLayerA = L.geoJSON(data, {
+        filter(geoJsonFeature) {
+            let kat = geoJsonFeature.properties.Hst_Kat;
+            return kat == 1 || kat == 2;
+        },
+        pointToLayer: function (geoJsonFeature, latlng) {
+            const properties = geoJsonFeature.properties;
+            geojsonMarkerOptions.color = classColors.ClassA;
+            const circle = L.circle(latlng, geojsonMarkerOptions);
+            // Add a click event listener to each circle for displaying a tooltip
+            if(properties.Hst_Kat == 1){
+                circle.setRadius(500);
+            }
+            else{
+                circle.setRadius(300);
+            }
+            return circle; 
+        }
+    });
+
+    let geoJsonLayerB = L.geoJSON(data, {
+        filter(geoJsonFeature) {
+            let kat = geoJsonFeature.properties.Hst_Kat;
+            return kat == 1 || kat == 2 || kat == 3;
+        },
+        pointToLayer: function (geoJsonFeature, latlng) {
+            const properties = geoJsonFeature.properties;
+            const circle = L.circle(latlng, geojsonMarkerOptions);
+            circle.setStyle({color: classColors.ClassB, stroke: false, fillOpacity: 1});
+                // Add a click event listener to each circle for displaying a tooltip
+            if(properties.Hst_Kat == 1){
+                circle.setRadius(750);
+            }
+            else if(properties.Hst_Kat == 2){
+                circle.setRadius(500);
+            }
+            else{
+                circle.setRadius(300);
+            }
+            return circle; 
+        }
+    });
+
+    let geoJsonLayerC = L.geoJSON(data, {
+        filter(geoJsonFeature) {
+            let kat = geoJsonFeature.properties.Hst_Kat;
+            return kat == 1 || kat == 2 || kat == 3 || kat == 4;
+        },
+        pointToLayer: function (geoJsonFeature, latlng) {
+            const properties = geoJsonFeature.properties;
+            const circle = L.circle(latlng, geojsonMarkerOptions);
+            circle.setStyle({color: classColors.ClassC, stroke: false, fillOpacity: 1});
+                // Add a click event listener to each circle for displaying a tooltip
+            if(properties.Hst_Kat == 1){
+                circle.setRadius(1000);
+            }
+            else if(properties.Hst_Kat == 2){
+                circle.setRadius(750);
+            }
+            else if(properties.Hst_Kat == 3){
+                circle.setRadius(500);
+            }
+            else{
+                circle.setRadius(300);
+            }
+            return circle; 
+        }
+    });
+
+    let geoJsonLayerD = L.geoJSON(data, {
+        filter(geoJsonFeature) {
+            let kat = geoJsonFeature.properties.Hst_Kat;
+            return kat == 2 || kat == 3 || kat == 4 || kat == 5;
+        },
+        pointToLayer: function (geoJsonFeature, latlng) {
+            const properties = geoJsonFeature.properties;
+            const circle = L.circle(latlng, geojsonMarkerOptions);
+            circle.setStyle({color: classColors.ClassD, stroke: false, fillOpacity: 1});
+                // Add a click event listener to each circle for displaying a tooltip
+            if(properties.Hst_Kat == 2){
+                circle.setRadius(1000);
+            }
+            else if(properties.Hst_Kat == 3){
+                circle.setRadius(750);
+            }
+            else if(properties.Hst_Kat == 4){
+                circle.setRadius(500);
+            }
+            else{
+                circle.setRadius(300);
+            }
+            return circle; 
+        }
+    });
+    layers.push(geoJsonLayerD);
+    layers.push(geoJsonLayerC);
+    layers.push(geoJsonLayerB);
+    layers.push(geoJsonLayerA);
+    return layers;
+    /*
                 let geoJsonInfoLayer = L.geoJSON(data, {
                     pointToLayer: function (feature, latlng) {
                         const circle = L.circle(latlng, geojsonMarkerOptions);
@@ -154,142 +322,7 @@ function Map(){
                     }
                 }).addTo(map);
                 */
-
-                let geoJsonLayerA = L.geoJSON(data, {
-                    filter(geoJsonFeature) {
-                        let kat = geoJsonFeature.properties.Hst_Kat;
-                        return kat == 1 || kat == 2;
-                    },
-                    pointToLayer: function (geoJsonFeature, latlng) {
-                        const properties = geoJsonFeature.properties;
-                        geojsonMarkerOptions.color = classColors.ClassA;
-                        const circle = L.circle(latlng, geojsonMarkerOptions);
-                        // Add a click event listener to each circle for displaying a tooltip
-                        if(properties.Hst_Kat == 1){
-                            circle.setRadius(500);
-                        }
-                        else{
-                            circle.setRadius(300);
-                        }
-                        return circle; 
-                    }
-                });
-
-                let geoJsonLayerB = L.geoJSON(data, {
-                    filter(geoJsonFeature) {
-                        let kat = geoJsonFeature.properties.Hst_Kat;
-                        return kat == 1 || kat == 2 || kat == 3;
-                    },
-                    pointToLayer: function (geoJsonFeature, latlng) {
-                        const properties = geoJsonFeature.properties;
-                        const circle = L.circle(latlng, geojsonMarkerOptions);
-                        circle.setStyle({color: classColors.ClassB, stroke: false, fillOpacity: 1});
-                            // Add a click event listener to each circle for displaying a tooltip
-                        if(properties.Hst_Kat == 1){
-                            circle.setRadius(750);
-                        }
-                        else if(properties.Hst_Kat == 2){
-                            circle.setRadius(500);
-                        }
-                        else{
-                            circle.setRadius(300);
-                        }
-                        return circle; 
-                    }
-                });
-
-                let geoJsonLayerC = L.geoJSON(data, {
-                    filter(geoJsonFeature) {
-                        let kat = geoJsonFeature.properties.Hst_Kat;
-                        return kat == 1 || kat == 2 || kat == 3 || kat == 4;
-                    },
-                    pointToLayer: function (geoJsonFeature, latlng) {
-                        const properties = geoJsonFeature.properties;
-                        const circle = L.circle(latlng, geojsonMarkerOptions);
-                        circle.setStyle({color: classColors.ClassC, stroke: false, fillOpacity: 1});
-                            // Add a click event listener to each circle for displaying a tooltip
-                        if(properties.Hst_Kat == 1){
-                            circle.setRadius(1000);
-                        }
-                        else if(properties.Hst_Kat == 2){
-                            circle.setRadius(750);
-                        }
-                        else if(properties.Hst_Kat == 3){
-                            circle.setRadius(500);
-                        }
-                        else{
-                            circle.setRadius(300);
-                        }
-                        return circle; 
-                    }
-                });
-
-                let geoJsonLayerD = L.geoJSON(data, {
-                    filter(geoJsonFeature) {
-                        let kat = geoJsonFeature.properties.Hst_Kat;
-                        return kat == 2 || kat == 3 || kat == 4 || kat == 5;
-                    },
-                    pointToLayer: function (geoJsonFeature, latlng) {
-                        const properties = geoJsonFeature.properties;
-                        const circle = L.circle(latlng, geojsonMarkerOptions);
-                        circle.setStyle({color: classColors.ClassD, stroke: false, fillOpacity: 1});
-                            // Add a click event listener to each circle for displaying a tooltip
-                        if(properties.Hst_Kat == 2){
-                            circle.setRadius(1000);
-                        }
-                        else if(properties.Hst_Kat == 3){
-                            circle.setRadius(750);
-                        }
-                        else if(properties.Hst_Kat == 4){
-                            circle.setRadius(500);
-                        }
-                        else{
-                            circle.setRadius(300);
-                        }
-                        return circle; 
-                    }
-                });
-    
-                geoJsonLayerD.addTo(map);
-                geoJsonLayerC.addTo(map);
-                geoJsonLayerB.addTo(map);
-                geoJsonLayerA.addTo(map);
-                //geoJsonInfoLayer.addTo(map);
-                map.on("click", function(e){
-                    let uuid = uuidv4();
-                    let newPoint: UserPoint = {
-                        Haltestellen_No: uuid,
-                        Y_Koord: e.latlng.lng,
-                        X_Koord: e.latlng.lat,
-                        Name: defaultName,
-                        Bahnknoten: defaultBahnknoten,
-                        Bahnlinie_Anz: defaultBahnlinie_Anz,
-                        TramBus_Anz: defaultTramBus_Anz,
-                        Seilbahn_Anz: defaultSeilbahn_Anz,
-                        A_Intervall: defaultA_Intervall,
-                        B_Intervall: defaultB_Intervall,
-                        Hst_Kat: defaultHst_Kat
-                    }
-                    addedPoints.current = [...addedPoints.current, newPoint];
-                    let userAddedPoints: UserPointArray = addedPoints.current;
-                    console.log(userAddedPoints);
-                    postPoints(userAddedPoints);
-                });
-            });  
-    }, []);
-    /*
-    useEffect(() => {
-        let pointsToSend = addedPoints.current;
-        let formdata = new FormData();
-        formdata.append("points", pointsToSend.toString());
-        fetch("/points", {
-            method: "POST",
-            body: formdata})
-    }, [addedPoints]);*/
-    
-    return null;
 }
-
 /*
 function PointControlBox(){
     

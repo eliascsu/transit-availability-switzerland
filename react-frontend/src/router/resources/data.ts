@@ -1,6 +1,7 @@
-import { PopulationArray, UserPointArray } from '../../types/data';
+import { PopulationArray } from '../../types/data';
 import axiosClient from '../apiClient';
-import { GeoJsonObject, FeatureCollection, Feature } from 'geojson';
+import { GeoJsonObject } from 'geojson';
+import { FeatureCollection } from '../../types/data';
 
 /**
  * get the data points through a post request
@@ -38,18 +39,20 @@ export function getPTData(): Promise<GeoJsonObject | undefined> {
     });
 }
 
-export function postPoints(userPoints: UserPointArray): Promise<string | undefined> {
+export function postAndGetPoints(userPoints: FeatureCollection): Promise<GeoJsonObject | undefined> {
   const url = `data/user_Haltestellen`;
-  const promise = axiosClient.post<string>(url, userPoints);
+  const promise = axiosClient.post<GeoJsonObject>(url, userPoints);
   return promise
     .then((res) => {
       if (res.status !== 204) {
         return res.data;
       }
-      return undefined;
+      return;
     })
     .catch((err) => {
       console.error(err);
       throw err;
     });
 }
+
+
