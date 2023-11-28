@@ -1,10 +1,27 @@
 import os
 import pprint
+import json
+from functools import lru_cache
 import pandas as pd
 from pandas_geojson import read_geojson, write_geojson
 import numpy as np
 
 from flask_restful import Resource, request
+
+class Lock:
+    locked = False
+    def __init__(self):
+        pass
+
+    def acquire(self):
+        while self.locked:
+            pass
+        self.locked = True
+        return True
+        
+    def release(self):
+        self.locked = False
+        return True
 
 class userHaltestellenResource(Resource):
     """
@@ -12,6 +29,7 @@ class userHaltestellenResource(Resource):
     """
     data_root = os.path.join(".", "data")
     population_data = pd.read_csv(os.path.join(data_root, "dataset_population.csv"))
+    lock = Lock()
 
     def post(self):
         point_data = request.get_json()
@@ -19,16 +37,19 @@ class userHaltestellenResource(Resource):
         for feature in point_data["features"]:
             print(feature["geometry"]["coordinates"])
         
-        #path_name = os.path.join(self.data_root, "dataset_OeV_Haltestellen_ARE.geojson")
+        userHaltestellenResource.lock.acquire()
         with open(os.path.join(self.data_root, "dataset_user_Haltestellen.geojson"), "w+") as f:
-            f.write(str(point_data).replace("'", '"'))
+            json.dump(point_data, f)
         
         path_name = os.path.join(self.data_root, "dataset_user_Haltestellen.geojson")
         data = read_geojson(path_name)
+        userHaltestellenResource.lock.release()
 
         return data        
     
-    def calculate_population_served_per_coordinate(self, x, y):
+    @staticmethod
+    @lru_cache(maxsize=2048)
+    def calculate_population_served_per_coordinate(x, y):
         R = 6371000  # radius of the Earth in meters
         
         def haversine_vectorized(lon1, lat1, lon2, lat2):
@@ -41,17 +62,23 @@ class userHaltestellenResource(Resource):
 
         # Calculate Distance and Filter Points
         distances = haversine_vectorized(x, y, 
-                                                self.population_data['lng'], 
-                                                self.population_data['lat'], 
+                                                userHaltestellenResource.population_data['lng'], 
+                                                userHaltestellenResource.population_data['lat'], 
                                                 )
-        return self.population_data[distances <= 500]['pop_actual'].sum()
+        return userHaltestellenResource.population_data[distances <= 500]['pop_actual'].sum()
 
     def get(self):
-        data = read_geojson(os.path.join(self.data_root, "dataset_user_Haltestellen.geojson"))
+        print("Reading userHaltestellen")
+        userHaltestellenResource.lock.acquire()
+        with open(os.path.join(self.data_root, "dataset_user_Haltestellen.geojson")) as f:
+            data = json.load(f)
+        userHaltestellenResource.lock.release()
+
         sum = 0
         for feature in data["features"]:
             sum += self.calculate_population_served_per_coordinate(feature["geometry"]["coordinates"][0], feature["geometry"]["coordinates"][1])
-        print(sum)
+            print(sum)
+        print("Cache stats: ", self.calculate_population_served_per_coordinate.cache_info())
         return {"population_served": int(sum)}
 
 
