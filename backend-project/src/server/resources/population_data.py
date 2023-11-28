@@ -12,6 +12,6 @@ class PopulationResource(Resource):
     def get(self):
         path_name = os.path.join(self.data_root, "dataset_population.csv")
         data = pd.read_csv(path_name)
-        data = data.drop("pop_actual")
+        data = data.drop(columns="pop_actual")
 
         return data.to_dict(orient="records")
