@@ -52,10 +52,7 @@ class userHaltestellenResource(Resource):
         for feature in data["features"]:
             sum += self.calculate_population_served_per_coordinate(feature["geometry"]["coordinates"][0], feature["geometry"]["coordinates"][1])
         print(sum)
-        return {"population_served": sum}
+        return {"population_served": int(sum)}
 
-
-    
-        
 
 # userHaltestellenResource.get(userHaltestellenResource)
