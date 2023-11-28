@@ -33,19 +33,13 @@ class userHaltestellenResource(Resource):
 
     def post(self):
         point_data = request.get_json()
-        print(point_data["features"])
-        for feature in point_data["features"]:
-            print(feature["geometry"]["coordinates"])
-        
+
         userHaltestellenResource.lock.acquire()
         with open(os.path.join(self.data_root, "dataset_user_Haltestellen.geojson"), "w+") as f:
             json.dump(point_data, f)
-        
-        path_name = os.path.join(self.data_root, "dataset_user_Haltestellen.geojson")
-        data = read_geojson(path_name)
-        userHaltestellenResource.lock.release()
 
-        return data        
+        userHaltestellenResource.lock.release()
+        return point_data
     
     @staticmethod
     @lru_cache(maxsize=2048)
@@ -68,7 +62,6 @@ class userHaltestellenResource(Resource):
         return userHaltestellenResource.population_data[distances <= 500]['pop_actual'].sum()
 
     def get(self):
-        print("Reading userHaltestellen")
         userHaltestellenResource.lock.acquire()
         with open(os.path.join(self.data_root, "dataset_user_Haltestellen.geojson")) as f:
             data = json.load(f)
@@ -77,9 +70,6 @@ class userHaltestellenResource(Resource):
         sum = 0
         for feature in data["features"]:
             sum += self.calculate_population_served_per_coordinate(feature["geometry"]["coordinates"][0], feature["geometry"]["coordinates"][1])
-            print(sum)
-        print("Cache stats: ", self.calculate_population_served_per_coordinate.cache_info())
+
         return {"population_served": int(sum)}
 
-
-# userHaltestellenResource.get(userHaltestellenResource)
