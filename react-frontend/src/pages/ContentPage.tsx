@@ -10,7 +10,7 @@ import "leaflet.heat";
 import {v4 as uuidv4} from 'uuid';
 import { Button, Checkbox, Form, Input, Layout, Col, Row } from 'antd';
 import { postAndGetPoints, getPopulationDensity, getPTData, getScore } from '../router/resources/data';
-import { FeatureCollection, Feature, Geometry, Properties, GeoJsonObject } from '../types/data';
+import { FeatureCollection, Feature, Geometry, Properties, GeoJsonObject, Score } from '../types/data';
 import { features } from 'process';
 import { ExtendedGeometryCollection } from 'd3';
 
@@ -106,6 +106,7 @@ function Map(){
     const addedPointsGeoJsonRef = useRef<GeoJsonObject>();
     const geoJsonLayersRef = useRef<L.GeoJSON<any, any>[]>([]);
     const userGeoJsonLayersRef = useRef<L.GeoJSON<any, any>[]>([]);
+    const score = useRef<number>();
 
     useEffect(() => {
         getPopulationDensity()
@@ -211,13 +212,25 @@ function Map(){
                     console.log("onClick: " + addedPointsGeoJsonRef.current)
                     setUpdatePing(updatePing + 1);
                     console.log(updatePing);
+
+                    getScore().then((data: any) => {
+                        console.log(data);
+                        score.current = data?.population_served;
+                        });
+                    console.log("score: " + score.current);
+                    console.log(score.current);
+                    let text = document.getElementById("info_text");
+                    if(text){
+                        text.innerHTML = "<h2>" + score.current + "</h2>";
+                    }
                 });
                 let textbox   = L.Control.extend({
                     onAdd: function() {
                         
-                    var text = L.DomUtil.create('div');
+                    let text = L.DomUtil.create('div');
                     text.id = "info_text";
-                    text.innerHTML = "<h2>" + getScore().then((data) => {return data})  + "</h2>"
+                    text.className = "infoText"
+                    text.innerHTML = "<h2>" + score.current + "</h2>"
                     return text;
                     },
             

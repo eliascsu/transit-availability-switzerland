@@ -1,7 +1,7 @@
 import { PopulationArray } from '../../types/data';
 import axiosClient from '../apiClient';
 import { GeoJsonObject } from 'geojson';
-import { FeatureCollection } from '../../types/data';
+import { FeatureCollection, Score } from '../../types/data';
 
 /**
  * get the data points through a post request
@@ -57,7 +57,7 @@ export function postAndGetPoints(userPoints: FeatureCollection): Promise<GeoJson
 
 export function getScore() {
   const url = `data/user_Haltestellen`;
-  const promise = axiosClient.get<number>(url);
+  const promise = axiosClient.get<Score>(url);
   return promise
     .then((res) => {
       if (res.status !== 204) {

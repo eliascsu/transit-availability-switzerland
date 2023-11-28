@@ -37,3 +37,7 @@ export interface Properties {
     B_Intervall: number;
     Hst_Kat: number;
 }
+
+export interface Score{
+    Value: number;
+}
