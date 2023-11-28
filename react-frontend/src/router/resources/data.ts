@@ -57,7 +57,7 @@ export function postAndGetPoints(userPoints: FeatureCollection): Promise<GeoJson
 
 export function getScore() {
   const url = `data/user_Haltestellen`;
-  const promise = axiosClient.get<GeoJsonObject>(url);
+  const promise = axiosClient.get<number>(url);
   return promise
     .then((res) => {
       if (res.status !== 204) {
