@@ -26,7 +26,7 @@ class userHaltestellenResource(Resource):
         path_name = os.path.join(self.data_root, "dataset_user_Haltestellen.geojson")
         data = read_geojson(path_name)
 
-        return data
+        return data        
     
     def calculate_population_served_per_coordinate(self, x, y):
         R = 6371000  # radius of the Earth in meters
@@ -45,10 +45,14 @@ class userHaltestellenResource(Resource):
                                                 self.population_data['lat'], 
                                                 )
         return self.population_data[distances <= 500]['pop_actual'].sum()
+
     def get(self):
         data = read_geojson(os.path.join(self.data_root, "dataset_user_Haltestellen.geojson"))
+        sum = 0
         for feature in data["features"]:
-            print(self.calculate_population_served_per_coordinate(self, feature["geometry"]["coordinates"][0], feature["geometry"]["coordinates"][1]))
+            sum += self.calculate_population_served_per_coordinate(self, feature["geometry"]["coordinates"][0], feature["geometry"]["coordinates"][1])
+        print(sum)
+        return sum
 
     
         
