@@ -12,6 +12,7 @@ import { Button, Checkbox, Form, Input, Layout, Col, Row } from 'antd';
 import { postAndGetPoints, getPopulationDensity, getPTData } from '../router/resources/data';
 import { FeatureCollection, Feature, Geometry, Properties, GeoJsonObject } from '../types/data';
 import { features } from 'process';
+import { ExtendedGeometryCollection } from 'd3';
 
 const {Content, Footer} = Layout;
 
@@ -99,6 +100,8 @@ function Map(){
     const map = useMap();
     const [csvData, setCsvData] = useState<CsvData[]>();
     const [updatePing, setUpdatePing] = useState<number>(0);
+    const pointInLineIndex = useRef<number>(0);
+    const lineIndex = useRef<number>(0);
     const addedPointsRef = useRef<FeatureCollection>({type: "FeatureCollection", features: []});
     const addedPointsGeoJsonRef = useRef<GeoJsonObject>();
     const geoJsonLayersRef = useRef<L.GeoJSON<any, any>[]>([]);
@@ -136,9 +139,6 @@ function Map(){
         getPTData()
             .then(data => {
                 if(data != undefined){
-                    if(addedPointsGeoJsonRef.current != undefined){
-                        (data as FeatureCollection)['features'].push(...((addedPointsGeoJsonRef.current as FeatureCollection)['features']));
-                    }
                     console.log("data being rendered: " + data);
                     geoJsonLayersRef.current = makePTCirclesFromData(data as GeoJsonObject);
         
@@ -149,7 +149,8 @@ function Map(){
                     //geoJsonInfoLayer.addTo(map);
                 }
                 map.on("click", function(e){
-                    let uuid = uuidv4();
+                    let hst_No: string = pointInLineIndex.current.toString() + "-" + lineIndex.current.toString();
+                    
                     let newPoint: Feature = {
                         type: "Feature",
                         geometry: {
@@ -157,7 +158,7 @@ function Map(){
                             coordinates: [e.latlng.lng, e.latlng.lat] as LatLngTuple
                         },
                         properties:{
-                            Haltestellen_No: uuid,
+                            Haltestellen_No: hst_No,
                             Name: defaultName,
                             Bahnknoten: defaultBahnknoten,
                             Bahnlinie_Anz: defaultBahnlinie_Anz,
@@ -168,6 +169,7 @@ function Map(){
                             Hst_Kat: defaultHst_Kat
                         }
                     }
+                    pointInLineIndex.current++;
                     addedPointsRef.current.features = [...addedPointsRef.current.features, newPoint];
                     let userAddedPoints: FeatureCollection = addedPointsRef.current;
                     postAndGetPoints(userAddedPoints)
@@ -180,11 +182,29 @@ function Map(){
                     .then( () => {
                         if(addedPointsGeoJsonRef.current != undefined){
                             let data: GeoJsonObject = addedPointsGeoJsonRef.current;
-                            userGeoJsonLayersRef.current = makePTCirclesFromData(data);        
-                            userGeoJsonLayersRef.current[0].addTo(map);
-                            userGeoJsonLayersRef.current[1].addTo(map);
-                            userGeoJsonLayersRef.current[2].addTo(map);
-                            userGeoJsonLayersRef.current[3].addTo(map);
+                            userGeoJsonLayersRef.current = makePTCirclesFromData(data);   
+                            map.eachLayer((layer) => {
+                                if(geoJsonLayersRef.current.some((curr) => layer == curr)){
+                                    map.removeLayer(layer);
+                                };
+                            }) 
+                            
+                            userGeoJsonLayersRef.current[0].addTo(geoJsonLayersRef.current[0].addTo(map));
+                            userGeoJsonLayersRef.current[1].addTo(geoJsonLayersRef.current[1].addTo(map));
+                            userGeoJsonLayersRef.current[2].addTo(geoJsonLayersRef.current[2].addTo(map));
+                            userGeoJsonLayersRef.current[3].addTo(geoJsonLayersRef.current[3].addTo(map));
+                            
+                            let polyLineCoords: LatLng[] = []
+                            for(let point of userAddedPoints["features"]){
+                                polyLineCoords.push(new L.LatLng(point["geometry"]["coordinates"][1], point["geometry"]["coordinates"][0]))
+                            }
+                            //console.log(polyLineCoords);
+                            let polyLine = new L.Polyline(polyLineCoords, {
+                                color: 'red',
+                                weight: 5,
+                                opacity: 1,
+                                smoothFactor: 1
+                                }).addTo(map);
                             console.log("added userpoints");
                         }
                     });
