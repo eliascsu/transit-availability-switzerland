@@ -107,6 +107,7 @@ function Map(){
     const geoJsonLayersRef = useRef<L.GeoJSON<any, any>[]>([]);
     const userGeoJsonLayersRef = useRef<L.GeoJSON<any, any>[]>([]);
     const score = useRef<number>();
+    const textboxRef = useRef<any>();
 
     useEffect(() => {
         getPopulationDensity()
@@ -216,7 +217,7 @@ function Map(){
                     getScore().then((data: any) => {
                         console.log(data);
                         score.current = data?.population_served;
-                        });
+                    });
                     console.log("score: " + score.current);
                     console.log(score.current);
                     let text = document.getElementById("info_text");
@@ -224,18 +225,22 @@ function Map(){
                         text.innerHTML = "<h2>" + score.current + "</h2>";
                     }
                 });
-                let textbox   = L.Control.extend({
-                    onAdd: function() {
-                        
-                    let text = L.DomUtil.create('div');
-                    text.id = "info_text";
-                    text.className = "infoText"
-                    text.innerHTML = "<h2>" + score.current + "</h2>"
-                    return text;
-                    },
-            
+                let textbox;
+                getScore().then((data: any) => {
+                    console.log(data);
+                    score.current = data?.population_served;
+                    textbox = L.Control.extend({
+                        onAdd: function() {
+                            let text = L.DomUtil.create('div');
+                            text.id = "info_text";
+                            text.innerHTML = "<h2>" + score.current + "</h2>"
+                            return text;
+                        },
+                    });
+                    if(textbox != undefined){
+                        new textbox({ position: 'topleft' }).addTo(map);
+                    }
                 });
-                new textbox({ position: 'topleft' }).addTo(map);
             });  
     }, []); 
     return null;
