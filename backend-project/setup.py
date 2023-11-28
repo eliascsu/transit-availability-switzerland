@@ -7,22 +7,20 @@ def read(fname):
 
 
 setup(
-    name="dummy_server",
+    name="server",
     version="0.0.1",
     description="Backend for the dummy project of the XAI-IML 2023 course.",
     long_description=read("README.md"),
     package_data={
         "": [
-            "dataset_blobs.csv",
-            "dataset_circles.csv",
-            "dataset_moons.csv",
+            "dataset_OeV_Haltestellen_ARE.geojson",
+            "dataset_population.csv",
         ]
     },
     data_files=[(
         "data", [
-            os.path.join("data", "dataset_blobs.csv"),
-            os.path.join("data", "dataset_circles.csv"),
-            os.path.join("data", "dataset_moons.csv"),
+            os.path.join("data", "dataset_OeV_Haltestellen_ARE.geojson"),
+            os.path.join("data", "dataset_population.csv"),
         ]
     )],
     classifiers=[
@@ -34,7 +32,7 @@ setup(
     ],
     entry_points={
         "console_scripts": [
-            "start-server = dummy_server.router.app:start_server",
+            "start-server = server.router.app:start_server",
         ]
     },
     install_requires=[
@@ -44,6 +42,6 @@ setup(
         "pandas>=1.4.1,<1.5",
         "scikit-learn",
     ],
-    packages=find_packages(where="src", include=["dummy_server*"]),
+    packages=find_packages(where="src", include=["server*"]),
     package_dir={"": "src"},
 )

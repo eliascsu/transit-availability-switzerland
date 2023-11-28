@@ -45,13 +45,15 @@ def process_data():
     df = df.drop(columns=["RELI", "B22B11"])
     # Normalize population using this formula
     # ((population / 20) ** 2) + 0.5 if ((population / 20) ** 2) + 0.5 < 40 else 40
+    df["pop_actual"] = df["B22BTOT"].copy()
     df['pop'] = ((df['B22BTOT'] / 20) ** 2) + 0.5
+    
     df.loc[df['pop'] > 40, 'pop'] = 40
 
     # Transform coordinates
-    df = transform_coordinates(df[['E_KOORD', 'N_KOORD', 'pop']])
+    df = transform_coordinates(df[['E_KOORD', 'N_KOORD', 'pop', 'pop_actual']])
     df = df.drop(columns=['E_KOORD', 'N_KOORD'])
-    new_order = ['lat', 'lng', 'pop']
+    new_order = ['lat', 'lng', 'pop', 'pop_actual']
     df = df.reindex(columns=new_order)
     df.rename(columns={'pop': 'intensity'}, inplace=True)
     # Write to CSV
