@@ -50,7 +50,7 @@ class userHaltestellenResource(Resource):
         data = read_geojson(os.path.join(self.data_root, "dataset_user_Haltestellen.geojson"))
         sum = 0
         for feature in data["features"]:
-            sum += self.calculate_population_served_per_coordinate(self, feature["geometry"]["coordinates"][0], feature["geometry"]["coordinates"][1])
+            sum += self.calculate_population_served_per_coordinate(feature["geometry"]["coordinates"][0], feature["geometry"]["coordinates"][1])
         print(sum)
         return {"population_served": sum}
 
