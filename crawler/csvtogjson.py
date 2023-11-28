@@ -34,7 +34,7 @@ import os
 import numpy
 import pyproj
 from geojson import Point, Feature, FeatureCollection, dumps
-from pyproj import CRS, transform
+from pyproj import CRS
 
 # Suppress pandas warning
 pandas.options.mode.chained_assignment = None
@@ -42,19 +42,18 @@ pandas.options.mode.chained_assignment = None
 LV95 = CRS.from_epsg(2056)
 WGS84 = CRS.from_epsg(4326)
 
-def create_geojson(file_name):
+def create_geojson(file_name, file):
 
     fold = os.path.dirname(file_name)
     name,_ = os.path.basename(file_name).split('.')
 
     output_file = os.path.join(fold, '{}.geojson'.format(name))
 
-    df = pandas.read_csv(file_name, encoding_errors="ignore", delimiter=";").fillna('')
+    df = pandas.read_csv(file, encoding_errors="ignore", delimiter=";").fillna('')
     lat = df['X_Koord']
     lng = df['Y_Koord']
-    print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXx")
+    transformer = pyproj.Transformer.from_crs(LV95, WGS84, always_xy=True)
     for i, (longitude, latitude) in enumerate(zip(lat, lng)):
-        transformer = pyproj.Transformer.from_crs(LV95, WGS84, always_xy=True)
         new_lat, new_long = transformer.transform(latitude, longitude)
         lat.loc[i] = new_long
         lng.loc[i] = new_lat
