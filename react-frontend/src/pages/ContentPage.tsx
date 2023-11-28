@@ -3,12 +3,12 @@ import L, { HeatLatLngTuple, LatLng, LatLngTuple, point } from "leaflet";
 import 'leaflet/dist/leaflet.css';
 import './pages.css';
 import { Control } from 'leaflet';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, createContext, useContext } from 'react';
 import "proj4leaflet";
 //import Papa from 'papaparse';
 import "leaflet.heat";
 import {v4 as uuidv4} from 'uuid';
-import { Button, Checkbox, Form, Input, Layout, Col, Row } from 'antd';
+import { Button, Checkbox, Form, Input, Layout, Col, Row, InputNumber } from 'antd';
 import { postAndGetPoints, getPopulationDensity, getPTData, getScore } from '../router/resources/data';
 import { FeatureCollection, Feature, Geometry, Properties, GeoJsonObject, Score } from '../types/data';
 import { features } from 'process';
@@ -87,14 +87,17 @@ function ContentPage() {
 function MapWrapper() {
 
     return (
-
+        <>
         <MapContainer className="map-container" id="map-zurich" center={[47.36, 8.53]} zoom={10} scrollWheelZoom={true}>
             <TileLayer url="https://tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey=119ad4f25bed4ec2a70aeba31a0fb12a" attribution="&copy; <a href=&quot;https://www.thunderforest.com/&quot;>Thunderforest</a> contributors"/>
             <Map></Map>
         </MapContainer>
-
+        <PointControlBox></PointControlBox>
+        </>
     );
 }
+
+const constrolBoxContext = createContext(null);
 
 function Map(){
     const map = useMap();
@@ -107,7 +110,6 @@ function Map(){
     const geoJsonLayersRef = useRef<L.GeoJSON<any, any>[]>([]);
     const userGeoJsonLayersRef = useRef<L.GeoJSON<any, any>[]>([]);
     const score = useRef<number>();
-    const textboxRef = useRef<any>();
 
     useEffect(() => {
         getPopulationDensity()
@@ -371,44 +373,52 @@ function makePTCirclesFromData(data: GeoJsonObject){
                 }).addTo(map);
                 */
 }
-/*
+
 function PointControlBox(){
     
+    const layout = {
+        labelCol: { span: 8 },
+        wrapperCol: { span: 16 },
+    };
+    /* eslint-disable no-template-curly-in-string */
+    const validateMessages = {
+    required: '${label} is required!',
+    types: {
+        email: '${label} is not a valid email!',
+        number: '${label} is not a valid number!',
+    },
+    number: {
+        range: '${label} must be between ${min} and ${max}',
+    },
+    };
+    /* eslint-enable no-template-curly-in-string */
     const onFinish = (values: any) => {
-        console.log('Success:', values);
-      };
-    const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
+    console.log(values);
     };
     return(
         <Form
-            name="basic"
-            labelCol={{ span: 8 }}
-            wrapperCol={{ span: 16 }}
-            style={{ maxWidth: 600 }}
-            initialValues={{ remember: true }}
+            {...layout}
+            name="nest-messages"
             onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
-            autoComplete="off"
+            style={{ maxWidth: 600 }}
+            validateMessages={validateMessages}
         >
-
-            <Form.Item<PointBoxOption>
-            label="Password"
-            name="password"
-            rules={[{ required: true, message: 'Please input your password!' }]}
-            >
-            <Input.Password />
+            <Form.Item name={['user', 'name']} label="Name" rules={[{ required: true }]}>
+            <Input />
             </Form.Item>
-
-            <Form.Item<PointBoxOption>
-            name="remember"
-            valuePropName="checked"
-            wrapperCol={{ offset: 8, span: 16 }}
-            >
-            <Checkbox>Remember me</Checkbox>
+            <Form.Item name={['user', 'email']} label="Email" rules={[{ type: 'email' }]}>
+            <Input />
             </Form.Item>
-
-            <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+            <Form.Item name={['user', 'age']} label="Age" rules={[{ type: 'number', min: 0, max: 99 }]}>
+            <InputNumber />
+            </Form.Item>
+            <Form.Item name={['user', 'website']} label="Website">
+            <Input />
+            </Form.Item>
+            <Form.Item name={['user', 'introduction']} label="Introduction">
+            <Input.TextArea />
+            </Form.Item>
+            <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
             <Button type="primary" htmlType="submit">
                 Submit
             </Button>
@@ -416,7 +426,7 @@ function PointControlBox(){
         </Form>
     );
 }
-*/
+
 
 function Legend() {
 
