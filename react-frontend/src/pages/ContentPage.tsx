@@ -9,7 +9,7 @@ import "proj4leaflet";
 import "leaflet.heat";
 import {v4 as uuidv4} from 'uuid';
 import { Button, Checkbox, Form, Input, Layout, Col, Row } from 'antd';
-import { postAndGetPoints, getPopulationDensity, getPTData } from '../router/resources/data';
+import { postAndGetPoints, getPopulationDensity, getPTData, getScore } from '../router/resources/data';
 import { FeatureCollection, Feature, Geometry, Properties, GeoJsonObject } from '../types/data';
 import { features } from 'process';
 import { ExtendedGeometryCollection } from 'd3';
@@ -212,7 +212,17 @@ function Map(){
                     setUpdatePing(updatePing + 1);
                     console.log(updatePing);
                 });
-                console.log("useEffect: " + (addedPointsGeoJsonRef.current as FeatureCollection)['features']);
+                let textbox   = L.Control.extend({
+                    onAdd: function() {
+                        
+                    var text = L.DomUtil.create('div');
+                    text.id = "info_text";
+                    text.innerHTML = "<h2>" + getScore().then((data) => {return data})  + "</h2>"
+                    return text;
+                    },
+            
+                });
+                new textbox({ position: 'topleft' }).addTo(map);
             });  
     }, []); 
     return null;
