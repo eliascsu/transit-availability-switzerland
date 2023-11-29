@@ -1,5 +1,11 @@
-from . import population_data
-from . import OeV_Haltestellen_data
-from . import user_Haltestellen
+from .datasets.PopulationHeatmap import PopulationHeatmap, PopulationUnserved
+from .datasets.pt_stops_are import pt_stops_are
+from .user.pt_stops import user_pt_stops
 
-__all__ = ["population_data", "OeV_Haltestellen_data, user_Haltestellen"]
+
+__all__ = [
+    "PopulationHeatmap", 
+    "PopulationUnserved",
+    "pt_stops_are", 
+    "user_pt_stops",
+    ]
