@@ -73,7 +73,7 @@ def create_geojson(file_name, file):
             failed.append(props)
         
     collection = FeatureCollection(feat_list)
-    with open(output_file, 'w+') as f:
+    with open(os.path.join("backend-project", "data", "pt-stops.geojson"), 'w+') as f:
         f.write(dumps(collection))
     
     return output_file
