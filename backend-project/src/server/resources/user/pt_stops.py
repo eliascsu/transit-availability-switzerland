@@ -26,14 +26,14 @@ class user_pt_stops(Resource):
     Sets the file user_Haltestellen.geojson to the current list of userPoints
     """
     data_root = os.path.join(".", "data")
-    population_data = pd.read_csv(os.path.join(data_root, "dataset_population.csv"))
+    population_data = pd.read_csv(os.path.join(data_root, "Population.csv"))
     lock = _Lock()
 
     def post(self):
         point_data = request.get_json()
 
         user_pt_stops.lock.acquire()
-        with open(os.path.join(self.data_root, "dataset_user_Haltestellen.geojson"), "w+") as f:
+        with open(os.path.join(self.data_root, "user-pt-stops.geojson"), "w+") as f:
             json.dump(point_data, f)
 
         user_pt_stops.lock.release()
@@ -61,7 +61,7 @@ class user_pt_stops(Resource):
 
     def get(self):
         user_pt_stops.lock.acquire()
-        with open(os.path.join(self.data_root, "dataset_user_Haltestellen.geojson")) as f:
+        with open(os.path.join(self.data_root, "user-pt-stops.geojson")) as f:
             data = json.load(f)
         user_pt_stops.lock.release()
 
