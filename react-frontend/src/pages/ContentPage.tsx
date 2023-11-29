@@ -10,7 +10,7 @@ import "leaflet.heat";
 import {v4 as uuidv4} from 'uuid';
 import { Button, Checkbox, Form, Input, Layout, Col, Row, InputNumber } from 'antd';
 import { postAndGetPoints, getPopulationDensity, getPTData, getScore } from '../router/resources/data';
-import { FeatureCollection, Feature, Geometry, Properties, GeoJsonObject, Score } from '../types/data';
+import { FeatureCollection, Feature, Geometry, Properties, GeoJsonObject, PointBoxOption } from '../types/data';
 import { features } from 'process';
 import { ExtendedGeometryCollection } from 'd3';
 
@@ -43,23 +43,13 @@ let defaultTramBus_Anz = 1;
 let defaultSeilbahn_Anz = 0;
 let defaultA_Intervall = 0;
 let defaultB_Intervall = 8;
-let defaultHst_Kat = 3;
+let defaultHst_Kat = 1;
 
 const classColors = {
     ClassA: "#ff0022",
     ClassB: "#c300ff",
     ClassC: "#006915",
     ClassD: "#40ff66"
-}
-
-interface PointBoxOption extends HTMLCollection {
-    Name: HTMLInputElement;
-    Bahnknoten: HTMLInputElement;
-    Bahnlinie_Anz: HTMLInputElement;
-    TramBus_Anz: HTMLInputElement;
-    Seilbahn_Anz: HTMLInputElement;
-    A_Intervall: HTMLInputElement;
-    B_Intervall: HTMLInputElement;
 }
 
 function ContentPage() {
@@ -96,8 +86,12 @@ function MapWrapper() {
         </>
     );
 }
-
-const constrolBoxContext = createContext(null);
+let defaultOptions: PointBoxOption = {
+    Bahnknoten: false,
+    BahnIntervall: 0,
+    TramBusIntervall: 0
+}
+const constrolBoxContext = createContext<PointBoxOption>(defaultOptions);
 
 function Map(){
     const map = useMap();
@@ -286,7 +280,7 @@ function makePTCirclesFromData(data: GeoJsonObject){
             const properties = geoJsonFeature.properties;
             const circle = L.circle(latlng, geojsonMarkerOptions);
             circle.setStyle({color: classColors.ClassB, stroke: false, fillOpacity: 1});
-                // Add a click event listener to each circle for displaying a tooltip
+            // Add a click event listener to each circle for displaying a tooltip
             if(properties.Hst_Kat == 1){
                 circle.setRadius(750);
             }
@@ -378,9 +372,8 @@ function PointControlBox(){
     
     const layout = {
         labelCol: { span: 8 },
-        wrapperCol: { span: 16 },
+        wrapperCol: { span: 8 },
     };
-    /* eslint-disable no-template-curly-in-string */
     const validateMessages = {
     required: '${label} is required!',
     types: {
@@ -391,9 +384,8 @@ function PointControlBox(){
         range: '${label} must be between ${min} and ${max}',
     },
     };
-    /* eslint-enable no-template-curly-in-string */
     const onFinish = (values: any) => {
-    console.log(values);
+        console.log(values);
     };
     return(
         <Form
