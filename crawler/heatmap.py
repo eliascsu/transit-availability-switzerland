@@ -51,7 +51,7 @@ def main():
     df = df.reindex(columns=new_order)
     df.rename(columns={"pop": "intensity"}, inplace=True)
     # Write to CSV
-    df.to_csv(os.path.join("backend-project", "data" + "Population.csv"), index=False)
+    df.to_csv(os.path.join("backend-project", "data", "Population.csv"), index=False)
 
 
 if __name__ == "__main__":
