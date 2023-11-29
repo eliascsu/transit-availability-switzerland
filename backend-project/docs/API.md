@@ -45,6 +45,16 @@
 ]
 ```
 
+### /datasets/pt-stops-are
+
+#### GET
+
+**Summary**: Get PT Stops provided by ARE
+
+**Returns**:
+GeoJSON FeatureCollection
+
+
 ### /user/pt-stops
 
 #### GET
