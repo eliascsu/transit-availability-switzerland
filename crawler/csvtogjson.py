@@ -42,12 +42,7 @@ pandas.options.mode.chained_assignment = None
 LV95 = CRS.from_epsg(2056)
 WGS84 = CRS.from_epsg(4326)
 
-def create_geojson(file_name, file):
-
-    fold = os.path.dirname(file_name)
-    name,_ = os.path.basename(file_name).split('.')
-
-    output_file = os.path.join(fold, '{}.geojson'.format(name))
+def create_geojson(file):
 
     df = pandas.read_csv(file, encoding_errors="ignore", delimiter=";").fillna('')
     lat = df['X_Koord']
@@ -76,8 +71,6 @@ def create_geojson(file_name, file):
     with open(os.path.join("backend-project", "data", "pt-stops.geojson"), 'w+') as f:
         f.write(dumps(collection))
     
-    return output_file
-
 def remove_np_from_dict(d):
     '''numpy int64 objects are not serializable so need to convert values first.'''
     new={}
