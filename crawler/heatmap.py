@@ -10,7 +10,7 @@ from zipfile import ZipFile
 LV95 = CRS.from_epsg(2056)
 WGS84 = CRS.from_epsg(4326)
 
-warnings.filterwarnings("ignore", category=FutureWarning)
+warnings.filterwarnings("ignore", category=Warning)
 
 URL = "https://dam-api.bfs.admin.ch/hub/api/dam/assets/27965868/master"
 FNAME = "population"
@@ -31,7 +31,6 @@ def main():
     """Main function to process the data."""
     response = requests.get(URL)
     archive = ZipFile(BytesIO(response.content))
-    print(archive.namelist())
     csv = archive.open("ag-b-00.03-vz2022statpop/"+ CSV_NAME + ".csv")
 
     df = pd.read_csv(csv, sep=";")
@@ -52,7 +51,7 @@ def main():
     df = df.reindex(columns=new_order)
     df.rename(columns={"pop": "intensity"}, inplace=True)
     # Write to CSV
-    df.to_csv(os.path.join(FNAME + "-updated.csv"), index=False)
+    df.to_csv(os.path.join("backend-project", "data" + "Population.csv"), index=False)
 
 
 if __name__ == "__main__":
