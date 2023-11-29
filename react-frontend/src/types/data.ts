@@ -41,3 +41,9 @@ export interface Properties {
 export interface Score{
     Value: number;
 }
+
+export interface PointBoxOption {
+    Bahnknoten: boolean;
+    BahnIntervall: number;
+    TramBusIntervall: number;
+}
