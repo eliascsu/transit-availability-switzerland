@@ -8,7 +8,7 @@ import "proj4leaflet";
 //import Papa from 'papaparse';
 import "leaflet.heat";
 import {v4 as uuidv4} from 'uuid';
-import { Button, Checkbox, Form, Input, Layout, Col, Row, InputNumber } from 'antd';
+import { Button, Checkbox, Form, Input, Layout, Col, Row, InputNumber, Select, Collapse } from 'antd';
 import type { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { postAndGetPoints, getPopulationDensity, getPTData } from '../router/resources/data';
 import { FeatureCollection, Feature, Geometry, Properties, GeoJsonObject, LayerVisibility, LineArray } from '../types/data';
@@ -246,6 +246,66 @@ function ContentPage() {
           );
     }
 
+    function PointControlBox() {
+        const [form] = Form.useForm();
+    
+        const onFinish = (values: any) => {
+            console.log('Success:', values);
+            form.resetFields(); // Reset form fields after the operation
+        };
+    
+        return (
+            <div id='lineForm'>
+                <Collapse items={[{
+                    key: '1',
+                    label: 'LineForm',
+                    showArrow: false,
+                    children: (
+                        <Form
+                            form={form}
+                            labelCol={{ span: 3 }}
+                            wrapperCol={{ span: 14 }}
+                            layout="horizontal"
+                            onFinish={onFinish}
+                            style={{ maxWidth: 600 }}
+                        >
+                            <Form.Item
+                                label="Select"
+                                name="transportType"
+                                rules={[{ required: true, message: 'Please select a transport type!' }]}
+                            >
+                                <Select options={[
+                                    { value: 'Bus', label: 'Bus' },
+                                    { value: 'Tram', label: 'Tram' },
+                                    { value: 'S-Bahn', label: 'S-Bahn' }
+                                ]} />
+                            </Form.Item>
+                            <Form.Item
+                                label="Interval"
+                                name="interval"
+                                rules={[{ required: true, message: 'Please select an interval!' }]}
+                            >
+                                <Select options={[
+                                    { value: '3.5min', label: '3.5min' },
+                                    { value: '7min', label: '7min' },
+                                    { value: '15min', label: '15min' },
+                                    { value: '30min', label: '30min' },
+                                    { value: '1h', label: '1h' }
+                                ]} />
+                            </Form.Item>
+                            <Form.Item wrapperCol={{ offset: 3 }}>
+                                <Button type="primary" htmlType="submit">
+                                    Submit
+                                </Button>
+                            </Form.Item>
+                        </Form>
+                    )
+                }]}
+                />
+            </div>
+        );
+    }
+
     return (
         <Layout className="layout" id="contentPage">
             <Content className="content" id="mapContent">
@@ -257,6 +317,7 @@ function ContentPage() {
                     <MapWrapper/>
                     <Legend/>
                     <CheckBoxes></CheckBoxes>
+                    <PointControlBox></PointControlBox>
                 </Row>
             </Content>
             <Footer className="footer" id="mapFooter">
