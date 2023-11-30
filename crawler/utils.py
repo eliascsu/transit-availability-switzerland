@@ -3,9 +3,7 @@ import requests
 from zipfile import ZipFile
 import numpy as np
 import pandas as pd
-from constants import *
-
-R = 6371000  # radius of the Earth in meters
+from constants import R
 
 def download_and_extract(extract_to, url, filename):
     response = requests.get(url)
