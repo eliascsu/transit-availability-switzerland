@@ -55,6 +55,7 @@ export function postAndGetPoints(userPoints: FeatureCollection): Promise<GeoJson
     });
 }
 
+/*
 export function getScore() {
   const url = `data/user_Haltestellen`;
   const promise = axiosClient.get<Score>(url);
@@ -70,3 +71,4 @@ export function getScore() {
       throw err;
     });
 }
+*/

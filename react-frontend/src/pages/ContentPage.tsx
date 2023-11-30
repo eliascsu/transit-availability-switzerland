@@ -10,8 +10,8 @@ import "leaflet.heat";
 import {v4 as uuidv4} from 'uuid';
 import { Button, Checkbox, Form, Input, Layout, Col, Row, InputNumber } from 'antd';
 import type { CheckboxValueType } from 'antd/es/checkbox/Group';
-import { postAndGetPoints, getPopulationDensity, getPTData, getScore } from '../router/resources/data';
-import { FeatureCollection, Feature, Geometry, Properties, GeoJsonObject, PointBoxOption, LayerVisibility } from '../types/data';
+import { postAndGetPoints, getPopulationDensity, getPTData } from '../router/resources/data';
+import { FeatureCollection, Feature, Geometry, Properties, GeoJsonObject, LayerVisibility, LineArray } from '../types/data';
 import { features } from 'process';
 import { ExtendedGeometryCollection } from 'd3';
 
@@ -57,6 +57,7 @@ function ContentPage() {
     //TODO update type according to control box return type
     const [visibleLayersState, setVisibleLayersState] = useState<LayerVisibility>({popLayer:false, transportLayer:false});
     const [checkboxValues, setCheckboxValues] = useState<CheckboxValueType[]>([]);
+    const [linesFromFormState, setLinesFromFormState] = useState<LineArray>({Lines: [], currIndex: 0});
 
     function MapWrapper() {
         return (
@@ -171,6 +172,7 @@ function ContentPage() {
                                 console.log("added userpoints");
                             }
                         });
+                        /*
                         getScore().then((data: any) => {
                             //console.log(data);
                             score.current = data?.population_served;
@@ -180,6 +182,7 @@ function ContentPage() {
                         if(text){
                             text.innerHTML = "<h2>" + score.current + "</h2>";
                         }
+                        */
                     });
                     map.on("zoomend", function() {
                         const currentZoom = map.getZoom();
@@ -190,6 +193,7 @@ function ContentPage() {
                         }
                     });
                     let textbox;
+                    /*
                     getScore().then((data: any) => {
                         console.log(data);
                         score.current = data?.population_served;
@@ -205,7 +209,7 @@ function ContentPage() {
                             new textbox({ position: 'topleft' }).addTo(map);
                         }
                     });
-                    
+                    */
                 });         
         }, []);
         return null;
@@ -213,7 +217,6 @@ function ContentPage() {
 
     function CheckBoxes() {
         const CheckboxGroup = Checkbox.Group;
-    
         const options = ['PublicTransport', 'PopulationDensity'];
         const layers: LayerVisibility = {popLayer:false, transportLayer:false}
     

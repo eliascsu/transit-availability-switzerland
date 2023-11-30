@@ -47,14 +47,23 @@ export interface LayerVisibility {
     transportLayer: boolean
 }
 
-export interface LineFormArray {
+export interface LineArray {
     Lines: Line[],
     currIndex: number
 }
 
 interface Line {
     intervall: number,
-    typ: "Bahn" | "Tram" | "Bus",
-    coordsArray: LatLngTuple[]
+    typ: StopType,
+    points: FeatureCollection
 }
+
+interface LineIndexLookup {
+    numLines: number,
+    numPointsPerLine: number[],
+    lineTypes: StopType[]
+}
+
+type StopType=  "Bahn" | "Tram" | "Bus";
+
 
