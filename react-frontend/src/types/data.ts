@@ -38,6 +38,32 @@ export interface Properties {
     Hst_Kat: number;
 }
 
-export interface Score{
+export interface Score {
     Value: number;
 }
+
+export interface LayerVisibility {
+    popLayer: boolean,
+    transportLayer: boolean
+}
+
+export interface LineArray {
+    Lines: Line[],
+    currIndex: number
+}
+
+interface Line {
+    intervall: number,
+    typ: StopType,
+    points: FeatureCollection
+}
+
+interface LineIndexLookup {
+    numLines: number,
+    numPointsPerLine: number[],
+    lineTypes: StopType[]
+}
+
+type StopType=  "Bahn" | "Tram" | "Bus";
+
+

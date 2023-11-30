@@ -8,7 +8,7 @@ import { FeatureCollection, Score } from '../../types/data';
  * @param id the identifier of the point array
 */
 export function getPopulationDensity(): Promise<PopulationArray | undefined> {
-  const url = `data/population`
+  const url = `datasets/population-heatmap`
   const promise = axiosClient.get<PopulationArray>(url);
   return promise
     .then((res) => {
@@ -24,7 +24,7 @@ export function getPopulationDensity(): Promise<PopulationArray | undefined> {
 }
 
 export function getPTData(): Promise<GeoJsonObject | undefined> {
-  const url = `data/OeV_Haltestellen_ARE`;
+  const url = `datasets/pt-stops-are`;
   const promise = axiosClient.get<GeoJsonObject>(url);
   return promise
     .then((res) => {
@@ -40,7 +40,7 @@ export function getPTData(): Promise<GeoJsonObject | undefined> {
 }
 
 export function postAndGetPoints(userPoints: FeatureCollection): Promise<GeoJsonObject | undefined> {
-  const url = `data/user_Haltestellen`;
+  const url = `user/pt-stops`;
   const promise = axiosClient.post<GeoJsonObject>(url, userPoints);
   return promise
     .then((res) => {
@@ -55,6 +55,7 @@ export function postAndGetPoints(userPoints: FeatureCollection): Promise<GeoJson
     });
 }
 
+/*
 export function getScore() {
   const url = `data/user_Haltestellen`;
   const promise = axiosClient.get<Score>(url);
@@ -70,3 +71,4 @@ export function getScore() {
       throw err;
     });
 }
+*/
