@@ -117,7 +117,8 @@ h5 {
     height: 100vh;
     display: grid;
     grid-template-rows: 1fr 1fr 1fr 2fr;
-    grid-template-columns: 5fr 1fr;
+    grid-template-columns: 4fr 1fr;
+    column-gap: 3rem;
     grid-template-areas: 
         "titel titel"
         "map   legend"
@@ -131,6 +132,7 @@ h5 {
 
 #map-zurich {
     height: 90%;
+    width: auto;
     grid-area: map;
 }
 
@@ -168,29 +170,109 @@ h5 {
 
 #checkBoxes {
     grid-area: checkBoxes;
+    display: flex;
+    flex-direction: column;
 }
 
 #lineForm {
     grid-area: form;
     border: none;
     background-color: #081526;
+    height: 10rem;
 
 }
 
 
 .ant-collapse-header {
-    height: 5rem;
+    height: 3rem;
     border: none;
     background-color: #081526;
 
 }
 
+.ant-collapse { 
+    border-color:  #081526;
+    background-color:    #081526;
+}
 .ant-collapse-item {
-    border:none;
-    background-color: #081526;
+    border-color:  #081526;
+    background-color:  #081526;
+    height: 12rem;
+    border: 0 !important;
+
+}
+
+.ant-collapse-content-box {
+    height: 10rem;
+    padding: 0rem;
 }
 
 .ant-collapse-content_ant-collapse-content-active {
     border: none;
     background-color: black;
+}
+
+.newLineForm {
+    height: 10rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-areas:
+        "transport"
+        "interval"
+        "submit"
+    ;
+}
+
+
+.ant-form-item-row {
+    display: flex;
+    justify-content: space-evenly; 
+    align-content: center;
+    align-items: center;
+}
+
+.transport {
+    grid-area: transport;
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+}
+
+.interval {
+    grid-area: interval;
+}
+
+.submit {
+    grid-area: submit;
+}
+
+.ant-form-item-control-input-content {
+    display: flex;
+    justify-content: center;
+    width: 1rem;
+}
+
+.ant-select {
+    align-self: center;
+}
+
+.ant-col {
+    display: flex;
+    margin: 0;
+    flex-wrap: nowrap;
+    flex: none;
+}
+
+.ant-btn {
+    margin: 0;
+    align-self: center;
+}
+
+.ant-form-item-label {
+    align-content: center;
+    align-items: center;
+}
+.ant-form-item-required {
+    display: block;
 }

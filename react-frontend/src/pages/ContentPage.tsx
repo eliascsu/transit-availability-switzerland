@@ -240,9 +240,9 @@ function ContentPage() {
       };
     
         return (
-            <>
+            <div id="checkBoxes">
               <CheckboxGroup options={options} value={checkboxValues} onChange={onChange} />
-            </>
+            </div>
           );
     }
 
@@ -267,25 +267,32 @@ function ContentPage() {
                             wrapperCol={{ span: 14 }}
                             layout="horizontal"
                             onFinish={onFinish}
-                            style={{ maxWidth: 600 }}
+                            style={{ maxWidth: 600, padding:0}}
+                            className='newLineForm'
                         >
                             <Form.Item
+                                className='transport'
                                 label="Select"
                                 name="transportType"
                                 rules={[{ required: true, message: 'Please select a transport type!' }]}
                             >
-                                <Select options={[
+                                <Select className='Select'
+                                style={{width: 130}}
+                                options={[
                                     { value: 'Bus', label: 'Bus' },
                                     { value: 'Tram', label: 'Tram' },
                                     { value: 'S-Bahn', label: 'S-Bahn' }
                                 ]} />
                             </Form.Item>
                             <Form.Item
+                                className='interval'
                                 label="Interval"
                                 name="interval"
                                 rules={[{ required: true, message: 'Please select an interval!' }]}
                             >
-                                <Select options={[
+                                <Select className='Select'
+                                style={{width: 130}}
+                                options={[
                                     { value: '3.5min', label: '3.5min' },
                                     { value: '7min', label: '7min' },
                                     { value: '15min', label: '15min' },
@@ -293,8 +300,8 @@ function ContentPage() {
                                     { value: '1h', label: '1h' }
                                 ]} />
                             </Form.Item>
-                            <Form.Item wrapperCol={{ offset: 3 }}>
-                                <Button type="primary" htmlType="submit">
+                            <Form.Item wrapperCol={{ offset: 3 }} className='submit' style={{margin: 0}}>
+                                <Button type="primary" htmlType="submit" >
                                     Submit
                                 </Button>
                             </Form.Item>
