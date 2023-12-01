@@ -47,15 +47,9 @@ export interface LayerVisibility {
     transportLayer: boolean
 }
 
-export interface LineArray {
-    Lines: Line[],
-    currIndex: number
-}
-
-interface Line {
+export interface Line {
     intervall: number,
-    typ: StopType,
-    points: FeatureCollection
+    typ: StopType
 }
 
 interface LineIndexLookup {
@@ -64,6 +58,6 @@ interface LineIndexLookup {
     lineTypes: StopType[]
 }
 
-type StopType=  "Bahn" | "Tram" | "Bus";
+type StopType=  "S-Bahn" | "Tram" | "Bus";
 
 
