@@ -4,6 +4,11 @@
 
 **Base URL**: `http://localhost:8000/api/v1/`
 
+- Endpoints:
+    - `/datasets/population-heatmap`
+    - `/datasets/population-unserved`
+    - `/datasets/pt-stops-are`
+    - `/user/pt-stops`
 
 ## Endpoints
 
@@ -82,12 +87,3 @@ GeoJSON FeatureCollection
 **Returns**:
 
 Same GeoJSON FeatureCollection
-
-### /datasets/pt-stops-are
-
-#### GET
-
-**Summary**: Get PT Stops provided by ARE
-
-**Returns**:
-GeoJSON FeatureCollection
