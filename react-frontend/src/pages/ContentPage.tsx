@@ -11,7 +11,7 @@ import {v4 as uuidv4} from 'uuid';
 import { Button, Checkbox, Form, Input, Layout, Col, Row, InputNumber, Select, Collapse } from 'antd';
 import type { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { postAndGetPoints, getPopulationDensity, getPTData } from '../router/resources/data';
-import { FeatureCollection, Feature, Geometry, Properties, GeoJsonObject, LayerVisibility, LineArray } from '../types/data';
+import { FeatureCollection, Feature, Geometry, Properties, GeoJsonObject, LayerVisibility, Line } from '../types/data';
 import { features } from 'process';
 import { ExtendedGeometryCollection } from 'd3';
 
@@ -57,7 +57,7 @@ function ContentPage() {
     //TODO update type according to control box return type
     const [visibleLayersState, setVisibleLayersState] = useState<LayerVisibility>({popLayer:false, transportLayer:false});
     const [checkboxValues, setCheckboxValues] = useState<CheckboxValueType[]>([]);
-    const [linesFromFormState, setLinesFromFormState] = useState<LineArray>({Lines: [], currIndex: 0});
+    const [linesFromFormState, setLinesFromFormState] = useState<Line[]>([]);
 
     function MapWrapper() {
         return (
