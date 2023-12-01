@@ -49,15 +49,15 @@ export interface LayerVisibility {
 
 export interface Line {
     intervall: number,
-    typ: StopType
+    typ: string
 }
 
-interface LineIndexLookup {
+export interface LineIndexLookup {
     numLines: number,
     numPointsPerLine: number[],
-    lineTypes: StopType[]
+    lineTypes: string[]
 }
 
-type StopType=  "S-Bahn" | "Tram" | "Bus";
+//type StopType=  "S-Bahn" | "Tram" | "Bus";
 
 

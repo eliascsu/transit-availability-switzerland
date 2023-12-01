@@ -1,4 +1,4 @@
-import { MapContainer, TileLayer, useMap, useMapEvents, WMSTileLayer } from 'react-leaflet'
+import { MapContainer, Polyline, TileLayer, useMap, useMapEvents, WMSTileLayer } from 'react-leaflet'
 import L, { HeatLatLngTuple, heatLayer, LatLng, LatLngTuple, point } from "leaflet";
 import 'leaflet/dist/leaflet.css';
 import './pages.css';
@@ -12,7 +12,7 @@ import {v4 as uuidv4} from 'uuid';
 import { Button, Checkbox, Form, Input, Layout, Col, Row, InputNumber, Select, Collapse } from 'antd';
 import type { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { postAndGetPoints, getPopulationDensity, getPTData } from '../router/resources/data';
-import { FeatureCollection, Feature, Geometry, Properties, GeoJsonObject, LayerVisibility, Line } from '../types/data';
+import { FeatureCollection, Feature, Geometry, Properties, GeoJsonObject, LayerVisibility, Line, LineIndexLookup } from '../types/data';
 import { features } from 'process';
 import { ExtendedGeometryCollection } from 'd3';
 
@@ -144,13 +144,13 @@ const MapWrapper = React.memo(function MapWrapper() {
 const Map = React.memo(function Map() {
     //const map = useMap();
     const [csvData, setCsvData] = useState<CsvData[]>();
-    const pointInLineIndex = useRef<number>(0);
-    const lineIndex = useRef<number>(0);
+    const lineIndexLookupRef = useRef<LineIndexLookup>({numLines: 0, numPointsPerLine: [0], lineTypes: []});
     const addedPointsRef = useRef<FeatureCollection>({type: "FeatureCollection", features: []});
     const addedPointsGeoJsonRef = useRef<GeoJsonObject>();
     const geoJsonLayersRef = useRef<L.GeoJSON<any, any>[]>([]);
     const userGeoJsonLayersRef = useRef<L.GeoJSON<any, any>[]>([]);
     const heatMapLayerRef = useRef<L.HeatLayer>();
+    const polyLineArrayRef = useRef<L.Polyline[]>([]);
     const score = useRef<number>();
 
     const { 
@@ -163,7 +163,8 @@ const Map = React.memo(function Map() {
 
     const map = useMapEvents({
         click: (e) => {
-            let hst_No: string = pointInLineIndex.current.toString() + "-" + lineIndex.current.toString();
+            lineIndexLookupRef.current.numPointsPerLine[lineIndexLookupRef.current.numPointsPerLine.length - 1]++;
+            let hst_No: string = "PLACEHOLDER"
             
             let newPoint: Feature = {
                 type: "Feature",
@@ -183,10 +184,8 @@ const Map = React.memo(function Map() {
                     Hst_Kat: defaultHst_Kat
                 }
             }
-            pointInLineIndex.current++;
             addedPointsRef.current.features = [...addedPointsRef.current.features, newPoint];
-            let userAddedPoints: FeatureCollection = addedPointsRef.current;
-            postAndGetPoints(userAddedPoints)
+            postAndGetPoints(addedPointsRef.current)
             .then(userGeoJson => {
                 if(userGeoJson != undefined){
                     addedPointsGeoJsonRef.current = userGeoJson as GeoJsonObject;
@@ -196,30 +195,26 @@ const Map = React.memo(function Map() {
                 if(addedPointsGeoJsonRef.current != undefined && visibleLayersState.transportLayer){
                     let data: GeoJsonObject = addedPointsGeoJsonRef.current;
                     userGeoJsonLayersRef.current = makePTCirclesFromData(data);   
+                    const currentZoom = map.getZoom();
                     map.eachLayer((layer) => {
                         if(geoJsonLayersRef.current.some((curr) => layer == curr)){
                             map.removeLayer(layer);
                         };
                     }) 
+
+                    userGeoJsonLayersRef.current[0].addTo(geoJsonLayersRef.current[0]);
+                    userGeoJsonLayersRef.current[1].addTo(geoJsonLayersRef.current[1]);
+                    userGeoJsonLayersRef.current[2].addTo(geoJsonLayersRef.current[2]);
+                    userGeoJsonLayersRef.current[3].addTo(geoJsonLayersRef.current[3]);
+                    userGeoJsonLayersRef.current[4].addTo(geoJsonLayersRef.current[4]);
                     
-                    userGeoJsonLayersRef.current[0].addTo(geoJsonLayersRef.current[0].addTo(map));
-                    userGeoJsonLayersRef.current[1].addTo(geoJsonLayersRef.current[1].addTo(map));
-                    userGeoJsonLayersRef.current[2].addTo(geoJsonLayersRef.current[2].addTo(map));
-                    userGeoJsonLayersRef.current[3].addTo(geoJsonLayersRef.current[3].addTo(map));
-                    //userGeoJsonLayersRef.current[4].addTo(geoJsonLayersRef.current[4].addTo(map));
-                    
-                    let polyLineCoords: LatLng[] = []
-                    for(let point of userAddedPoints["features"]){
-                        polyLineCoords.push(new L.LatLng(point["geometry"]["coordinates"][1], point["geometry"]["coordinates"][0]))
+                    map.addLayer(geoJsonLayersRef.current[0]);
+                    map.addLayer(geoJsonLayersRef.current[1]);
+                    map.addLayer(geoJsonLayersRef.current[2]);
+                    map.addLayer(geoJsonLayersRef.current[3]);
+                    if((currentZoom >= 12)){
+                        map.addLayer(geoJsonLayersRef.current[4]);
                     }
-                    //console.log(polyLineCoords);
-                    let polyLine = new L.Polyline(polyLineCoords, {
-                        color: 'red',
-                        weight: 2,
-                        opacity: 1,
-                        smoothFactor: 0
-                        }).addTo(map);
-                    console.log("added userpoints");
                 }
             });
             /*
@@ -291,6 +286,62 @@ const Map = React.memo(function Map() {
             }); 
              
     }, [visibleLayersState.transportLayer]);
+
+    useEffect(() => {
+        console.log(linesFromFormState);
+        if(linesFromFormState[linesFromFormState.length-1] != undefined){
+            let newLookup: LineIndexLookup = {
+                numLines: lineIndexLookupRef.current.numLines + 1,
+                numPointsPerLine: lineIndexLookupRef.current.numPointsPerLine,
+                lineTypes: [...lineIndexLookupRef.current.lineTypes, linesFromFormState[linesFromFormState.length-1].typ]
+            }
+            lineIndexLookupRef.current = newLookup;
+        }
+        console.log(lineIndexLookupRef);
+
+        let polyLineCoordsArray: LatLng[][] = []
+        for(let i = 0; i < lineIndexLookupRef.current.numLines; i++){
+            polyLineCoordsArray.push([]);
+        }
+        let currentLine = 0;
+        let pointer = 0;
+        for(let numPoints of lineIndexLookupRef.current.numPointsPerLine){
+            for(let pointIndex = 0; pointIndex < numPoints; pointIndex++){
+                let point = (addedPointsGeoJsonRef.current as FeatureCollection).features[pointIndex + pointer];
+                polyLineCoordsArray[currentLine].push(new L.LatLng(point["geometry"]["coordinates"][1], point["geometry"]["coordinates"][0]))
+            }
+            pointer += numPoints;
+            currentLine++;
+        }
+        //console.log(polyLineCoords);
+        map.eachLayer((layer) => {
+            if(polyLineArrayRef.current.some((curr) => layer == curr)){
+                map.removeLayer(layer);
+            }
+        });
+        
+        console.log(polyLineCoordsArray);
+        console.log(lineIndexLookupRef.current.numLines);
+        for(let i = 0; i < lineIndexLookupRef.current.numLines; i++){
+            let polyLine = new L.Polyline(polyLineCoordsArray[i], {
+                color: 'red',
+                weight: 2,
+                opacity: 1,
+                smoothFactor: 0
+                });
+            console.log(polyLine);
+            console.log("YIPPIIEEE")
+            polyLineArrayRef.current.push(polyLine);
+        }
+        console.log(polyLineArrayRef.current);
+        for(let line of polyLineArrayRef.current){
+            line.addTo(map);
+        }
+        
+        
+        
+        console.log("added userpoints");
+    }, [linesFromFormState]);
     return null;
 });
 
