@@ -60,65 +60,118 @@ Define all the tasks you want your dashboard solve.
 ## Folder Structure
 Specify here the structure of you code and comment what the most important files contain
 
+Generated with `tree --gitignore`
+
 ``` bash
-├── README.md  
+.
 ├── backend-project
-│   ├── setup.py   # main app
-│   ├── .dockerignore
-│   ├── Dockerfile
-│   ├── MANIFEST.in
-│   ├── README.md
-│   ├── pyproject.toml
 │   ├── data
-│   │   ├── ames-housing-features.json
-│   │   ├── ames-housing-gam-instance-data.json
-│   │   └── ames-housing-gam.json
-│   └── src/gamut_server
-│       ├── resources
-│       │   ├── __init__.py
-│       │   ├── description.py
-│       │   ├── features.py
-│       │   └── instances.py
-│       ├── router
-│       │   ├── __init__.py
-│       │   ├── app.py
-│       │   └── routes.py
-│       └── __init__.py
-├── react-frontend
-│   ├── README.md
-│   ├── package-lock.json
+│   │   ├── Population.csv -> Population for each ha. Created by crawler/main.py
+│   │   ├── pt-stops.geojson -> Public transit stops and quality. Created by crawler/main.py
+│   │   ├── UnservedPopulation.csv -> Population not served by PT for each ha. Created by crawler/main.py
+│   │   └── user-pt-stops.geojson -> User created PT stops. Created by backend-server
+│   ├── Dockerfile
+│   ├── docs
+│   │   └── API.md -> Documentation of the API
+│   ├── MANIFEST.in
 │   ├── package.json
+│   ├── package-lock.json
+│   ├── pyproject.toml
+│   ├── README.md
+│   ├── setup.py
+│   └── src
+│       ├── dummy_server.egg-info
+│       │   ├── dependency_links.txt
+│       │   ├── entry_points.txt
+│       │   ├── PKG-INFO
+│       │   ├── requires.txt
+│       │   ├── SOURCES.txt
+│       │   └── top_level.txt
+│       ├── server
+│       │   ├── __init__.py
+│       │   ├── __pycache__
+│       │   ├── resources
+│       │   │   ├── datasets
+│       │   │   │   ├── PopulationHeatmap.py
+│       │   │   │   ├── pt_stops_are.py
+│       │   │   │   └── __pycache__
+│       │   │   ├── __init__.py
+│       │   │   ├── __pycache__
+│       │   │   └── user
+│       │   │       ├── pt_stops.py
+│       │   │       └── __pycache__
+│       │   └── router
+│       │       ├── app.py
+│       │       ├── __init__.py
+│       │       ├── __pycache__
+│       │       └── routes.py
+│       └── server.egg-info
+│           ├── dependency_links.txt
+│           ├── entry_points.txt
+│           ├── PKG-INFO
+│           ├── requires.txt
+│           ├── SOURCES.txt
+│           └── top_level.txt
+├── census.py
+├── crawler
+│   ├── calc_coverage.py
+│   ├── constants.py
+│   ├── csvtogjson.py
+│   ├── get_PT_quality.py
+│   ├── heatmap.py
+│   ├── main.py
+│   ├── __pycache__
+│   └── utils.py
+├── helm
+│   ├── charts
+│   ├── Chart.yaml
+│   ├── files
+│   ├── templates
+│   │   ├── deployment.yaml
+│   │   ├── ingress.yaml
+│   │   └── service.yaml
+│   └── values.yaml
+├── OeV_Haltestellen_ARE.geojson
+├── react-frontend
+│   ├── Dockerfile
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── public
+│   │   ├── favicon.ico
+│   │   ├── index.html
+│   │   ├── logo192.png
+│   │   ├── logo512.png
+│   │   ├── manifest.json
+│   │   ├── OeV_Haltestellen_ARE.csv
+│   │   ├── OeV_Haltestellen_ARE.geojson
+│   │   └── robots.txt
+│   ├── README.md
 │   ├── src
 │   │   ├── App.css
 │   │   ├── App.test.tsx
 │   │   ├── App.tsx
-│   │   ├── Visualization.tsx
-│   │   ├── backend
-│   │   │   ├── BackendQueryEngine.tsx
-│   │   │   └── json-decoder.ts
-│   │   ├── components
-│   │   │   ├── BasicLineChart
-│   │   │   │   ├── BasicLineChart.scss
-│   │   │   │   ├── BasicLineChart.tsx
-│   │   │   │   └── types.ts
-│   │   │   ├── DataChoiceComponent.tsx
-│   │   │   ├── DataPointComponent.tsx
-│   │   │   └── ScatterPlot
-│   │   │       ├── ScatterPlot.scss
-│   │   │       ├── ScatterPlot.tsx
-│   │   │       └── types.ts
 │   │   ├── index.css
 │   │   ├── index.tsx
 │   │   ├── logo.svg
+│   │   ├── pages
+│   │   │   ├── ContentPage.tsx
+│   │   │   ├── LandingPage.tsx
+│   │   │   ├── pages.css
+│   │   │   └── utils
+│   │   │       └── strings.tsx
 │   │   ├── react-app-env.d.ts
 │   │   ├── reportWebVitals.ts
+│   │   ├── router
+│   │   │   ├── apiClient.ts
+│   │   │   └── resources
+│   │   │       └── data.ts
 │   │   ├── setupTests.ts
 │   │   └── types
-│   │       ├── DataArray.ts
-│   │       ├── DataPoint.ts
-│   │       └── Margins.ts
+│   │       ├── data.ts
+│   │       └── margin.ts
 │   └── tsconfig.json
-└── requirements.txt
+└── README.md
+
 ```
 ## Resources
 
