@@ -15,6 +15,7 @@ import { postAndGetPoints, getPopulationDensity, getPTData } from '../router/res
 import { FeatureCollection, Feature, Geometry, Properties, GeoJsonObject, LayerVisibility, Line, LineIndexLookup } from '../types/data';
 import { features } from 'process';
 import { ExtendedGeometryCollection } from 'd3';
+import { StatOptions } from 'fs';
 
 const {Content, Footer} = Layout;
 
@@ -52,6 +53,12 @@ const classColors = {
     ClassB: "#c300ff",
     ClassC: "#006915",
     ClassD: "#40ff66"
+}
+
+const lineColors = {
+    Tram: "#0084ff",
+    Bus: "#fbff00",
+    S_Bahn: "#fa0223"
 }
 
 interface LayerContextType {
@@ -100,10 +107,6 @@ export const LayerProvider: React.FC = ({ children }) => {
 };
 
 function ContentPage() {
-    const [visibleLayersState, setVisibleLayersState] = useState<LayerVisibility>({popLayer:false, transportLayer:false});
-    const [checkboxValues, setCheckboxValues] = useState<CheckboxValueType[]>([]);
-    const [linesFromFormState, setLinesFromFormState] = useState<Line[]>([]);
-    const [drawingState, setDrawingState] = useState<boolean>(false);
 
     return (
         <Layout className="layout" id="contentPage">
@@ -145,7 +148,7 @@ const Map = React.memo(function Map() {
     //const map = useMap();
     const [csvData, setCsvData] = useState<CsvData[]>();
     const lineIndexLookupRef = useRef<LineIndexLookup>({numLines: 0, numPointsPerLine: [0], lineTypes: []});
-    const addedPointsRef = useRef<FeatureCollection>({type: "FeatureCollection", features: []});
+    const [addedPointsState, setAddedPointsState] = useState<FeatureCollection>({type: "FeatureCollection", features: []});
     const addedPointsGeoJsonRef = useRef<GeoJsonObject>();
     const geoJsonLayersRef = useRef<L.GeoJSON<any, any>[]>([]);
     const userGeoJsonLayersRef = useRef<L.GeoJSON<any, any>[]>([]);
@@ -163,29 +166,58 @@ const Map = React.memo(function Map() {
 
     const map = useMapEvents({
         click: (e) => {
-            lineIndexLookupRef.current.numPointsPerLine[lineIndexLookupRef.current.numPointsPerLine.length - 1]++;
-            let hst_No: string = "PLACEHOLDER"
-            
-            let newPoint: Feature = {
-                type: "Feature",
-                geometry: {
-                    type: 'Point',
-                    coordinates: [e.latlng.lng, e.latlng.lat] as LatLngTuple
-                },
-                properties:{
-                    Haltestellen_No: hst_No,
-                    Name: defaultName,
-                    Bahnknoten: defaultBahnknoten,
-                    Bahnlinie_Anz: defaultBahnlinie_Anz,
-                    TramBus_Anz: defaultTramBus_Anz,
-                    Seilbahn_Anz: defaultSeilbahn_Anz,
-                    A_Intervall: defaultA_Intervall,
-                    B_Intervall: defaultB_Intervall,
-                    Hst_Kat: defaultHst_Kat
+            if(drawingState || true){
+                console.log("click");
+                lineIndexLookupRef.current.numPointsPerLine[lineIndexLookupRef.current.numPointsPerLine.length - 1]++;
+                let hst_No: string = "PLACEHOLDER"
+                let newPoint: Feature = {
+                    type: "Feature",
+                    geometry: {
+                        type: 'Point',
+                        coordinates: [e.latlng.lng, e.latlng.lat] as LatLngTuple
+                    },
+                    properties:{
+                        Haltestellen_No: hst_No,
+                        Name: defaultName,
+                        Bahnknoten: defaultBahnknoten,
+                        Bahnlinie_Anz: defaultBahnlinie_Anz,
+                        TramBus_Anz: defaultTramBus_Anz,
+                        Seilbahn_Anz: defaultSeilbahn_Anz,
+                        A_Intervall: defaultA_Intervall,
+                        B_Intervall: defaultB_Intervall,
+                        Hst_Kat: defaultHst_Kat
+                    }
                 }
+                setAddedPointsState(prevState => ({
+                    ...prevState,
+                    features: [...prevState.features, newPoint]
+                }));
             }
-            addedPointsRef.current.features = [...addedPointsRef.current.features, newPoint];
-            postAndGetPoints(addedPointsRef.current)
+            /*
+            getScore().then((data: any) => {
+                //console.log(data);
+                score.current = data?.population_served;
+            });
+            //console.log("score: " + score.current);
+            let text = document.getElementById("info_text");
+            if(text){
+                text.innerHTML = "<h2>" + score.current + "</h2>";
+            }
+            */
+        },
+        zoomend: () => {
+            const currentZoom = map.getZoom();
+                if (currentZoom < 12) {
+                    geoJsonLayersRef.current[4] && map.removeLayer(geoJsonLayersRef.current[4]);
+                } else {
+                    geoJsonLayersRef.current[4] && map.addLayer(geoJsonLayersRef.current[4]);
+                }
+        }
+    });
+
+    useEffect(() => {
+        console.log("STATECHANGE");
+        postAndGetPoints(addedPointsState)
             .then(userGeoJson => {
                 if(userGeoJson != undefined){
                     addedPointsGeoJsonRef.current = userGeoJson as GeoJsonObject;
@@ -217,27 +249,7 @@ const Map = React.memo(function Map() {
                     }
                 }
             });
-            /*
-            getScore().then((data: any) => {
-                //console.log(data);
-                score.current = data?.population_served;
-            });
-            //console.log("score: " + score.current);
-            let text = document.getElementById("info_text");
-            if(text){
-                text.innerHTML = "<h2>" + score.current + "</h2>";
-            }
-            */
-        },
-        zoomend: () => {
-            const currentZoom = map.getZoom();
-                if (currentZoom < 12) {
-                    geoJsonLayersRef.current[4] && map.removeLayer(geoJsonLayersRef.current[4]);
-                } else {
-                    geoJsonLayersRef.current[4] && map.addLayer(geoJsonLayersRef.current[4]);
-                }
-        }
-    });
+    }, [addedPointsState])
     
 
     useEffect(() => {
@@ -292,9 +304,10 @@ const Map = React.memo(function Map() {
         if(linesFromFormState[linesFromFormState.length-1] != undefined){
             let newLookup: LineIndexLookup = {
                 numLines: lineIndexLookupRef.current.numLines + 1,
-                numPointsPerLine: lineIndexLookupRef.current.numPointsPerLine,
+                numPointsPerLine: (lineIndexLookupRef.current.numPointsPerLine),
                 lineTypes: [...lineIndexLookupRef.current.lineTypes, linesFromFormState[linesFromFormState.length-1].typ]
             }
+            newLookup.numPointsPerLine.push(0);
             lineIndexLookupRef.current = newLookup;
         }
         console.log(lineIndexLookupRef);
@@ -322,13 +335,36 @@ const Map = React.memo(function Map() {
         
         console.log(polyLineCoordsArray);
         console.log(lineIndexLookupRef.current.numLines);
+        for(let line of polyLineArrayRef.current){
+            line.removeFrom(map);
+        }
+        polyLineArrayRef.current = [];
         for(let i = 0; i < lineIndexLookupRef.current.numLines; i++){
+            let lineColor;
+            switch(lineIndexLookupRef.current.lineTypes[i]) { 
+                case "Tram": { 
+                   lineColor = lineColors.Tram;
+                   break; 
+                } 
+                case "Bus": { 
+                    lineColor = lineColors.Bus;
+                   break; 
+                } 
+                case "S_Bahn": { 
+                    lineColor = lineColors.S_Bahn;
+                    break
+                }
+                default: { 
+                   console.log("BAD LINE"); 
+                   break; 
+                } 
+            } 
             let polyLine = new L.Polyline(polyLineCoordsArray[i], {
-                color: 'red',
+                color: lineColor,
                 weight: 2,
                 opacity: 1,
                 smoothFactor: 0
-                });
+            });
             console.log(polyLine);
             console.log("YIPPIIEEE")
             polyLineArrayRef.current.push(polyLine);
@@ -378,7 +414,7 @@ function CheckBoxes() {
 
     return (
         <div id="checkBoxes">
-          <CheckboxGroup options={options} value={checkboxValues} onChange={onChange} />
+          <CheckboxGroup options={options} value={checkboxValues} onChange={onChange}/>
         </div>
       );
 }
@@ -440,7 +476,7 @@ function PointControlBox() {
                             options={[
                                 { value: 'Bus', label: 'Bus' },
                                 { value: 'Tram', label: 'Tram' },
-                                { value: 'S-Bahn', label: 'S-Bahn' }
+                                { value: 'S_Bahn', label: 'S-Bahn' }
                             ]} />
                         </Form.Item>
                         <Form.Item
@@ -591,7 +627,6 @@ function makePTCirclesFromData(data: GeoJsonObject){
                 circle.bindPopup(tooltipContent).openPopup();
                 L.DomEvent.stopPropagation(e);
             });
-
             return circle;
         }
     })

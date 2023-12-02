@@ -58,6 +58,5 @@ export interface LineIndexLookup {
     lineTypes: string[]
 }
 
-//type StopType=  "S-Bahn" | "Tram" | "Bus";
 
 
