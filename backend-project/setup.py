@@ -19,8 +19,10 @@ setup(
     },
     data_files=[(
         "data", [
-            os.path.join("data", "dataset_OeV_Haltestellen_ARE.geojson"),
-            os.path.join("data", "dataset_population.csv"),
+            os.path.join("data", "pt-stops.geojson"),
+            os.path.join("data", "user-pt-stops.geojson"),
+            os.path.join("data", "Population.csv"),
+            os.path.join("data", "UnservedPopulation.csv"),
         ]
     )],
     classifiers=[
