@@ -15,11 +15,6 @@ import { classColors, lineColors } from './utils/colors';
 
 const {Content, Footer} = Layout;
 
-interface CsvData {
-    lat: string,
-    lng: string,
-    pop: string
-  }
 /*
 interface UserPoint {
     Haltestellen_No: string;
@@ -129,7 +124,6 @@ const MapWrapper = React.memo(function MapWrapper() {
 
 const Map = React.memo(function Map() {
     //const map = useMap();
-    const [csvData, setCsvData] = useState<CsvData[]>();
     const lineIndexLookupRef = useRef<LineIndexLookup>({numLines: 0, numPointsPerLine: [0], lineTypes: []});
     const [addedPointsState, setAddedPointsState] = useState<FeatureCollection>({type: "FeatureCollection", features: []});
     const addedPointsGeoJsonRef = useRef<GeoJsonObject>();
