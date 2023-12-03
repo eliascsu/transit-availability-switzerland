@@ -1,21 +1,17 @@
-import { MapContainer, Polyline, TileLayer, useMap, useMapEvents, WMSTileLayer } from 'react-leaflet'
-import L, { HeatLatLngTuple, heatLayer, LatLng, LatLngTuple, point } from "leaflet";
+import { MapContainer, TileLayer, useMapEvents} from 'react-leaflet'
+import L, { HeatLatLngTuple, LatLng, LatLngTuple} from "leaflet";
 import 'leaflet/dist/leaflet.css';
 import './pages.css';
 import { Control } from 'leaflet';
 import { useEffect, useState, useRef, createContext, useContext } from 'react';
 import React from 'react';
 import "proj4leaflet";
-//import Papa from 'papaparse';
 import "leaflet.heat";
-import {v4 as uuidv4} from 'uuid';
-import { Button, Checkbox, Form, Input, Layout, Col, Row, InputNumber, Select, Collapse } from 'antd';
+import { Button, Checkbox, Form, Layout, Row, Select, Collapse } from 'antd';
 import type { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { postAndGetPoints, getPopulationDensity, getPTData } from '../router/resources/data';
-import { FeatureCollection, Feature, Geometry, Properties, GeoJsonObject, LayerVisibility, Line, LineIndexLookup } from '../types/data';
-import { features } from 'process';
-import { ExtendedGeometryCollection } from 'd3';
-import { StatOptions } from 'fs';
+import { FeatureCollection, Feature, GeoJsonObject, LayerVisibility, Line, LineIndexLookup } from '../types/data';
+import { classColors, lineColors } from './utils/colors';
 
 const {Content, Footer} = Layout;
 
@@ -47,19 +43,6 @@ let defaultSeilbahn_Anz = 0;
 let defaultA_Intervall = 0;
 let defaultB_Intervall = 8;
 let defaultHst_Kat = 1;
-
-const classColors = {
-    ClassA: "#ff0022",
-    ClassB: "#c300ff",
-    ClassC: "#006915",
-    ClassD: "#40ff66"
-}
-
-const lineColors = {
-    Tram: "#0084ff",
-    Bus: "#fbff00",
-    S_Bahn: "#fa0223"
-}
 
 interface LayerContextType {
     visibleLayersState: LayerVisibility;
@@ -130,8 +113,6 @@ function ContentPage() {
         </Layout>
     );
 }
-
-
 
 const MapWrapper = React.memo(function MapWrapper() {
 
@@ -671,12 +652,6 @@ function PointControlBox() {
         </div>
     );
 }
-
-
-
-
-
-
 
 function Legend() {
 
