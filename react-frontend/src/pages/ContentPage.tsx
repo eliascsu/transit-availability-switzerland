@@ -393,7 +393,7 @@ const Map = React.memo(function Map() {
         };
         let geoJsonLayerA = L.geoJSON(data, {
             filter(geoJsonFeature) {
-                console.log(geoJsonFeature.properties.Haltestellen_No);
+                //console.log(geoJsonFeature.properties.Haltestellen_No);
                 let kat = geoJsonFeature.properties.Hst_Kat;
                 return (kat == 1 || kat == 2) && (geoJsonFeature.properties.Haltestellen_No != "false");
             },
@@ -401,7 +401,6 @@ const Map = React.memo(function Map() {
                 const properties = geoJsonFeature.properties;
                 geojsonMarkerOptions.color = classColors.ClassA;
                 const circle = L.circle(latlng, geojsonMarkerOptions);
-                // Add a click event listener to each circle for displaying a tooltip
                 if(properties.Hst_Kat == 1){
                     circle.setRadius(500);
                 }
@@ -414,7 +413,7 @@ const Map = React.memo(function Map() {
     
         let geoJsonLayerB = L.geoJSON(data, {
             filter(geoJsonFeature) {
-                console.log(geoJsonFeature.properties.Haltestellen_No);
+                //console.log(geoJsonFeature.properties.Haltestellen_No);
                 let kat = geoJsonFeature.properties.Hst_Kat;
                 return (kat == 1 || kat == 2 || kat == 3) && (geoJsonFeature.properties.Haltestellen_No != "false");
             },
@@ -422,7 +421,6 @@ const Map = React.memo(function Map() {
                 const properties = geoJsonFeature.properties;
                 const circle = L.circle(latlng, geojsonMarkerOptions);
                 circle.setStyle({color: classColors.ClassB, stroke: false, fillOpacity: 1});
-                // Add a click event listener to each circle for displaying a tooltip
                 if(properties.Hst_Kat == 1){
                     circle.setRadius(750);
                 }
@@ -438,7 +436,7 @@ const Map = React.memo(function Map() {
     
         let geoJsonLayerC = L.geoJSON(data, {
             filter(geoJsonFeature) {
-                console.log(geoJsonFeature.properties.Haltestellen_No);
+                //console.log(geoJsonFeature.properties.Haltestellen_No);
                 let kat = geoJsonFeature.properties.Hst_Kat;
                 return (kat == 1 || kat == 2 || kat == 3 || kat == 4) && (geoJsonFeature.properties.Haltestellen_No != "false");
             },
@@ -446,7 +444,6 @@ const Map = React.memo(function Map() {
                 const properties = geoJsonFeature.properties;
                 const circle = L.circle(latlng, geojsonMarkerOptions);
                 circle.setStyle({color: classColors.ClassC, stroke: false, fillOpacity: 1});
-                    // Add a click event listener to each circle for displaying a tooltip
                 if(properties.Hst_Kat == 1){
                     circle.setRadius(1000);
                 }
@@ -465,7 +462,7 @@ const Map = React.memo(function Map() {
     
         let geoJsonLayerD = L.geoJSON(data, {
             filter(geoJsonFeature) {
-                console.log(geoJsonFeature.properties.Haltestellen_No);
+                //console.log(geoJsonFeature.properties.Haltestellen_No);
                 let kat = geoJsonFeature.properties.Hst_Kat;
                 return (kat == 2 || kat == 3 || kat == 4 || kat == 5) && (geoJsonFeature.properties.Haltestellen_No != "false");
             },
@@ -473,7 +470,6 @@ const Map = React.memo(function Map() {
                 const properties = geoJsonFeature.properties;
                 const circle = L.circle(latlng, geojsonMarkerOptions);
                 circle.setStyle({color: classColors.ClassD, stroke: false, fillOpacity: 1});
-                    // Add a click event listener to each circle for displaying a tooltip
                 if(properties.Hst_Kat == 2){
                     circle.setRadius(1000);
                 }
