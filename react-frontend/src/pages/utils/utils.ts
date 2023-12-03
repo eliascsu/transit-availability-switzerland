@@ -1,4 +1,6 @@
 import { lineColors } from "./colors";
+import L, {LatLngTuple} from "leaflet";
+import type { Feature } from "../../types/data";
 
 /**
  * Returns the color of the line based on the line type
@@ -29,4 +31,42 @@ function getLineColor (lineType: string) {
     return lineColor;
 }
 
-export { getLineColor };
+let defaultName: string = "";
+let defaultBahnknoten = 0;
+let defaultBahnlinie_Anz = 0;
+let defaultTramBus_Anz = 1;
+let defaultSeilbahn_Anz = 0;
+let defaultA_Intervall = 0;
+let defaultB_Intervall = 8;
+let defaultHst_Kat = 1;
+
+/**
+ * Create new PT stop with default properties at given coordinates
+ * @param lat Latitude of new PT stop
+ * @param lng Longitude of new PT stop
+ * @returns New geojson point feature with default properties at given coordinates
+ */
+function createDefaultPtStop (lat: number, lng: number) {
+    console.log("click");
+    let newPoint: Feature = {
+        type: "Feature",
+        geometry: {
+            type: 'Point',
+            coordinates: [lng, lat] as LatLngTuple
+        },
+        properties:{
+            Haltestellen_No: "PLACEHOLDER",
+            Name: defaultName,
+            Bahnknoten: defaultBahnknoten,
+            Bahnlinie_Anz: defaultBahnlinie_Anz,
+            TramBus_Anz: defaultTramBus_Anz,
+            Seilbahn_Anz: defaultSeilbahn_Anz,
+            A_Intervall: defaultA_Intervall,
+            B_Intervall: defaultB_Intervall,
+            Hst_Kat: defaultHst_Kat
+        }
+    }
+    return newPoint
+}
+
+export { getLineColor, createDefaultPtStop };

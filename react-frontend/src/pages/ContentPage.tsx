@@ -14,7 +14,7 @@ import type { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { postAndGetPoints, getPopulationDensity, getPTData } from '../router/resources/data';
 import type { FeatureCollection, Feature, GeoJsonObject, LayerVisibility, Line, LineIndexLookup } from '../types/data';
 import { classColors } from './utils/colors';
-import { getLineColor } from './utils/utils';
+import { getLineColor, createDefaultPtStop } from './utils/utils';
 
 const {Content, Footer} = Layout;
 
@@ -33,14 +33,6 @@ interface UserPoint {
     Hst_Kat: number;
 }
 */
-let defaultName: string = "";
-let defaultBahnknoten = 0;
-let defaultBahnlinie_Anz = 0;
-let defaultTramBus_Anz = 1;
-let defaultSeilbahn_Anz = 0;
-let defaultA_Intervall = 0;
-let defaultB_Intervall = 8;
-let defaultHst_Kat = 1;
 
 interface LayerContextType {
     visibleLayersState: LayerVisibility;
@@ -145,25 +137,7 @@ const Map = React.memo(function Map() {
     const map = useMapEvents({
         click: (e) => {
             if(drawingState || true){
-                console.log("click");
-                let newPoint: Feature = {
-                    type: "Feature",
-                    geometry: {
-                        type: 'Point',
-                        coordinates: [e.latlng.lng, e.latlng.lat] as LatLngTuple
-                    },
-                    properties:{
-                        Haltestellen_No: "PLACEHOLDER",
-                        Name: defaultName,
-                        Bahnknoten: defaultBahnknoten,
-                        Bahnlinie_Anz: defaultBahnlinie_Anz,
-                        TramBus_Anz: defaultTramBus_Anz,
-                        Seilbahn_Anz: defaultSeilbahn_Anz,
-                        A_Intervall: defaultA_Intervall,
-                        B_Intervall: defaultB_Intervall,
-                        Hst_Kat: defaultHst_Kat
-                    }
-                }
+                let newPoint = createDefaultPtStop(e.latlng.lat, e.latlng.lng);
                 makePoint(newPoint, true);
             }
             /*
@@ -456,24 +430,7 @@ const Map = React.memo(function Map() {
                     const tooltipContent = `Name: ${properties.Name}<br>Bahnlinie_Anz: ${properties.Bahnlinie_Anz}`;
                     // Create a tooltip and bind it to the circle
                     circle.bindPopup(tooltipContent).openPopup();
-                    let newPoint: Feature = {
-                        type: "Feature",
-                        geometry: {
-                            type: 'Point',
-                            coordinates: [e.latlng.lng, e.latlng.lat] as LatLngTuple
-                        },
-                        properties:{
-                            Haltestellen_No: "PLACEHOLDER",
-                            Name: defaultName,
-                            Bahnknoten: defaultBahnknoten,
-                            Bahnlinie_Anz: defaultBahnlinie_Anz,
-                            TramBus_Anz: defaultTramBus_Anz,
-                            Seilbahn_Anz: defaultSeilbahn_Anz,
-                            A_Intervall: defaultA_Intervall,
-                            B_Intervall: defaultB_Intervall,
-                            Hst_Kat: defaultHst_Kat
-                        }
-                    }
+                    let newPoint: Feature = createDefaultPtStop(e.latlng.lat, e.latlng.lng);
                     makePoint(newPoint, false);
                     L.DomEvent.stopPropagation(e);
                 });
