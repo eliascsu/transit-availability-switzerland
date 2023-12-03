@@ -275,7 +275,7 @@ We will evaluate your code every week, based on the corresponding version.Versio
 
 Tags:
 - Week 1: [Stable Release](https://gitlab.inf.ethz.ch/course-fwe2023/students/project/flask/ecsuka_project_flask/-/tags/stable-week-1)
-- Week 2: ..
+- Week 2: [Stable Release](https://gitlab.inf.ethz.ch/course-fwe2023/students/project/flask/ecsuka_project_flask/-/tags/stable-week-2)
 - Week 3: ..
 - ...
 
