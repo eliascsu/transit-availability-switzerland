@@ -250,7 +250,13 @@ const Map = React.memo(function Map() {
     
 
     useEffect(() => {
-        
+        console.log("adding geojson layer");
+        let gjson = fetch("myAgency.geojson").then(res => res.json()).then(data => {
+            console.log("length of data: " + data.features.length);
+            let layer = L.geoJSON(data);
+            layer.addTo(map);
+        });
+        console.log("done rendering points")
         getPopulationDensity()
         .then(popArray => {
             let i = 0;
