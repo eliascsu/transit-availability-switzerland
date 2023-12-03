@@ -7,7 +7,8 @@ import { Feature, GeoJsonObject } from '../../types/data';
 import { classColors } from './colors';
 import { createDefaultPtStop } from './utils';
 
-let geojsonMarkerOptions = {
+// Configuration of markers
+const geojsonMarkerOptions = {
     radius: 70,
     color: "#ff7800",
     stroke: false,
@@ -15,113 +16,47 @@ let geojsonMarkerOptions = {
     fillOpacity: 1,
 };
 
-function qualityLayerA(data: GeoJsonObject){
-    let geoJsonLayerA = L.geoJSON(data, {
+// Configuration for each quality layer
+const qualityLayerConfig = {
+    A: { color: classColors.ClassA, categories: [1, 2], radius: [500, 300] },
+    B: { color: classColors.ClassB, categories: [1, 2, 3], radius: [750, 500, 300] },
+    C: { color: classColors.ClassC, categories: [1, 2, 3, 4], radius: [1000, 750, 500, 300] },
+    D: { color: classColors.ClassD, categories: [2, 3, 4, 5], radius: [1000, 750, 500, 300] }
+};
+
+/**
+ * Create a quality layer based on the given data and layer type
+ * @param data GeoJSON data
+ * @param layerType Either 'A', 'B', 'C' or 'D'
+ * @returns Quality layer as L.geoJSON
+ */
+function createQualityLayer(data: GeoJsonObject, layerType: 'A' | 'B' | 'C' | 'D') {
+    const config = qualityLayerConfig[layerType];
+    
+    return L.geoJSON(data, {
         filter(geoJsonFeature) {
-            //console.log(geoJsonFeature.properties.Haltestellen_No);
             let kat = geoJsonFeature.properties.Hst_Kat;
-            return (kat == 1 || kat == 2) && (geoJsonFeature.properties.Haltestellen_No != "false");
+            return config.categories.includes(kat) && geoJsonFeature.properties.Haltestellen_No != "false";
         },
         pointToLayer: function (geoJsonFeature, latlng) {
             const properties = geoJsonFeature.properties;
-            geojsonMarkerOptions.color = classColors.ClassA;
-            const circle = L.circle(latlng, geojsonMarkerOptions);
-            if(properties.Hst_Kat == 1){
-                circle.setRadius(500);
-            }
-            else{
-                circle.setRadius(300);
-            }
-            return circle; 
+            let radiusIndex = config.categories.indexOf(properties.Hst_Kat);
+            let radius = config.radius[radiusIndex] || 70; // Default radius if not found
+
+            geojsonMarkerOptions.color = config.color;
+            geojsonMarkerOptions.radius = radius;
+
+            return L.circle(latlng, geojsonMarkerOptions);
         }
     });
-    return geoJsonLayerA;
 }
 
-function qualityLayerB(data: GeoJsonObject){
-    let b = L.geoJSON(data, {
-        filter(geoJsonFeature) {
-            //console.log(geoJsonFeature.properties.Haltestellen_No);
-            let kat = geoJsonFeature.properties.Hst_Kat;
-            return (kat == 1 || kat == 2 || kat == 3) && (geoJsonFeature.properties.Haltestellen_No != "false");
-        },
-        pointToLayer: function (geoJsonFeature, latlng) {
-            const properties = geoJsonFeature.properties;
-            const circle = L.circle(latlng, geojsonMarkerOptions);
-            circle.setStyle({color: classColors.ClassB, stroke: false, fillOpacity: 1});
-            if(properties.Hst_Kat == 1){
-                circle.setRadius(750);
-            }
-            else if(properties.Hst_Kat == 2){
-                circle.setRadius(500);
-            }
-            else{
-                circle.setRadius(300);
-            }
-            return circle; 
-        }
-    });
-    return b;
-}
-
-function qualityLayerC(data: GeoJsonObject){
-    let geoJsonLayerC = L.geoJSON(data, {
-        filter(geoJsonFeature) {
-            //console.log(geoJsonFeature.properties.Haltestellen_No);
-            let kat = geoJsonFeature.properties.Hst_Kat;
-            return (kat == 1 || kat == 2 || kat == 3 || kat == 4) && (geoJsonFeature.properties.Haltestellen_No != "false");
-        },
-        pointToLayer: function (geoJsonFeature, latlng) {
-            const properties = geoJsonFeature.properties;
-            const circle = L.circle(latlng, geojsonMarkerOptions);
-            circle.setStyle({color: classColors.ClassC, stroke: false, fillOpacity: 1});
-            if(properties.Hst_Kat == 1){
-                circle.setRadius(1000);
-            }
-            else if(properties.Hst_Kat == 2){
-                circle.setRadius(750);
-            }
-            else if(properties.Hst_Kat == 3){
-                circle.setRadius(500);
-            }
-            else{
-                circle.setRadius(300);
-            }
-            return circle; 
-        }
-    });
-    return geoJsonLayerC;
-}
-
-function qualityLayerD(data: GeoJsonObject){
-    let geoJsonLayerD = L.geoJSON(data, {
-        filter(geoJsonFeature) {
-            //console.log(geoJsonFeature.properties.Haltestellen_No);
-            let kat = geoJsonFeature.properties.Hst_Kat;
-            return (kat == 2 || kat == 3 || kat == 4 || kat == 5) && (geoJsonFeature.properties.Haltestellen_No != "false");
-        },
-        pointToLayer: function (geoJsonFeature, latlng) {
-            const properties = geoJsonFeature.properties;
-            const circle = L.circle(latlng, geojsonMarkerOptions);
-            circle.setStyle({color: classColors.ClassD, stroke: false, fillOpacity: 1});
-            if(properties.Hst_Kat == 2){
-                circle.setRadius(1000);
-            }
-            else if(properties.Hst_Kat == 3){
-                circle.setRadius(750);
-            }
-            else if(properties.Hst_Kat == 4){
-                circle.setRadius(500);
-            }
-            else{
-                circle.setRadius(300);
-            }
-            return circle; 
-        }
-    });
-    return geoJsonLayerD;
-}
-
+/**
+ * Create a quality layer with information about the PT stop
+ * @param data GeoJSON data
+ * @param makePoint Function to create a new PT stop
+ * @returns Quality layer as L.geoJSON
+ */
 function qualityLayerInfo(data: GeoJsonObject, makePoint: any) {
     let onClick = function (e: any, feature: any, circle: any) {
         L.DomEvent.stopPropagation(e);
@@ -149,4 +84,4 @@ function qualityLayerInfo(data: GeoJsonObject, makePoint: any) {
     return geoJsonInfoLayer;
 }
 
-export { qualityLayerA, qualityLayerB, qualityLayerC, qualityLayerD, qualityLayerInfo }
+export { qualityLayerInfo, createQualityLayer }

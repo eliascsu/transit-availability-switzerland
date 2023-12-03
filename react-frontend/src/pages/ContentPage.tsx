@@ -15,7 +15,7 @@ import type { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { postAndGetPoints, getPopulationDensity, getPTData } from '../router/resources/data';
 import type { FeatureCollection, Feature, GeoJsonObject, LayerVisibility, Line, LineIndexLookup } from '../types/data';
 import { getLineColor, createDefaultPtStop, createPtLineStringFromPoints } from './utils/utils';
-import { qualityLayerA, qualityLayerB, qualityLayerC, qualityLayerD, qualityLayerInfo } from './utils/qual_layers';
+import { createQualityLayer, qualityLayerInfo } from './utils/qual_layers';
 
 const {Content, Footer} = Layout;
 
@@ -299,10 +299,11 @@ const Map = React.memo(function Map() {
 
     function makePTCirclesFromData(data: GeoJsonObject){
         let layers: L.GeoJSON<any, any>[] = [];
-        let geoJsonLayerA = qualityLayerA(data)
-        let geoJsonLayerB = qualityLayerB(data);
-        let geoJsonLayerC = qualityLayerC(data);
-        let geoJsonLayerD = qualityLayerD(data);
+        let geoJsonLayerA = createQualityLayer(data, "A")
+        let geoJsonLayerB = createQualityLayer(data, "B")
+        let geoJsonLayerC = createQualityLayer(data, "C")
+        let geoJsonLayerD = createQualityLayer(data, "D")
+
         let geoJsonInfoLayer = qualityLayerInfo(data, makePoint);
 
         layers.push(geoJsonLayerD);
