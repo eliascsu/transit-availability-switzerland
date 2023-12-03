@@ -246,7 +246,21 @@ This will help you have a clearer overview of what you are currently doing, trac
 Write here a short summary with weekly progress, including challenges and open questions.\
 We will use this to understand what your struggles and where did the weekly effort go to.
 
+### Week 1
 So the main stuff we did this week was creating the main content page and adding the datasets to it. First we simply used WMS Tile Layers (directly from geo.admin.ch), which were very performant but we realized, that it was not very modular, because we couldn't add our datapoints to pre-rendered layers. Then we took the datasets and modeled the layers ourself, which was wayy more work, especially because the geo.admin.ch uses a different coordinate reference system (EPSG2056) to WGS84. Therefore we had to write a few scripts to create our own datasets with the right coordinates. Performance is also kind of an issue because we are working with fairly large amounts of data (~24000 datapoints for the transit availability and ~340000 for the population heatmap). We are fairly content with the performance at the moment, so it is not our top priority right now. We're still working on an attribution page, to properly credit the authors of the datasets and map tiles.
+
+### Week 2
+
+First of all, apologies for pushing the stable release this late, a lot of work went into making this even happen. This week a lot of work happened in the frontend as well as in the backend. For the frontend: We added the possibility of selecting layers to display, using a checkbox. It is now also possible to draw custom routes, by selecting points on the map, and then choosing a mode of transport and an interval, to calculate a new route. Points are then overlayed using this information to the map. On the backend, a score calculation has been implemented, on how many people are served by the new line, but the endpoint isn't used yet in the frontend. But this isn't the only thing: A lot of stuff has happened in the crawler in general:
+1. MUCH BETTER PERFORMANCE: Using vectorization, it was possible to speed up the calculation of the heatmap points from an average of 240 seconds to just about 5 seconds.
+2. Added file calc_coverage.py. It is now possible to calculate how many people are covered by one PT circle. This function has been implemented in the backend as well, to calculate a score for the user-added lines. Initially this took about 300 seconds to calculate per point, but using a vectorized haversine function, this now takes about 20-30ms per point, which makes it viable to use for user requests when caching the previous results. To calculate the population served in the entire country, it takes 23400*25ms, which cannot be further sped up, because the calculations are dependent on a shared array. Seeing as this is only required to be executed when the data is generated this is acceptable for us. We now also calculate a transit layer ourselves, to overlay onto the map. This matches the shortest path, using publicly available OSM data, the GTFS feed of switzerland and some libraries. Again, calculating this is very expensive and uses very large files (200gb+), which are not shared in the git repository for obvious reasons. The idea is to match the user rail/bus/tram line to existing geometry.
+Frontend tasks for the next week include working on the design and states for the map and content page. For the backend we need to check the feasibility of even using such path matching algorithms. Maybe provide some overlays for the different modes of transport. Finish the score implementation for switzerland. Also provide attributions to libraries used and stuff... Also fix the pipelines
+
+Questions:
+How do we run the crawler scripts in gitlab?
+Or should we rather run them once locally and push the data to the repository?
+How do we access the gitlab website? We still can't see the URL in the CI/CD pipeline.
+
 
 ## Q&A
 How to run crawler weekly with CI/CD
