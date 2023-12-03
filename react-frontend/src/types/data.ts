@@ -5,7 +5,7 @@ export interface PopulationPoint {
     lng: string;
     intensity: string;
 }
-
+export type LineString = Polyline;
 export type PopulationArray = PopulationPoint[];
 
 export type GeoJsonObject = FeatureCollection | Feature;
@@ -22,7 +22,7 @@ export interface Feature {
 }
 
 export interface Geometry {
-    type: 'Point' | Polyline;
+    type: 'Point' | LineString;
     coordinates: LatLngTuple;
 }   
 
