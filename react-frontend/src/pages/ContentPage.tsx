@@ -1,17 +1,20 @@
+import React, { useEffect, useState, useRef, createContext, useContext } from 'react';
+
+import { Button, Checkbox, Form, Layout, Row, Select, Collapse } from 'antd';
+
 import { MapContainer, TileLayer, useMapEvents} from 'react-leaflet'
 import L, { HeatLatLngTuple, LatLng, LatLngTuple} from "leaflet";
+import "leaflet.heat";
+
 import 'leaflet/dist/leaflet.css';
 import './pages.css';
-import { Control } from 'leaflet';
-import { useEffect, useState, useRef, createContext, useContext } from 'react';
-import React from 'react';
-import "proj4leaflet";
-import "leaflet.heat";
-import { Button, Checkbox, Form, Layout, Row, Select, Collapse } from 'antd';
+
+import { Legend } from './components/legend';
 import type { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { postAndGetPoints, getPopulationDensity, getPTData } from '../router/resources/data';
-import { FeatureCollection, Feature, GeoJsonObject, LayerVisibility, Line, LineIndexLookup } from '../types/data';
-import { classColors, lineColors } from './utils/colors';
+import type { FeatureCollection, Feature, GeoJsonObject, LayerVisibility, Line, LineIndexLookup } from '../types/data';
+import { classColors } from './utils/colors';
+import { getLineColor } from './utils/utils';
 
 const {Content, Footer} = Layout;
 
@@ -110,8 +113,6 @@ function ContentPage() {
 }
 
 const MapWrapper = React.memo(function MapWrapper() {
-
-        
     return (
         <MapContainer className="map-container" id="map-zurich" center={[47.36, 8.53]} zoom={10} scrollWheelZoom={true}>
             <TileLayer url="https://tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey=119ad4f25bed4ec2a70aeba31a0fb12a" attribution="&copy; <a href=&quot;https://www.thunderforest.com/&quot;>Thunderforest</a> contributors"/>
@@ -318,25 +319,7 @@ const Map = React.memo(function Map() {
         }
         polyLineArrayRef.current = [];
         for(let i = 0; i < lineIndexLookupRef.current.numLines; i++){
-            let lineColor;
-            switch(lineIndexLookupRef.current.lineTypes[i]) { 
-                case "Tram": { 
-                   lineColor = lineColors.Tram;
-                   break; 
-                } 
-                case "Bus": { 
-                    lineColor = lineColors.Bus;
-                   break; 
-                } 
-                case "S_Bahn": { 
-                    lineColor = lineColors.S_Bahn;
-                    break
-                }
-                default: { 
-                   console.log("BAD LINE"); 
-                   break; 
-                } 
-            } 
+            let lineColor = getLineColor(lineIndexLookupRef.current.lineTypes[i]);
             let polyLine = new L.Polyline(polyLineCoordsArray[i], {
                 color: lineColor,
                 weight: 2,
@@ -350,10 +333,7 @@ const Map = React.memo(function Map() {
         console.log(polyLineArrayRef.current);
         for(let line of polyLineArrayRef.current){
             line.addTo(map);
-        }
-        
-        
-        
+        }        
         console.log("added userpoints");
     }, [linesFromFormState]);
 
@@ -645,16 +625,6 @@ function PointControlBox() {
             />
         </div>
     );
-}
-
-function Legend() {
-
-    const legend = new Control({ position: 'bottomright' });
-    return (
-        <div className="legend" id="legend-zurich">
-            <img src={"https://api3.geo.admin.ch/static/images/legends/ch.bfs.volkszaehlung-bevoelkerungsstatistik_einwohner_en.png"} alt="Legend"/>
-        </div>
-    )
 }
 
 export default ContentPage;
