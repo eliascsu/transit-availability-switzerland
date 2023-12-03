@@ -14,7 +14,8 @@ import type { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { postAndGetPoints, getPopulationDensity, getPTData } from '../router/resources/data';
 import type { FeatureCollection, Feature, GeoJsonObject, LayerVisibility, Line, LineIndexLookup } from '../types/data';
 import { classColors } from './utils/colors';
-import { getLineColor, createDefaultPtStop } from './utils/utils';
+import { getLineColor, createDefaultPtStop, createPtLineStringFromPoints } from './utils/utils';
+import { qualityLayerA, qualityLayerB, qualityLayerC, qualityLayerD } from './utils/qual_layers';
 
 const {Content, Footer} = Layout;
 
@@ -320,100 +321,10 @@ const Map = React.memo(function Map() {
             opacity: 1,
             fillOpacity: 1,
         };
-        let geoJsonLayerA = L.geoJSON(data, {
-            filter(geoJsonFeature) {
-                //console.log(geoJsonFeature.properties.Haltestellen_No);
-                let kat = geoJsonFeature.properties.Hst_Kat;
-                return (kat == 1 || kat == 2) && (geoJsonFeature.properties.Haltestellen_No != "false");
-            },
-            pointToLayer: function (geoJsonFeature, latlng) {
-                const properties = geoJsonFeature.properties;
-                geojsonMarkerOptions.color = classColors.ClassA;
-                const circle = L.circle(latlng, geojsonMarkerOptions);
-                if(properties.Hst_Kat == 1){
-                    circle.setRadius(500);
-                }
-                else{
-                    circle.setRadius(300);
-                }
-                return circle; 
-            }
-        });
-    
-        let geoJsonLayerB = L.geoJSON(data, {
-            filter(geoJsonFeature) {
-                //console.log(geoJsonFeature.properties.Haltestellen_No);
-                let kat = geoJsonFeature.properties.Hst_Kat;
-                return (kat == 1 || kat == 2 || kat == 3) && (geoJsonFeature.properties.Haltestellen_No != "false");
-            },
-            pointToLayer: function (geoJsonFeature, latlng) {
-                const properties = geoJsonFeature.properties;
-                const circle = L.circle(latlng, geojsonMarkerOptions);
-                circle.setStyle({color: classColors.ClassB, stroke: false, fillOpacity: 1});
-                if(properties.Hst_Kat == 1){
-                    circle.setRadius(750);
-                }
-                else if(properties.Hst_Kat == 2){
-                    circle.setRadius(500);
-                }
-                else{
-                    circle.setRadius(300);
-                }
-                return circle; 
-            }
-        });
-    
-        let geoJsonLayerC = L.geoJSON(data, {
-            filter(geoJsonFeature) {
-                //console.log(geoJsonFeature.properties.Haltestellen_No);
-                let kat = geoJsonFeature.properties.Hst_Kat;
-                return (kat == 1 || kat == 2 || kat == 3 || kat == 4) && (geoJsonFeature.properties.Haltestellen_No != "false");
-            },
-            pointToLayer: function (geoJsonFeature, latlng) {
-                const properties = geoJsonFeature.properties;
-                const circle = L.circle(latlng, geojsonMarkerOptions);
-                circle.setStyle({color: classColors.ClassC, stroke: false, fillOpacity: 1});
-                if(properties.Hst_Kat == 1){
-                    circle.setRadius(1000);
-                }
-                else if(properties.Hst_Kat == 2){
-                    circle.setRadius(750);
-                }
-                else if(properties.Hst_Kat == 3){
-                    circle.setRadius(500);
-                }
-                else{
-                    circle.setRadius(300);
-                }
-                return circle; 
-            }
-        });
-    
-        let geoJsonLayerD = L.geoJSON(data, {
-            filter(geoJsonFeature) {
-                //console.log(geoJsonFeature.properties.Haltestellen_No);
-                let kat = geoJsonFeature.properties.Hst_Kat;
-                return (kat == 2 || kat == 3 || kat == 4 || kat == 5) && (geoJsonFeature.properties.Haltestellen_No != "false");
-            },
-            pointToLayer: function (geoJsonFeature, latlng) {
-                const properties = geoJsonFeature.properties;
-                const circle = L.circle(latlng, geojsonMarkerOptions);
-                circle.setStyle({color: classColors.ClassD, stroke: false, fillOpacity: 1});
-                if(properties.Hst_Kat == 2){
-                    circle.setRadius(1000);
-                }
-                else if(properties.Hst_Kat == 3){
-                    circle.setRadius(750);
-                }
-                else if(properties.Hst_Kat == 4){
-                    circle.setRadius(500);
-                }
-                else{
-                    circle.setRadius(300);
-                }
-                return circle; 
-            }
-        });
+        let geoJsonLayerA = qualityLayerA(data)
+        let geoJsonLayerB = qualityLayerB(data);
+        let geoJsonLayerC = qualityLayerC(data);
+        let geoJsonLayerD = qualityLayerD(data);
     
         let geoJsonInfoLayer = L.geoJSON(data, {
             filter(geoJsonFeature) {
