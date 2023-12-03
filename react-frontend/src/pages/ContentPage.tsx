@@ -15,7 +15,7 @@ import { postAndGetPoints, getPopulationDensity, getPTData } from '../router/res
 import type { FeatureCollection, Feature, GeoJsonObject, LayerVisibility, Line, LineIndexLookup } from '../types/data';
 import { classColors } from './utils/colors';
 import { getLineColor, createDefaultPtStop, createPtLineStringFromPoints } from './utils/utils';
-import { qualityLayerA, qualityLayerB, qualityLayerC, qualityLayerD } from './utils/qual_layers';
+import { qualityLayerA, qualityLayerB, qualityLayerC, qualityLayerD, qualityLayerInfo } from './utils/qual_layers';
 
 const {Content, Footer} = Layout;
 
@@ -314,41 +314,12 @@ const Map = React.memo(function Map() {
 
     function makePTCirclesFromData(data: GeoJsonObject){
         let layers: L.GeoJSON<any, any>[] = [];
-        let geojsonMarkerOptions = {
-            radius: 70,
-            color: "#ff7800",
-            stroke: false,
-            opacity: 1,
-            fillOpacity: 1,
-        };
         let geoJsonLayerA = qualityLayerA(data)
         let geoJsonLayerB = qualityLayerB(data);
         let geoJsonLayerC = qualityLayerC(data);
         let geoJsonLayerD = qualityLayerD(data);
-    
-        let geoJsonInfoLayer = L.geoJSON(data, {
-            filter(geoJsonFeature) {
-                return geoJsonFeature.properties.Haltestellen_No != "false";
-            },
-            pointToLayer: function (feature, latlng) {
-                const circle = L.circle(latlng, geojsonMarkerOptions);
-                circle.setStyle({color: "#000000", stroke: false, fillOpacity: 1});
-                // Add a click event listener to each circle for displaying a tooltip
-                circle.on('click', function (e) {
-                    L.DomEvent.stopPropagation(e);
-                    console.log(feature.properties.Haltestellen_No);
-                    const properties = feature.properties;
-                    const tooltipContent = `Name: ${properties.Name}<br>Bahnlinie_Anz: ${properties.Bahnlinie_Anz}`;
-                    // Create a tooltip and bind it to the circle
-                    circle.bindPopup(tooltipContent).openPopup();
-                    let newPoint: Feature = createDefaultPtStop(e.latlng.lat, e.latlng.lng);
-                    makePoint(newPoint, false);
-                    L.DomEvent.stopPropagation(e);
-                });
-                return circle;
-            }
-        })
-    
+        let geoJsonInfoLayer = qualityLayerInfo(data, makePoint);
+
         layers.push(geoJsonLayerD);
         layers.push(geoJsonLayerC);
         layers.push(geoJsonLayerB);

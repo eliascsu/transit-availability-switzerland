@@ -3,8 +3,9 @@
  */
 
 import L from 'leaflet';
-import { GeoJsonObject } from '../../types/data';
+import { Feature, GeoJsonObject } from '../../types/data';
 import { classColors } from './colors';
+import { createDefaultPtStop } from './utils';
 
 let geojsonMarkerOptions = {
     radius: 70,
@@ -121,5 +122,31 @@ function qualityLayerD(data: GeoJsonObject){
     return geoJsonLayerD;
 }
 
+function qualityLayerInfo(data: GeoJsonObject, makePoint: any) {
+    let onClick = function (e: any, feature: any, circle: any) {
+        L.DomEvent.stopPropagation(e);
+        console.log(feature.properties.Haltestellen_No);
+        const properties = feature.properties;
+        const tooltipContent = `Name: ${properties.Name}<br>Bahnlinie_Anz: ${properties.Bahnlinie_Anz}`;
+        // Create a tooltip and bind it to the circle
+        circle.bindPopup(tooltipContent).openPopup();
+        let newPoint: Feature = createDefaultPtStop(e.latlng.lat, e.latlng.lng);
+        makePoint(newPoint, false);
+        L.DomEvent.stopPropagation(e);
+    }
+    let geoJsonInfoLayer = L.geoJSON(data, {
+        filter(geoJsonFeature) {
+            return geoJsonFeature.properties.Haltestellen_No != "false";
+        },
+        pointToLayer: function (feature, latlng) {
+            const circle = L.circle(latlng, geojsonMarkerOptions);
+            circle.setStyle({color: "#000000", stroke: false, fillOpacity: 1});
+            // Add a click event listener to each circle for displaying a tooltip
+            circle.on('click', (e) => onClick(e, feature, circle));
+            return circle;
+        }
+    })
+    return geoJsonInfoLayer;
+}
 
-export { qualityLayerA, qualityLayerB, qualityLayerC, qualityLayerD }
+export { qualityLayerA, qualityLayerB, qualityLayerC, qualityLayerD, qualityLayerInfo }
