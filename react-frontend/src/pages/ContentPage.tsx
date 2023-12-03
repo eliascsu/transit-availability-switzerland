@@ -1,39 +1,24 @@
 import React, { useEffect, useState, useRef, createContext, useContext } from 'react';
 
-import { Button, Checkbox, Form, Layout, Row, Select, Collapse } from 'antd';
+import { Checkbox, Form, Layout, Row } from 'antd';
 
 import { MapContainer, TileLayer, useMapEvents} from 'react-leaflet'
-import L, { HeatLatLngTuple, LatLng, LatLngTuple} from "leaflet";
+import L, { HeatLatLngTuple, LatLng } from "leaflet";
 import "leaflet.heat";
 
 import 'leaflet/dist/leaflet.css';
 import './pages.css';
 
+import FormComponent from './components/FormComponent';
 import { Legend } from './components/legend';
 import type { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { postAndGetPoints, getPopulationDensity, getPTData } from '../router/resources/data';
 import type { FeatureCollection, Feature, GeoJsonObject, LayerVisibility, Line, LineIndexLookup } from '../types/data';
-import { classColors } from './utils/colors';
 import { getLineColor, createDefaultPtStop, createPtLineStringFromPoints } from './utils/utils';
 import { qualityLayerA, qualityLayerB, qualityLayerC, qualityLayerD, qualityLayerInfo } from './utils/qual_layers';
 
 const {Content, Footer} = Layout;
 
-/*
-interface UserPoint {
-    Haltestellen_No: string;
-    Y_Koord: number;
-    X_Koord: number;
-    Name: string;
-    Bahnknoten: number;
-    Bahnlinie_Anz: number;
-    TramBus_Anz: number;
-    Seilbahn_Anz: number;
-    A_Intervall: number;
-    B_Intervall: number;
-    Hst_Kat: number;
-}
-*/
 
 interface LayerContextType {
     visibleLayersState: LayerVisibility;
@@ -406,63 +391,7 @@ function PointControlBox() {
     }, [])
 
     return (
-        <div id='lineForm'>
-            <Collapse 
-                onChange={onCollapse}
-                items={[{
-                key: '1',
-                label: 'LineForm',
-                showArrow: false,
-                children: (
-                    <Form
-                        form={form}
-                        labelCol={{ span: 3 }}
-                        wrapperCol={{ span: 14 }}
-                        layout="horizontal"
-                        onFinish={onFinish}
-                        style={{ maxWidth: 600, padding:0}}
-                        className='newLineForm'
-                    >
-                        <Form.Item
-                            className='transport'
-                            label="Select"
-                            name="transportType"
-                            rules={[{ required: true, message: 'Please select a transport type!' }]}
-                        >
-                            <Select className='Select'
-                            style={{width: 130}}
-                            options={[
-                                { value: 'Bus', label: 'Bus' },
-                                { value: 'Tram', label: 'Tram' },
-                                { value: 'S_Bahn', label: 'S-Bahn' }
-                            ]} />
-                        </Form.Item>
-                        <Form.Item
-                            className='interval'
-                            label="Interval"
-                            name="interval"
-                            rules={[{ required: true, message: 'Please select an interval!' }]}
-                        >
-                            <Select className='Select'
-                            style={{width: 130}}
-                            options={[
-                                { value: '3.5', label: '3.5min' },
-                                { value: '7', label: '7min' },
-                                { value: '15', label: '15min' },
-                                { value: '30', label: '30min' },
-                                { value: '60', label: '1h' }
-                            ]} />
-                        </Form.Item>
-                        <Form.Item wrapperCol={{ offset: 3 }} className='submit' style={{margin: 0}}>
-                            <Button type="primary" htmlType="submit" >
-                                Submit
-                            </Button>
-                        </Form.Item>
-                    </Form>
-                )
-            }]}
-            />
-        </div>
+        <FormComponent form={form} onFinish={onFinish} onCollapse={onCollapse}></FormComponent>
     );
 }
 
