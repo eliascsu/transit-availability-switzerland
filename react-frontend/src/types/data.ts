@@ -1,5 +1,6 @@
-import { LatLngTuple, Polyline } from "leaflet";
+import { Polyline } from "leaflet";
 
+export type LatLngTuple = [number, number];
 export interface PopulationPoint {
     lat: string;
     lng: string;
@@ -22,9 +23,9 @@ export interface Feature {
 }
 
 export interface Geometry {
-    type: 'Point' | LineString;
-    coordinates: LatLngTuple;
-}   
+    type: 'Point' | "LineString";
+    coordinates: LatLngTuple | LatLngTuple[];
+}
 
 export interface Properties {
     Haltestellen_No: string;

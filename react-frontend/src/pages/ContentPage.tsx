@@ -13,7 +13,7 @@ import FormComponent from './components/FormComponent';
 import { Legend } from './components/legend';
 import type { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { postAndGetPoints, getPopulationDensity, getPTData } from '../router/resources/data';
-import type { FeatureCollection, Feature, GeoJsonObject, LayerVisibility, Line, LineIndexLookup } from '../types/data';
+import type { LatLngTuple, FeatureCollection, Feature, GeoJsonObject, LayerVisibility, Line, LineIndexLookup } from '../types/data';
 import { getLineColor, createDefaultPtStop } from './utils/utils';
 import { createQualityLayer, qualityLayerInfo } from './utils/qual_layers';
 
@@ -287,7 +287,7 @@ const Map = React.memo(function Map() {
         }
         console.log(lineIndexLookupRef);
 
-        let polyLineCoordsArray: LatLng[][] = []
+        let polyLineCoordsArray: LatLngTuple[][] = []
         for(let i = 0; i < lineIndexLookupRef.current.numLines; i++){
             polyLineCoordsArray.push([]);
         }
@@ -296,7 +296,7 @@ const Map = React.memo(function Map() {
         for(let numPoints of lineIndexLookupRef.current.numPointsPerLine){
             for(let pointIndex = 0; pointIndex < numPoints; pointIndex++){
                 let point = (addedPointsGeoJsonRef.current as FeatureCollection).features[pointIndex + pointer];
-                polyLineCoordsArray[currentLine].push(new L.LatLng(point["geometry"]["coordinates"][1], point["geometry"]["coordinates"][0]))
+                polyLineCoordsArray[currentLine].push([point["geometry"]["coordinates"][1] as number, point["geometry"]["coordinates"][0] as number] as LatLngTuple)
             }
             pointer += numPoints;
             currentLine++;
