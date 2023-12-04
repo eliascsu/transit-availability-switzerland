@@ -180,12 +180,16 @@ const Map = React.memo(function Map() {
                     if((currentZoom >= 12)){
                         map.addLayer(geoJsonLayersRef.current[4]);
                     }
+                    for(let line of polyLineArrayRef.current){
+                        line.bringToFront();
+                    } 
                 }
             });
     }, [addedPointsState])
     
 
     useEffect(() => {
+        /*
         console.log("adding geojson layer");
         let gjson = fetch("myAgency.geojson").then(res => res.json()).then(data => {
             console.log("length of data: " + data.features.length);
@@ -193,6 +197,7 @@ const Map = React.memo(function Map() {
             layer.addTo(map);
         });
         console.log("done rendering points")
+        */
         getPopulationDensity()
         .then(popArray => {
             let i = 0;
@@ -230,6 +235,11 @@ const Map = React.memo(function Map() {
                     geoJsonLayersRef.current[2].addTo(map);
                     geoJsonLayersRef.current[3].addTo(map);
                     //geoJsonLayersRef.current[4].addTo(map);
+                }
+                else{
+                    for(let layer of geoJsonLayersRef.current){
+                        layer.removeFrom(map);
+                    }
                 }
                 
                 let textbox;
@@ -293,6 +303,7 @@ const Map = React.memo(function Map() {
         console.log(polyLineArrayRef.current);
         for(let line of polyLineArrayRef.current){
             line.addTo(map);
+            line.bringToFront();
         }        
         console.log("added userpoints");
     }, [linesFromFormState]);
