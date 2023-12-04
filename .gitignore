@@ -4,6 +4,7 @@ node_modules
 *.config
 clips
 tmp
+react-frontend/public/user-pt-stops.geojson
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -132,3 +133,4 @@ dmypy.json
 
 # MISC
 .DS_Store
+backend-project/data/user-pt-stops.geojson
