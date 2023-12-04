@@ -9,7 +9,7 @@ import { createDefaultPtStop } from './utils';
 
 // Configuration of markers
 const geojsonMarkerOptions = {
-    radius: 70,
+    radius: 20,
     color: "#ff7800",
     stroke: false,
     opacity: 1,
@@ -41,7 +41,7 @@ function createQualityLayer(data: GeoJsonObject, layerType: 'A' | 'B' | 'C' | 'D
         pointToLayer: function (geoJsonFeature, latlng) {
             const properties = geoJsonFeature.properties;
             let radiusIndex = config.categories.indexOf(properties.Hst_Kat);
-            let radius = config.radius[radiusIndex] || 70; // Default radius if not found
+            let radius = config.radius[radiusIndex] || 20; // Default radius if not found
 
             geojsonMarkerOptions.color = config.color;
             geojsonMarkerOptions.radius = radius;
@@ -74,6 +74,7 @@ function qualityLayerInfo(data: GeoJsonObject, makePoint: any) {
             return geoJsonFeature.properties.Haltestellen_No != "false";
         },
         pointToLayer: function (feature, latlng) {
+            geojsonMarkerOptions.radius = 70;
             const circle = L.circle(latlng, geojsonMarkerOptions);
             circle.setStyle({color: "#000000", stroke: false, fillOpacity: 1});
             // Add a click event listener to each circle for displaying a tooltip
