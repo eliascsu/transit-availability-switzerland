@@ -69,4 +69,48 @@ function createDefaultPtStop (lat: number, lng: number) {
     return newPoint
 }
 
-export { getLineColor, createDefaultPtStop };
+function addStopToLineString(lineString: GeoJSON.Feature<GeoJSON.LineString>, lat: number, lng: number) {
+    let newCoords: GeoJSON.Position[] = lineString.geometry.coordinates;
+    newCoords.push([lng, lat]);
+    lineString.geometry.coordinates = newCoords;
+    return lineString;
+}
+
+function createPtLineStringFromPoints(stops: GeoJSON.FeatureCollection<GeoJSON.Point>) {
+    if (stops.features.length == 0) {
+        console.error("No stops to connect");
+        return;
+    }
+    if (stops.features.length == 1) {
+        console.error("Only one stop to connect");
+        return;
+    }
+    function stopsToLineString(stops: GeoJSON.FeatureCollection<GeoJSON.Point>) {
+        let coords: GeoJSON.Position[] = [];
+        for (let i = 0; i < stops.features.length; i++) {
+            let stop = stops.features[i];
+            coords.push(stop.geometry.coordinates as GeoJSON.Position);
+        }
+        return coords;
+    }
+    let lineString: GeoJSON.Feature<GeoJSON.LineString> = {
+        type: "Feature",
+        geometry: {
+            type: "LineString",
+            coordinates: stopsToLineString(stops)
+        },
+        properties: {
+            Haltestellen_No: "PLACEHOLDER",
+            Name: defaultName,
+            Bahnknoten: defaultBahnknoten,
+            Bahnlinie_Anz: defaultBahnlinie_Anz,
+            TramBus_Anz: defaultTramBus_Anz,
+            Seilbahn_Anz: defaultSeilbahn_Anz,
+            A_Intervall: defaultA_Intervall,
+            B_Intervall: defaultB_Intervall,
+            Hst_Kat: defaultHst_Kat
+        }
+    }
+    return lineString;
+}
+export { addStopToLineString, getLineColor, createDefaultPtStop, createPtLineStringFromPoints };

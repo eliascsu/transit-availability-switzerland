@@ -29,6 +29,7 @@ interface LayerContextType {
     setLinesFromFormState: React.Dispatch<React.SetStateAction<Line[]>>;
     drawingState: boolean;
     setDrawingState: React.Dispatch<React.SetStateAction<boolean>>;
+    userLinesRef: React.MutableRefObject<L.Polyline[]>;
 }
 
 const LayerContext = createContext<LayerContextType | undefined>(undefined);
@@ -46,6 +47,7 @@ export const LayerProvider: React.FC = ({ children }) => {
     const [checkboxValues, setCheckboxValues] = useState<CheckboxValueType[]>([]);
     const [linesFromFormState, setLinesFromFormState] = useState<Line[]>([]);
     const [drawingState, setDrawingState] = useState<boolean>(false);
+    const userLinesRef = useRef<L.Polyline[]>([]);
 
     const value = {
         visibleLayersState,
@@ -55,7 +57,8 @@ export const LayerProvider: React.FC = ({ children }) => {
         linesFromFormState,
         setLinesFromFormState,
         drawingState,
-        setDrawingState
+        setDrawingState,
+        userLinesRef
     };
 
     return (
@@ -111,19 +114,41 @@ const Map = React.memo(function Map() {
     const userGeoJsonLayersRef = useRef<L.GeoJSON<any, any>[]>([]);
     const heatMapLayerRef = useRef<L.HeatLayer>();
     const polyLineArrayRef = useRef<L.Polyline[]>([]);
+
     const score = useRef<number>();
 
     const { 
         visibleLayersState, setVisibleLayersState,
         checkboxValues, setCheckboxValues,
         linesFromFormState, setLinesFromFormState,
-        drawingState, setDrawingState
+        drawingState, setDrawingState,
+        userLinesRef
     } = useLayerContext();
 
 
     const map = useMapEvents({
         click: (e) => {
             if(drawingState || true){
+                // NEW CODE
+                let user_lines = userLinesRef.current;
+                if(user_lines.length == 0){
+                    user_lines.push(new L.Polyline([e.latlng], {
+                        color: "red",
+                        weight: 2,
+                        opacity: 1,
+                        smoothFactor: 0
+                    }));
+                }
+                let last_line = user_lines[user_lines.length - 1];
+                console.log(last_line);
+                user_lines[user_lines.length - 1] = last_line.addLatLng(e.latlng);;
+                userLinesRef.current = user_lines;
+                console.log(userLinesRef.current)
+                for (let line of userLinesRef.current){
+                    line.addTo(map);
+                }
+                // END NEW CODE
+
                 let newPoint = createDefaultPtStop(e.latlng.lat, e.latlng.lng);
                 makePoint(newPoint, true);
             }
@@ -380,7 +405,8 @@ function PointControlBox() {
         visibleLayersState, setVisibleLayersState,
         checkboxValues, setCheckboxValues,
         linesFromFormState, setLinesFromFormState,
-        drawingState, setDrawingState
+        drawingState, setDrawingState,
+        userLinesRef
     } = useLayerContext();
     const [form] = Form.useForm();
 
@@ -390,6 +416,12 @@ function PointControlBox() {
             intervall: values.interval,
             typ: values.transportType
         }
+        userLinesRef.current.push(new L.Polyline([], {
+            color: "red",
+            weight: 2,
+            opacity: 1,
+            smoothFactor: 0
+        }));
         setLinesFromFormState([...linesFromFormState, newLine]);
         form.resetFields(); // Reset form fields after the operation
     };
