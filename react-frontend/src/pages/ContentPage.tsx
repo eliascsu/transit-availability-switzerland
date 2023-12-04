@@ -236,6 +236,11 @@ const Map = React.memo(function Map() {
                     geoJsonLayersRef.current[3].addTo(map);
                     //geoJsonLayersRef.current[4].addTo(map);
                 }
+                else{
+                    for(let layer of geoJsonLayersRef.current){
+                        layer.removeFrom(map);
+                    }
+                }
                 
                 let textbox;
                 
