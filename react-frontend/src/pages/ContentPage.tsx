@@ -14,7 +14,7 @@ import { Legend } from './components/legend';
 import type { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { postAndGetPoints, getPopulationDensity, getPTData } from '../router/resources/data';
 import type { FeatureCollection, Feature, GeoJsonObject, LayerVisibility, Line, LineIndexLookup } from '../types/data';
-import { getLineColor, createDefaultPtStop, createPtLineStringFromPoints } from './utils/utils';
+import { getLineColor, createDefaultPtStop } from './utils/utils';
 import { createQualityLayer, qualityLayerInfo } from './utils/qual_layers';
 
 const {Content, Footer} = Layout;
