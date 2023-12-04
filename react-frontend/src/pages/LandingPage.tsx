@@ -8,7 +8,7 @@ function LandingPage() {
     return (
         <Layout className="layout" id="landingPage">
             <div className='layer background'>
-                    <img src="better_metro_map.svg" alt='sussy baka' />
+                    <img src="modified_colored_metro_map.svg" alt='sussy baka' />
                 </div>
             <div className='layer front'>
             <Content className="content">

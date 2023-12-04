@@ -20,8 +20,7 @@
 }
 
 .layout {
-    /*background-color: #081526;*/
-    background-color: black;
+    background-color: #081526;
 }
 
 #title {
@@ -35,6 +34,7 @@
 
 #titelDiv {
     display: grid;
+    align-items:center;
     /*grid-template-rows: 1.5fr 1fr;*/
     gap: 5px;
 }
@@ -89,6 +89,7 @@ div {
 #footerLanding {
     width: 100%;
     padding: 0px;
+    z-index: 99;
 }
 
 h5 {
@@ -97,18 +98,19 @@ h5 {
 
 #landingPage {
     height: 100vh;
+    .div{
+        align-items: center;
+    }
 
     .layer.background{
         position: fixed;
-        padding: 2rem;
-        margin: -2rem;
         z-index: 1;
         opacity: 0.6;
     }
 
     .layer.front{
         position: relative;
-        z-index: 2;
+        z-index: 100;
     }
 }
 
