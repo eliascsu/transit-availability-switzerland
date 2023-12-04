@@ -1,6 +1,5 @@
-import { Polyline } from "leaflet";
+import { Polyline, LatLngTuple } from "leaflet";
 
-export type LatLngTuple = [number, number];
 export interface PopulationPoint {
     lat: string;
     lng: string;

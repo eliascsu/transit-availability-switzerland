@@ -3,7 +3,7 @@ import React, { useEffect, useState, useRef, createContext, useContext } from 'r
 import { Checkbox, Form, Layout, Row } from 'antd';
 
 import { MapContainer, TileLayer, useMapEvents} from 'react-leaflet'
-import L, { HeatLatLngTuple, LatLng } from "leaflet";
+import L, { HeatLatLngTuple, LatLngTuple } from "leaflet";
 import "leaflet.heat";
 
 import 'leaflet/dist/leaflet.css';
@@ -13,7 +13,7 @@ import FormComponent from './components/FormComponent';
 import { Legend } from './components/legend';
 import type { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { postAndGetPoints, getPopulationDensity, getPTData } from '../router/resources/data';
-import type { LatLngTuple, FeatureCollection, Feature, GeoJsonObject, LayerVisibility, Line, LineIndexLookup } from '../types/data';
+import type { FeatureCollection, Feature, GeoJsonObject, LayerVisibility, Line, LineIndexLookup } from '../types/data';
 import { getLineColor, createDefaultPtStop } from './utils/utils';
 import { createQualityLayer, qualityLayerInfo } from './utils/qual_layers';
 
@@ -29,7 +29,7 @@ interface LayerContextType {
     setLinesFromFormState: React.Dispatch<React.SetStateAction<Line[]>>;
     drawingState: boolean;
     setDrawingState: React.Dispatch<React.SetStateAction<boolean>>;
-    userLinesRef: React.MutableRefObject<L.Polyline[]>;
+    userLinesRef: React.MutableRefObject<GeoJSON.LineString[]>;
 }
 
 const LayerContext = createContext<LayerContextType | undefined>(undefined);
@@ -47,7 +47,7 @@ export const LayerProvider: React.FC = ({ children }) => {
     const [checkboxValues, setCheckboxValues] = useState<CheckboxValueType[]>([]);
     const [linesFromFormState, setLinesFromFormState] = useState<Line[]>([]);
     const [drawingState, setDrawingState] = useState<boolean>(false);
-    const userLinesRef = useRef<L.Polyline[]>([]);
+    const userLinesRef = useRef<GeoJSON.LineString[]>([]);
 
     const value = {
         visibleLayersState,
@@ -129,25 +129,30 @@ const Map = React.memo(function Map() {
     const map = useMapEvents({
         click: (e) => {
             if(drawingState || true){
-                // NEW CODE
-                let user_lines = userLinesRef.current;
-                if(user_lines.length == 0){
-                    user_lines.push(new L.Polyline([e.latlng], {
-                        color: "red",
-                        weight: 2,
-                        opacity: 1,
-                        smoothFactor: 0
-                    }));
+                
+                let user_lines_geojson = userLinesRef.current;
+                if(user_lines_geojson.length == 0){
+                    user_lines_geojson.push({
+                        type: "LineString",
+                        coordinates: [[e.latlng.lng, e.latlng.lat]],
+                    });
                 }
-                let last_line = user_lines[user_lines.length - 1];
-                console.log(last_line);
-                user_lines[user_lines.length - 1] = last_line.addLatLng(e.latlng);;
-                userLinesRef.current = user_lines;
-                console.log(userLinesRef.current)
-                for (let line of userLinesRef.current){
-                    line.addTo(map);
-                }
-                // END NEW CODE
+                let last_line_geojson = user_lines_geojson[user_lines_geojson.length - 1];
+                console.log(last_line_geojson);
+                last_line_geojson.coordinates.push([e.latlng.lng, e.latlng.lat]);
+                user_lines_geojson[user_lines_geojson.length - 1] = last_line_geojson;
+                console.log(user_lines_geojson)
+                userLinesRef.current = user_lines_geojson;
+                L.geoJSON(userLinesRef.current,
+                    {
+                        style: {
+                            color: "red",
+                            weight: 2,
+                            opacity: 1,
+                        }
+                    }
+                ).addTo(map);
+                
 
                 let newPoint = createDefaultPtStop(e.latlng.lat, e.latlng.lng);
                 makePoint(newPoint, true);
@@ -416,12 +421,13 @@ function PointControlBox() {
             intervall: values.interval,
             typ: values.transportType
         }
-        userLinesRef.current.push(new L.Polyline([], {
-            color: "red",
-            weight: 2,
-            opacity: 1,
-            smoothFactor: 0
-        }));
+    
+        userLinesRef.current.push(
+            {
+                type: "LineString",
+                coordinates: []
+            }
+        );
         setLinesFromFormState([...linesFromFormState, newLine]);
         form.resetFields(); // Reset form fields after the operation
     };
