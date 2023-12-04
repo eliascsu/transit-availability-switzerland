@@ -26,6 +26,9 @@ function LandingPage() {
                             <Link id="contentLink" to="/content">
                                 <Button id="startButton">Start</Button>
                             </Link>
+                            <Link id="contentLink" to="/attributions">
+                                <Button id="attributionsButton" type="text">Attributions</Button>
+                            </Link>
                         </div>
                     </Col>
                 </Row>

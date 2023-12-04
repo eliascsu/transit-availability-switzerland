@@ -292,3 +292,7 @@ h5 {
 .ant-form-item-required {
     display: block;
 }
+
+#attributionsButton {
+    color: white;
+}
