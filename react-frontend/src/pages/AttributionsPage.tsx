@@ -18,12 +18,12 @@ function AttributionsPage() {
                             <h3>General</h3>
                             <ul>
                                 <li><a href='https://react.dev/'>React</a></li>
-                                <li>React Router - Link</li>
+                                <li><a href='https://reactrouter.com/en/main'>React Router</a></li>
                             </ul>
                             <h3>Frontend</h3>
                             <ul>
-                                <li>Ant Design - Link</li>
-                                <li>Leaflet - Link</li>
+                                <li><a href='https://ant.design/'>Ant Design</a></li>
+                                <li><a href='https://leafletjs.com/'>Leaflet</a></li>
                             </ul>
                             <h3>Backend</h3>
                             <ul>
