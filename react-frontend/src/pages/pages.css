@@ -343,3 +343,31 @@ h5 {
 #attributionsButton {
     color: white;
 }
+
+
+/* landing page */
+
+.background {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+}
+
+#lines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+
+#interchanges {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#trains {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
