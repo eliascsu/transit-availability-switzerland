@@ -17,7 +17,7 @@ function AttributionsPage() {
                             <hr className="solid"/>
                             <h3>General</h3>
                             <ul>
-                                <li>React - Link</li>
+                                <li><a href='https://react.dev/'>React</a></li>
                                 <li>React Router - Link</li>
                             </ul>
                             <h3>Frontend</h3>
