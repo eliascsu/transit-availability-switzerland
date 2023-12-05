@@ -7,7 +7,6 @@ const {Content, Footer} = Layout;
 function AttributionsPage() {
     return (
         <Layout className="layout" id="landingPage">
-
             <Content className="content">
                 <Row>
                     <Col span={2}/>
@@ -29,6 +28,9 @@ function AttributionsPage() {
                             <ul>
                                 <li>GeoJSON something - Link</li>
                             </ul>
+                            <Link to="/">
+                                <Button>Back to Home</Button>
+                            </Link>
                         </div>
                     </Col>
                     <Col span={2}/>
