@@ -79,8 +79,8 @@ function ContentPage() {
                     <h1 id="mapHeader">Content Page</h1>
                     <MapWrapper/>
                     <Legend/>
-                    <CheckBoxes></CheckBoxes>
-                    <PointControlBox></PointControlBox>
+                    <CheckBoxes/>
+                    <PointControlBox/>
                 </Row>
             </Content>
             <Footer className="footer" id="mapFooter">
