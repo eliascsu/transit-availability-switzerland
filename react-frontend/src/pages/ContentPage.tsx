@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, createContext, useContext } from 'react';
 
-import { Checkbox, Form, Layout, Row } from 'antd';
+import { Button, Checkbox, Form, Layout, Row } from 'antd';
 
 import { MapContainer, TileLayer, useMapEvents} from 'react-leaflet'
 import L, { HeatLatLngTuple, LatLngTuple } from "leaflet";
@@ -15,6 +15,7 @@ import { postAndGetPoints, getPopulationDensity, getPTData } from '../router/res
 import type { FeatureCollection, Feature, GeoJsonObject, LayerVisibility, Line, LineIndexLookup, Geometry, LineString } from '../types/data';
 import { getLineColor, createDefaultPtStop } from './utils/utils';
 import { createQualityLayer, qualityLayerInfo } from './utils/qual_layers';
+import { Link } from 'react-router-dom';
 
 const {Content, Footer} = Layout;
 
@@ -41,12 +42,20 @@ export const useLayerContext = () => {
     return context;
 };
 
+
 export const LayerProvider: React.FC = ({ children }) => {
     const [visibleLayersState, setVisibleLayersState] = useState<LayerVisibility>({ popLayer: false, transportLayer: false });
     const [checkboxValues, setCheckboxValues] = useState<CheckboxValueType[]>([]);
     const [linesFromFormState, setLinesFromFormState] = useState<Line[]>([]);
     const [drawingState, setDrawingState] = useState<boolean>(false);
     const userLinesRef = useRef<GeoJSON.Feature[]>([]);
+
+    // Send GeoJSON FeatureCollection to backend
+    let sender: FeatureCollection = { type: "FeatureCollection", features: userLinesRef.current as Feature[] };
+    postAndGetPoints(sender)
+        .then(data => {console.log(data)})
+
+    useEffect(() => {}, [userLinesRef]);
 
     const value = {
         visibleLayersState,
@@ -81,6 +90,9 @@ function ContentPage() {
                     <Legend/>
                     <CheckBoxes/>
                     <PointControlBox/>
+                    <Link to="/">
+                        <Button>Back to home (TEMP)</Button>
+                    </Link>
                 </Row>
             </Content>
             <Footer className="footer" id="mapFooter">
