@@ -39,9 +39,9 @@ export function getPTData(): Promise<GeoJsonObject | undefined> {
     });
 }
 
-export function postAndGetPoints(userPoints: FeatureCollection): Promise<GeoJsonObject | undefined> {
+export function postAndGetPoints(userPoints: GeoJSON.Feature[]): Promise<GeoJSON.Feature[] | undefined> {
   const url = `user/pt-stops`;
-  const promise = axiosClient.post<GeoJsonObject>(url, userPoints);
+  const promise = axiosClient.post<GeoJSON.Feature[]>(url, userPoints);
   return promise
     .then((res) => {
       if (res.status !== 204) {
@@ -53,6 +53,24 @@ export function postAndGetPoints(userPoints: FeatureCollection): Promise<GeoJson
       console.error(err);
       throw err;
     });
+}
+
+export function getScoreUserPtLine(): Promise<Number> {
+  const url = `user/pt-stops`;
+  const promise = axiosClient.get<Number>(url);
+  return promise
+    .then((res) => {
+      if (res.status !== 204) {
+        console.log(res.data);
+        return res.data;
+      }
+      return 0;
+    })
+    .catch((err) => {
+      console.error(err);
+      throw err;
+    });
+
 }
 
 /*
