@@ -11,7 +11,7 @@ import './pages.css';
 import FormComponent from './components/FormComponent';
 import { Legend } from './components/legend';
 import type { CheckboxValueType } from 'antd/es/checkbox/Group';
-import { postAndGetPoints, getPopulationDensity, getPTData } from '../router/resources/data';
+import { postAndGetPoints, getPopulationDensity, getPTData, getScoreUserPtLine } from '../router/resources/data';
 import type { FeatureCollection, Feature, GeoJsonObject, LayerVisibility, Line, LineIndexLookup, Geometry, LineString } from '../types/data';
 import { getLineColor, createDefaultPtStop } from './utils/utils';
 import { createQualityLayer, qualityLayerInfo } from './utils/qual_layers';
@@ -30,6 +30,8 @@ interface LayerContextType {
     drawingState: boolean;
     setDrawingState: React.Dispatch<React.SetStateAction<boolean>>;
     userLinesRef: React.MutableRefObject<GeoJSON.Feature[]>;
+    score: number;
+    setScore: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const LayerContext = createContext<LayerContextType | undefined>(undefined);
@@ -48,14 +50,12 @@ export const LayerProvider: React.FC = ({ children }) => {
     const [checkboxValues, setCheckboxValues] = useState<CheckboxValueType[]>([]);
     const [linesFromFormState, setLinesFromFormState] = useState<Line[]>([]);
     const [drawingState, setDrawingState] = useState<boolean>(false);
+    const [score, setScore] = useState<number>(0);
     const userLinesRef = useRef<GeoJSON.Feature[]>([]);
 
     // Send GeoJSON FeatureCollection to backend
     let sender: FeatureCollection = { type: "FeatureCollection", features: userLinesRef.current as Feature[] };
-    postAndGetPoints(sender)
-        .then(data => {console.log(data)})
 
-    useEffect(() => {}, [userLinesRef]);
 
     const value = {
         visibleLayersState,
@@ -66,7 +66,8 @@ export const LayerProvider: React.FC = ({ children }) => {
         setLinesFromFormState,
         drawingState,
         setDrawingState,
-        userLinesRef
+        userLinesRef,
+        score, setScore
     };
 
     return (
@@ -94,6 +95,7 @@ function ContentPage() {
                         <Button>Back to home (TEMP)</Button>
                     </Link>
                 </Row>
+                
             </Content>
             <Footer className="footer" id="mapFooter">
                 <span id="footerText">
@@ -114,7 +116,18 @@ const MapWrapper = React.memo(function MapWrapper() {
     );
 })
 
-
+function Score() {
+    const {
+        score
+    } = useLayerContext();
+    console.log("score: " + score);
+    
+    return (
+        <div id="info_text">
+            <h2>{score}</h2>
+        </div>
+    );
+}
 
 
 const Map = React.memo(function Map() {
@@ -127,14 +140,12 @@ const Map = React.memo(function Map() {
     const heatMapLayerRef = useRef<L.HeatLayer>();
     const polyLineArrayRef = useRef<L.Polyline[]>([]);
 
-    const score = useRef<number>();
-
     const { 
         visibleLayersState, setVisibleLayersState,
         checkboxValues, setCheckboxValues,
         linesFromFormState, setLinesFromFormState,
         drawingState, setDrawingState,
-        userLinesRef
+        userLinesRef, score, setScore
     } = useLayerContext();
 
 
@@ -200,10 +211,10 @@ const Map = React.memo(function Map() {
 
     useEffect(() => {
         console.log("STATECHANGE");
-        postAndGetPoints(addedPointsState)
+        postAndGetPoints(userLinesRef.current)
             .then(userGeoJson => {
                 if(userGeoJson != undefined){
-                    addedPointsGeoJsonRef.current = userGeoJson as GeoJsonObject;
+                    userLinesRef.current = userGeoJson as GeoJSON.Feature[];
                 }
             })
             .then( () => {
@@ -234,6 +245,10 @@ const Map = React.memo(function Map() {
                         line.bringToFront();
                     } 
                 }
+            });
+            getScoreUserPtLine().then((data: any) => {
+                //console.log(data);
+                setScore(data?.population_served);
             });
     }, [addedPointsState])
     
@@ -400,6 +415,7 @@ function CheckBoxes() {
 
     return (
         <div id="checkBoxes">
+          <Score/>
           <CheckboxGroup options={options} value={checkboxValues} onChange={onChange}/>
         </div>
       );
