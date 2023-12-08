@@ -3,7 +3,7 @@
  */
 
 import L from 'leaflet';
-import { Feature, GeoJsonObject } from '../../types/data';
+import { Feature, FeatureCollection, GeoJsonObject } from '../../types/data';
 import { classColors } from './colors';
 import { createDefaultPtStop } from './utils';
 
@@ -30,7 +30,7 @@ const qualityLayerConfig = {
  * @param layerType Either 'A', 'B', 'C' or 'D'
  * @returns Quality layer as L.geoJSON
  */
-function createQualityLayer(data: GeoJsonObject, layerType: 'A' | 'B' | 'C' | 'D') {
+function createQualityLayer(data: GeoJSON.Feature[] | FeatureCollection, layerType: 'A' | 'B' | 'C' | 'D') {
     const config = qualityLayerConfig[layerType];
     
     return L.geoJSON(data, {
@@ -46,18 +46,46 @@ function createQualityLayer(data: GeoJsonObject, layerType: 'A' | 'B' | 'C' | 'D
             geojsonMarkerOptions.color = config.color;
             geojsonMarkerOptions.radius = radius;
 
+
             return L.circle(latlng, geojsonMarkerOptions);
         }
     });
 }
 
+function createQualityLayerLineString(data: any, layerType: 'A' | 'B' | 'C' | 'D') {
+    // data should be GeoJson.Feature[] and a linestring
+    const config = qualityLayerConfig[layerType];
+    console.log("createQualityLayerLineString");
+    console.log(data);
+    let layer: L.GeoJSON = L.geoJSON();
+    for (let feature of data) {
+        let props = feature.properties;
+        let kat =  4 //props?.Hst_Kat;
+        /* tslint:disable-next-line */
+        for (let coord_pair of feature.geometry.coordinates) {
+            let latlng = L.latLng(coord_pair[1], coord_pair[0]);
+            let radiusIndex = config.categories.indexOf(kat);
+            let radius = config.radius[radiusIndex] || 20; // Default radius if not found
+
+            geojsonMarkerOptions.color = config.color;
+            geojsonMarkerOptions.radius = radius;
+
+            let circle = L.circle(latlng, geojsonMarkerOptions);
+            circle.addTo(layer);
+        }
+        console.log(props);
+        console.log(kat);
+        console.log(feature);
+    }
+    return layer;
+ }
 /**
  * Create a quality layer with information about the PT stop
  * @param data GeoJSON data
  * @param makePoint Function to create a new PT stop
  * @returns Quality layer as L.geoJSON
  */
-function qualityLayerInfo(data: GeoJsonObject, makePoint: any) {
+function qualityLayerInfo(data: GeoJSON.Feature[], makePoint: any) {
     let onClick = function (e: any, feature: any, circle: any) {
         L.DomEvent.stopPropagation(e);
         console.log(feature.properties.Haltestellen_No);
@@ -85,4 +113,4 @@ function qualityLayerInfo(data: GeoJsonObject, makePoint: any) {
     return geoJsonInfoLayer;
 }
 
-export { qualityLayerInfo, createQualityLayer }
+export { qualityLayerInfo, createQualityLayer, createQualityLayerLineString }

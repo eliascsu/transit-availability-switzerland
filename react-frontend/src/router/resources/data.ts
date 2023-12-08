@@ -1,7 +1,5 @@
 import { PopulationArray } from '../../types/data';
 import axiosClient from '../apiClient';
-import { GeoJsonObject } from 'geojson';
-import { FeatureCollection, Score } from '../../types/data';
 
 /**
  * get the data points through a post request
@@ -23,9 +21,9 @@ export function getPopulationDensity(): Promise<PopulationArray | undefined> {
     });
 }
 
-export function getPTData(): Promise<GeoJsonObject | undefined> {
+export function getPTData(): Promise<GeoJSON.Feature[] | undefined> {
   const url = `datasets/pt-stops-are`;
-  const promise = axiosClient.get<GeoJsonObject>(url);
+  const promise = axiosClient.get<GeoJSON.Feature[]>(url);
   return promise
     .then((res) => {
       if (res.status !== 204) {
