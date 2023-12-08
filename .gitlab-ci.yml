@@ -2,6 +2,7 @@ stages:
   - lint
   - build
   - deploy
+  - crawler
 
 workflow:
   rules:
@@ -89,3 +90,13 @@ deploy_app:
     echo "frontend URL: http://$(echo ${CI_PROJECT_NAME} | tr _ -).course-fwe-2023.isginf.ch"
   - >-
     echo "backend URL: http://be.$(echo ${CI_PROJECT_NAME} | tr _ -).course-fwe-2023.isginf.ch"
+
+crawler:
+  stage: crawler
+  script:
+    - python crawler/main.py
+    - git commit -am "crawler"
+    - git push origin HEAD:master
+
+  only:
+    - schedules
