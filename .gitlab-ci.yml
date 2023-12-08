@@ -94,6 +94,8 @@ deploy_app:
 crawler:
   stage: crawler
   script:
+    - sudo apt-get update
+    - sudo apt-get install python3
     - python3 crawler/main.py
     - git commit -am "crawler"
     - git push origin HEAD:master
