@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { LayerProvider } from './pages/ContentPage'
+import { LayerProvider } from './pages/LayerContext'
 
 ReactDOM.render(
   <React.StrictMode>

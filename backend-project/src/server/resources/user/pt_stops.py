@@ -66,8 +66,11 @@ class user_pt_stops(Resource):
         user_pt_stops.lock.release()
 
         sum = 0
-        for feature in data["features"]:
-            sum += self.calculate_population_served_per_coordinate(feature["geometry"]["coordinates"][0], feature["geometry"]["coordinates"][1])
+        for feature in data:
+            print(feature["geometry"]["coordinates"])
+            for coordinate in feature["geometry"]["coordinates"]:
+                print(coordinate)
+                sum += self.calculate_population_served_per_coordinate(coordinate[0], coordinate[1])
 
         return {"population_served": int(sum)}
 

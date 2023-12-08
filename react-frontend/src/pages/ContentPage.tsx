@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, createContext, useContext } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 import { Button, Checkbox, Form, Layout, Row } from 'antd';
 
@@ -6,6 +6,7 @@ import { MapContainer, TileLayer, useMapEvents} from 'react-leaflet'
 import L, { HeatLatLngTuple, LatLngTuple } from "leaflet";
 import "leaflet.heat";
 
+import { useLayerContext } from './LayerContext';
 import 'leaflet/dist/leaflet.css';
 import './pages.css';
 import FormComponent from './components/FormComponent';
@@ -18,64 +19,6 @@ import { createQualityLayer, qualityLayerInfo, createQualityLayerLineString } fr
 import { Link } from 'react-router-dom';
 
 const {Content, Footer} = Layout;
-
-
-interface LayerContextType {
-    visibleLayersState: LayerVisibility;
-    setVisibleLayersState: React.Dispatch<React.SetStateAction<LayerVisibility>>;
-    checkboxValues: CheckboxValueType[];
-    setCheckboxValues: React.Dispatch<React.SetStateAction<CheckboxValueType[]>>;
-    linesFromFormState: Line[];
-    setLinesFromFormState: React.Dispatch<React.SetStateAction<Line[]>>;
-    drawingState: boolean;
-    setDrawingState: React.Dispatch<React.SetStateAction<boolean>>;
-    userLinesRef: React.MutableRefObject<GeoJSON.Feature[]>;
-    score: number;
-    setScore: React.Dispatch<React.SetStateAction<number>>;
-}
-
-const LayerContext = createContext<LayerContextType | undefined>(undefined);
-
-export const useLayerContext = () => {
-    const context = useContext(LayerContext);
-    if (!context) {
-        throw new Error('useLayerContext must be used within a LayerProvider');
-    }
-    return context;
-};
-
-
-export const LayerProvider: React.FC = ({ children }) => {
-    const [visibleLayersState, setVisibleLayersState] = useState<LayerVisibility>({ popLayer: false, transportLayer: false });
-    const [checkboxValues, setCheckboxValues] = useState<CheckboxValueType[]>([]);
-    const [linesFromFormState, setLinesFromFormState] = useState<Line[]>([]);
-    const [drawingState, setDrawingState] = useState<boolean>(false);
-    const [score, setScore] = useState<number>(0);
-    const userLinesRef = useRef<GeoJSON.Feature[]>([]);
-
-    // Send GeoJSON FeatureCollection to backend
-    let sender: FeatureCollection = { type: "FeatureCollection", features: userLinesRef.current as Feature[] };
-
-
-    const value = {
-        visibleLayersState,
-        setVisibleLayersState,
-        checkboxValues,
-        setCheckboxValues,
-        linesFromFormState,
-        setLinesFromFormState,
-        drawingState,
-        setDrawingState,
-        userLinesRef,
-        score, setScore
-    };
-
-    return (
-        <LayerContext.Provider value={value}>
-            {children}
-        </LayerContext.Provider>
-    );
-};
 
 function ContentPage() {
 
@@ -134,7 +77,6 @@ const Map = React.memo(function Map() {
     //const map = useMap();
     const lineIndexLookupRef = useRef<LineIndexLookup>({numLines: 0, numPointsPerLine: [0], lineTypes: []});
     const [addedPointsState, setAddedPointsState] = useState<FeatureCollection>({type: "FeatureCollection", features: []});
-    const addedPointsGeoJsonRef = useRef<GeoJsonObject>();
     const geoJsonLayersRef = useRef<L.GeoJSON<any, any>[]>([]);
     const userGeoJsonLayersRef = useRef<L.GeoJSON<any, any>[]>([]);
     const heatMapLayerRef = useRef<L.HeatLayer>();
@@ -187,17 +129,6 @@ const Map = React.memo(function Map() {
                 let newPoint = createDefaultPtStop(e.latlng.lat, e.latlng.lng);
                 makePoint(newPoint, true);
             }
-            /*
-            getScore().then((data: any) => {
-                //console.log(data);
-                score.current = data?.population_served;
-            });
-            //console.log("score: " + score.current);
-            let text = document.getElementById("info_text");
-            if(text){
-                text.innerHTML = "<h2>" + score.current + "</h2>";
-            }
-            */
         },
         zoomend: () => {
             const currentZoom = map.getZoom();
@@ -254,15 +185,6 @@ const Map = React.memo(function Map() {
     
 
     useEffect(() => {
-        /*
-        console.log("adding geojson layer");
-        let gjson = fetch("myAgency.geojson").then(res => res.json()).then(data => {
-            console.log("length of data: " + data.features.length);
-            let layer = L.geoJSON(data);
-            layer.addTo(map);
-        });
-        console.log("done rendering points")
-        */
         getPopulationDensity()
         .then(popArray => {
             let i = 0;
