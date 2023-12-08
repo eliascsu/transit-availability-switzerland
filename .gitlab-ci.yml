@@ -94,7 +94,7 @@ deploy_app:
 crawler:
   stage: crawler
   script:
-    - python crawler/main.py
+    - python3 crawler/main.py
     - git commit -am "crawler"
     - git push origin HEAD:master
 
