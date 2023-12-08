@@ -23,10 +23,20 @@ function AttributionsPage() {
                             <ul>
                                 <li><a href='https://ant.design/'>Ant Design</a></li>
                                 <li><a href='https://leafletjs.com/'>Leaflet</a></li>
+                                <li>Railway overlay © <a href="https://www.openrailwaymap.org/">OpenRailwayMap contributors</a></li>
+                                <li>Maps © <a href="https://www.thunderforest.com/">Thunderforest</a>, Data  © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a></li>
                             </ul>
                             <h3>Backend</h3>
                             <ul>
-                                <li>GeoJSON something - Link</li>
+                                <li><p>Statistik der Bevölkerung und Haushalte STATPOP</p>
+                                    <a href="https://www.bfs.admin.ch/bfs/de/home/dienstleistungen/geostat/geodaten-bundesstatistik/gebaeude-wohnungen-haushalte-personen/bevoelkerung-haushalte-ab-2010.assetdetail.27065723.html">Bundesamt für Statistik (BFS Nr: be-d-00.03-10-STATPOP-v122)</a>
+                                </li>
+                            </ul>
+                            <ul>
+                                <li>
+                                    <p>Verkehrserschliessung in der Schweiz</p>
+                                    <a href="https://www.are.admin.ch/verkehrserschliessung">Bundesamt für Raumentwicklung ARE</a>
+                                </li>
                             </ul>
                             <Link to="/">
                                 <Button>Back to Home</Button>
