@@ -3,7 +3,7 @@
  */
 
 import L from 'leaflet';
-import { Feature, FeatureCollection, GeoJsonObject } from '../../types/data';
+import { Feature, FeatureCollection } from '../../types/data';
 import { classColors } from './colors';
 import { createDefaultPtStop } from './utils';
 

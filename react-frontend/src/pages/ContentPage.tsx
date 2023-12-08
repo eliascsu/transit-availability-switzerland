@@ -13,7 +13,7 @@ import FormComponent from './components/FormComponent';
 import { Legend } from './components/legend';
 import type { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { postAndGetPoints, getPopulationDensity, getPTData, getScoreUserPtLine } from '../router/resources/data';
-import type { FeatureCollection, Feature, GeoJsonObject, LayerVisibility, Line, LineIndexLookup, Geometry, LineString } from '../types/data';
+import type { FeatureCollection, Feature, LayerVisibility, Line, LineIndexLookup } from '../types/data';
 import { getLineColor, createDefaultPtStop } from './utils/utils';
 import { createQualityLayer, qualityLayerInfo, createQualityLayerLineString } from './utils/qual_layers';
 import { Link } from 'react-router-dom';
@@ -76,11 +76,11 @@ function Score() {
 const Map = React.memo(function Map() {
     //const map = useMap();
     const lineIndexLookupRef = useRef<LineIndexLookup>({numLines: 0, numPointsPerLine: [0], lineTypes: []});
-    const [addedPointsState, setAddedPointsState] = useState<FeatureCollection>({type: "FeatureCollection", features: []});
     const geoJsonLayersRef = useRef<L.GeoJSON<any, any>[]>([]);
     const userGeoJsonLayersRef = useRef<L.GeoJSON<any, any>[]>([]);
     const heatMapLayerRef = useRef<L.HeatLayer>();
     const polyLineArrayRef = useRef<L.Polyline[]>([]);
+    const [updatePT, setUpdatePT] = useState<boolean>(false); 
 
     const { 
         visibleLayersState, setVisibleLayersState,
@@ -141,6 +141,7 @@ const Map = React.memo(function Map() {
     });
 
     useEffect(() => {
+        setUpdatePT(false)
         console.log("STATECHANGE");
         postAndGetPoints(userLinesRef.current)
             .then(userGeoJson => {
@@ -181,7 +182,7 @@ const Map = React.memo(function Map() {
                 //console.log(data);
                 setScore(data?.population_served);
             });
-    }, [addedPointsState, userLinesRef])
+    }, [updatePT, userLinesRef])
     
 
     useEffect(() => {
@@ -318,10 +319,8 @@ const Map = React.memo(function Map() {
         lineIndexLookupRef.current.numPointsPerLine[lineIndexLookupRef.current.numPointsPerLine.length - 1]++;
         let hst_No: string = visible.valueOf().toString();
         point.properties.Haltestellen_No = hst_No;
-        setAddedPointsState(prevState => ({
-            ...prevState,
-            features: [...prevState.features, point]
-        }))
+        // Redraw layers
+        setUpdatePT(true);
     }
     return null;
 });

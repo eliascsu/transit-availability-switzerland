@@ -1,14 +1,11 @@
-import { Polyline, LatLngTuple } from "leaflet";
+import { LatLngTuple } from "leaflet";
 
 export interface PopulationPoint {
     lat: string;
     lng: string;
     intensity: string;
 }
-export type LineString = Polyline;
 export type PopulationArray = PopulationPoint[];
-
-export type GeoJsonObject = FeatureCollection | Feature;
 
 export interface FeatureCollection {
     type: 'FeatureCollection';
@@ -21,9 +18,9 @@ export interface Feature {
     properties: Properties;
 }
 
-export interface Geometry {
-    type: 'Point' | "LineString";
-    coordinates: LatLngTuple | LatLngTuple[];
+interface Geometry {
+    type: 'Point';
+    coordinates: LatLngTuple;
 }
 
 export interface Properties {
