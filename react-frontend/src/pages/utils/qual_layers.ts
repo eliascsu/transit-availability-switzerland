@@ -113,4 +113,43 @@ function qualityLayerInfo(data: GeoJSON.Feature[], makePoint: any) {
     return geoJsonInfoLayer;
 }
 
-export { qualityLayerInfo, createQualityLayer, createQualityLayerLineString }
+function makePTCirclesFromData(data: GeoJSON.Feature[], makePoint: any){
+    console.log(data[0]);
+    // Working with the default layers
+    if (data[0] == undefined) {
+        let layers: L.GeoJSON<any, any>[] = [];
+        let geoJsonLayerA = createQualityLayer(data, "A")
+        let geoJsonLayerB = createQualityLayer(data, "B")
+        let geoJsonLayerC = createQualityLayer(data, "C")
+        let geoJsonLayerD = createQualityLayer(data, "D")
+
+        let geoJsonInfoLayer = qualityLayerInfo(data, makePoint);
+
+        layers.push(geoJsonLayerD);
+        layers.push(geoJsonLayerC);
+        layers.push(geoJsonLayerB);
+        layers.push(geoJsonLayerA);
+        layers.push(geoJsonInfoLayer);
+        return layers
+    }
+    // Working with the user layers
+    else {
+        // Types are now linestrings
+        let layers: L.GeoJSON<any, any>[] = [];
+        let geoJsonLayerA = createQualityLayerLineString(data, "A")
+        let geoJsonLayerB = createQualityLayerLineString(data, "B")
+        let geoJsonLayerC = createQualityLayerLineString(data, "C")
+        let geoJsonLayerD = createQualityLayerLineString(data, "D")
+
+        let geoJsonInfoLayer = qualityLayerInfo(data, makePoint);
+
+        layers.push(geoJsonLayerD);
+        layers.push(geoJsonLayerC);
+        layers.push(geoJsonLayerB);
+        layers.push(geoJsonLayerA);
+        layers.push(geoJsonInfoLayer);
+        return layers
+    }
+}
+
+export { qualityLayerInfo, createQualityLayer, createQualityLayerLineString, makePTCirclesFromData }

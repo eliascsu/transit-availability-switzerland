@@ -3,7 +3,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Button, Checkbox, Form, Layout, Row } from 'antd';
 
 import { MapContainer, TileLayer, useMapEvents} from 'react-leaflet'
-import L, { HeatLatLngTuple, LatLngTuple } from "leaflet";
+import L, { HeatLatLngTuple } from "leaflet";
 import "leaflet.heat";
 
 import { useLayerContext } from './LayerContext';
@@ -13,9 +13,9 @@ import FormComponent from './components/FormComponent';
 import { Legend } from './components/legend';
 import type { CheckboxValueType } from 'antd/es/checkbox/Group';
 import { postAndGetPoints, getPopulationDensity, getPTData, getScoreUserPtLine } from '../router/resources/data';
-import type { FeatureCollection, Feature, LayerVisibility, Line, LineIndexLookup } from '../types/data';
+import type { Feature, LayerVisibility, Line } from '../types/data';
 import { getLineColor, createDefaultPtStop } from './utils/utils';
-import { createQualityLayer, qualityLayerInfo, createQualityLayerLineString } from './utils/qual_layers';
+import { makePTCirclesFromData } from './utils/qual_layers';
 import { Link } from 'react-router-dom';
 
 const {Content, Footer} = Layout;
@@ -75,7 +75,6 @@ function Score() {
 
 const Map = React.memo(function Map() {
     //const map = useMap();
-    const lineIndexLookupRef = useRef<LineIndexLookup>({numLines: 0, numPointsPerLine: [0], lineTypes: []});
     const geoJsonLayersRef = useRef<L.GeoJSON<any, any>[]>([]);
     const userGeoJsonLayersRef = useRef<L.GeoJSON<any, any>[]>([]);
     const heatMapLayerRef = useRef<L.HeatLayer>();
@@ -152,7 +151,7 @@ const Map = React.memo(function Map() {
             .then( () => {
                 if(userLinesRef.current != undefined && visibleLayersState.transportLayer){
                     let data: GeoJSON.Feature[] = userLinesRef.current;
-                    userGeoJsonLayersRef.current = makePTCirclesFromData(data);   
+                    userGeoJsonLayersRef.current = makePTCirclesFromData(data, makePoint);   
                     const currentZoom = map.getZoom();
                     map.eachLayer((layer) => {
                         if(geoJsonLayersRef.current.some((curr) => layer == curr)){
@@ -216,7 +215,7 @@ const Map = React.memo(function Map() {
             .then(data => {
                 if(data != undefined && visibleLayersState.transportLayer){
                     console.log("data being rendered: " + data);
-                    geoJsonLayersRef.current = makePTCirclesFromData(data);
+                    geoJsonLayersRef.current = makePTCirclesFromData(data, makePoint);
         
                     geoJsonLayersRef.current[0].addTo(map);
                     geoJsonLayersRef.current[1].addTo(map);
@@ -277,46 +276,7 @@ const Map = React.memo(function Map() {
         );
     }, [linesFromFormState]);
 
-    function makePTCirclesFromData(data: GeoJSON.Feature[]){
-        console.log(data[0]);
-        // Working with the default layers
-        if (data[0] == undefined) {
-            let layers: L.GeoJSON<any, any>[] = [];
-            let geoJsonLayerA = createQualityLayer(data, "A")
-            let geoJsonLayerB = createQualityLayer(data, "B")
-            let geoJsonLayerC = createQualityLayer(data, "C")
-            let geoJsonLayerD = createQualityLayer(data, "D")
-
-            let geoJsonInfoLayer = qualityLayerInfo(data, makePoint);
-
-            layers.push(geoJsonLayerD);
-            layers.push(geoJsonLayerC);
-            layers.push(geoJsonLayerB);
-            layers.push(geoJsonLayerA);
-            layers.push(geoJsonInfoLayer);
-            return layers
-        }
-        // Working with the user layers
-        else {
-            // Types are now linestrings
-            let layers: L.GeoJSON<any, any>[] = [];
-            let geoJsonLayerA = createQualityLayerLineString(data, "A")
-            let geoJsonLayerB = createQualityLayerLineString(data, "B")
-            let geoJsonLayerC = createQualityLayerLineString(data, "C")
-            let geoJsonLayerD = createQualityLayerLineString(data, "D")
-
-            let geoJsonInfoLayer = qualityLayerInfo(data, makePoint);
-
-            layers.push(geoJsonLayerD);
-            layers.push(geoJsonLayerC);
-            layers.push(geoJsonLayerB);
-            layers.push(geoJsonLayerA);
-            layers.push(geoJsonInfoLayer);
-            return layers
-        }
-    }
     function makePoint(point: Feature, visible: boolean){
-        lineIndexLookupRef.current.numPointsPerLine[lineIndexLookupRef.current.numPointsPerLine.length - 1]++;
         let hst_No: string = visible.valueOf().toString();
         point.properties.Haltestellen_No = hst_No;
         // Redraw layers

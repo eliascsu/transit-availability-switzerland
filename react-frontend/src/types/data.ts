@@ -49,11 +49,6 @@ export interface Line {
     typ: string
 }
 
-export interface LineIndexLookup {
-    numLines: number,
-    numPointsPerLine: number[],
-    lineTypes: string[]
-}
 
 
 
