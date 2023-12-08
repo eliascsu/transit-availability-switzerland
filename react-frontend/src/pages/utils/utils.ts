@@ -1,6 +1,6 @@
 import { lineColors } from "./colors";
-import L, {LatLngTuple} from "leaflet";
-import type { Feature } from "../../types/data";
+import L, {HeatLatLngTuple, LatLngTuple} from "leaflet";
+import type { Feature, PopulationArray } from "../../types/data";
 
 /**
  * Returns the color of the line based on the line type
@@ -76,41 +76,14 @@ function addStopToLineString(lineString: GeoJSON.Feature<GeoJSON.LineString>, la
     return lineString;
 }
 
-function createPtLineStringFromPoints(stops: GeoJSON.FeatureCollection<GeoJSON.Point>) {
-    if (stops.features.length == 0) {
-        console.error("No stops to connect");
-        return;
-    }
-    if (stops.features.length == 1) {
-        console.error("Only one stop to connect");
-        return;
-    }
-    function stopsToLineString(stops: GeoJSON.FeatureCollection<GeoJSON.Point>) {
-        let coords: GeoJSON.Position[] = [];
-        for (let i = 0; i < stops.features.length; i++) {
-            let stop = stops.features[i];
-            coords.push(stop.geometry.coordinates as GeoJSON.Position);
-        }
-        return coords;
-    }
-    let lineString: GeoJSON.Feature<GeoJSON.LineString> = {
-        type: "Feature",
-        geometry: {
-            type: "LineString",
-            coordinates: stopsToLineString(stops)
-        },
-        properties: {
-            Haltestellen_No: "PLACEHOLDER",
-            Name: defaultName,
-            Bahnknoten: defaultBahnknoten,
-            Bahnlinie_Anz: defaultBahnlinie_Anz,
-            TramBus_Anz: defaultTramBus_Anz,
-            Seilbahn_Anz: defaultSeilbahn_Anz,
-            A_Intervall: defaultA_Intervall,
-            B_Intervall: defaultB_Intervall,
-            Hst_Kat: defaultHst_Kat
+function createHeatMap(data: PopulationArray) {
+    let heatArray: HeatLatLngTuple[] = [];
+    if (data != undefined) {
+        for (let row of data) {
+            heatArray.push([parseFloat(row.lat), parseFloat(row.lng), parseFloat(row.intensity)] as HeatLatLngTuple);
         }
     }
-    return lineString;
+    return heatArray;
 }
-export { addStopToLineString, getLineColor, createDefaultPtStop, createPtLineStringFromPoints };
+
+export { createHeatMap, addStopToLineString, getLineColor, createDefaultPtStop };

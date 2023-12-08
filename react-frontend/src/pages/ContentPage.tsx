@@ -1,22 +1,24 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { Link } from 'react-router-dom';
 
 import { Button, Checkbox, Form, Layout, Row } from 'antd';
+import type { CheckboxValueType } from 'antd/es/checkbox/Group';
 
 import { MapContainer, TileLayer, useMapEvents} from 'react-leaflet'
 import L, { HeatLatLngTuple } from "leaflet";
 import "leaflet.heat";
+import 'leaflet/dist/leaflet.css';
 
 import { useLayerContext } from './LayerContext';
-import 'leaflet/dist/leaflet.css';
-import './pages.css';
 import FormComponent from './components/FormComponent';
 import { Legend } from './components/legend';
-import type { CheckboxValueType } from 'antd/es/checkbox/Group';
-import { postAndGetPoints, getPopulationDensity, getPTData, getScoreUserPtLine } from '../router/resources/data';
-import type { Feature, LayerVisibility, Line } from '../types/data';
-import { getLineColor, createDefaultPtStop } from './utils/utils';
+import { postAndGetPoints, getPopulationDensity, getPTData, getScoreUserPtLine, getPopulationUnserved } from '../router/resources/data';
+import type { Feature, LayerVisibility, Line, PopulationArray } from '../types/data';
+import { getLineColor, createDefaultPtStop, createHeatMap } from './utils/utils';
 import { makePTCirclesFromData } from './utils/qual_layers';
-import { Link } from 'react-router-dom';
+import { Score } from './components/Score';
+
+import './pages.css';
 
 const {Content, Footer} = Layout;
 
@@ -59,19 +61,6 @@ const MapWrapper = React.memo(function MapWrapper() {
     );
 })
 
-function Score() {
-    const {
-        score
-    } = useLayerContext();
-    console.log("score: " + score);
-    
-    return (
-        <div id="info_text">
-            <h2>{score}</h2>
-        </div>
-    );
-}
-
 
 const Map = React.memo(function Map() {
     //const map = useMap();
@@ -82,20 +71,16 @@ const Map = React.memo(function Map() {
     const [updatePT, setUpdatePT] = useState<boolean>(false); 
 
     const { 
-        visibleLayersState, setVisibleLayersState,
-        checkboxValues, setCheckboxValues,
-        linesFromFormState, setLinesFromFormState,
-        drawingState, setDrawingState,
-        userLinesRef, score, setScore
+        visibleLayersState, linesFromFormState, 
+        drawingState, userLinesRef, setScore
     } = useLayerContext();
-
 
     const map = useMapEvents({
         click: (e) => {
             if(drawingState || true){
                 console.log(e)
                 let user_lines_geojson = userLinesRef.current;
-                if(user_lines_geojson.length == 0){
+                if(user_lines_geojson.length === 0){
                     user_lines_geojson.push(
                         {
                             type: "Feature",
@@ -145,7 +130,7 @@ const Map = React.memo(function Map() {
         postAndGetPoints(userLinesRef.current)
             .then(userGeoJson => {
                 if(userGeoJson != undefined){
-                    userLinesRef.current = userGeoJson as GeoJSON.Feature[];
+                    userLinesRef.current = userGeoJson;
                 }
             })
             .then( () => {
@@ -183,21 +168,12 @@ const Map = React.memo(function Map() {
             });
     }, [updatePT, userLinesRef])
     
-
     useEffect(() => {
         getPopulationDensity()
         .then(popArray => {
-            let i = 0;
             let heatArray: HeatLatLngTuple[] = [];
-            let pops = []
             if(popArray != undefined && visibleLayersState.popLayer){
-                for(let row of popArray){
-                    if(row.lat && i++<1000000){
-                        heatArray.push([parseFloat(row.lat), parseFloat(row.lng), parseFloat(row.intensity)] as HeatLatLngTuple);
-                        //console.log(row.intensity);
-                        pops.push(row.intensity);
-                    }
-                }     
+                heatArray = createHeatMap(popArray);
                 heatMapLayerRef.current = L.heatLayer(heatArray, {radius: 15, max: 10});
                 heatMapLayerRef.current.addTo(map);
             }
@@ -205,9 +181,20 @@ const Map = React.memo(function Map() {
                 heatMapLayerRef.current?.removeFrom(map);
             }
         });
-        
-                
     }, [visibleLayersState.popLayer]);
+    
+    useEffect(() => {
+        getPopulationUnserved().then(pop => {
+            if (pop != undefined && visibleLayersState.popUnservedLayer) {
+                let heatArray = createHeatMap(pop);
+                heatMapLayerRef.current = L.heatLayer(heatArray, {radius: 15, max: 10});
+                heatMapLayerRef.current.addTo(map);
+            }
+            else {
+                heatMapLayerRef.current?.removeFrom(map);
+            }
+        })},
+        [visibleLayersState.popUnservedLayer]);
 
     useEffect(() => {
 
@@ -235,6 +222,9 @@ const Map = React.memo(function Map() {
              
     }, [visibleLayersState.transportLayer]);
 
+    /**
+     * On form submit redraw user lines
+     */
     useEffect(() => {
         for (let line of userLinesRef.current) {
             L.geoJSON(line).removeFrom(map)
@@ -294,11 +284,12 @@ function CheckBoxes() {
     } = useLayerContext();
 
     const CheckboxGroup = Checkbox.Group;
-    const options = ['PublicTransport', 'PopulationDensity'];
-    const layers: LayerVisibility = {popLayer:false, transportLayer:false}
+    const options = ['PublicTransport', 'PopulationDensity', 'PopulationUnserved'];
+    const layers: LayerVisibility = {popLayer:false, transportLayer:false, popUnservedLayer:false}
 
     const publicTransport = (element: CheckboxValueType) => element == 'PublicTransport';
     const populationDensity = (element: CheckboxValueType) => element == 'PopulationDensity';
+    const populationUnserved = (element: CheckboxValueType) => element == 'PopulationUnserved';
 
     const onChange = (list: CheckboxValueType[]) => {
         setCheckboxValues(list);
@@ -311,6 +302,11 @@ function CheckBoxes() {
             layers.popLayer = true;
         } else {
             layers.popLayer = false;
+        }
+        if (list.some(populationUnserved)) {
+            layers.popUnservedLayer = true;
+        } else {
+            layers.popUnservedLayer = false;
         }
         setVisibleLayersState(layers);
         console.log(layers);
@@ -339,7 +335,7 @@ function PointControlBox() {
             intervall: values.interval,
             typ: values.transportType
         }
-        
+
         setLinesFromFormState([...linesFromFormState, newLine]);
         form.resetFields(); // Reset form fields after the operation
     };

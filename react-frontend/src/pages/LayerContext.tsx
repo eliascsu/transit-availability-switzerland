@@ -28,7 +28,7 @@ export const useLayerContext = () => {
 };
 
 export const LayerProvider: React.FC = ({ children }) => {
-    const [visibleLayersState, setVisibleLayersState] = useState<LayerVisibility>({ popLayer: false, transportLayer: false });
+    const [visibleLayersState, setVisibleLayersState] = useState<LayerVisibility>({ popLayer: false, transportLayer: false, popUnservedLayer: false });
     const [checkboxValues, setCheckboxValues] = useState<CheckboxValueType[]>([]);
     const [linesFromFormState, setLinesFromFormState] = useState<Line[]>([]);
     const [drawingState, setDrawingState] = useState<boolean>(false);

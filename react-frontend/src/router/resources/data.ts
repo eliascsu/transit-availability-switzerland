@@ -21,6 +21,22 @@ export function getPopulationDensity(): Promise<PopulationArray | undefined> {
     });
 }
 
+export function getPopulationUnserved(): Promise<PopulationArray | undefined> {
+  const url = `datasets/population-unserved`
+  const promise = axiosClient.get<PopulationArray>(url);
+  return promise
+    .then((res) => {
+      if (res.status !== 204) {
+        return res.data;
+      }
+      return undefined;
+    })
+    .catch((err) => {
+      console.error(err);
+      throw err;
+    });
+}
+
 export function getPTData(): Promise<GeoJSON.Feature[] | undefined> {
   const url = `datasets/pt-stops-are`;
   const promise = axiosClient.get<GeoJSON.Feature[]>(url);

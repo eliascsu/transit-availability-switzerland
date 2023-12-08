@@ -42,6 +42,7 @@ export interface Score {
 export interface LayerVisibility {
     popLayer: boolean,
     transportLayer: boolean
+    popUnservedLayer: boolean,
 }
 
 export interface Line {
