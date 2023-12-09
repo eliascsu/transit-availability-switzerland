@@ -11,7 +11,7 @@ import type { Feature } from '../../types/data';
 import { getLineColor, createDefaultPtStop, createHeatMap } from '../utils/utils';
 import { makePTCirclesFromData } from '../utils/qual_layers';
 
-import './pages.css';
+import '../pages.css';
 
 
 export const MapWrapper = React.memo(function MapWrapper() {
