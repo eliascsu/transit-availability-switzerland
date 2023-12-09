@@ -5,6 +5,8 @@ import { Legend } from "./components/legend";
 import { MapWrapper } from "./components/MapWrapper";
 import { CheckBoxes } from "./components/Checkboxes";
 import PointControlBox from "./components/PointControlBox";
+import PopulationHeatmap from "./components/maps/Heatmap";
+import PtMap from "./components/maps/PtMap";
 
 export default function ContentPage() {
 
@@ -23,6 +25,10 @@ export default function ContentPage() {
                     <Link to="/">
                         <Button>Back to home (TEMP)</Button>
                     </Link>
+                </Row>
+                <Row>
+                    <PopulationHeatmap/>
+                    <PtMap/>
                 </Row>
             </Content>
             <Footer className="footer" id="mapFooter">

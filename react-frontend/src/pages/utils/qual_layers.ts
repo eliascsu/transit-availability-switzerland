@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 
 import L from 'leaflet';
@@ -32,7 +32,7 @@ const qualityLayerConfig = {
  */
 function createQualityLayer(data: GeoJSON.Feature[] | FeatureCollection, layerType: 'A' | 'B' | 'C' | 'D') {
     const config = qualityLayerConfig[layerType];
-    
+
     return L.geoJSON(data, {
         filter(geoJsonFeature) {
             let kat = geoJsonFeature.properties.Hst_Kat;
@@ -113,7 +113,7 @@ function qualityLayerInfo(data: GeoJSON.Feature[], makePoint: any) {
     return geoJsonInfoLayer;
 }
 
-function makePTCirclesFromData(data: GeoJSON.Feature[], makePoint: any){
+function makePTCirclesFromData(data: GeoJSON.Feature[], makePoint?: any){
     console.log(data[0]);
     // Working with the default layers
     if (data[0] == undefined) {
@@ -141,13 +141,13 @@ function makePTCirclesFromData(data: GeoJSON.Feature[], makePoint: any){
         let geoJsonLayerC = createQualityLayerLineString(data, "C")
         let geoJsonLayerD = createQualityLayerLineString(data, "D")
 
-        let geoJsonInfoLayer = qualityLayerInfo(data, makePoint);
+        let geoJsonInfoLayer = makePoint? qualityLayerInfo(data, makePoint) : undefined;
 
         layers.push(geoJsonLayerD);
         layers.push(geoJsonLayerC);
         layers.push(geoJsonLayerB);
         layers.push(geoJsonLayerA);
-        layers.push(geoJsonInfoLayer);
+        if (geoJsonInfoLayer) layers.push(geoJsonInfoLayer);
         return layers
     }
 }

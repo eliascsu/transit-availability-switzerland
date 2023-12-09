@@ -13,6 +13,11 @@ import { makePTCirclesFromData } from '../utils/qual_layers';
 
 import '../pages.css';
 
+const defaultLineStyle = {
+    color: "red",
+    weight: 2,
+    opacity: 1,
+}
 
 export const MapWrapper = React.memo(function MapWrapper() {
     return (
@@ -24,12 +29,32 @@ export const MapWrapper = React.memo(function MapWrapper() {
     );
 })
 
+function addPointToLine(userLines: GeoJSON.Feature[], latlng: L.LatLng) {
+    if(userLines.length === 0){
+        userLines.push(
+            {
+                type: "Feature",
+                properties: {
+                    Haltestellen_No: "0"
+                } as GeoJSON.GeoJsonProperties,
+                geometry: {
+                    type: "LineString",
+                    coordinates: [[latlng.lng, latlng.lat]]
+                } as GeoJSON.Geometry
+            } as GeoJSON.Feature
+        )
+    }
+    let last_line_geojson2 = userLines[userLines.length - 1];
+    (last_line_geojson2.geometry as GeoJSON.LineString).coordinates.push([latlng.lng, latlng.lat]);
+    userLines[userLines.length - 1] = last_line_geojson2;
+    return userLines;
+}
+
 const Map = React.memo(function Map() {
     //const map = useMap();
     const geoJsonLayersRef = useRef<L.GeoJSON<any, any>[]>([]);
     const userGeoJsonLayersRef = useRef<L.GeoJSON<any, any>[]>([]);
     const heatMapLayerRef = useRef<L.HeatLayer>();
-    const polyLineArrayRef = useRef<L.Polyline[]>([]);
     const [updatePT, setUpdatePT] = useState<boolean>(false); 
 
     const { 
@@ -42,35 +67,11 @@ const Map = React.memo(function Map() {
             if(drawingState || true){
                 console.log(e)
                 let user_lines_geojson = userLinesRef.current;
-                if(user_lines_geojson.length === 0){
-                    user_lines_geojson.push(
-                        {
-                            type: "Feature",
-                            properties: {
-                                Haltestellen_No: "0"
-                            } as GeoJSON.GeoJsonProperties,
-                            geometry: {
-                                type: "LineString",
-                                coordinates: [[e.latlng.lng, e.latlng.lat]]
-                            } as GeoJSON.Geometry
-                        } as GeoJSON.Feature
-                    )
-                }
-                let last_line_geojson2 = user_lines_geojson[user_lines_geojson.length - 1];
-                (last_line_geojson2.geometry as GeoJSON.LineString).coordinates.push([e.latlng.lng, e.latlng.lat]);
-                user_lines_geojson[user_lines_geojson.length - 1] = last_line_geojson2;
+                user_lines_geojson = addPointToLine(user_lines_geojson, e.latlng);
                 userLinesRef.current = user_lines_geojson;
 
-                L.geoJSON(userLinesRef.current,
-                    {
-                        style: {
-                            color: "red",
-                            weight: 2,
-                            opacity: 1,
-                        }
-                    }
-                ).addTo(map);
-                
+                L.geoJSON(userLinesRef.current, {style: defaultLineStyle}).addTo(map);
+
                 let newPoint = createDefaultPtStop(e.latlng.lat, e.latlng.lng);
                 makePoint(newPoint, true);
             }
@@ -118,9 +119,6 @@ const Map = React.memo(function Map() {
                     if((currentZoom >= 12)){
                         map.addLayer(geoJsonLayersRef.current[4]);
                     }
-                    for(let line of polyLineArrayRef.current){
-                        line.bringToFront();
-                    } 
                 }
             });
             getScoreUserPtLine().then((data: any) => {
