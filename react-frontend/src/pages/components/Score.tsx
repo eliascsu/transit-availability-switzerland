@@ -1,4 +1,4 @@
-import { useLayerContext } from "../LayerContext";
+import { useLayerContext } from "../ctx/LayerContext";
 
 export function Score() {
     const {

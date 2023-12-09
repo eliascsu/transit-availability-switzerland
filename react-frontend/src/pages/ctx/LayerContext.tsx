@@ -1,5 +1,5 @@
 import { CheckboxValueType } from "antd/es/checkbox/Group";
-import { Feature, FeatureCollection, LayerVisibility, Line } from "../types/data";
+import { Feature, FeatureCollection, LayerVisibility, Line } from "../../types/data";
 import { createContext, useContext, useRef, useState } from "react";
 
 
