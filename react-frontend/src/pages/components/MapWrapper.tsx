@@ -55,10 +55,10 @@ const Map = React.memo(function Map() {
     const geoJsonLayersRef = useRef<L.GeoJSON<any, any>[]>([]);
     const userGeoJsonLayersRef = useRef<L.GeoJSON<any, any>[]>([]);
     const heatMapLayerRef = useRef<L.HeatLayer>();
-    const [updatePT, setUpdatePT] = useState<boolean>(false); 
+    const [updatePT, setUpdatePT] = useState<boolean>(false);
 
-    const { 
-        visibleLayersState, linesFromFormState, 
+    const {
+        visibleLayersState, linesFromFormState,
         drawingState, userLinesRef, setScore
     } = useLayerContext();
 
@@ -98,20 +98,20 @@ const Map = React.memo(function Map() {
             .then( () => {
                 if(userLinesRef.current != undefined && visibleLayersState.transportLayer){
                     let data: GeoJSON.Feature[] = userLinesRef.current;
-                    userGeoJsonLayersRef.current = makePTCirclesFromData(data, makePoint);   
+                    userGeoJsonLayersRef.current = makePTCirclesFromData(data, makePoint);
                     const currentZoom = map.getZoom();
                     map.eachLayer((layer) => {
                         if(geoJsonLayersRef.current.some((curr) => layer == curr)){
                             map.removeLayer(layer);
                         };
                     });
-                    
+
                     userGeoJsonLayersRef.current[0].addTo(geoJsonLayersRef.current[0]);
                     userGeoJsonLayersRef.current[1].addTo(geoJsonLayersRef.current[1]);
                     userGeoJsonLayersRef.current[2].addTo(geoJsonLayersRef.current[2]);
                     userGeoJsonLayersRef.current[3].addTo(geoJsonLayersRef.current[3]);
                     userGeoJsonLayersRef.current[4].addTo(geoJsonLayersRef.current[4]);
-                    
+
                     map.addLayer(geoJsonLayersRef.current[0]);
                     map.addLayer(geoJsonLayersRef.current[1]);
                     map.addLayer(geoJsonLayersRef.current[2]);
@@ -126,7 +126,7 @@ const Map = React.memo(function Map() {
                 setScore(data?.population_served);
             });
     }, [updatePT, userLinesRef])
-    
+
     useEffect(() => {
         getPopulationDensity()
         .then(popArray => {
@@ -141,7 +141,7 @@ const Map = React.memo(function Map() {
             }
         });
     }, [visibleLayersState.popLayer]);
-    
+
     useEffect(() => {
         getPopulationUnserved().then(pop => {
             if (pop != undefined && visibleLayersState.popUnservedLayer) {
@@ -162,7 +162,7 @@ const Map = React.memo(function Map() {
                 if(data != undefined && visibleLayersState.transportLayer){
                     console.log("data being rendered: " + data);
                     geoJsonLayersRef.current = makePTCirclesFromData(data, makePoint);
-        
+
                     geoJsonLayersRef.current[0].addTo(map);
                     geoJsonLayersRef.current[1].addTo(map);
                     geoJsonLayersRef.current[2].addTo(map);
@@ -174,7 +174,7 @@ const Map = React.memo(function Map() {
                         layer.removeFrom(map);
                     }
                 }
-            }); 
+            });
     }, [visibleLayersState.transportLayer]);
 
     /**

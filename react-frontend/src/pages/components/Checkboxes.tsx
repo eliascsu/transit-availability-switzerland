@@ -3,9 +3,10 @@ import { CheckboxValueType } from "antd/es/checkbox/Group";
 import { LayerVisibility } from "../../types/data";
 import { useLayerContext } from "../ctx/LayerContext";
 import { Score } from "./Score";
+import { useSwissTopoContext } from "../ctx/Swisstopo";
 
 export function CheckBoxes() {
-    const { 
+    const {
         visibleLayersState, setVisibleLayersState,
         checkboxValues, setCheckboxValues,
         linesFromFormState, setLinesFromFormState,
@@ -47,4 +48,13 @@ export function CheckBoxes() {
           <CheckboxGroup options={options} value={checkboxValues} onChange={onChange}/>
         </div>
       );
+}
+
+export function SwisstopoCheckbox() {
+    const {useSwissTopoMap, setSwissTopoMap} = useSwissTopoContext()
+    return (
+        <div id="swisstopoCheckbox">
+            <Checkbox checked={useSwissTopoMap} onChange={() => setSwissTopoMap(!useSwissTopoMap)}>Swisstopo</Checkbox>
+        </div>
+    )
 }
