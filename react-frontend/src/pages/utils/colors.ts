@@ -1,8 +1,8 @@
 const classColors = {
-    ClassA: "#ff0022",
-    ClassB: "#c300ff",
-    ClassC: "#006915",
-    ClassD: "#40ff66"
+    ClassA: "#700038",
+    ClassB: "#9966FF",
+    ClassC: "#00B000",
+    ClassD: "#B3FF40"
 }
 
 const lineColors = {
