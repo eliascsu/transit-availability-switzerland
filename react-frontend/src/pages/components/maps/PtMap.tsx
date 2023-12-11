@@ -7,23 +7,26 @@ import { useEffect, useRef } from "react";
 import { useSwissTopoContext } from "../../ctx/Swisstopo";
 
 export default function PtMap() {
+    const layerStorage = useRef<L.GeoJSON<any, any>[]>([]);
     const layers = useRef<L.GeoJSON<any, any>[]>([]);
     const {useSwissTopoMap} = useSwissTopoContext()
+
+    useEffect(() => {
+        getPTData().then(data => {
+            if(data != undefined){
+                layerStorage.current = makePTCirclesFromData(data);
+            }
+        })
+    }, []);
 
     function MakePtMap() {
         const map = useMap();
         useEffect(() => {
-        getPTData()
-                .then(data => {
-                    if(data != undefined){
-                        console.log("data being rendered: " + data);
-                        layers.current = makePTCirclesFromData(data);
-                        layers.current[0].addTo(map);
-                        layers.current[1].addTo(map);
-                        layers.current[2].addTo(map);
-                        layers.current[3].addTo(map);
-                    }
-                });
+            layers.current = layerStorage.current;
+            layers.current[0].addTo(map);
+            layers.current[1].addTo(map);
+            layers.current[2].addTo(map);
+            layers.current[3].addTo(map);
         }, []);
         return null;
     }

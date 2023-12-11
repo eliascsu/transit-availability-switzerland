@@ -15,11 +15,28 @@ const lv95 = '+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +k_
 // proj4.defs(wgs84, wgs84)
 proj4.defs('EPSG:2056', lv95)
 
-
 export default function PopulationHeatmap() {
     const {useSwissTopoMap } = useSwissTopoContext()
     const {infoStatePopulation, setInfoStatePopulation} = useHeatmapContext()
     const layers = useRef<any>(null);
+    const heatMapLayer = useRef<any>(null);
+
+    // Load the heatmap data on page load
+    useEffect(() => {
+        getPopulationDensity()
+            .then(popArray => {
+                let heatArray: HeatLatLngTuple[] = [];
+                if(popArray != undefined){
+                    heatArray = createHeatMap(popArray);
+                    console.log(layers.current)
+                    if (layers.current == null) {
+                        layers.current = L.heatLayer(heatArray, {radius: 15, max: 20});
+                        console.log("adding heat layer")
+                        heatMapLayer.current = L.heatLayer(heatArray, {radius: 15, max: 20})
+                    }
+                }
+            });
+    }, []);
 
     function AddHeatLayer() {
         console.log("AddHeatLayer");
@@ -33,24 +50,15 @@ export default function PopulationHeatmap() {
                 return data.results[0].id;
             }
             ).then(id => {
-            const url = "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.volkszaehlung-bevoelkerungsstatistik_einwohner/"+id+"/htmlPopup?coord=" + x + "," + y + "&lang=en&tolerance=0&sr=2056"
+            const url = "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.volkszaehlung-bevoelkerungsstatistik_einwohner/"+id+"/htmlPopup?coord=" + x + "," + y + "&lang=en&tolerance=1&sr=2056"
             fetch(url).then(response => response.text()).then(data => {
                 setInfoStatePopulation(data);
             })})
         }})
+
         useEffect(() => {
-        getPopulationDensity()
-            .then(popArray => {
-                let heatArray: HeatLatLngTuple[] = [];
-                if(popArray != undefined){
-                    heatArray = createHeatMap(popArray);
-                    if (layers.current == null) {
-                        layers.current = L.heatLayer(heatArray, {radius: 15, max: 20});
-                        console.log("adding heat layer")
-                        layers.current.addTo(map);
-                    }
-                }
-            });
+            layers.current = heatMapLayer.current
+            layers.current.addTo(map);
         }, []);
         return null;
     }
@@ -58,6 +66,26 @@ export default function PopulationHeatmap() {
     function remove_layers() {
         console.log(layers.current)
         layers.current?.remove()
+    }
+
+    function AddEvents() {
+        const map = useMapEvents(
+            {
+            click: (e) => {
+            const [x, y] = proj4(wgs84, lv95, [e.latlng.lng, e.latlng.lat]);
+            const url_ident = "https://api3.geo.admin.ch/rest/services/all/MapServer/identify?geometry="+x+","+ y + "&geometryFormat=geojson&geometryType=esriGeometryPoint&lang=en&layers=all:ch.bfs.volkszaehlung-bevoelkerungsstatistik_einwohner&limit=10&returnGeometry=true&sr=2056&timeInstant=2021&tolerance=0"
+            fetch(url_ident).then(response => response.json()).then(data => {
+                if (data.results[0].id != undefined)
+                console.log(data.results[0].id)
+                return data.results[0].id;
+            }
+            ).then(id => {
+            const url = "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.volkszaehlung-bevoelkerungsstatistik_einwohner/"+id+"/htmlPopup?coord=" + x + "," + y + "&lang=en&tolerance=0&sr=2056"
+            fetch(url).then(response => response.text()).then(data => {
+                setInfoStatePopulation(data);
+            })})
+        }})
+        return null;
     }
 
     if (useSwissTopoMap) {
@@ -70,7 +98,9 @@ export default function PopulationHeatmap() {
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
                 <WMSTileLayer url="https://wms.geo.admin.ch/" layers="ch.bfs.volkszaehlung-bevoelkerungsstatistik_einwohner" format="image/png" transparent={true} opacity={0.5} />
+                <AddEvents/>
             </MapContainer>
+            <InfoBox/>
             </div>
         )
     }
@@ -88,9 +118,9 @@ export default function PopulationHeatmap() {
     )
 }
 
-
 function InfoBox() {
     const {infoStatePopulation} = useHeatmapContext()
+    console.log(infoStatePopulation)
     if (infoStatePopulation == "") {
         return null;
     }
