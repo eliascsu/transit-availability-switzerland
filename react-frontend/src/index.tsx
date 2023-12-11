@@ -5,13 +5,16 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { LayerProvider } from './pages/ctx/LayerContext'
 import { StProvider } from './pages/ctx/Swisstopo'
+import { HeatmapProvider } from './pages/ctx/Swisstopo';
 
 ReactDOM.render(
   <React.StrictMode>
     <LayerProvider>
+      <HeatmapProvider>
       <StProvider>
       <App />
       </StProvider>
+      </HeatmapProvider>
     </LayerProvider>
   </React.StrictMode>,
   document.getElementById('root')

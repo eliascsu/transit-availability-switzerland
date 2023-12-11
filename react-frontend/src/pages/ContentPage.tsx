@@ -16,8 +16,15 @@ export default function ContentPage() {
                 <Row id="titelPage">
                     <h1 id="contentTitel">Zürich</h1>
                 </Row>
-                <Row id="mapPage">
+                <Row>
                     <h1 id="mapHeader">Content Page</h1>
+                    <SwisstopoCheckbox/>
+                    <PopulationHeatmap/>
+                </Row>
+                <Row>
+                    <PtMap/>
+                </Row>
+                <Row id="mapPage">
                     <MapWrapper/>
                     <Legend/>
                     <CheckBoxes/>
@@ -25,13 +32,6 @@ export default function ContentPage() {
                     <Link to="/">
                         <Button>Back to home (TEMP)</Button>
                     </Link>
-                </Row>
-                <Row>
-                    <SwisstopoCheckbox/>
-                    <PopulationHeatmap/>
-                </Row>
-                <Row>
-                    <PtMap/>
                 </Row>
             </Content>
             <Footer className="footer" id="mapFooter">

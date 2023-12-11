@@ -72,7 +72,7 @@ const Map = React.memo(function Map() {
 
                 L.geoJSON(userLinesRef.current, {style: defaultLineStyle}).addTo(map);
 
-                let newPoint = createDefaultPtStop(e.latlng.lat, e.latlng.lng);
+                let newPoint = createDefaultPtStop(e.latlng.lng, e.latlng.lat);
                 makePoint(newPoint, true);
             }
         },
