@@ -52,6 +52,31 @@ function addPointToLine(userLines: GeoJSON.Feature[], latlng: L.LatLng) {
 
 const Map = React.memo(function Map() {
     //const map = useMap();
+    const geoJsonCache = useRef<L.GeoJSON<any, any>[]>([]);
+    const populationHeatMapCache = useRef<L.HeatLayer>();
+    const populationUnservedHeatMapCache = useRef<L.HeatLayer>();
+
+    // Populate caches
+    useEffect(() => {
+        getPopulationDensity().then(popArray => {
+            if(popArray != undefined){
+                let heatArray = createHeatMap(popArray);
+                populationHeatMapCache.current = L.heatLayer(heatArray, {radius: 15, max: 10});
+            }
+        });
+        getPopulationUnserved().then(popArray => {
+            if(popArray != undefined){
+                let heatArray = createHeatMap(popArray);
+                populationUnservedHeatMapCache.current = L.heatLayer(heatArray, {radius: 15, max: 10});
+            }
+        })
+        getPTData().then(data => {
+            if(data != undefined){
+                geoJsonCache.current = makePTCirclesFromData(data, makePoint);
+            }
+        })
+    }, [])
+
     const geoJsonLayersRef = useRef<L.GeoJSON<any, any>[]>([]);
     const userGeoJsonLayersRef = useRef<L.GeoJSON<any, any>[]>([]);
     const heatMapLayerRef = useRef<L.HeatLayer>();
@@ -128,53 +153,40 @@ const Map = React.memo(function Map() {
     }, [updatePT, userLinesRef])
 
     useEffect(() => {
-        getPopulationDensity()
-        .then(popArray => {
-            let heatArray: HeatLatLngTuple[] = [];
-            if(popArray != undefined && visibleLayersState.popLayer){
-                heatArray = createHeatMap(popArray);
-                heatMapLayerRef.current = L.heatLayer(heatArray, {radius: 15, max: 10});
-                heatMapLayerRef.current.addTo(map);
-            }
-            else {
-                heatMapLayerRef.current?.removeFrom(map);
-            }
-        });
+        if (visibleLayersState.popLayer){
+            heatMapLayerRef.current = populationHeatMapCache.current;
+            heatMapLayerRef.current?.addTo(map);
+        }
+        else {
+            heatMapLayerRef.current?.removeFrom(map);
+        }
     }, [visibleLayersState.popLayer]);
 
     useEffect(() => {
-        getPopulationUnserved().then(pop => {
-            if (pop != undefined && visibleLayersState.popUnservedLayer) {
-                let heatArray = createHeatMap(pop);
-                heatMapLayerRef.current = L.heatLayer(heatArray, {radius: 15, max: 10});
-                heatMapLayerRef.current.addTo(map);
-            }
-            else {
-                heatMapLayerRef.current?.removeFrom(map);
-            }
-        })},
-        [visibleLayersState.popUnservedLayer]);
+        if (visibleLayersState.popUnservedLayer) {
+            heatMapLayerRef.current = populationUnservedHeatMapCache.current
+            heatMapLayerRef.current?.addTo(map)
+        }
+        else {
+            heatMapLayerRef.current?.removeFrom(map);
+        }
+    }, [visibleLayersState.popUnservedLayer]);
 
     useEffect(() => {
+        if(visibleLayersState.transportLayer){
+            geoJsonLayersRef.current = geoJsonCache.current;
 
-        getPTData()
-            .then(data => {
-                if(data != undefined && visibleLayersState.transportLayer){
-                    console.log("data being rendered: " + data);
-                    geoJsonLayersRef.current = makePTCirclesFromData(data, makePoint);
-
-                    geoJsonLayersRef.current[0].addTo(map);
-                    geoJsonLayersRef.current[1].addTo(map);
-                    geoJsonLayersRef.current[2].addTo(map);
-                    geoJsonLayersRef.current[3].addTo(map);
-                    //geoJsonLayersRef.current[4].addTo(map);
-                }
-                else{
-                    for(let layer of geoJsonLayersRef.current){
-                        layer.removeFrom(map);
-                    }
-                }
-            });
+            geoJsonLayersRef.current[0].addTo(map);
+            geoJsonLayersRef.current[1].addTo(map);
+            geoJsonLayersRef.current[2].addTo(map);
+            geoJsonLayersRef.current[3].addTo(map);
+            //geoJsonLayersRef.current[4].addTo(map);
+        }
+        else{
+            for(let layer of geoJsonLayersRef.current){
+                layer.removeFrom(map);
+            }
+        }
     }, [visibleLayersState.transportLayer]);
 
     /**
