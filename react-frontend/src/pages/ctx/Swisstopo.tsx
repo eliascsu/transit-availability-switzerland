@@ -8,6 +8,11 @@ interface SwissTopoContextType {
     setAreMap: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+interface HeatmapContextType {
+    infoStatePopulation: string;
+    setInfoStatePopulation: React.Dispatch<React.SetStateAction<string>>;
+}
+
 const StContext = createContext<SwissTopoContextType | undefined>(undefined);
 
 export const useSwissTopoContext = () => {
@@ -24,7 +29,7 @@ export const StProvider: React.FC = ({ children }) => {
 
     const value = {
         useSwissTopoMap, setSwissTopoMap,
-        useAreMap, setAreMap
+        useAreMap, setAreMap,
     };
 
     return (
@@ -33,3 +38,27 @@ export const StProvider: React.FC = ({ children }) => {
         </StContext.Provider>
     );
 };
+
+const HeatmapContext = createContext<HeatmapContextType | undefined>(undefined);
+
+export const useHeatmapContext = () => {
+    const context = useContext(HeatmapContext);
+    if (!context) {
+        throw new Error('useHeatmapContext must be used within a LayerProvider');
+    }
+    return context;
+};
+
+export const HeatmapProvider: React.FC = ({ children }) => {
+    const [infoStatePopulation, setInfoStatePopulation] = useState<string>("")
+
+    const value = {
+        infoStatePopulation, setInfoStatePopulation
+    };
+
+    return (
+        <HeatmapContext.Provider value={value}>
+            {children}
+        </HeatmapContext.Provider>
+    );
+}
