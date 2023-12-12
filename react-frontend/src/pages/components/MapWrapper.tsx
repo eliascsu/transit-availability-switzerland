@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 
 import { MapContainer, TileLayer, useMapEvents} from 'react-leaflet'
-import L, { HeatLatLngTuple } from "leaflet";
+import L from "leaflet";
 import "leaflet.heat";
 import 'leaflet/dist/leaflet.css';
 
@@ -10,6 +10,7 @@ import { postAndGetPoints, getPopulationDensity, getPTData, getScoreUserPtLine, 
 import type { Feature } from '../../types/data';
 import { getLineColor, createDefaultPtStop, createHeatMap } from '../utils/utils';
 import { makePTCirclesFromData } from '../utils/qual_layers';
+import { addPointToLine } from '../utils/utils';
 
 import '../pages.css';
 
@@ -29,26 +30,6 @@ export const MapWrapper = React.memo(function MapWrapper() {
     );
 })
 
-function addPointToLine(userLines: GeoJSON.Feature[], latlng: L.LatLng) {
-    if(userLines.length === 0){
-        userLines.push(
-            {
-                type: "Feature",
-                properties: {
-                    Haltestellen_No: "0"
-                } as GeoJSON.GeoJsonProperties,
-                geometry: {
-                    type: "LineString",
-                    coordinates: [[latlng.lng, latlng.lat]]
-                } as GeoJSON.Geometry
-            } as GeoJSON.Feature
-        )
-    }
-    let last_line_geojson2 = userLines[userLines.length - 1];
-    (last_line_geojson2.geometry as GeoJSON.LineString).coordinates.push([latlng.lng, latlng.lat]);
-    userLines[userLines.length - 1] = last_line_geojson2;
-    return userLines;
-}
 
 const Map = React.memo(function Map() {
     //const map = useMap();
@@ -81,6 +62,7 @@ const Map = React.memo(function Map() {
     const userGeoJsonLayersRef = useRef<L.GeoJSON<any, any>[]>([]);
     const heatMapLayerRef = useRef<L.HeatLayer>();
     const [updatePT, setUpdatePT] = useState<boolean>(false);
+    const pt_stops_layer = useRef<any>(null)
 
     const {
         visibleLayersState, linesFromFormState,
@@ -103,10 +85,19 @@ const Map = React.memo(function Map() {
         },
         zoomend: () => {
             const currentZoom = map.getZoom();
-            if (currentZoom < 12) {
-                geoJsonLayersRef.current[4] && map.removeLayer(geoJsonLayersRef.current[4]);
+            console.log(currentZoom)
+            if (currentZoom < 14) {
+                console.log(pt_stops_layer.current)
+                pt_stops_layer.current?.remove()
+
+                console.log("removing pt stops")
             } else {
-                geoJsonLayersRef.current[4] && map.addLayer(geoJsonLayersRef.current[4]);
+                console.log("adding pt stops")
+                pt_stops_layer.current = L.tileLayer.wms("https://wms.geo.admin.ch/", {
+                    layers: "ch.bav.haltestellen-oev", transparent: true, format: "image/png",  })
+                console.log(pt_stops_layer.current)
+                pt_stops_layer.current?.addTo(map)
+                pt_stops_layer.current?.bringToFront()
             }
         }
     });

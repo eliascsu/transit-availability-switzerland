@@ -1,5 +1,6 @@
 import { TileLayer, WMSTileLayer, useMap, useMapEvents } from "react-leaflet";
 import { MapContainer } from "react-leaflet";
+import L from "leaflet";
 
 import { getPTData } from "../../../router/resources/data";
 import { makePTCirclesFromData } from "../../utils/qual_layers";
@@ -16,6 +17,7 @@ export default function PtMap() {
     const layers = useRef<L.GeoJSON<any, any>[]>([]);
     const [infoPtStop, setInfoPtStop] = useState<string>("")
     const {useSwissTopoMap} = useSwissTopoContext()
+    const pt_stops_layer = useRef<any>(null);
 
     useEffect(() => {
         getPTData().then(data => {
@@ -51,6 +53,23 @@ export default function PtMap() {
             fetch(url).then(response => response.text()).then(data => {
                 setInfoPtStop(data);
             })})
+        },
+        zoomend: () => {
+            const currentZoom = map.getZoom();
+            console.log(currentZoom)
+            if (currentZoom < 14) {
+                console.log(pt_stops_layer.current)
+                pt_stops_layer.current?.remove()
+
+                console.log("removing pt stops")
+            } else {
+                console.log("adding pt stops")
+                pt_stops_layer.current = L.tileLayer.wms("https://wms.geo.admin.ch/", {
+                    layers: "ch.bav.haltestellen-oev", transparent: true, format: "image/png",  })
+                console.log(pt_stops_layer.current)
+                pt_stops_layer.current?.addTo(map)
+                pt_stops_layer.current?.bringToFront()
+            }
         }}
         )
         return null;
@@ -78,7 +97,7 @@ export default function PtMap() {
         remove_layers();
         return (
             <div id="public-transit-map">
-            <MapContainer center={[47.36, 8.53]} zoom={10} scrollWheelZoom={true} style={{ height: '400px', width: '400px' }}>
+            <MapContainer center={[47.36, 8.53]} zoom={10} scrollWheelZoom={true} style={{ height: '400px', width: '1000px' }}>
                 <TileLayer
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
@@ -93,7 +112,7 @@ export default function PtMap() {
     else {
     return (
         <div id="public-transit-map">
-            <MapContainer center={[47.36, 8.53]} zoom={10} scrollWheelZoom={true} style={{ height: '400px', width: '400px' }}>
+            <MapContainer center={[47.36, 8.53]} zoom={10} scrollWheelZoom={true} style={{ height: '400px', width: '1000px' }}>
                 <TileLayer
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
