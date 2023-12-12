@@ -8,7 +8,7 @@ import 'leaflet/dist/leaflet.css';
 import { useLayerContext } from '../ctx/LayerContext';
 import { postAndGetPoints, getPopulationDensity, getPTData, getScoreUserPtLine, getPopulationUnserved } from '../../router/resources/data';
 import type { Feature } from '../../types/data';
-import { getLineColor, createDefaultPtStop, createHeatMap } from '../utils/utils';
+import { getLineColor, createHeatMap } from '../utils/utils';
 import { makePTCirclesFromData } from '../utils/qual_layers';
 import { addPointToLine } from '../utils/utils';
 
@@ -53,15 +53,20 @@ const Map = React.memo(function Map() {
         })
         getPTData().then(data => {
             if(data != undefined){
-                geoJsonCache.current = makePTCirclesFromData(data, makePoint);
+                geoJsonCache.current = makePTCirclesFromData(data);
             }
         })
     }, [])
 
+    // Currently active layers
     const geoJsonLayersRef = useRef<L.GeoJSON<any, any>[]>([]);
     const userGeoJsonLayersRef = useRef<L.GeoJSON<any, any>[]>([]);
     const heatMapLayerRef = useRef<L.HeatLayer>();
+
+    // Trigger update of PT layers
     const [updatePT, setUpdatePT] = useState<boolean>(false);
+
+    // Keep track of pt layers over zoom states
     const pt_stops_layer = useRef<any>(null)
 
     const {
@@ -72,32 +77,29 @@ const Map = React.memo(function Map() {
     const map = useMapEvents({
         click: (e) => {
             if(drawingState || true){
-                console.log(e)
+                // On click add point to currently active line and redraw
                 let user_lines_geojson = userLinesRef.current;
-                user_lines_geojson = addPointToLine(user_lines_geojson, e.latlng);
-                userLinesRef.current = user_lines_geojson;
+                userLinesRef.current = addPointToLine(user_lines_geojson, e.latlng);
 
+                // Redraw user lines
                 L.geoJSON(userLinesRef.current, {style: defaultLineStyle}).addTo(map);
 
-                let newPoint = createDefaultPtStop(e.latlng.lng, e.latlng.lat);
-                makePoint(newPoint, true);
+                // Redraw pt quality layers
+                setUpdatePT(true);
             }
         },
         zoomend: () => {
             const currentZoom = map.getZoom();
-            console.log(currentZoom)
             if (currentZoom < 14) {
+                // Remove pt stops layer if too far zoomed out
                 console.log(pt_stops_layer.current)
                 pt_stops_layer.current?.remove()
-
                 console.log("removing pt stops")
             } else {
-                console.log("adding pt stops")
+                // Add pt stops layer if zoomed in
                 pt_stops_layer.current = L.tileLayer.wms("https://wms.geo.admin.ch/", {
-                    layers: "ch.bav.haltestellen-oev", transparent: true, format: "image/png",  })
-                console.log(pt_stops_layer.current)
-                pt_stops_layer.current?.addTo(map)
-                pt_stops_layer.current?.bringToFront()
+                    layers: "ch.bav.haltestellen-oev", transparent: true, format: "image/png"})
+                pt_stops_layer.current?.addTo(map).bringToFront()
             }
         }
     });
@@ -114,8 +116,7 @@ const Map = React.memo(function Map() {
             .then( () => {
                 if(userLinesRef.current != undefined && visibleLayersState.transportLayer){
                     let data: GeoJSON.Feature[] = userLinesRef.current;
-                    userGeoJsonLayersRef.current = makePTCirclesFromData(data, makePoint);
-                    const currentZoom = map.getZoom();
+                    userGeoJsonLayersRef.current = makePTCirclesFromData(data);
                     map.eachLayer((layer) => {
                         if(geoJsonLayersRef.current.some((curr) => layer == curr)){
                             map.removeLayer(layer);
@@ -126,15 +127,11 @@ const Map = React.memo(function Map() {
                     userGeoJsonLayersRef.current[1].addTo(geoJsonLayersRef.current[1]);
                     userGeoJsonLayersRef.current[2].addTo(geoJsonLayersRef.current[2]);
                     userGeoJsonLayersRef.current[3].addTo(geoJsonLayersRef.current[3]);
-                    userGeoJsonLayersRef.current[4].addTo(geoJsonLayersRef.current[4]);
 
                     map.addLayer(geoJsonLayersRef.current[0]);
                     map.addLayer(geoJsonLayersRef.current[1]);
                     map.addLayer(geoJsonLayersRef.current[2]);
                     map.addLayer(geoJsonLayersRef.current[3]);
-                    if((currentZoom >= 12)){
-                        map.addLayer(geoJsonLayersRef.current[4]);
-                    }
                 }
             });
             getScoreUserPtLine().then((data: any) => {
@@ -171,7 +168,6 @@ const Map = React.memo(function Map() {
             geoJsonLayersRef.current[1].addTo(map);
             geoJsonLayersRef.current[2].addTo(map);
             geoJsonLayersRef.current[3].addTo(map);
-            //geoJsonLayersRef.current[4].addTo(map);
         }
         else{
             for(let layer of geoJsonLayersRef.current){
@@ -224,11 +220,5 @@ const Map = React.memo(function Map() {
         );
     }, [linesFromFormState]);
 
-    function makePoint(point: Feature, visible: boolean){
-        let hst_No: string = visible.valueOf().toString();
-        point.properties.Haltestellen_No = hst_No;
-        // Redraw layers
-        setUpdatePT(true);
-    }
     return null;
 });

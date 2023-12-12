@@ -1,6 +1,6 @@
 import { lineColors } from "./colors";
-import L, {HeatLatLngTuple, LatLngTuple} from "leaflet";
-import type { Feature, PopulationArray } from "../../types/data";
+import L, {HeatLatLngTuple} from "leaflet";
+import type { PopulationArray } from "../../types/data";
 
 /**
  * Guarantees that returned value contains a feature
@@ -59,43 +59,12 @@ function getLineColor (lineType: string) {
     return lineColor;
 }
 
-let defaultName: string = "";
-let defaultBahnknoten = 0;
-let defaultBahnlinie_Anz = 0;
-let defaultTramBus_Anz = 1;
-let defaultSeilbahn_Anz = 0;
-let defaultA_Intervall = 0;
-let defaultB_Intervall = 8;
-let defaultHst_Kat = 1;
-
 /**
  * Create new PT stop with default properties at given coordinates
  * @param lat Latitude of new PT stop
  * @param lng Longitude of new PT stop
  * @returns New geojson point feature with default properties at given coordinates
  */
-function createDefaultPtStop (lat: number, lng: number) {
-    console.log("click");
-    let newPoint: Feature = {
-        type: "Feature",
-        geometry: {
-            type: 'Point',
-            coordinates: [lng, lat] as LatLngTuple
-        },
-        properties:{
-            Haltestellen_No: "PLACEHOLDER",
-            Name: defaultName,
-            Bahnknoten: defaultBahnknoten,
-            Bahnlinie_Anz: defaultBahnlinie_Anz,
-            TramBus_Anz: defaultTramBus_Anz,
-            Seilbahn_Anz: defaultSeilbahn_Anz,
-            A_Intervall: defaultA_Intervall,
-            B_Intervall: defaultB_Intervall,
-            Hst_Kat: defaultHst_Kat
-        }
-    }
-    return newPoint
-}
 
 function addStopToLineString(lineString: GeoJSON.Feature<GeoJSON.LineString>, lat: number, lng: number) {
     let newCoords: GeoJSON.Position[] = lineString.geometry.coordinates;
@@ -114,4 +83,4 @@ function createHeatMap(data: PopulationArray) {
     return heatArray;
 }
 
-export { createHeatMap, addStopToLineString, getLineColor, createDefaultPtStop };
+export { createHeatMap, addStopToLineString, getLineColor };

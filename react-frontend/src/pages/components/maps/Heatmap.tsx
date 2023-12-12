@@ -1,4 +1,4 @@
-import { TileLayer, WMSTileLayer, useMap, useMapEvent, useMapEvents } from "react-leaflet";
+import { TileLayer, WMSTileLayer, useMapEvents } from "react-leaflet";
 import { MapContainer } from "react-leaflet";
 
 import { getPopulationDensity } from "../../../router/resources/data";

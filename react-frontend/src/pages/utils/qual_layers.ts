@@ -3,9 +3,8 @@
  */
 
 import L from 'leaflet';
-import { Feature, FeatureCollection } from '../../types/data';
+import { FeatureCollection } from '../../types/data';
 import { classColors } from './colors';
-import { createDefaultPtStop } from './utils';
 
 // Configuration of markers
 const geojsonMarkerOptions = {
@@ -60,8 +59,7 @@ function createQualityLayerLineString(data: any, layerType: 'A' | 'B' | 'C' | 'D
     let layer: L.GeoJSON = L.geoJSON();
     for (let feature of data) {
         let props = feature.properties;
-        let kat =  4 //props?.Hst_Kat;
-        /* tslint:disable-next-line */
+        let kat = 2
         for (let coord_pair of feature.geometry.coordinates) {
             let latlng = L.latLng(coord_pair[1], coord_pair[0]);
             let radiusIndex = config.categories.indexOf(kat);
@@ -80,40 +78,13 @@ function createQualityLayerLineString(data: any, layerType: 'A' | 'B' | 'C' | 'D
     return layer;
  }
 /**
- * Create a quality layer with information about the PT stop
+ * Create a quality layer
  * @param data GeoJSON data
  * @param makePoint Function to create a new PT stop
  * @returns Quality layer as L.geoJSON
  */
-function qualityLayerInfo(data: GeoJSON.Feature[], makePoint: any) {
-    let onClick = function (e: any, feature: any, circle: any) {
-        L.DomEvent.stopPropagation(e);
-        console.log(feature.properties.Haltestellen_No);
-        const properties = feature.properties;
-        const tooltipContent = `Name: ${properties.Name}<br>Bahnlinie_Anz: ${properties.Bahnlinie_Anz}`;
-        // Create a tooltip and bind it to the circle
-        circle.bindPopup(tooltipContent).openPopup();
-        let newPoint: Feature = createDefaultPtStop(e.latlng.lat, e.latlng.lng);
-        makePoint(newPoint, false);
-        L.DomEvent.stopPropagation(e);
-    }
-    let geoJsonInfoLayer = L.geoJSON(data, {
-        filter(geoJsonFeature) {
-            return geoJsonFeature.properties.Haltestellen_No != "false";
-        },
-        pointToLayer: function (feature, latlng) {
-            geojsonMarkerOptions.radius = 70;
-            const circle = L.circle(latlng, geojsonMarkerOptions);
-            circle.setStyle({color: "#000000", stroke: false, fillOpacity: 1});
-            // Add a click event listener to each circle for displaying a tooltip
-            circle.on('click', (e) => onClick(e, feature, circle));
-            return circle;
-        }
-    })
-    return geoJsonInfoLayer;
-}
 
-function makePTCirclesFromData(data: GeoJSON.Feature[], makePoint?: any){
+function makePTCirclesFromData(data: GeoJSON.Feature[]){
     console.log(data[0]);
     // Working with the default layers
     if (data[0] == undefined) {
@@ -123,13 +94,10 @@ function makePTCirclesFromData(data: GeoJSON.Feature[], makePoint?: any){
         let geoJsonLayerC = createQualityLayer(data, "C")
         let geoJsonLayerD = createQualityLayer(data, "D")
 
-        let geoJsonInfoLayer = qualityLayerInfo(data, makePoint);
-
         layers.push(geoJsonLayerD);
         layers.push(geoJsonLayerC);
         layers.push(geoJsonLayerB);
         layers.push(geoJsonLayerA);
-        layers.push(geoJsonInfoLayer);
         return layers
     }
     // Working with the user layers
@@ -141,15 +109,12 @@ function makePTCirclesFromData(data: GeoJSON.Feature[], makePoint?: any){
         let geoJsonLayerC = createQualityLayerLineString(data, "C")
         let geoJsonLayerD = createQualityLayerLineString(data, "D")
 
-        let geoJsonInfoLayer = makePoint? qualityLayerInfo(data, makePoint) : undefined;
-
         layers.push(geoJsonLayerD);
         layers.push(geoJsonLayerC);
         layers.push(geoJsonLayerB);
         layers.push(geoJsonLayerA);
-        if (geoJsonInfoLayer) layers.push(geoJsonInfoLayer);
         return layers
     }
 }
 
-export { qualityLayerInfo, createQualityLayer, createQualityLayerLineString, makePTCirclesFromData }
+export { createQualityLayer, createQualityLayerLineString, makePTCirclesFromData }
