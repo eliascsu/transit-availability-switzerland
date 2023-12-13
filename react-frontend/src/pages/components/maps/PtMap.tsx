@@ -17,7 +17,10 @@ export default function PtMap() {
     const layers = useRef<L.GeoJSON<any, any>[]>([]);
     const [infoPtStop, setInfoPtStop] = useState<string>("")
     const {useSwissTopoMap} = useSwissTopoContext()
-    const pt_stops_layer = useRef<any>(null);
+    const pt_stops_layer = useRef<L.TileLayer.WMS>()
+    pt_stops_layer.current = L.tileLayer.wms("https://wms.geo.admin.ch/", {
+        layers: "ch.bav.haltestellen-oev", transparent: true, format: "image/png"})
+    const firstMount = useRef<boolean>(true);
 
     useEffect(() => {
         getPTData().then(data => {
@@ -56,19 +59,20 @@ export default function PtMap() {
         },
         zoomend: () => {
             const currentZoom = map.getZoom();
-            console.log(currentZoom)
             if (currentZoom < 14) {
+                // Remove pt stops layer if too far zoomed out
                 console.log(pt_stops_layer.current)
-                pt_stops_layer.current?.remove()
-
+                pt_stops_layer.current?.setOpacity(0);
                 console.log("removing pt stops")
             } else {
-                console.log("adding pt stops")
-                pt_stops_layer.current = L.tileLayer.wms("https://wms.geo.admin.ch/", {
-                    layers: "ch.bav.haltestellen-oev", transparent: true, format: "image/png",  })
-                console.log(pt_stops_layer.current)
-                pt_stops_layer.current?.addTo(map)
-                pt_stops_layer.current?.bringToFront()
+                // Add pt stops layer if zoomed in
+               if(firstMount.current){
+                pt_stops_layer.current?.addTo(map);
+                firstMount.current = false;
+               }
+               pt_stops_layer.current?.setOpacity(1);
+               pt_stops_layer.current?.bringToFront();
+               
             }
         }}
         )

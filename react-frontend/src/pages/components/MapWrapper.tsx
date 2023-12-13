@@ -67,7 +67,10 @@ const Map = React.memo(function Map() {
     const [updatePT, setUpdatePT] = useState<boolean>(false);
 
     // Keep track of pt layers over zoom states
-    const pt_stops_layer = useRef<any>(null)
+    const pt_stops_layer = useRef<L.TileLayer.WMS>()
+    pt_stops_layer.current = L.tileLayer.wms("https://wms.geo.admin.ch/", {
+        layers: "ch.bav.haltestellen-oev", transparent: true, format: "image/png"})
+    const firstMount = useRef<boolean>(true);
 
     const {
         visibleLayersState, linesFromFormState,
@@ -93,13 +96,17 @@ const Map = React.memo(function Map() {
             if (currentZoom < 14) {
                 // Remove pt stops layer if too far zoomed out
                 console.log(pt_stops_layer.current)
-                pt_stops_layer.current?.remove()
+                pt_stops_layer.current?.setOpacity(0);
                 console.log("removing pt stops")
             } else {
                 // Add pt stops layer if zoomed in
-                pt_stops_layer.current = L.tileLayer.wms("https://wms.geo.admin.ch/", {
-                    layers: "ch.bav.haltestellen-oev", transparent: true, format: "image/png"})
-                pt_stops_layer.current?.addTo(map).bringToFront()
+               if(firstMount.current){
+                pt_stops_layer.current?.addTo(map);
+                firstMount.current = false;
+               }
+               pt_stops_layer.current?.setOpacity(1);
+               pt_stops_layer.current?.bringToFront();
+               
             }
         }
     });
