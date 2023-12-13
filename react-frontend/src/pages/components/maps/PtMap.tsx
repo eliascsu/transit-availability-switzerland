@@ -119,8 +119,10 @@ export default function PtMap() {
                 <MakePtMap/>
                 <MapEvents/>
             </MapContainer>
-            <InfoBox/>
-            <Legend/>
+            <div className="legend">
+                <InfoBox/>
+                <Legend/>
+            </div>
         </div>
     )
     }

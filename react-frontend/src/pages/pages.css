@@ -1,3 +1,10 @@
+/*Layout and Categories*/
+.layout {
+    background-color: #081526;
+    height: 100vh;
+    width: 100vw;
+}
+
 .content {
     padding: 2.5rem;
     padding-bottom: 0rem;
@@ -10,6 +17,7 @@
     align-items: center;
 }
 
+/*Text*/
 #footerText {
     color: #122640;
     align-self: center;
@@ -19,11 +27,6 @@
     font-weight: 700;
 }
 
-.layout {
-    background-color: #081526;
-    height: 100vh;
-    width: 100vw;
-}
 
 #title {
     font-family: Verdana, Geneva, sans-serif;
@@ -43,6 +46,13 @@
     gap: 5px;
 }
 
+#topic {
+    color: #122640;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+/*Buttons*/
 #contentLink {
     display: grid;
     height: 100%;
@@ -67,12 +77,8 @@
     border-color: #55677D;
 }
 
-#topic {
-    color: #122640;
-    font-size: 1.5rem;
-    font-weight: 700;
-}
 
+/*Maps*/
 .map-container {
     height: 900px; /* Adjust as needed */
     width: 90%;
@@ -81,11 +87,7 @@
 g {
     opacity: 0.5;
 }
-/*
-div {
-    height: 100%;
-}
-*/
+
 #credits {
     margin-bottom: 0px;
 }
@@ -161,13 +163,10 @@ h5 {
       }
   }
 
-/* contentPage*/
+/* contentPage------------------------------*/
 
-#mapContent {
-    padding-top: 0px;
-}
 #contentPage {
-    height: 200vh;
+    height: 400vh;
 }
 
 #titelPage {
@@ -178,27 +177,75 @@ h5 {
     align-items: center;
 }
 
-#mapPage {
+/*population Page*/
+#popPage {
     height: 100vh;
     display: grid;
-    grid-template-rows: 1fr 1fr 1fr 2fr;
-    grid-template-columns: 4fr 1fr;
+    grid-template-columns: 2fr 1fr;
     column-gap: 3rem;
     grid-template-areas: 
-        "titel titel"
-        "map   legend"
-        "map   checkBoxes"
-        "map   form";
+        "map description";
 }
 
-#mapHeader {
-    grid-area: titel;
+#population-map {
+    grid-area: map;
+    
+    .leaflet-container {
+        height: 80% !important;
+        width: 100% !important;
+    }
+}
+
+#swisstopoCheckbox {
+    grid-area: description;
+}
+
+/*transport Page*/
+
+#transportPage {
+    height: 100vh;
+}
+
+#public-transit-map {
+    height: inherit;
+    width: inherit;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    column-gap: 3rem;
+    grid-template-areas: 
+        "map legend";
+    
+    .leaflet-container {
+        grid-area: map;
+        height: 80% !important;
+        width: 100% !important;
+    }
+
+    .legend {
+        grid-area: legend;
+    }
+}
+
+/*interactive Page*/
+
+#interactivePage {
+    height: 100vh;
+    display: grid;
+    grid-template-rows: 1fr 1fr 2fr 1fr;
+    grid-template-columns: 2fr 1fr;
+    column-gap: 3rem;
+    grid-template-areas:
+        "map   legend"
+        "map   checkBoxes"
+        "map   form"
+        "button button";
 }
 
 #map-zurich {
+    grid-area: map;
     height: 90%;
     width: auto;
-    grid-area: map;
+    
 }
 
 #legend-zurich {
@@ -208,6 +255,10 @@ h5 {
 
 #mapFooter {
     background-color: #081526;
+}
+
+#mapContent {
+    padding-top: 0px;
 }
 
 #contentTitel {

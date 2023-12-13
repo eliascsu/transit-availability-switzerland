@@ -92,8 +92,8 @@ export default function PopulationHeatmap() {
 
         remove_layers();
         return (
-            <div>
-            <MapContainer id="population-map"center={[47.36, 8.53]} zoom={10} scrollWheelZoom={true} style={{ height: '400px', width: '400px' }}>
+            <div id="population-map">
+            <MapContainer center={[47.36, 8.53]} zoom={10} scrollWheelZoom={true} style={{ height: '400px', width: '400px' }}>
                 <TileLayer
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
@@ -106,7 +106,7 @@ export default function PopulationHeatmap() {
     }
 
     return (
-        <div>
+        <div id="population-map">
             <MapContainer center={[47.36, 8.53]} zoom={10} scrollWheelZoom={true} style={{ height: '400px', width: '400px' }}>
                 <TileLayer
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

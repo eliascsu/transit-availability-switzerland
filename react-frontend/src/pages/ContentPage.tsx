@@ -16,15 +16,14 @@ export default function ContentPage() {
                 <Row id="titelPage">
                     <h1 id="contentTitel">Zürich</h1>
                 </Row>
-                <Row>
-                    <h1 id="mapHeader">Content Page</h1>
+                <Row id="popPage">
                     <SwisstopoCheckbox/>
                     <PopulationHeatmap/>
                 </Row>
-                <Row>
+                <Row id="transportPage">
                     <PtMap/>
                 </Row>
-                <Row id="mapPage">
+                <Row id="interactivePage">
                     <MapWrapper/>
                     <Legend/>
                     <CheckBoxes/>
