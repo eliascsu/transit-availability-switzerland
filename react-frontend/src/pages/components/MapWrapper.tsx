@@ -80,12 +80,23 @@ const Map = React.memo(function Map() {
     const map = useMapEvents({
         click: (e) => {
             if(drawingState || true){
+                for (let line of userLinesRef.current) {
+                    L.geoJSON(line).removeFrom(map)
+                }
                 // On click add point to currently active line and redraw
                 let user_lines_geojson = userLinesRef.current;
                 userLinesRef.current = addPointToLine(user_lines_geojson, e.latlng);
 
                 // Redraw user lines
-                L.geoJSON(userLinesRef.current, {style: defaultLineStyle}).addTo(map);
+                for (let feat of userLinesRef.current) {
+                    console.log(feat);
+                    console.log(feat.properties?.lineType);
+                    L.geoJSON(feat, {
+                        style: {
+                            color: getLineColor(feat.properties?.lineType)
+                        }
+                    }).addTo(map)
+                }
 
                 // Redraw pt quality layers
                 setUpdatePT(true);
@@ -191,21 +202,23 @@ const Map = React.memo(function Map() {
             L.geoJSON(line).removeFrom(map)
         }
         // First set the type and interval for the new line
-        let lineInfo = linesFromFormState[-1]
-        let lastFeature = userLinesRef.current[-1]
+        let lineInfo = linesFromFormState[linesFromFormState.length - 1];
+        let lastFeature = userLinesRef.current[userLinesRef.current.length - 1];
         if (lastFeature != undefined) {
             let newLastFeature = {
                 "type": "Feature",
                 "geometry": lastFeature.geometry,
                 "properties": {
-                    interval: lineInfo.intervall,
-                    lineType: lineInfo.typ
+                    lineType: lineInfo.typ,
+                    interval: lineInfo.intervall
                 }
             } as GeoJSON.Feature
-            userLinesRef.current[-1] = newLastFeature
+            userLinesRef.current[userLinesRef.current.length - 1] = newLastFeature
         }
         // Rerender geoJSON features on map
         for (let feat of userLinesRef.current) {
+            console.log(feat);
+            console.log(feat.properties?.lineType);
             L.geoJSON(feat, {
                 style: {
                     color: getLineColor(feat.properties?.lineType)
@@ -222,6 +235,8 @@ const Map = React.memo(function Map() {
                 coordinates: []
             },
             "properties": {
+                lineType: "pending",
+                interval: -1
             }
         }
         );

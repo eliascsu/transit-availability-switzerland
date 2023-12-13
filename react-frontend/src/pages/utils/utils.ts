@@ -14,7 +14,8 @@ export function addPointToLine(userLines: GeoJSON.Feature[], latlng: L.LatLng) {
             {
                 type: "Feature",
                 properties: {
-                    Haltestellen_No: "0"
+                    lineType: "pending",
+                    interval: -1
                 } as GeoJSON.GeoJsonProperties,
                 geometry: {
                     type: "LineString",
