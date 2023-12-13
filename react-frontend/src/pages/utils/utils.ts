@@ -38,39 +38,25 @@ export function addPointToLine(userLines: GeoJSON.Feature[], latlng: L.LatLng) {
 function getLineColor (lineType: string) {
     let lineColor: string;
     switch (lineType) {
-        case "Tram": { 
+        case "Tram": {
             lineColor = lineColors.Tram;
             break;
-         } 
-         case "Bus": { 
+         }
+         case "Bus": {
              lineColor = lineColors.Bus;
              break;
-         } 
-         case "S_Bahn": { 
+         }
+         case "S_Bahn": {
              lineColor = lineColors.S_Bahn;
              break
          }
-         default: { 
-            console.log("BAD LINE"); 
+         default: {
+            console.log("BAD LINE");
             lineColor = "#000000";
-            break; 
+            break;
          }
         }
     return lineColor;
-}
-
-/**
- * Create new PT stop with default properties at given coordinates
- * @param lat Latitude of new PT stop
- * @param lng Longitude of new PT stop
- * @returns New geojson point feature with default properties at given coordinates
- */
-
-function addStopToLineString(lineString: GeoJSON.Feature<GeoJSON.LineString>, lat: number, lng: number) {
-    let newCoords: GeoJSON.Position[] = lineString.geometry.coordinates;
-    newCoords.push([lng, lat]);
-    lineString.geometry.coordinates = newCoords;
-    return lineString;
 }
 
 function createHeatMap(data: PopulationArray) {
@@ -83,4 +69,4 @@ function createHeatMap(data: PopulationArray) {
     return heatArray;
 }
 
-export { createHeatMap, addStopToLineString, getLineColor };
+export { createHeatMap, getLineColor };
