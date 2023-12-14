@@ -24,8 +24,12 @@ export default function ContentPage() {
                 <Row id="popPage">
                     <PopulationHeatmap/>
                 </Row>
+                <Row id="text1">
+                </Row>
                 <Row id="transportPage">
                     <PtMap/>
+                </Row>
+                <Row id="text2">
                 </Row>
                 <Row id="interactivePage">
                     <MapWrapper/>

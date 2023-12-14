@@ -174,7 +174,7 @@ h5 {
 /* contentPage------------------------------*/
 
 #contentPage {
-    height: 400vh;
+    height: 550vh;
 }
 
 /*titel Page*/
@@ -195,6 +195,11 @@ h5 {
 #homeImg {
     height: 3rem;
     width: 3rem;
+}
+
+/*Text Page 1*/
+#text1 {
+    height: 75vh;
 }
 
 /*population Page*/
@@ -224,6 +229,12 @@ h5 {
 
 #swisstopoCheckbox {
     grid-area: description;
+}
+
+/*Text Page 2*/
+
+#text2 {
+    height: 75vh;
 }
 
 /*transport Page*/
