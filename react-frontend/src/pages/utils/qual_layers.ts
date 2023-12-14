@@ -59,7 +59,7 @@ function createQualityLayerLineString(data: any, layerType: 'A' | 'B' | 'C' | 'D
     let layer: L.GeoJSON = L.geoJSON();
     for (let feature of data) {
         let props = feature.properties;
-        let kat = 2
+        let kat = props.Hst_kat;
         for (let coord_pair of feature.geometry.coordinates) {
             let latlng = L.latLng(coord_pair[1], coord_pair[0]);
             let radiusIndex = config.categories.indexOf(kat);

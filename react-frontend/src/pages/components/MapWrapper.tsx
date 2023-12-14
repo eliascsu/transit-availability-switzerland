@@ -93,7 +93,9 @@ const Map = React.memo(function Map() {
                     console.log(feat.properties?.lineType);
                     L.geoJSON(feat, {
                         style: {
-                            color: getLineColor(feat.properties?.lineType)
+                            color: getLineColor(feat.properties?.lineType),
+                            opacity: 1,
+                            
                         }
                     }).addTo(map)
                 }
@@ -132,25 +134,7 @@ const Map = React.memo(function Map() {
                 }
             })
             .then( () => {
-                if(userLinesRef.current != undefined && visibleLayersState.transportLayer){
-                    let data: GeoJSON.Feature[] = userLinesRef.current;
-                    userGeoJsonLayersRef.current = makePTCirclesFromData(data);
-                    map.eachLayer((layer) => {
-                        if(geoJsonLayersRef.current.some((curr) => layer == curr)){
-                            map.removeLayer(layer);
-                        };
-                    });
-
-                    userGeoJsonLayersRef.current[0].addTo(geoJsonLayersRef.current[0]);
-                    userGeoJsonLayersRef.current[1].addTo(geoJsonLayersRef.current[1]);
-                    userGeoJsonLayersRef.current[2].addTo(geoJsonLayersRef.current[2]);
-                    userGeoJsonLayersRef.current[3].addTo(geoJsonLayersRef.current[3]);
-
-                    map.addLayer(geoJsonLayersRef.current[0]);
-                    map.addLayer(geoJsonLayersRef.current[1]);
-                    map.addLayer(geoJsonLayersRef.current[2]);
-                    map.addLayer(geoJsonLayersRef.current[3]);
-                }
+                
             });
             getScoreUserPtLine().then((data: any) => {
                 //console.log(data);
@@ -198,6 +182,9 @@ const Map = React.memo(function Map() {
      * On form submit redraw user lines
      */
     useEffect(() => {
+        //Adding points for traffic stops
+        //TODO HST KAT CALULATION
+        
         for (let line of userLinesRef.current) {
             L.geoJSON(line).removeFrom(map)
         }
@@ -205,15 +192,54 @@ const Map = React.memo(function Map() {
         let lineInfo = linesFromFormState[linesFromFormState.length - 1];
         let lastFeature = userLinesRef.current[userLinesRef.current.length - 1];
         if (lastFeature != undefined) {
+            let typ = lineInfo.typ;
+            let interval = lineInfo.intervall;
+            let kat;
+            if((interval==3.5 && typ=="S_Bahn") || (interval==7 && (typ=="Bus" || typ=="Tram"))){
+                kat = 1;
+            }
+            if((interval==3.5 && (typ=="Bus" || typ=="Tram")) || (interval==7 && typ=="S_Bahn")){
+                kat = 2;
+            }
+            if((interval==7 && (typ=="Bus" || typ=="Tram")) || interval==15 && typ=="S_Bahn"){
+                kat = 3;
+            }
+            if((interval==15 && (typ=="Bus" || typ=="Tram")) || (interval==30 && typ=="S_Bahn")){
+                kat = 4;
+            }
+            if((interval==30 && (typ=="Bus" || typ=="Tram")) || interval==60){
+                kat = 5;
+            }
+            
             let newLastFeature = {
                 "type": "Feature",
                 "geometry": lastFeature.geometry,
                 "properties": {
                     lineType: lineInfo.typ,
-                    interval: lineInfo.intervall
+                    interval: lineInfo.intervall,
+                    Hst_kat: kat
                 }
             } as GeoJSON.Feature
             userLinesRef.current[userLinesRef.current.length - 1] = newLastFeature
+        }
+        if(userLinesRef.current != undefined && visibleLayersState.transportLayer){
+            let data: GeoJSON.Feature[] = userLinesRef.current;
+            userGeoJsonLayersRef.current = makePTCirclesFromData(data);
+            map.eachLayer((layer) => {
+                if(geoJsonLayersRef.current.some((curr) => layer == curr)){
+                    map.removeLayer(layer);
+                };
+            });
+
+            userGeoJsonLayersRef.current[0].addTo(geoJsonLayersRef.current[0]);
+            userGeoJsonLayersRef.current[1].addTo(geoJsonLayersRef.current[1]);
+            userGeoJsonLayersRef.current[2].addTo(geoJsonLayersRef.current[2]);
+            userGeoJsonLayersRef.current[3].addTo(geoJsonLayersRef.current[3]);
+
+            map.addLayer(geoJsonLayersRef.current[0]);
+            map.addLayer(geoJsonLayersRef.current[1]);
+            map.addLayer(geoJsonLayersRef.current[2]);
+            map.addLayer(geoJsonLayersRef.current[3]);
         }
         // Rerender geoJSON features on map
         for (let feat of userLinesRef.current) {
@@ -229,17 +255,18 @@ const Map = React.memo(function Map() {
         // Push new empty linestring to array
         userLinesRef.current.push(
             {
-            "type": "Feature",
-            "geometry": {
-                type: "LineString",
-                coordinates: []
-            },
-            "properties": {
-                lineType: "pending",
-                interval: -1
+                "type": "Feature",
+                "geometry": {
+                    type: "LineString",
+                    coordinates: []
+                },
+                "properties": {
+                    lineType: "pending",
+                    interval: -1
+                }
             }
-        }
         );
+        
     }, [linesFromFormState]);
 
     return null;

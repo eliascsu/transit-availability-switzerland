@@ -7,7 +7,7 @@ const classColors = {
 
 const lineColors = {
     Tram: "#0084ff",
-    Bus: "#fbff00",
+    Bus: "#f7bb05",
     S_Bahn: "#fa0223"
 }
 
