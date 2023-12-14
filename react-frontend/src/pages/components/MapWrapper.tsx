@@ -94,8 +94,7 @@ const Map = React.memo(function Map() {
                     L.geoJSON(feat, {
                         style: {
                             color: getLineColor(feat.properties?.lineType),
-                            opacity: 1,
-                            
+                            opacity: 1
                         }
                     }).addTo(map)
                 }
