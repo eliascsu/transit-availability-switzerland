@@ -22,7 +22,7 @@ const defaultLineStyle = {
 
 export const MapWrapper = React.memo(function MapWrapper() {
     return (
-        <MapContainer className="map-container" id="map-zurich" center={[47.36, 8.53]} zoom={10} scrollWheelZoom={true}>
+        <MapContainer className="map-container" id="map-zurich" center={[47.36, 8.53]} zoom={10} scrollWheelZoom={true} zoomSnap={0.5}>
             <TileLayer url="https://tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey=119ad4f25bed4ec2a70aeba31a0fb12a" attribution="&copy; <a href=&quot;https://www.thunderforest.com/&quot;>Thunderforest</a> contributors"/>
             <TileLayer url="https://tiles.openrailwaymap.org/standard/{z}/{x}/{y}.png"></TileLayer>
             <Map></Map>
@@ -64,7 +64,7 @@ const Map = React.memo(function Map() {
     const heatMapLayerRef = useRef<L.HeatLayer>();
 
     // Trigger update of PT layers
-    const [updatePT, setUpdatePT] = useState<boolean>(false);
+    const [updatePT, setUpdatePT] = useState<number>(0);
 
     // Keep track of pt layers over zoom states
     const pt_stops_layer = useRef<L.TileLayer.WMS>()
@@ -100,7 +100,7 @@ const Map = React.memo(function Map() {
                 }
 
                 // Redraw pt quality layers
-                setUpdatePT(true);
+                setUpdatePT(updatePT+1);
             }
         },
         zoomend: () => {
@@ -113,6 +113,7 @@ const Map = React.memo(function Map() {
             } else {
                 // Add pt stops layer if zoomed in
                if(firstMount.current){
+                console.log("first mount");
                 pt_stops_layer.current?.addTo(map);
                 firstMount.current = false;
                }
@@ -124,7 +125,6 @@ const Map = React.memo(function Map() {
     });
 
     useEffect(() => {
-        setUpdatePT(false)
         console.log("STATECHANGE");
         postAndGetPoints(userLinesRef.current)
             .then(userGeoJson => {
@@ -132,9 +132,6 @@ const Map = React.memo(function Map() {
                     userLinesRef.current = userGeoJson;
                 }
             })
-            .then( () => {
-                
-            });
             getScoreUserPtLine().then((data: any) => {
                 //console.log(data);
                 setScore(data?.population_served);
@@ -266,7 +263,7 @@ const Map = React.memo(function Map() {
             }
         );
         
-    }, [linesFromFormState]);
+    }, [linesFromFormState, visibleLayersState.transportLayer]);
 
     return null;
 });
