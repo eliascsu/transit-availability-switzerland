@@ -21,7 +21,7 @@ export default function ContentPage() {
                         <h1>HOME</h1>
                     </Link>
                 </Row>
-                <Row id="popPage">
+                <Row id="popPage" className="page">
                     <PopulationHeatmap/>
                 </Row>
                 <Row id="text1">
@@ -31,7 +31,7 @@ export default function ContentPage() {
                 </Row>
                 <Row id="text2">
                 </Row>
-                <Row id="interactivePage">
+                <Row id="interactivePage"className="page">
                     <MapWrapper/>
                     <Legend/>
                     <CheckBoxes/>
@@ -39,8 +39,8 @@ export default function ContentPage() {
                 </Row>
             </Content>
             <Footer className="footer" id="mapFooter">
-                <span id="footerText">
-                    <h5 id="fortnite">Elias Csuka, Joshua Durrant, Leander Hemmi, Cedric Koller, Mathias Schmid</h5>
+                <span id="footerWrapper">
+                    <h5 id="credits">Elias Csuka, Joshua Durrant, Leander Hemmi, Cedric Koller, Mathias Schmid</h5>
                 </span>
             </Footer>
         </Layout>

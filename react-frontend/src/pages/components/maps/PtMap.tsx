@@ -100,7 +100,7 @@ export default function PtMap() {
     if (useSwissTopoMap) {
         remove_layers();
         return (
-            <div id="public-transit-map">
+            <div id="public-transit-map" className="page">
             <MapContainer center={[47.36, 8.53]} zoom={10} scrollWheelZoom={true} style={{ height: '400px', width: '1000px' }}>
                 <TileLayer
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -115,7 +115,7 @@ export default function PtMap() {
     }
     else {
     return (
-        <div id="public-transit-map">
+        <div id="public-transit-map" className="page">
             <MapContainer center={[47.36, 8.53]} zoom={10} scrollWheelZoom={true} style={{ height: '400px', width: '1000px' }}>
                 <TileLayer
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -142,8 +142,7 @@ function Legend() {
                             width: "20px",
                             height:"15px",
                             background:"#700038"}}>
-                        </div>
-                    <p>Very good connection quality</p>
+                        </div><p>Very good connection quality</p>
                     </li>
                     <li>
                         <div id="rectangle" style={{
@@ -169,7 +168,7 @@ function Legend() {
                         </div>
                     <p>Bad connection quality</p>
                     </li>
-                    </ul>
+                </ul>
         </div>
     )
 }
