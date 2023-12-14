@@ -35,7 +35,7 @@ export default function PtMap() {
             return null;
         }
         return (
-            <div dangerouslySetInnerHTML={{__html: infoPtStop}}>
+            <div className="info" dangerouslySetInnerHTML={{__html: infoPtStop}}>
             </div>
         )
     }
@@ -123,10 +123,8 @@ export default function PtMap() {
                 <MakePtMap/>
                 <MapEvents/>
             </MapContainer>
-            <div className="legend">
-                <InfoBox/>
-                <Legend/>
-            </div>
+            <InfoBox/>
+            <Legend/>
         </div>
     )
     }
@@ -134,48 +132,44 @@ export default function PtMap() {
 
 function Legend() {
     return (
-        <div>
-            <h1>Legend</h1>
+        <div className="legend">
             <h2>
                 This map represents the connection quality of public transit in Switzerland
                 </h2>
-                <br/>
-                <li>
-                    <ul>
+                <ul>
+                    <li>
                         <div id="rectangle" style={{
                             width: "20px",
                             height:"15px",
                             background:"#700038"}}>
                         </div>
                     <p>Very good connection quality</p>
-                    </ul>
-                    <ul>
+                    </li>
+                    <li>
                         <div id="rectangle" style={{
                             width: "20px",
                             height:"15px",
                             background:"#9966FF"}}>
                         </div>
                     <p>Good connection quality</p>
-                    </ul>
-                    <ul>
+                    </li>
+                    <li>
                         <div id="rectangle" style={{
                             width: "20px",
                             height:"15px",
                             background:"#00B000"}}>
                         </div>
                     <p>Medium connection quality</p>
-                    </ul>
-                    <ul>
+                    </li>
+                    <li>
                         <div id="rectangle" style={{
                             width: "20px",
                             height:"15px",
                             background:"#B3FF40"}}>
                         </div>
                     <p>Bad connection quality</p>
-                    </ul>
                     </li>
-                <br/>
-
+                    </ul>
         </div>
     )
 }

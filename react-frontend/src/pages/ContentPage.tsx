@@ -1,3 +1,4 @@
+import React from "react";
 import { Layout, Row, Button } from "antd";
 import { Content, Footer } from "antd/es/layout/layout";
 import { Link } from "react-router-dom";
@@ -15,9 +16,12 @@ export default function ContentPage() {
             <Content className="content" id="mapContent">
                 <Row id="titelPage">
                     <h1 id="contentTitel">Zürich</h1>
+                    <Link to="/" id="homeButton">
+                        <img id="homeImg" src="https://cdn1.iconfinder.com/data/icons/duotone-essentials/24/chevron_backward-1024.png"/>
+                        <h1>HOME</h1>
+                    </Link>
                 </Row>
                 <Row id="popPage">
-                    <SwisstopoCheckbox/>
                     <PopulationHeatmap/>
                 </Row>
                 <Row id="transportPage">
@@ -28,9 +32,6 @@ export default function ContentPage() {
                     <Legend/>
                     <CheckBoxes/>
                     <PointControlBox/>
-                    <Link to="/">
-                        <Button>Back to home (TEMP)</Button>
-                    </Link>
                 </Row>
             </Content>
             <Footer className="footer" id="mapFooter">

@@ -8,6 +8,8 @@ import { useHeatmapContext, useSwissTopoContext } from "../../ctx/Swisstopo";
 import { useEffect, useRef } from "react";
 import "leaflet.heat";
 import proj4 from "proj4";
+import {SwisstopoCheckbox } from "../Checkboxes";
+
 
 const wgs84 = "EPSG:4326"
 const lv95 = '+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +k_0=1 +x_0=2600000 +y_0=1200000 +ellps=bessel +towgs84=674.374,15.056,405.346,0,0,0,0 +units=m +no_defs'
@@ -100,6 +102,7 @@ export default function PopulationHeatmap() {
                 <WMSTileLayer url="https://wms.geo.admin.ch/" layers="ch.bfs.volkszaehlung-bevoelkerungsstatistik_einwohner" format="image/png" transparent={true} opacity={0.5} />
                 <AddEvents/>
             </MapContainer>
+            <SwisstopoCheckbox/>
             <InfoBox/>
             </div>
         )
@@ -113,6 +116,7 @@ export default function PopulationHeatmap() {
                 />
                 <AddHeatLayer/>
             </MapContainer>
+            <SwisstopoCheckbox/>
             <InfoBox/>
         </div>
     )
@@ -125,7 +129,7 @@ function InfoBox() {
         return null;
     }
     return (
-        <div dangerouslySetInnerHTML={{__html: infoStatePopulation}}>
+        <div id="infoBox" dangerouslySetInnerHTML={{__html: infoStatePopulation}}>
         </div>
     )
 }

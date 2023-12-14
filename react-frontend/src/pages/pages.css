@@ -22,11 +22,17 @@
     color: #122640;
     align-self: center;
     justify-self: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     height: inherit;
     font-size: 3rem;
     font-weight: 700;
 }
 
+#fortnite {
+    margin: 0 !important;
+}
 
 #title {
     font-family: Verdana, Geneva, sans-serif;
@@ -79,10 +85,12 @@
 
 
 /*Maps*/
+/*
 .map-container {
-    height: 900px; /* Adjust as needed */
+    height: 900px;
     width: 90%;
 }
+*/
 
 g {
     opacity: 0.5;
@@ -169,28 +177,46 @@ h5 {
     height: 400vh;
 }
 
+/*titel Page*/
 #titelPage {
     color: antiquewhite;
     height: 100vh;
     display: grid;
-    justify-items: center;
-    align-items: center;
+}
+
+#homeButton {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    top: 3rem !important;
+    left: 3rem !important;
+}
+
+#homeImg {
+    height: 3rem;
+    width: 3rem;
 }
 
 /*population Page*/
 #popPage {
     height: 100vh;
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    column-gap: 3rem;
-    grid-template-areas: 
-        "map description";
 }
 
 #population-map {
-    grid-area: map;
+    height: 100%;
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    column-gap: 3rem;
+    grid-template-areas:
+        "map checkbox" 
+        "map description"
+        "map infobox";
     
     .leaflet-container {
+        grid-area: map;
         height: 80% !important;
         width: 100% !important;
     }
@@ -210,15 +236,21 @@ h5 {
     height: inherit;
     width: inherit;
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: 1fr 1fr;
     column-gap: 3rem;
     grid-template-areas: 
-        "map legend";
+        "legend map"
+        "info   map";
     
     .leaflet-container {
         grid-area: map;
         height: 80% !important;
         width: 100% !important;
+    }
+
+    .info{
+        grid-area: info;
     }
 
     .legend {
@@ -229,16 +261,16 @@ h5 {
 /*interactive Page*/
 
 #interactivePage {
+    padding-top: 5rem;
     height: 100vh;
     display: grid;
-    grid-template-rows: 1fr 1fr 2fr 1fr;
+    grid-template-rows: 1fr 1fr 2fr;
     grid-template-columns: 2fr 1fr;
     column-gap: 3rem;
     grid-template-areas:
         "map   legend"
         "map   checkBoxes"
-        "map   form"
-        "button button";
+        "map   form";
 }
 
 #map-zurich {
@@ -255,6 +287,8 @@ h5 {
 
 #mapFooter {
     background-color: #081526;
+    justify-content: center;
+    align-items: center;
 }
 
 #mapContent {
@@ -263,6 +297,8 @@ h5 {
 
 #contentTitel {
     color:antiquewhite;
+    justify-self: center;
+    align-self: center;
 }
 
 #mapHeader {
