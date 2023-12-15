@@ -8,15 +8,13 @@ function Legend() {
         drawingState, userLinesRef, setScore
     } = useLayerContext();
     return (
-        <div className="legend" id="legend-zurich">
-            <ol className="LineLegendList" style={{maxHeight: 200, overflow: 'auto'}}>
-                {linesFromFormState.map((listitem, i) => (
-                    <li className="list-group-item list-group-item-primary" id={i.toString()}>
-                    Line type: {listitem.typ}, Interval: {listitem.intervall}
-                    </li>
-                ))}
-            </ol>
-        </div>
+        <ol className="LineLegendList" id="lineLegend" style={{maxHeight: 200, overflow: 'auto'}}>
+            {linesFromFormState.map((listitem, i) => (
+                <li className="list-group-item list-group-item-primary" id={i.toString()}>
+                Line type: {listitem.typ}, Intervall: {listitem.intervall}min
+                </li>
+            ))}
+        </ol>
     )
 }
 
