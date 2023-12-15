@@ -1,6 +1,6 @@
 /*Layout and Categories*/
 .layout {
-    background-color: #02193B;
+    background-color: #021A3C;
     height: 100vh;
 }
 
@@ -11,7 +11,7 @@
 
 .footer {
     display: grid;
-    background-color: #02193B;
+    background-color: #021A3C;
     align-items: center;
 }
 
@@ -354,7 +354,7 @@ h5 {
 }
 
 #mapFooter {
-    background-color: #02193B;
+    background-color: #021A3C;
     justify-content: center;
     align-items: center;
 }
@@ -378,7 +378,7 @@ h5 {
 #lineForm {
     grid-area: form;
     border: none;
-    background-color: #02193B;
+    background-color: #021A3C;
     height: 10rem;
 }
 
@@ -401,12 +401,12 @@ h5 {
 }
 
 .ant-collapse { 
-    border-color: #02193B;
-    background-color:#02193B;
+    border-color: #021A3C;
+    background-color:#021A3C;
 }
 .ant-collapse-item {
-    border-color:  #02193B;
-    background-color: #02193B;
+    border-color:  #021A3C;
+    background-color: #021A3C;
     height: 12rem;
     border: 0 !important;
 
@@ -419,7 +419,7 @@ h5 {
 
 .ant-collapse-content_ant-collapse-content-active {
     border: none;
-    background-color:  #02193B;
+    background-color:  #021A3C;
 }
 
 .newLineForm {
