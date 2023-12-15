@@ -8,6 +8,7 @@ import { CheckBoxes, SwisstopoCheckbox } from "./components/Checkboxes";
 import PointControlBox from "./components/PointControlBox";
 import PopulationHeatmap from "./components/maps/Heatmap";
 import PtMap from "./components/maps/PtMap";
+import PtMap_desc from "./components/descriptions/PtMap_desc";
 
 export default function ContentPage() {
 
@@ -25,6 +26,7 @@ export default function ContentPage() {
                     <PopulationHeatmap/>
                 </Row>
                 <Row id="text1">
+                    <PtMap_desc/>
                 </Row>
                 <Row id="transportPage">
                     <PtMap/>

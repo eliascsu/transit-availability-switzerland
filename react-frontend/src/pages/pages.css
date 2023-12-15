@@ -480,3 +480,31 @@ h5 {
 .ant-checkbox+span {
     color: white;
 }
+
+#pt-map-description {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 50px 1fr;
+    column-gap: 3rem;
+    grid-template-areas:
+        "title1 title2"
+        "info1   info2"
+    ;
+
+    #title1 {
+        grid-area: title1;
+    }
+
+    #title2 {
+        grid-area: title2;
+    }
+
+    #info1 {
+        grid-area: info1;
+    }
+
+    #info2 {
+        grid-area: info2;
+    }
+}
