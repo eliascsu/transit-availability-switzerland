@@ -280,6 +280,10 @@ h5 {
         width: 100% !important;
     }
 
+    #populationTitel {
+        grid-area: description;
+    }
+
     #swisstopoCheckbox {
         grid-area: checkbox;
     }
@@ -296,7 +300,12 @@ h5 {
 
     .htmlpopup-header {
         display: flex;
+        border-bottom: antiquewhite 1px solid;
         justify-content: center;
+    }
+
+    .htmlpopup-content table {
+        margin-bottom: 0;
     }
 }
 
@@ -378,6 +387,14 @@ h5 {
     }
 }
 
+#legendTitel {
+    margin: 0;
+}
+
+#legendList {
+    border: antiquewhite 1px solid;
+}
+
 .listElement {
     margin: 0;
     display: flex;
@@ -387,7 +404,7 @@ h5 {
 
     > p {
         color: antiquewhite;
-        margin: 1rem 0px !important;
+        margin: 0.25rem 0 !important;
     }
 }
 
@@ -420,6 +437,7 @@ h5 {
     #lineLegend {
         grid-area: lineLegend;
         height: 10rem;
+        padding-left: 2rem;
     }
 
     #checkBoxes {

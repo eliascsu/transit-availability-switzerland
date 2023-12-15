@@ -134,38 +134,39 @@ function Legend() {
     return (
         <div className="legend">
             <h2>
-                This map represents the connection quality of public transit in Switzerland
-                </h2>
-                <ul style={{ listStyleType: "none" }}>
-                    <p className="listElement">
-                        <div id="rectangle" style={{
-                            width: "20px",
-                            height:"15px",
-                            background:"#700038"}}>
-                        </div><p>Very good connection quality</p>
-                    </p>
-                    <p className="listElement">
-                        <div id="rectangle" style={{
-                            width: "20px",
-                            height:"15px",
-                            background:"#9966FF"}}>
-                        </div><p>Good connection quality</p>
-                    </p>
-                    <p className="listElement">
-                        <div id="rectangle" style={{
-                            width: "20px",
-                            height:"15px",
-                            background:"#00B000"}}>
-                        </div><p>Medium connection quality</p>
-                    </p>
-                    <p className="listElement">
-                        <div id="rectangle" style={{
-                            width: "20px",
-                            height:"15px",
-                            background:"#B3FF40"}}>
-                        </div><p>Bad connection quality</p>
-                    </p>
-                </ul>
+            This map represents the connection quality of public transit in Switzerland
+            </h2>
+            <h2 id="legendTitel">Legend:</h2>
+            <ul style={{ listStyleType: "none" }} id="legendList">
+                <p className="listElement">
+                    <div id="rectangle" style={{
+                        width: "20px",
+                        height:"15px",
+                        background:"#700038"}}>
+                    </div><p>Very good connection quality</p>
+                </p>
+                <p className="listElement">
+                    <div id="rectangle" style={{
+                        width: "20px",
+                        height:"15px",
+                        background:"#9966FF"}}>
+                    </div><p>Good connection quality</p>
+                </p>
+                <p className="listElement">
+                    <div id="rectangle" style={{
+                        width: "20px",
+                        height:"15px",
+                        background:"#00B000"}}>
+                    </div><p>Medium connection quality</p>
+                </p>
+                <p className="listElement">
+                    <div id="rectangle" style={{
+                        width: "20px",
+                        height:"15px",
+                        background:"#B3FF40"}}>
+                    </div><p>Bad connection quality</p>
+                </p>
+            </ul>
         </div>
     )
 }
