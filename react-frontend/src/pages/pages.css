@@ -1,6 +1,6 @@
 /*Layout and Categories*/
 .layout {
-    background-color: #081526;
+    background-color: #02193B;
     height: 100vh;
 }
 
@@ -11,7 +11,7 @@
 
 .footer {
     display: grid;
-    background-color: #081526;
+    background-color: #02193B;
     align-items: center;
 }
 
@@ -264,7 +264,17 @@ h5 {
     #infoBox {
         grid-area: infobox;
     }
+}
 
+.chbfsvolkszaehlung-bevoelkerungsstatistik_einwohner {
+    font-size: 1rem;
+    color: antiquewhite;
+    border: antiquewhite 1px solid;
+
+    .htmlpopup-header {
+        display: flex;
+        justify-content: center;
+    }
 }
 
 /*Text Page 2*/
@@ -305,6 +315,18 @@ h5 {
     }
 }
 
+.listElement {
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    column-gap: 1rem;
+
+    > p {
+        margin: 1rem 0px !important;
+    }
+}
+
 /*interactive Page*/
 
 #interactivePage {
@@ -332,19 +354,13 @@ h5 {
 }
 
 #mapFooter {
-    background-color: #081526;
+    background-color: #02193B;
     justify-content: center;
     align-items: center;
 }
 
 #mapContent {
     padding-top: 0px;
-}
-
-#contentTitel {
-    color:antiquewhite;
-    justify-self: center;
-    align-self: center;
 }
 
 #mapHeader {
@@ -362,26 +378,35 @@ h5 {
 #lineForm {
     grid-area: form;
     border: none;
-    background-color: #081526;
+    background-color: #02193B;
     height: 10rem;
-
 }
 
 
 .ant-collapse-header {
     height: 3rem;
-    border: none;
-    background-color: #081526;
+    border: none !important;
+    background-color: #49BFC1 !important;
+    border-color: #49BFC1 !important;
+    box-shadow: none !important;
+    border-radius: 8px 8px 8px 8px !important;
 
+    .ant-collapse-header-text {
+        font-weight: 600;
+    }
+}
+
+.ant-collapse-header[aria-expanded="true"] {
+    border-radius: 8px 8px 0 0 !important;
 }
 
 .ant-collapse { 
-    border-color:  #081526;
-    background-color:    #081526;
+    border-color: #02193B;
+    background-color:#02193B;
 }
 .ant-collapse-item {
-    border-color:  #081526;
-    background-color:  #081526;
+    border-color:  #02193B;
+    background-color: #02193B;
     height: 12rem;
     border: 0 !important;
 
@@ -394,7 +419,7 @@ h5 {
 
 .ant-collapse-content_ant-collapse-content-active {
     border: none;
-    background-color: black;
+    background-color:  #02193B;
 }
 
 .newLineForm {
@@ -451,6 +476,8 @@ h5 {
 
 .ant-btn {
     margin: 0;
+    background-color: #49BFC1 !important;
+    box-shadow: none !important;
     align-self: center;
 }
 
