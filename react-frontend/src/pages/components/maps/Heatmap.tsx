@@ -102,6 +102,7 @@ export default function PopulationHeatmap() {
                 <WMSTileLayer url="https://wms.geo.admin.ch/" layers="ch.bfs.volkszaehlung-bevoelkerungsstatistik_einwohner" format="image/png" transparent={true} opacity={0.5} />
                 <AddEvents/>
             </MapContainer>
+            <PopDescription/>
             <SwisstopoCheckbox/>
             <InfoBox/>
             </div>
@@ -116,6 +117,7 @@ export default function PopulationHeatmap() {
                 />
                 <AddHeatLayer/>
             </MapContainer>
+            <PopDescription/>
             <SwisstopoCheckbox/>
             <InfoBox/>
         </div>
@@ -131,5 +133,13 @@ function InfoBox() {
     return (
         <div id="infoBox" dangerouslySetInnerHTML={{__html: infoStatePopulation}}>
         </div>
+    )
+}
+
+function PopDescription() {
+    return (
+        <h2 id="populationTitel">
+            This map represents the population density in Switzerland
+        </h2>
     )
 }
