@@ -1,6 +1,6 @@
-/*Layout and Categories*/
+/*Layout and Categories---------------*/
 .layout {
-    background-color: #081526;
+    background-color: #021430;
     height: 100vh;
 }
 
@@ -11,15 +11,34 @@
 
 .footer {
     display: grid;
-    background-color: #081526;
+    background-color: #021430;
     align-items: center;
 }
 
-/*Text*/
-#footerText {
+/*Text styling---------------*/
+
+td {
+    color: antiquewhite !important;
+}
+
+h2 {
+    color: antiquewhite !important;
+    display: flex;
+    text-align: center;
+}
+
+h1 {
+    color: black !important;
+}
+
+li {
+    color: antiquewhite;
+}
+
+/*Footer---------------*/
+
+#footerWrapper {
     color: #122640;
-    align-self: center;
-    justify-self: center;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -31,6 +50,14 @@
 #credits {
     margin: 0 !important;
 }
+
+#footerLanding {
+    width: 100%;
+    padding: 0px;
+    z-index: 99;
+}
+
+/*---------------*/
 
 #title {
     font-family: Verdana, Geneva, sans-serif;
@@ -56,7 +83,8 @@
     font-weight: 700;
 }
 
-/*Buttons*/
+/*Buttons---------------*/
+
 #contentLink {
     display: grid;
     height: 100%;
@@ -82,7 +110,11 @@
 }
 
 
-/*Maps styling*/
+/*Maps styling---------------*/
+
+.leaflet-container {
+    border-radius: 8px 8px 8px 8px;
+}
 
 .leaflet-container a{
     display: flex !important;
@@ -106,15 +138,6 @@ g {
     opacity: 0.5;
 }
 
-#credits {
-    margin-bottom: 0px;
-}
-
-#footerLanding {
-    width: 100%;
-    padding: 0px;
-    z-index: 99;
-}
 
 h5 {
     color: #122640;
@@ -137,6 +160,8 @@ h5 {
         z-index: 100;
     }
 }
+
+/*---------------*/
 
 #leftGreen{
     background-color: green;
@@ -181,6 +206,7 @@ h5 {
       }
   }
 
+
 /* contentPage------------------------------*/
 
 #contentPage {
@@ -191,7 +217,8 @@ h5 {
     padding: 5rem 2rem 0rem 2rem;
 }
 
-/*titel Page*/
+/*titel Page---------------*/
+
 #titelPage {
     color: antiquewhite;
     height: 100vh;
@@ -211,12 +238,25 @@ h5 {
     width: 3rem;
 }
 
-/*Text Page 1*/
-#text1 {
-    height: 75vh;
+#contentTitel {
+    position:absolute;
+    font-size: 150px;
+    top: 40%;
+    left: 40%;
+    color:antiquewhite !important;
+    z-index: 10;
 }
 
-/*population Page*/
+#zurichVideo {
+    position:relative;
+    height: 100vh;
+    width: 100%;
+    opacity: 0.7;
+    object-fit: cover;
+}
+
+/*population Page---------------*/
+
 #popPage {
     height: 100vh;
 }
@@ -230,8 +270,8 @@ h5 {
     grid-template-rows: 1fr 1fr 1fr;
     column-gap: 3rem;
     grid-template-areas:
-        "map checkbox" 
-        "map description"
+        "map description" 
+        "map checkbox"
         "map infobox";
     
     .leaflet-container {
@@ -247,16 +287,26 @@ h5 {
     #infoBox {
         grid-area: infobox;
     }
-
 }
 
-/*Text Page 2*/
+.chbfsvolkszaehlung-bevoelkerungsstatistik_einwohner {
+    font-size: 1rem;
+    color: antiquewhite;
+    border: antiquewhite 1px solid;
 
-#text2 {
+    .htmlpopup-header {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+/*Text Page 1---------------*/
+
+#text1 {
     height: 75vh;
 }
 
-/*transport Page*/
+/*transport Page---------------*/
 
 #transportPage {
     height: 100vh;
@@ -288,83 +338,90 @@ h5 {
     }
 }
 
-/*interactive Page*/
+.listElement {
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    column-gap: 1rem;
+
+    > p {
+        color: antiquewhite;
+        margin: 1rem 0px !important;
+    }
+}
+
+/*Text Page 2---------------*/
+
+#text2 {
+    height: 75vh;
+}
+
+/*interactive Page---------------*/
 
 #interactivePage {
     padding-top: 5rem;
     height: 100vh;
     display: grid;
-    grid-template-rows: 1fr 1fr 2fr;
+    grid-template-rows: 3fr 4fr 3fr;
     grid-template-columns: 2fr 1fr;
     column-gap: 3rem;
     grid-template-areas:
-        "map   legend"
         "map   checkBoxes"
-        "map   form";
+        "map   form"
+        "map   lineLegend";
+
+    #map-zurich {
+        grid-area: map;
+        height: 90%;
+        width: 100%;
+    }
+
+    #lineLegend {
+        grid-area: lineLegend;
+        height: 10rem;
+    }
+
+    #checkBoxes {
+        grid-area: checkBoxes;
+        display: flex;
+        flex-direction: column;
+    }
+
+    #lineForm {
+        grid-area: form;
+        border: none;
+        background-color: #021430;
+        height: 10rem;
+    }
 }
 
-#map-zurich {
-    grid-area: map;
-    height: 90%;
-    width: 100%;
-}
-
-#legend-zurich {
-    grid-area: legend;
-    height: 10rem;
-}
-
-#mapFooter {
-    background-color: #081526;
-    justify-content: center;
-    align-items: center;
-}
-
-#mapContent {
-    padding-top: 0px;
-}
-
-#contentTitel {
-    color:antiquewhite;
-    justify-self: center;
-    align-self: center;
-}
-
-#mapHeader {
-    align-self: center;
-    margin-left: 3rem;
-    color: antiquewhite;
-}
-
-#checkBoxes {
-    grid-area: checkBoxes;
-    display: flex;
-    flex-direction: column;
-}
-
-#lineForm {
-    grid-area: form;
-    border: none;
-    background-color: #081526;
-    height: 10rem;
-
-}
-
+/*LineForm styling---------------*/
 
 .ant-collapse-header {
     height: 3rem;
-    border: none;
-    background-color: #081526;
+    border: none !important;
+    background-color: #49BFC1 !important;
+    border-color: #49BFC1 !important;
+    box-shadow: none !important;
+    border-radius: 8px 8px 8px 8px !important;
 
+    .ant-collapse-header-text {
+        font-weight: 600;
+    }
+}
+
+.ant-collapse-header[aria-expanded="true"] {
+    border-radius: 8px 8px 0 0 !important;
 }
 
 .ant-collapse { 
-    border-color:  #081526;
-    background-color:    #081526;
+    border-color: #021430;
+    background-color:#021430;
 }
 .ant-collapse-item {
-    border-color:  #081526;
-    background-color:  #081526;
+    border-color:  #021430;
+    background-color: #021430;
     height: 12rem;
     border: 0 !important;
 
@@ -377,7 +434,7 @@ h5 {
 
 .ant-collapse-content_ant-collapse-content-active {
     border: none;
-    background-color: black;
+    background-color:  #021430;
 }
 
 .newLineForm {
@@ -391,7 +448,6 @@ h5 {
         "submit"
     ;
 }
-
 
 .ant-form-item-row {
     display: flex;
@@ -434,6 +490,8 @@ h5 {
 
 .ant-btn {
     margin: 0;
+    background-color: #49BFC1 !important;
+    box-shadow: none !important;
     align-self: center;
 }
 
@@ -449,8 +507,7 @@ h5 {
     color: white;
 }
 
-
-/* landing page */
+/* landing page------------------------------*/
 
 .background {
     position: relative;

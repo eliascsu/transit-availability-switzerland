@@ -1,12 +1,20 @@
 import { Control } from "leaflet";
+import { useLayerContext } from '../ctx/LayerContext';
 
 function Legend() {
 
-    const legend = new Control({ position: 'bottomright' });
+    const {
+        visibleLayersState, linesFromFormState,
+        drawingState, userLinesRef, setScore
+    } = useLayerContext();
     return (
-        <div className="legend" id="legend-zurich">
-            <img src={"https://api3.geo.admin.ch/static/images/legends/ch.bfs.volkszaehlung-bevoelkerungsstatistik_einwohner_en.png"} alt="Legend"/>
-        </div>
+        <ol className="LineLegendList" id="lineLegend" style={{maxHeight: 200, overflow: 'auto'}}>
+            {linesFromFormState.map((listitem, i) => (
+                <li className="list-group-item list-group-item-primary" id={i.toString()}>
+                Line type: {listitem.typ}, Intervall: {listitem.intervall}min
+                </li>
+            ))}
+        </ol>
     )
 }
 
