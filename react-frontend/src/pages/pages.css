@@ -306,6 +306,46 @@ h5 {
     height: 75vh;
 }
 
+#pt-map-description {
+    display: grid;
+    padding: 0 3rem;
+
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 3fr;
+    gap: 3rem;
+    justify-items: center;
+    grid-template-areas:
+        "title1 title2"
+        "info1   info2"
+    ;
+
+    #title1 {
+        margin: 0;
+        grid-area: title1;
+        align-self: end;
+    }
+
+    #title2 {
+        margin: 0;
+        grid-area: title2;
+        align-self: end;
+    }
+
+    #info1 {
+        grid-area: info1;
+        color: antiquewhite;
+        align-self: start;
+        text-align: center;
+    }
+
+    #info2 {
+        grid-area: info2;
+        color: antiquewhite;
+        text-align: center;
+        align-self: start;
+    }
+}
+
 /*transport Page---------------*/
 
 #transportPage {
@@ -536,32 +576,4 @@ h5 {
 
 .ant-checkbox+span {
     color: white;
-}
-
-#pt-map-description {
-    display: grid;
-
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 50px 1fr;
-    column-gap: 3rem;
-    grid-template-areas:
-        "title1 title2"
-        "info1   info2"
-    ;
-
-    #title1 {
-        grid-area: title1;
-    }
-
-    #title2 {
-        grid-area: title2;
-    }
-
-    #info1 {
-        grid-area: info1;
-    }
-
-    #info2 {
-        grid-area: info2;
-    }
 }
