@@ -100,7 +100,7 @@ export default function PtMap() {
     if (useSwissTopoMap) {
         remove_layers();
         return (
-            <div id="public-transit-map">
+            <div id="public-transit-map" className="page">
             <MapContainer center={[47.36, 8.53]} zoom={10} scrollWheelZoom={true} style={{ height: '400px', width: '1000px' }}>
                 <TileLayer
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -115,7 +115,7 @@ export default function PtMap() {
     }
     else {
     return (
-        <div id="public-transit-map">
+        <div id="public-transit-map" className="page">
             <MapContainer center={[47.36, 8.53]} zoom={10} scrollWheelZoom={true} style={{ height: '400px', width: '1000px' }}>
                 <TileLayer
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -136,40 +136,36 @@ function Legend() {
             <h2>
                 This map represents the connection quality of public transit in Switzerland
                 </h2>
-                <ul>
-                    <li>
+                <ul style={{ listStyleType: "none" }}>
+                    <p className="listElement">
                         <div id="rectangle" style={{
                             width: "20px",
                             height:"15px",
                             background:"#700038"}}>
-                        </div>
-                    <p>Very good connection quality</p>
-                    </li>
-                    <li>
+                        </div><p>Very good connection quality</p>
+                    </p>
+                    <p className="listElement">
                         <div id="rectangle" style={{
                             width: "20px",
                             height:"15px",
                             background:"#9966FF"}}>
-                        </div>
-                    <p>Good connection quality</p>
-                    </li>
-                    <li>
+                        </div><p>Good connection quality</p>
+                    </p>
+                    <p className="listElement">
                         <div id="rectangle" style={{
                             width: "20px",
                             height:"15px",
                             background:"#00B000"}}>
-                        </div>
-                    <p>Medium connection quality</p>
-                    </li>
-                    <li>
+                        </div><p>Medium connection quality</p>
+                    </p>
+                    <p className="listElement">
                         <div id="rectangle" style={{
                             width: "20px",
                             height:"15px",
                             background:"#B3FF40"}}>
-                        </div>
-                    <p>Bad connection quality</p>
-                    </li>
-                    </ul>
+                        </div><p>Bad connection quality</p>
+                    </p>
+                </ul>
         </div>
     )
 }
