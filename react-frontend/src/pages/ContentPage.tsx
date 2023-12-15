@@ -8,6 +8,11 @@ import { CheckBoxes, SwisstopoCheckbox } from "./components/Checkboxes";
 import PointControlBox from "./components/PointControlBox";
 import PopulationHeatmap from "./components/maps/Heatmap";
 import PtMap from "./components/maps/PtMap";
+import Zuerich from "./zuerich.mp4";
+
+const handleContextMenu: React.MouseEventHandler<HTMLVideoElement> = (event) => {
+    event.preventDefault();
+  };
 
 export default function ContentPage() {
 
@@ -15,11 +20,18 @@ export default function ContentPage() {
         <Layout className="layout" id="contentPage">
             <Content className="content" id="mapContent">
                 <Row id="titelPage">
+                    <div id="video-container">
+                    <video id="zurichVideo" playsInline autoPlay loop muted preload="" 								onContextMenu={handleContextMenu}>
+                        <source src={Zuerich} type="video/mp4" />
+                        Your browser does not support the video tag.
+                    </video>
+                        <h1 id="contentTitel">Zürich</h1>
                     <h1 id="contentTitel">Zürich</h1>
                     <Link to="/" id="homeButton">
                         <img id="homeImg" src="https://cdn1.iconfinder.com/data/icons/duotone-essentials/24/chevron_backward-1024.png"/>
                         <h1>HOME</h1>
                     </Link>
+                    </div>
                 </Row>
                 <Row id="popPage" className="page">
                     <PopulationHeatmap/>

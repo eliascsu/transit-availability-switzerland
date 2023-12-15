@@ -211,6 +211,23 @@ h5 {
     width: 3rem;
 }
 
+#contentTitel {
+    position:absolute;
+    font-size: 150px;
+    top: 40%;
+    left: 40%;
+    color:antiquewhite;
+    z-index: 10;
+}
+
+#zurichVideo {
+    position:relative;
+    height: 100vh;
+    width: 100%;
+    opacity: 0.7;
+    object-fit: cover;
+}
+
 /*Text Page 1*/
 #text1 {
     height: 75vh;
