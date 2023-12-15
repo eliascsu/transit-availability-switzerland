@@ -9,7 +9,7 @@ import PointControlBox from "./components/PointControlBox";
 import PopulationHeatmap from "./components/maps/Heatmap";
 import PtMap from "./components/maps/PtMap";
 import PtMap_desc from "./components/descriptions/PtMap_desc";
-import Zuerich from "./zuerich.mp4";
+import Zuerich from "./zuerich_minterpolated.mp4";
 
 const handleContextMenu: React.MouseEventHandler<HTMLVideoElement> = (event) => {
     event.preventDefault();
