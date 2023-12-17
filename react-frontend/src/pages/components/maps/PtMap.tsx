@@ -2,8 +2,6 @@ import { TileLayer, WMSTileLayer, useMap, useMapEvents } from "react-leaflet";
 import { MapContainer } from "react-leaflet";
 import L from "leaflet";
 
-import { getPTData } from "../../../router/resources/data";
-import { makePTCirclesFromData } from "../../utils/qual_layers";
 import { useEffect, useRef, useState } from "react";
 import { useSwissTopoContext } from "../../ctx/Swisstopo";
 import proj4 from "proj4";
@@ -13,22 +11,13 @@ const lv95 = '+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +k_
 
 
 export default function PtMap() {
-    const layerStorage = useRef<L.GeoJSON<any, any>[]>([]);
-    const layers = useRef<L.GeoJSON<any, any>[]>([]);
     const [infoPtStop, setInfoPtStop] = useState<string>("")
-    const {useSwissTopoMap} = useSwissTopoContext()
     const pt_stops_layer = useRef<L.TileLayer.WMS>()
     pt_stops_layer.current = L.tileLayer.wms("https://wms.geo.admin.ch/", {
         layers: "ch.bav.haltestellen-oev", transparent: true, format: "image/png"})
     const firstMount = useRef<boolean>(true);
 
-    useEffect(() => {
-        getPTData().then(data => {
-            if(data != undefined){
-                layerStorage.current = makePTCirclesFromData(data);
-            }
-        })
-    }, []);
+
 
     function InfoBox() {
         if (infoPtStop == "") {
@@ -72,62 +61,25 @@ export default function PtMap() {
                }
                pt_stops_layer.current?.setOpacity(1);
                pt_stops_layer.current?.bringToFront();
-               
             }
         }}
         )
         return null;
     }
 
-    function MakePtMap() {
-        const map = useMap();
-        useEffect(() => {
-            layers.current = layerStorage.current;
-            layers.current[0].addTo(map);
-            layers.current[1].addTo(map);
-            layers.current[2].addTo(map);
-            layers.current[3].addTo(map);
-        }, []);
-        return null;
-    }
-
-    function remove_layers() {
-        layers.current.forEach(layer => {
-            layer.remove();
-        });
-    }
-
-    if (useSwissTopoMap) {
-        remove_layers();
-        return (
-            <div id="public-transit-map" className="page">
-            <MapContainer center={[47.36, 8.53]} zoom={10} scrollWheelZoom={true} style={{ height: '400px', width: '1000px' }}>
-                <TileLayer
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                />
-                <WMSTileLayer url="https://wms.geo.admin.ch/" layers="ch.are.gueteklassen_oev" format="image/png" transparent={true} opacity={0.5} />
-                <MapEvents/>
-            </MapContainer>
-            <InfoBox/>
-            <Legend/>
-            </div>
-        )
-    }
-    else {
     return (
         <div id="public-transit-map" className="page">
-            <MapContainer center={[47.36, 8.53]} zoom={10} scrollWheelZoom={true} style={{ height: '400px', width: '1000px' }}>
-                <TileLayer
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                />
-                <MakePtMap/>
-                <MapEvents/>
-            </MapContainer>
-            <InfoBox/>
-            <Legend/>
+        <MapContainer center={[47.36, 8.53]} zoom={10} scrollWheelZoom={true} style={{ height: '400px', width: '1000px' }}>
+            <TileLayer
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+            <WMSTileLayer url="https://wms.geo.admin.ch/" layers="ch.are.gueteklassen_oev" format="image/png" transparent={true} opacity={0.5} />
+            <MapEvents/>
+        </MapContainer>
+        <InfoBox/>
+        <Legend/>
         </div>
     )
-    }
 }
 
 function Legend() {
@@ -170,10 +122,12 @@ function Legend() {
             <h2>Quick Facts:</h2>
             <table>
                 <thead>
+                    <tr>
                     <th></th>
                     <th>Rail</th>
                     <th>Bus/Tram</th>
                     <th>Other</th>
+                    </tr>
                 </thead>
                 <tbody>
                     <tr>
@@ -189,7 +143,7 @@ function Legend() {
                         <td>337</td>
                     </tr>
                 </tbody>
-                <tfoot><p><a href="https://www.bfs.admin.ch/bfs/en/home/statistics/mobility-transport/cross-sectional-topics/public-transport.html">Source: BFS, 2020</a></p></tfoot>
+                <tfoot><tr><td><a href="https://www.bfs.admin.ch/bfs/en/home/statistics/mobility-transport/cross-sectional-topics/public-transport.html">BFS, 2020</a></td></tr></tfoot>
             </table>
         </div>
     )
