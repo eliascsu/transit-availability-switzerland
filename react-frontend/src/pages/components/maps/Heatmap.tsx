@@ -103,7 +103,7 @@ export default function PopulationHeatmap() {
                 <AddEvents/>
             </MapContainer>
             <PopDescription/>
-            <SwisstopoCheckbox/>
+            <CheckboxDisplay/>
             <InfoBox/>
             </div>
         )
@@ -118,7 +118,7 @@ export default function PopulationHeatmap() {
                 <AddHeatLayer/>
             </MapContainer>
             <PopDescription/>
-            <SwisstopoCheckbox/>
+            <CheckboxDisplay/>
             <InfoBox/>
         </div>
     )
@@ -128,7 +128,9 @@ function InfoBox() {
     const {infoStatePopulation} = useHeatmapContext()
     console.log(infoStatePopulation)
     if (infoStatePopulation == "") {
-        return null;
+        return (
+            <p style={{textAlign: "center"}}>Click on a tile to display info</p>
+        )
     }
     return (
         <div id="infoBox" dangerouslySetInnerHTML={{__html: infoStatePopulation}}>
@@ -139,7 +141,7 @@ function InfoBox() {
 function PopDescription() {
     return (
         <>
-        <h2 id="populationTitel">
+        <h2 id="populationTitel" className="highlightedText">
             Population density in Switzerland
         </h2>
         <p>To understand how public transit can be improved, it is crucial to understand where
@@ -150,5 +152,14 @@ function PopDescription() {
             Switzerland. The map is based on census data from the Swiss Federal Statistical Office.
         </p>
         </>
+    )
+}
+
+function CheckboxDisplay() {
+    return (
+        <div id="swissTopoCheckboxDiv">
+            <p>This checkbox aloows You to switch between two different population density maps - one provided by SwissTopo (default) and another custom map designed to highlight population hotspots with an exponential grading scale</p>
+            <SwisstopoCheckbox/>
+        </div>
     )
 }

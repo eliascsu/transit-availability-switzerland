@@ -85,8 +85,8 @@ export default function PtMap() {
 function Legend() {
     return (
         <div className="legend">
-            <h2>
-            This map represents the connection quality of public transit in Switzerland
+            <h2 id="transitTitel">
+            This map represents the connection quality of <h2 className="highlightedText">public transit</h2> in Switzerland
             </h2>
             <h2 id="legendTitel">Legend:</h2>
             <ul style={{ listStyleType: "none" }} id="legendList">
