@@ -111,16 +111,7 @@ const Map = React.memo(function Map() {
     },[])
 
     useEffect(() => {
-        console.log("STATECHANGE");
-        postAndGetPoints(userLinesRef.current)
-            .then(userGeoJson => {
-                if(userGeoJson != undefined){
-                    userLinesRef.current = userGeoJson;
-                }
-            })
-            getScoreUserPtLine().then((data: any) => {
-                setScore(data?.population_served);
-            });
+        
     }, [updatePT, userLinesRef])
 
     useEffect(() => {
@@ -165,7 +156,7 @@ const Map = React.memo(function Map() {
     useEffect(() => {
         //Adding points for traffic stops
         //TODO HST KAT CALULATION
-        
+
         for (let line of userLinesRef.current) {
             L.geoJSON(line).removeFrom(map)
         }
@@ -191,7 +182,7 @@ const Map = React.memo(function Map() {
             if((interval==30 && (typ=="Bus" || typ=="Tram")) || interval==60){
                 kat = 5;
             }
-            
+
             let newLastFeature = {
                 "type": "Feature",
                 "geometry": lastFeature.geometry,
@@ -245,7 +236,16 @@ const Map = React.memo(function Map() {
                 }
             }
         );
-        
+        postAndGetPoints(userLinesRef.current)
+            .then(userGeoJson => {
+                if(userGeoJson != undefined){
+                    userLinesRef.current = userGeoJson;
+                }
+            }).then(() => {
+        getScoreUserPtLine().then((data: any) => {
+            setScore(data?.population_served);
+        });})
+
     }, [linesFromFormState, visibleLayersState.transportLayer]);
 
     return null;
