@@ -11,7 +11,7 @@
 
 ## Project Description 
 
-### Transit Availability in Urban and Suburban AreaS
+### Transit Availability in Urban and Suburban Areas
 
 The goal of this project is to provide an application to display urban mobility data in contrast to population density. The issue consists of possible unequal access to mobility for some people living in urban and suburban areas. The application will visualize this, using OGD provided by the city of Zurich, with the possibility of extending the functionality for other urban areas. We do this by showing a map of the city, and overlaying a heatmap of the population over said area. Then, transit lines are added to the map, to visualize them. In the backend we use points spaced 100m from eachother, and calculate the time it would take to get from said points to a city-center/POI. The longer it takes, the more unequal is the access to mobility. For this we consider 4 main modes of transport: Public transit (Rail, Bus, etc.), Walking, Cycling and Driving. The user can then select which mode of transport they want to use, and the map will update accordingly. The user can also select a specific point on the map, and the application will show the time it takes to get to the c
 tity-center/POI from said point. As an extension, we could also display land value and rent prices, to show the correlation between these and the access to mobility, and some possible inequalities.

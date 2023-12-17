@@ -7,7 +7,7 @@ import time
 
 time_start = time.time()
 
-pop = pd.read_csv(os.path.join(data_root, "dataset_population.csv"))
+pop = pd.read_csv(os.path.join(data_root, "Population.csv"))
 points_not_served = pd.DataFrame()
 
 def calculate_population_served_per_coordinate(x, y, kat, population):
@@ -36,7 +36,7 @@ def calculate_population_served_per_coordinate(x, y, kat, population):
 
     return population, res
 
-with open(os.path.join(data_root, "dataset_OeV_Haltestellen_ARE.geojson")) as f:
+with open(os.path.join(data_root, "pt-stops.geojson")) as f:
     public_transport = json.load(f)
 
 total_population = pop["pop_actual"].sum()
@@ -49,12 +49,17 @@ for i, feature in enumerate(public_transport["features"]):
             "Population Served: ", sum / total_population, "Population: ", sum)
     pop, s = calculate_population_served_per_coordinate(
         feature["geometry"]["coordinates"][0],
-        feature["geometry"]["coordinates"][1] ,
+        feature["geometry"]["coordinates"][1],
         feature["properties"]["Hst_Kat"], pop
         )
     sum += s
 
-pop.to_csv(os.path.join(data_root, "dataset_unserved.csv"), index=False,)
+print("Total Population: ", total_population)
+print("Population Served: ", sum)
+print("Population Served %: ", sum / total_population)
+print("Number of public transport stops: ", len(public_transport["features"]))
+
+pop.to_csv(os.path.join(data_root, "UnservedPopulation.csv"), index=False,)
 
 time_end = time.time()
 print("Time elapsed: ", time_end - time_start)

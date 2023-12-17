@@ -26,7 +26,7 @@ class user_pt_stops(Resource):
     Sets the file user_Haltestellen.geojson to the current list of userPoints
     """
     data_root = os.path.join(".", "data")
-    population_data = pd.read_csv(os.path.join(data_root, "Population.csv"))
+    population_data = pd.read_csv(os.path.join(data_root, "UnservedPopulation.csv"))
     lock = _Lock()
 
     def post(self):

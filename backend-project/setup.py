@@ -13,8 +13,9 @@ setup(
     long_description=read("README.md"),
     package_data={
         "": [
-            "dataset_OeV_Haltestellen_ARE.geojson",
-            "dataset_population.csv",
+            "pt-stops.geojson",
+            "Population.csv",
+            "UnservedPopulation.csv",
         ]
     },
     data_files=[(
