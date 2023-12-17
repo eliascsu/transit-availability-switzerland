@@ -16,7 +16,7 @@ class _Lock:
             pass
         self.locked = True
         return True
-        
+
     def release(self):
         self.locked = False
         return True
@@ -35,10 +35,9 @@ class user_pt_stops(Resource):
         user_pt_stops.lock.acquire()
         with open(os.path.join(self.data_root, "user-pt-stops.geojson"), "w+") as f:
             json.dump(point_data, f)
-
         user_pt_stops.lock.release()
         return point_data
-    
+
     @staticmethod
     @lru_cache(maxsize=2048)
     def calculate_population_served_per_coordinate(x, y):
@@ -62,14 +61,14 @@ class user_pt_stops(Resource):
     def get(self):
         user_pt_stops.lock.acquire()
         with open(os.path.join(self.data_root, "user-pt-stops.geojson")) as f:
-            data = json.load(f)
+            try:
+                data = json.load(f)
+            except json.decoder.JSONDecodeError:
+                data = []
         user_pt_stops.lock.release()
-
         sum = 0
         for feature in data:
-            print(feature["geometry"]["coordinates"])
             for coordinate in feature["geometry"]["coordinates"]:
-                print(coordinate)
                 sum += self.calculate_population_served_per_coordinate(coordinate[0], coordinate[1])
 
         return {"population_served": int(sum)}
