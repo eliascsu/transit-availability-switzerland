@@ -7,7 +7,7 @@ export default function PtMap_desc() {
                 still drive to work. 23.3% of citizens choose to use their
                 cars because they have no alternative
                 <a href="https://www.are.admin.ch/are/de/home/medien-und-publikationen/publikationen/verkehr/modalsplit-personenverkehr-schweiz.html">(Modalsplit ARE 2015)</a>.
-                Our calculations show that only 12.3% of swiss people are not served within reasonable distance of public transit.
+                Our calculations show that only 12.3% of swiss people are not served within reasonable distance of public transit, with the average distance to a public transit stop being ~340 meters <a href="https://www.bfs.admin.ch/bfs/en/home/statistics/sustainable-development/monet-2030/indicators/distance-nearest-public-transport-stop.html">(2021, bfs)</a>
                 It is also possible that in remote regions, where e.g. a bus runs hourly, it is not feasible to use for daily activities such as commutes.
                 One way to reduce the amount of cars on the road
                 is to improve the attractiveness of the public transportation system.
@@ -19,7 +19,7 @@ export default function PtMap_desc() {
             <h2 id="title2">CO2 Emissions</h2>
             <p id="info2">With the current issue of climate change, Switzerland is trying to
                 reduce its carbon footprint. Road transport accounts for about 40%
-                of Switzerlands CO2 emissions. [swissinfo](https://www.swissinfo.ch/eng/swiss-co2-emissions--small-country--big-footprint/45810036)
+                of Switzerlands CO2 emissions. <a href="https://www.swissinfo.ch/eng/swiss-co2-emissions--small-country--big-footprint/45810036">(swissinfo)</a>
                 It is therefore crucial to reduce the amount of cars on the road and create a
                 modal shift towards public transportation. The 23811 public transit stops in switzerland are sorted into 5 categories based on
                 their quality. This depends on the type of lines and frequency of transit vehicles.

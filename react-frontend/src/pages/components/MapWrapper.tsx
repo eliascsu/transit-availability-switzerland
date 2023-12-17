@@ -62,6 +62,7 @@ const Map = React.memo(function Map() {
     const geoJsonLayersRef = useRef<L.GeoJSON<any, any>[]>([]);
     const userGeoJsonLayersRef = useRef<L.GeoJSON<any, any>[]>([]);
     const heatMapLayerRef = useRef<L.HeatLayer>();
+    const unservedHeatmapRef = useRef<L.HeatLayer>();
 
     // Trigger update of PT layers
     const [updatePT, setUpdatePT] = useState<number>(0);
@@ -70,7 +71,7 @@ const Map = React.memo(function Map() {
     const pt_stops_layer = useRef<L.TileLayer.WMS>()
     pt_stops_layer.current = L.tileLayer.wms("https://wms.geo.admin.ch/", {
         layers: "ch.bav.haltestellen-oev", transparent: true, format: "image/png", minZoom: 14, maxZoom: 20})
-    
+
     const firstMount = useRef<boolean>(true);
 
     const {
@@ -134,11 +135,11 @@ const Map = React.memo(function Map() {
 
     useEffect(() => {
         if (visibleLayersState.popUnservedLayer) {
-            heatMapLayerRef.current = populationUnservedHeatMapCache.current
-            heatMapLayerRef.current?.addTo(map)
+            unservedHeatmapRef.current = populationUnservedHeatMapCache.current
+            unservedHeatmapRef.current?.addTo(map)
         }
         else {
-            heatMapLayerRef.current?.removeFrom(map);
+            unservedHeatmapRef.current?.removeFrom(map);
         }
     }, [visibleLayersState.popUnservedLayer]);
 

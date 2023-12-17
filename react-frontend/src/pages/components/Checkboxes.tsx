@@ -54,7 +54,8 @@ export function SwisstopoCheckbox() {
     const {useSwissTopoMap, setSwissTopoMap} = useSwissTopoContext()
     return (
         <div id="swisstopoCheckbox">
-            <Checkbox checked={useSwissTopoMap} onChange={() => setSwissTopoMap(!useSwissTopoMap)}>Swisstopo</Checkbox>
+            <Checkbox checked={useSwissTopoMap} onChange={() => setSwissTopoMap(!useSwissTopoMap)}>{useSwissTopoMap ? <p>Switch to heatmap</p> : <p>Switch to SwissTopo layer</p>}</Checkbox>
+
         </div>
     )
 }

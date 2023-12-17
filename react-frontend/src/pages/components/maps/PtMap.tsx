@@ -138,35 +138,59 @@ function Legend() {
             </h2>
             <h2 id="legendTitel">Legend:</h2>
             <ul style={{ listStyleType: "none" }} id="legendList">
-                <p className="listElement">
+                <div className="listElement">
                     <div id="rectangle" style={{
                         width: "20px",
                         height:"15px",
                         background:"#700038"}}>
                     </div><p>Very good connection quality</p>
-                </p>
-                <p className="listElement">
+                </div>
+                <div className="listElement">
                     <div id="rectangle" style={{
                         width: "20px",
                         height:"15px",
                         background:"#9966FF"}}>
                     </div><p>Good connection quality</p>
-                </p>
-                <p className="listElement">
+                </div>
+                <div className="listElement">
                     <div id="rectangle" style={{
                         width: "20px",
                         height:"15px",
                         background:"#00B000"}}>
                     </div><p>Medium connection quality</p>
-                </p>
-                <p className="listElement">
+                </div>
+                <div className="listElement">
                     <div id="rectangle" style={{
                         width: "20px",
                         height:"15px",
                         background:"#B3FF40"}}>
                     </div><p>Bad connection quality</p>
-                </p>
+                </div>
             </ul>
+            <h2>Quick Facts:</h2>
+            <table>
+                <thead>
+                    <th></th>
+                    <th>Rail</th>
+                    <th>Bus/Tram</th>
+                    <th>Other</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Length (Track/Route, km)</td>
+                        <td>5443</td>
+                        <td>21190</td>
+                        <td>1551</td>
+                    </tr>
+                    <tr>
+                        <td># of stops</td>
+                        <td>1772</td>
+                        <td>23080</td>
+                        <td>337</td>
+                    </tr>
+                </tbody>
+                <tfoot><p><a href="https://www.bfs.admin.ch/bfs/en/home/statistics/mobility-transport/cross-sectional-topics/public-transport.html">Source: BFS, 2020</a></p></tfoot>
+            </table>
         </div>
     )
 }
