@@ -17,6 +17,16 @@
 
 /*Text styling---------------*/
 
+.highlightedText {
+    margin: 0;
+    display: block;
+    color: #80ED99 !important;
+}
+
+p {
+    color: #DDCFBE !important;
+}
+
 td {
     color: antiquewhite !important;
 }
@@ -291,6 +301,26 @@ h5 {
     #infoBox {
         grid-area: infobox;
     }
+
+    #populationTitel {
+        grid-area: description;
+        display: block;
+        margin: 0;
+    }
+}
+
+#swissTopoCheckboxDiv {
+    text-align: center;
+
+    #swisstopoCheckbox {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #swisstopoCheckbox p {
+        margin: 0;
+    }
 }
 
 .chbfsvolkszaehlung-bevoelkerungsstatistik_einwohner {
@@ -406,6 +436,14 @@ h5 {
         color: antiquewhite;
         margin: 0.25rem 0 !important;
     }
+}
+
+#transitTitel {
+    display: block;
+}
+
+.htmlpopup-header {
+    color: antiquewhite;
 }
 
 /*Text Page 2---------------*/
