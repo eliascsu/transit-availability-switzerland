@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Layout, Row, Button } from "antd";
 import { Content, Footer } from "antd/es/layout/layout";
 import { Link } from "react-router-dom";
@@ -17,13 +17,41 @@ const handleContextMenu: React.MouseEventHandler<HTMLVideoElement> = (event) => 
   };
 
 export default function ContentPage() {
+    const videoRef = useRef<HTMLVideoElement>(null);
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                // Start or pause the video depending on whether it's in the viewport
+                if (entry.isIntersecting) {
+                    videoRef.current?.play();
+                } else {
+                    videoRef.current?.pause();
+                }
+            },
+            {
+                // Trigger the callback when the video is 50% in view
+                threshold: 0.5,
+            }
+        );
 
+        // Start observing the video
+        if (videoRef.current) {
+            observer.observe(videoRef.current);
+        }
+
+        // Clean up on unmount
+        return () => {
+            if (videoRef.current) {
+                observer.unobserve(videoRef.current);
+            }
+        };
+    }, []);
     return (
         <Layout className="layout" id="contentPage">
             <Content className="content" id="mapContent">
                 <Row id="titelPage">
                     <div id="video-container">
-                    <video id="zurichVideo" playsInline autoPlay loop muted preload="" 								onContextMenu={handleContextMenu}>
+                    <video ref={videoRef} id="zurichVideo" playsInline autoPlay loop muted preload="" 								onContextMenu={handleContextMenu}>
                         <source src={Zuerich} type="video/mp4" />
                         Your browser does not support the video tag.
                     </video>
