@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import { Layout, Row, Button } from "antd";
 import { Content, Footer } from "antd/es/layout/layout";
 import { Link } from "react-router-dom";
@@ -10,47 +10,20 @@ import PopulationHeatmap from "./components/maps/Heatmap";
 import PtMap from "./components/maps/PtMap";
 import PtMap_desc from "./components/descriptions/PtMap_desc";
 import Zuerich from "./zuerich_minterpolated.mp4";
+import HeatMap_desc from "./components/descriptions/HeatMap_desc";
 
 const handleContextMenu: React.MouseEventHandler<HTMLVideoElement> = (event) => {
     event.preventDefault();
   };
 
 export default function ContentPage() {
-    const videoRef = useRef<HTMLVideoElement>(null);
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                // Start or pause the video depending on whether it's in the viewport
-                if (entry.isIntersecting) {
-                    videoRef.current?.play();
-                } else {
-                    videoRef.current?.pause();
-                }
-            },
-            {
-                // Trigger the callback when the video is 50% in view
-                threshold: 0.5,
-            }
-        );
 
-        // Start observing the video
-        if (videoRef.current) {
-            observer.observe(videoRef.current);
-        }
-
-        // Clean up on unmount
-        return () => {
-            if (videoRef.current) {
-                observer.unobserve(videoRef.current);
-            }
-        };
-    }, []);
     return (
         <Layout className="layout" id="contentPage">
             <Content className="content" id="mapContent">
                 <Row id="titelPage">
                     <div id="video-container">
-                    <video ref={videoRef} id="zurichVideo" playsInline autoPlay loop muted preload="" 								onContextMenu={handleContextMenu}>
+                    <video id="zurichVideo" playsInline autoPlay loop muted preload="" 								onContextMenu={handleContextMenu}>
                         <source src={Zuerich} type="video/mp4" />
                         Your browser does not support the video tag.
                     </video>
@@ -66,12 +39,13 @@ export default function ContentPage() {
                     <PopulationHeatmap/>
                 </Row>
                 <Row id="text1">
-                    <PtMap_desc/>
+                    <HeatMap_desc/>
                 </Row>
-                <Row id="transportPage">
+                <Row id="transportPage" className="page">
                     <PtMap/>
                 </Row>
                 <Row id="text2">
+                    <PtMap_desc/>
                 </Row>
                 <Row id="interactivePage"className="page">
                     <MapWrapper/>

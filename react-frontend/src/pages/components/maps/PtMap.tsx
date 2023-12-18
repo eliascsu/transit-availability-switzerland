@@ -68,7 +68,7 @@ export default function PtMap() {
     }
 
     return (
-        <div id="public-transit-map" className="page">
+        <div id="public-transit-map">
         <MapContainer center={[47.36, 8.53]} zoom={10} scrollWheelZoom={true} style={{ height: '400px', width: '1000px' }}>
             <TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -85,11 +85,11 @@ export default function PtMap() {
 function Legend() {
     return (
         <div className="legend">
-
-            <h2 className="highlightedText">Public transit (ARE)</h2>
-            <br></br>
+            <h2 id="transitTitel">
+            Connection quality of <h2 className="highlightedText">public transport</h2> in Switzerland
+            </h2>
+            <h4 id="legendTitel">Connection quality:</h4>
             <ul style={{ listStyleType: "none" }} id="legendList">
-            <h3 id="legendTitel">Legend</h3>
                 <div className="listElement">
                     <div id="rectangle" style={{
                         width: "20px",
@@ -119,7 +119,11 @@ function Legend() {
                     </div><p>Bad connection quality</p>
                 </div>
             </ul>
-            <h2>Quick Facts:</h2>
+        </div>
+    )
+}
+
+/*<h2>Quick Facts:</h2>
             <table>
                 <thead>
                     <tr>
@@ -144,7 +148,4 @@ function Legend() {
                     </tr>
                 </tbody>
                 <tfoot><tr><td><a href="https://www.bfs.admin.ch/bfs/en/home/statistics/mobility-transport/cross-sectional-topics/public-transport.html">BFS, 2020</a></td></tr></tfoot>
-            </table>
-        </div>
-    )
-}
+            </table>*/

@@ -345,7 +345,7 @@ h5 {
     height: 75vh;
 }
 
-#pt-map-description {
+#heatmap-description {
     display: grid;
     padding: 0 3rem;
 
@@ -357,6 +357,138 @@ h5 {
         "title1 title2"
         "info1   info2"
     ;
+
+    #title1 {
+        margin: 0;
+        grid-area: title1;
+        align-self: end;
+    }
+
+    #info1 {
+        grid-area: info1;
+        color: antiquewhite;
+        align-self: start;
+        text-align: center;
+    }
+}
+
+
+/*transport Page---------------*/
+
+#transportPage {
+    height: 100vh;
+}
+
+#public-transit-map {
+    height: inherit;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: 1fr 1fr;
+    column-gap: 3rem;
+    grid-template-areas: 
+        "legend map"
+        "info   map";
+    
+    .leaflet-container {
+        grid-area: map;
+        height: 90% !important;
+        width: 100% !important;
+    }
+
+    .info{
+        grid-area: info;
+    }
+
+    .info table {
+        display: none;
+    }
+
+    .legend {
+        grid-area: legend;
+        margin-bottom: 1rem;
+    }
+}
+
+#legendTitel {
+    color: #DDCFBE;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    text-align: center;
+    border-bottom: #DDCFBE 1px solid;
+}
+
+#legendList {
+    /*border: antiquewhite 1px solid;*/
+    padding-left: 7rem;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+
+}
+
+.listElement {
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    column-gap: 1rem;
+
+    > p {
+        color: antiquewhite;
+        margin: 0.25rem 0 !important;
+    }
+}
+
+#transitTitel {
+    display: block;
+}
+
+.htmlpopup-header {
+    color: antiquewhite;
+    display: none;
+}
+
+/*Text Page 2---------------*/
+
+#text2 {
+    height: 75vh;
+}
+
+#pt-map-description {
+    display: grid;
+    padding: 0 3rem;
+
+    gap: 3rem;
+    justify-items: center;
+
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 3fr;
+    grid-template-areas:
+        "title1 title2"
+        "info1   info2"
+    ;
+    /*
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 3fr;
+    grid-template-areas:
+        "title1 title2 title3"
+        "info1   info2 info3";
+
+    #title3 {
+        margin: 0;
+        grid-area: title3;
+        align-self: end;
+    }
+
+    #info3 {
+        grid-area: info3;
+        color: antiquewhite;
+        align-self: start;
+        text-align: center;
+    }
+    */
 
     #title1 {
         margin: 0;
@@ -383,73 +515,6 @@ h5 {
         text-align: center;
         align-self: start;
     }
-}
-
-/*transport Page---------------*/
-
-#transportPage {
-    height: 100vh;
-}
-
-#public-transit-map {
-    height: inherit;
-    width: inherit;
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    grid-template-rows: 1fr 1fr;
-    column-gap: 3rem;
-    grid-template-areas: 
-        "legend map"
-        "info   map";
-    
-    .leaflet-container {
-        grid-area: map;
-        height: 90% !important;
-        width: 100% !important;
-    }
-
-    .info{
-        grid-area: info;
-    }
-
-    .legend {
-        grid-area: legend;
-    }
-}
-
-#legendTitel {
-    margin: 0;
-}
-
-#legendList {
-    border: antiquewhite 1px solid;
-}
-
-.listElement {
-    margin: 0;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    column-gap: 1rem;
-
-    > p {
-        color: antiquewhite;
-        margin: 0.25rem 0 !important;
-    }
-}
-
-#transitTitel {
-    display: block;
-}
-
-.htmlpopup-header {
-    color: antiquewhite;
-}
-
-/*Text Page 2---------------*/
-
-#text2 {
-    height: 75vh;
 }
 
 /*interactive Page---------------*/
