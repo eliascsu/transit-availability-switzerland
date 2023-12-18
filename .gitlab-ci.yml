@@ -66,6 +66,7 @@ build_frontend:
 deploy_app:
   stage: deploy
   rules:
+    - if:
       when: always
   image:
     name: alpine/helm:3.11.1
