@@ -70,7 +70,6 @@ deploy_app:
     - if: $CI_COMMIT_BRANCH =~ /^release.*$/
     - if: $FORCE_DEPLOY
       when: always
-    - when: never
   image:
     name: alpine/helm:3.11.1
     entrypoint: [""]
