@@ -16,9 +16,9 @@ function AttributionsPage() {
                 </Link>
                 <div id='attributions'>
                     <h2 id='att_title'>Attributions</h2>
-                    <hr className="solid"/>
+                    <hr className="solid" id='underline'/>
                     <Row>
-                    <h3>General</h3>
+                        <h3>General</h3>
                     </Row>
                     <Row>
                         <Col id='att_general'>
@@ -27,19 +27,19 @@ function AttributionsPage() {
                         </Col>
                     </Row>
                     <Row>
-                    <h3>Frontend</h3>
+                        <h3>Frontend</h3>
                     </Row>
                     <Row>
-                        <ul>
+                        <Col id='att_frontend'>
                             <li><a href='https://ant.design/'>Ant Design</a></li>
                             <li><a href='https://leafletjs.com/'>Leaflet</a></li>
                             <li>Railway overlay © <a href="https://www.openrailwaymap.org/">OpenRailwayMap contributors</a></li>
                             <li>Maps © <a href="https://www.thunderforest.com/">Thunderforest</a></li>
                             <li>Data  © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a></li>
-                        </ul>
+                        </Col>
                     </Row>
                     <Row>
-                    <h3>Backend</h3>
+                        <h3>Backend</h3>
                     </Row>
                     <Row>
                         <Col id='att_backend'>
