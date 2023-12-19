@@ -303,24 +303,43 @@ h5 {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
 }
 
 #att_title {
     font-size: 60px;
     margin: 30px;
+    margin-bottom: 0;
+}
+
+#underline {
+    border: none;
+    background-color: white;
+    height: 3px;
+    width: 100vw;
+    margin-bottom: 2.5rem;
 }
 
 #att_general {
-    margin-bottom: 20px;
-    li{
+    margin-bottom: 12vh;
+    li {
         padding:15px;
         font-size: 25px;
     }
 }
 
-#att_backend {
+#att_frontend {
+    margin-bottom: 12vh;
     li{
-        padding:25px;
+        padding: 15px;
+        font-size: 25px;
+    }
+}
+
+#att_backend {
+    li {
+        padding: 15px;
+        font-size: 25px;
     }
 }
 
@@ -364,6 +383,8 @@ h5 {
     font-size: 150px;
     color:antiquewhite !important;
     z-index: 100;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    filter: drop-shadow(5px 5px 15px black);
 }
 
 #video-container {
@@ -376,7 +397,7 @@ h5 {
     position:relative;
     height: 100vh;
     width: 100%;
-    opacity: 0.3;
+    opacity: 0.7;
     object-fit: cover;
 }
 

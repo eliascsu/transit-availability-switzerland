@@ -95,7 +95,7 @@ export default function PopulationHeatmap() {
         remove_layers();
         return (
             <div id="population-map">
-            <MapContainer center={[47.36, 8.53]} zoom={10} scrollWheelZoom={true} zoomSnap={0.5} minZoom={8} style={{ height: '400px', width: '400px' }}>
+            <MapContainer center={[47.36, 8.53]} zoom={10} scrollWheelZoom={true} zoomSnap={0.5} minZoom={8} style={{ height: '400px', width: '400px' }} maxBounds={new L.LatLngBounds([48.076,5.397], [45.599,11.416])}>
                 <TileLayer
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
@@ -111,7 +111,7 @@ export default function PopulationHeatmap() {
 
     return (
         <div id="population-map">
-            <MapContainer center={[47.36, 8.53]} zoom={10} scrollWheelZoom={true} zoomSnap={0.5} minZoom={8} style={{ height: '400px', width: '400px' }}>
+            <MapContainer center={[47.36, 8.53]} zoom={10} scrollWheelZoom={true} zoomSnap={0.5} minZoom={8} style={{ height: '400px', width: '400px' }} maxBounds={new L.LatLngBounds([48.076,5.397], [45.599,11.416])}>
                 <TileLayer
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
