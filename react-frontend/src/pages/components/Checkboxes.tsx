@@ -45,6 +45,11 @@ export function CheckBoxes() {
     return (
         <div id="checkBoxes">
           <Score/>
+          <p>Population Density Map: Highlights population hotspots.
+                Public Transport Connection Quality Map: Shows public transport connectivity.
+                Limited Public Transport Access Map: Marks areas with poor public transport access.
+                Toggle these maps for targeted insights.
+            </p>
           <CheckboxGroup options={options} value={checkboxValues} onChange={onChange}/>
         </div>
       );
