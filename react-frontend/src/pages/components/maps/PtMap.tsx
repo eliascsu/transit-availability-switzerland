@@ -89,7 +89,7 @@ function Legend() {
             Connection quality of <h2 className="highlightedText">public transport</h2> in Switzerland
             </h2>
             <h4 id="legendTitel">Connection quality:</h4>
-            <ul style={{ listStyleType: "none" }} id="legendList">
+            <div style={{ listStyleType: "none" }} id="legendList">
                 <div className="listElement">
                     <div id="rectangle" style={{
                         width: "20px",
@@ -118,34 +118,7 @@ function Legend() {
                         background:"#B3FF40"}}>
                     </div><p>Bad connection quality</p>
                 </div>
-            </ul>
+            </div>
         </div>
     )
 }
-
-/*<h2>Quick Facts:</h2>
-            <table>
-                <thead>
-                    <tr>
-                    <th></th>
-                    <th>Rail</th>
-                    <th>Bus/Tram</th>
-                    <th>Other</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Length (Track/Route, km)</td>
-                        <td>5443</td>
-                        <td>21190</td>
-                        <td>1551</td>
-                    </tr>
-                    <tr>
-                        <td># of stops</td>
-                        <td>1772</td>
-                        <td>23080</td>
-                        <td>337</td>
-                    </tr>
-                </tbody>
-                <tfoot><tr><td><a href="https://www.bfs.admin.ch/bfs/en/home/statistics/mobility-transport/cross-sectional-topics/public-transport.html">BFS, 2020</a></td></tr></tfoot>
-            </table>*/

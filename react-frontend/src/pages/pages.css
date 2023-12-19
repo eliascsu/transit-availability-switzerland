@@ -328,7 +328,7 @@ h5 {
 /* contentPage------------------------------*/
 
 #contentPage {
-    height: 550vh;
+    height: 625vh;
 }
 
 .page {
@@ -378,6 +378,39 @@ h5 {
     object-fit: cover;
 }
 
+/*Text Page 1---------------*/
+
+#textPage1 {
+    height: 75vh;
+}
+
+#heatmap-description {
+    display: grid;
+    padding: 0 3rem;
+
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 3fr;
+    gap: 3rem;
+    justify-items: center;
+    grid-template-areas:
+        "title1 title2"
+        "info1   info2"
+    ;
+
+    #title1 {
+        margin: 0;
+        grid-area: title1;
+        align-self: end;
+    }
+
+    #info1 {
+        grid-area: info1;
+        color: antiquewhite;
+        align-self: start;
+        text-align: center;
+    }
+}
+
 /*population Page---------------*/
 
 #popPage {
@@ -405,10 +438,27 @@ h5 {
 
     #populationTitel {
         grid-area: description;
+        padding-top: 2rem;
     }
 
     #swisstopoCheckbox {
         grid-area: checkbox;
+
+        span {
+            display: flex;
+        }
+
+        p {
+            border: antiquewhite 1px solid;
+            border-radius: 8px 8px 8px 8px;
+            padding: 0.5rem;
+            align-self: center;
+
+        }
+        .ant-checkbox {
+            visibility: hidden;
+            display: none;
+        }
     }
     
     #infoBox {
@@ -450,30 +500,41 @@ h5 {
     .htmlpopup-content table {
         margin-bottom: 0;
     }
+
+    .cell-left:nth-child(1){
+        color: aqua;
+    }
 }
 
-/*Text Page 1---------------*/
+/*Text Page 2---------------*/
 
-#text1 {
+#textPage2 {
     height: 75vh;
 }
 
-#heatmap-description {
+#pt-map-description {
     display: grid;
     padding: 0 3rem;
 
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 3fr;
     gap: 3rem;
     justify-items: center;
+
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 2fr 5fr;
     grid-template-areas:
         "title1 title2"
         "info1   info2"
     ;
-
+    
     #title1 {
         margin: 0;
         grid-area: title1;
+        align-self: end;
+    }
+
+    #title2 {
+        margin: 0;
+        grid-area: title2;
         align-self: end;
     }
 
@@ -483,8 +544,14 @@ h5 {
         align-self: start;
         text-align: center;
     }
-}
 
+    #info2 {
+        grid-area: info2;
+        color: antiquewhite;
+        text-align: center;
+        align-self: start;
+    }
+}
 
 /*transport Page---------------*/
 
@@ -520,8 +587,23 @@ h5 {
     .legend {
         grid-area: legend;
         margin-bottom: 1rem;
+        display: grid;
     }
-}
+
+    iframe {
+        padding: 1rem;
+        
+        .body {
+            padding: 1rem;
+        }
+    }
+
+     body .chbavhaltestellen-oev {
+        display: none;
+    }
+}    
+
+
 
 #legendTitel {
     color: #DDCFBE;
@@ -533,7 +615,7 @@ h5 {
 
 #legendList {
     /*border: antiquewhite 1px solid;*/
-    padding-left: 7rem;
+    justify-self: center;
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -556,6 +638,7 @@ h5 {
 
 #transitTitel {
     display: block;
+    padding-top: 2rem;
 }
 
 .htmlpopup-header {
@@ -563,71 +646,10 @@ h5 {
     display: none;
 }
 
-/*Text Page 2---------------*/
+/*Text Page 3---------------*/
 
-#text2 {
+#textPage3 {
     height: 75vh;
-}
-
-#pt-map-description {
-    display: grid;
-    padding: 0 3rem;
-
-    gap: 3rem;
-    justify-items: center;
-
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 3fr;
-    grid-template-areas:
-        "title1 title2"
-        "info1   info2"
-    ;
-    /*
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 3fr;
-    grid-template-areas:
-        "title1 title2 title3"
-        "info1   info2 info3";
-
-    #title3 {
-        margin: 0;
-        grid-area: title3;
-        align-self: end;
-    }
-
-    #info3 {
-        grid-area: info3;
-        color: antiquewhite;
-        align-self: start;
-        text-align: center;
-    }
-    */
-
-    #title1 {
-        margin: 0;
-        grid-area: title1;
-        align-self: end;
-    }
-
-    #title2 {
-        margin: 0;
-        grid-area: title2;
-        align-self: end;
-    }
-
-    #info1 {
-        grid-area: info1;
-        color: antiquewhite;
-        align-self: start;
-        text-align: center;
-    }
-
-    #info2 {
-        grid-area: info2;
-        color: antiquewhite;
-        text-align: center;
-        align-self: start;
-    }
 }
 
 /*interactive Page---------------*/
@@ -682,6 +704,7 @@ h5 {
 
     .ant-collapse-header-text {
         font-weight: 600;
+        color:#021430;
     }
 }
 

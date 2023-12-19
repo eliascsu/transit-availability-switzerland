@@ -62,17 +62,19 @@ export default function ContentPage() {
                     </Link>
                     </div>
                 </Row>
+                <Row id="textPage1">
+                    <HeatMap_desc/>
+                </Row>
                 <Row id="popPage" className="page">
                     <PopulationHeatmap/>
                 </Row>
-                <Row id="text1">
-                    <HeatMap_desc/>
+                <Row id="textPage2">
+                    <PtMap_desc/>
                 </Row>
                 <Row id="transportPage" className="page">
                     <PtMap/>
                 </Row>
-                <Row id="text2">
-                    <PtMap_desc/>
+                <Row id="textPage3">
                 </Row>
                 <Row id="interactivePage"className="page">
                     <MapWrapper/>

@@ -149,7 +149,7 @@ function PopDescription() {
 function CheckboxDisplay() {
     return (
         <div id="swissTopoCheckboxDiv">
-            <p>This checkbox aloows You to switch between two different population density maps - one provided by SwissTopo (default) and another custom map designed to highlight population hotspots with an exponential grading scale</p>
+            <p>This checkbox allows You to switch between two different population density maps - one provided by SwissTopo (default) and another custom map designed to highlight population hotspots with an exponential grading scale</p>
             <SwisstopoCheckbox/>
         </div>
     )
