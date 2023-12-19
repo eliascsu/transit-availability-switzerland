@@ -8,7 +8,7 @@ import type { PopulationArray } from "../../types/data";
  * @param latlng L.LatLng of point, which should be added to the line
  * @returns Feature list with new LatLng added to last feature linestring
  */
-export function addPointToLine(userLines: GeoJSON.Feature[], latlng: L.LatLng) {
+export function addPointToLine(userLines: GeoJSON.Feature[], coords: number[]) {
     if(userLines.length === 0){
         userLines.push(
             {
@@ -20,13 +20,13 @@ export function addPointToLine(userLines: GeoJSON.Feature[], latlng: L.LatLng) {
                 } as GeoJSON.GeoJsonProperties,
                 geometry: {
                     type: "LineString",
-                    coordinates: [[latlng.lng, latlng.lat]]
+                    coordinates: [coords]
                 } as GeoJSON.Geometry
             } as GeoJSON.Feature
         )
-    }
+    };
     let last_line_geojson2 = userLines[userLines.length - 1];
-    (last_line_geojson2.geometry as GeoJSON.LineString).coordinates.push([latlng.lng, latlng.lat]);
+    (last_line_geojson2.geometry as GeoJSON.LineString).coordinates.push(coords);
     userLines[userLines.length - 1] = last_line_geojson2;
     return userLines;
 }
