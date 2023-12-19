@@ -7,7 +7,7 @@ function FormComponent({form, onFinish, onCollapse}: any) {
                 onChange={onCollapse}
                 items={[{
                 key: '1',
-                label: 'LineForm',
+                label: 'Create your own line',
                 showArrow: false,
                 children: (
                     <Form
