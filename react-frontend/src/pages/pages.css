@@ -613,9 +613,7 @@ h5 {
         grid-area: info;
     }
 
-    .info table {
-        display: none;
-    }
+    
 
     .legend {
         grid-area: legend;
@@ -631,9 +629,7 @@ h5 {
         }
     }
 
-     body .chbavhaltestellen-oev {
-        display: none;
-    }
+    
 }    
 
 
@@ -718,8 +714,9 @@ h5 {
     }
 
     #lineForm {
+        height: 95% !important;
         grid-area: form;
-        border: none;
+        border-bottom: antiquewhite 1px solid;
         background-color: #021430;
         height: 10rem;
     }

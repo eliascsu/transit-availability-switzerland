@@ -78,7 +78,7 @@ export default function PopulationHeatmap() {
             const url_ident = "https://api3.geo.admin.ch/rest/services/all/MapServer/identify?geometry="+x+","+ y + "&geometryFormat=geojson&geometryType=esriGeometryPoint&lang=en&layers=all:ch.bfs.volkszaehlung-bevoelkerungsstatistik_einwohner&limit=10&returnGeometry=true&sr=2056&timeInstant=2021&tolerance=0"
             fetch(url_ident).then(response => response.json()).then(data => {
                 if (data.results[0].id != undefined)
-                console.log(data.results[0].id)
+                console.log(data.results[0].id);
                 return data.results[0].id;
             }
             ).then(id => {
