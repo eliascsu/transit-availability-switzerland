@@ -687,8 +687,9 @@ h5 {
     }
 
     #lineForm {
+        height: 95% !important;
         grid-area: form;
-        border: none;
+        border-bottom: antiquewhite 1px solid;
         background-color: #021430;
         height: 10rem;
     }
