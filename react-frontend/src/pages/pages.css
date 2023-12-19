@@ -349,6 +349,9 @@ h5 {
     position: absolute;
     top: 3rem !important;
     left: 3rem !important;
+    h1 {
+        color: antiquewhite !important;
+    }
 }
 
 #homeImg {
@@ -359,7 +362,6 @@ h5 {
 #contentTitel {
     position:absolute;
     font-size: 150px;
-    
     color:antiquewhite !important;
     z-index: 100;
 }

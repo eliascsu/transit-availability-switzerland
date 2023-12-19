@@ -11,6 +11,7 @@ import PtMap from "./components/maps/PtMap";
 import PtMap_desc from "./components/descriptions/PtMap_desc";
 import Zuerich from "./zuerich.mp4";
 import HeatMap_desc from "./components/descriptions/HeatMap_desc";
+import back_chevron from "./chevron_back_white.png"
 
 const handleContextMenu: React.MouseEventHandler<HTMLVideoElement> = (event) => {
     event.preventDefault();
@@ -57,7 +58,7 @@ export default function ContentPage() {
                     </video>
                     <h1 id="contentTitel">Schweiz</h1>
                     <Link to="/" id="homeButton">
-                        <img id="homeImg" src="https://cdn1.iconfinder.com/data/icons/duotone-essentials/24/chevron_backward-1024.png"/>
+                        <img id="homeImg" src={back_chevron}/>
                         <h1>HOME</h1>
                     </Link>
                     </div>
