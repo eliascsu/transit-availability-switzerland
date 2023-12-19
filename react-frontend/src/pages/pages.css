@@ -124,6 +124,7 @@ li {
     text-align: center;
     align-self: end;
     margin-top: -15vh;
+    margin-left: 2.5vw;
 }
 
 #titelDiv {
@@ -161,6 +162,7 @@ li {
     height: 2.5rem;
     width: 15rem;
     margin-top: -15vh;
+    margin-left: 2.5vw;
 }
 
 #startButton:hover {
@@ -182,6 +184,7 @@ li {
     height: 2rem;
     width: 7.5rem;
     margin-top: -35vh;
+    margin-left: 2.5vw;
 }
 
 #attributionsButton:hover {
