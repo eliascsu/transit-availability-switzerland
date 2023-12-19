@@ -290,6 +290,60 @@ h5 {
   }
 
 
+/* attributionsPage------------------------------*/
+#attributionsPage {
+    height: 100vh;
+    h3{
+        margin-bottom: 10px !important;
+    }
+}
+
+#attributions {
+    padding-top: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#att_title {
+    font-size: 60px;
+    margin: 30px;
+    margin-bottom: 0;
+}
+
+#underline {
+    border: none;
+    background-color: white;
+    height: 3px;
+    width: 100vw;
+    margin-bottom: 2.5rem;
+}
+
+#att_general {
+    margin-bottom: 12vh;
+    li {
+        padding:15px;
+        font-size: 25px;
+    }
+}
+
+#att_frontend {
+    margin-bottom: 12vh;
+    li{
+        padding: 15px;
+        font-size: 25px;
+    }
+}
+
+#att_backend {
+    li {
+        padding: 15px;
+        font-size: 25px;
+    }
+}
+
+
 /* contentPage------------------------------*/
 
 #contentPage {
@@ -314,6 +368,9 @@ h5 {
     position: absolute;
     top: 3rem !important;
     left: 3rem !important;
+    h1 {
+        color: antiquewhite !important;
+    }
 }
 
 #homeImg {
@@ -324,19 +381,23 @@ h5 {
 #contentTitel {
     position:absolute;
     font-size: 150px;
-    top: 40%;
-    left: 40%;
     color:antiquewhite !important;
-    z-index: 10;
-    margin-top: -5vh;
-    margin-left: -2vw;
+    z-index: 100;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    filter: drop-shadow(5px 5px 15px black);
+}
+
+#video-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #zurichVideo {
     position:relative;
     height: 100vh;
     width: 100%;
-    opacity: 0.3;
+    opacity: 0.7;
     object-fit: cover;
 }
 
