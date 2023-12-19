@@ -325,6 +325,8 @@ h5 {
     left: 40%;
     color:antiquewhite !important;
     z-index: 10;
+    margin-top: -5vh;
+    margin-left: -2vw;
 }
 
 #zurichVideo {
