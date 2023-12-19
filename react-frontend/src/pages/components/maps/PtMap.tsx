@@ -18,17 +18,6 @@ export default function PtMap() {
     const firstMount = useRef<boolean>(true);
 
 
-
-    function InfoBox() {
-        if (infoPtStop.current == "") {
-            return null;
-        }
-        return (
-            <div className="info" dangerouslySetInnerHTML={{__html: infoPtStop.current}}>
-            </div>
-        )
-    }
-
     function MapEvents() {
         const map = useMapEvents(
             {
@@ -85,7 +74,6 @@ export default function PtMap() {
             <WMSTileLayer url="https://wms.geo.admin.ch/" layers="ch.are.gueteklassen_oev" format="image/png" transparent={true} opacity={0.5} />
             <MapEvents/>
         </MapContainer>
-        <InfoBox/>
         <Legend/>
         </div>
     )
