@@ -37,7 +37,7 @@ export default function PtMap() {
                 console.log(data);
                 if(infoPtStop.current != ""){
                     console.log("maumau")
-                    map.openPopup(infoPtStop.current, e.latlng, {minWidth: 400, className: "PT_Popup"});
+                    map.openPopup(infoPtStop.current, e.latlng, {minWidth: 400, className: "custom-popup"});
                 }
             })
             });

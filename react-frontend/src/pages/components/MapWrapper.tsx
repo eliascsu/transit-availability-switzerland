@@ -88,7 +88,7 @@ const Map = React.memo(function Map() {
     const map = useMapEvents({
         click: (e) => {
             console.log(linesFromFormState);
-            if(drawingState || true){
+            if(drawingState){
 
                 // Check if there is a PT stop nearby
                 const [x, y] = proj4(wgs84, lv95, [e.latlng.lng, e.latlng.lat]);
