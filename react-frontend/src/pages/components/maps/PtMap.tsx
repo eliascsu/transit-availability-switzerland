@@ -74,7 +74,9 @@ export default function PtMap() {
             <WMSTileLayer url="https://wms.geo.admin.ch/" layers="ch.are.gueteklassen_oev" format="image/png" transparent={true} opacity={0.5} />
             <MapEvents/>
         </MapContainer>
+        <Title/>
         <Legend/>
+        <InfoBox/>
         </div>
     )
 }
@@ -82,9 +84,6 @@ export default function PtMap() {
 function Legend() {
     return (
         <div className="legend">
-            <h2 id="transitTitel">
-            Connection quality of <h2 className="highlightedText">public transport</h2> in Switzerland
-            </h2>
             <h4 id="legendTitel">Connection quality:</h4>
             <div style={{ listStyleType: "none" }} id="legendList">
                 <div className="listElement">
@@ -117,5 +116,23 @@ function Legend() {
                 </div>
             </div>
         </div>
+    )
+}
+
+function InfoBox() {
+    return (
+        <p id="ptInfo">
+            This map visually represents the quality of public transport connections throughout Switzerland.
+            It displays data on train, bus, and tram connectivity and coverage. Key transport hubs are emphasized, and areas with less frequent or reliable service are identified.
+            It offes a clear overview of the Swiss public transport network's quality and accessibility.
+        </p>
+    )
+}
+
+function Title() {
+    return (
+        <h2 id="transitTitel">
+            Connection quality of <h2 className="highlightedText">public transport</h2> in Switzerland
+        </h2>
     )
 }

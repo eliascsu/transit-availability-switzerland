@@ -593,11 +593,12 @@ h5 {
     width: 100%;
     display: grid;
     grid-template-columns: 1fr 2fr;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: 2fr 3fr 4fr;
     column-gap: 3rem;
     grid-template-areas: 
-        "legend map"
-        "info   map";
+        "title  map"
+        "info map"
+        "legend map";
     
     .leaflet-container {
         grid-area: map;
@@ -605,30 +606,25 @@ h5 {
         width: 100% !important;
     }
 
-    .info{
+    #ptInfo {
         grid-area: info;
+        justify-self: center;
+        align-self: center;
+        text-align: center;
     }
 
-    
+    #transitTitel {
+        grid-area: title;
+        margin: 0;
+    }
 
     .legend {
         grid-area: legend;
         margin-bottom: 1rem;
+        height: 70%;
         display: grid;
     }
-
-    iframe {
-        padding: 1rem;
-        
-        .body {
-            padding: 1rem;
-        }
-    }
-
-    
-
-    
-}   
+}
 
 .custom-popup .leaflet-popup-content-wrapper {
     background: red;
@@ -738,9 +734,7 @@ h5 {
     }
 
     #lineForm {
-        height: 95% !important;
         grid-area: form;
-        border-bottom: antiquewhite 1px solid;
         background-color: #021430;
         height: 10rem;
     }
