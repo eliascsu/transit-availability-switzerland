@@ -163,7 +163,7 @@ const Map = React.memo(function Map() {
         // First set the type and interval for the new line
         let lineInfo = linesFromFormState[linesFromFormState.length - 1];
         let lastFeature = userLinesRef.current[userLinesRef.current.length - 1];
-        if (lastFeature != undefined) {
+        if (lastFeature != undefined && linesFromFormState.length > 0) {
             let typ = lineInfo.typ;
             let interval = lineInfo.intervall;
             let kat;
