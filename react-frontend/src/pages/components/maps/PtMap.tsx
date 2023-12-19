@@ -11,28 +11,18 @@ const lv95 = '+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +k_
 
 
 export default function PtMap() {
-    const [infoPtStop, setInfoPtStop] = useState<string>("")
+    const infoPtStop = useRef<string>("")
     const pt_stops_layer = useRef<L.TileLayer.WMS>()
     pt_stops_layer.current = L.tileLayer.wms("https://wms.geo.admin.ch/", {
         layers: "ch.bav.haltestellen-oev", transparent: true, format: "image/png"})
     const firstMount = useRef<boolean>(true);
 
 
-
-    function InfoBox() {
-        if (infoPtStop == "") {
-            return null;
-        }
-        return (
-            <div className="info" dangerouslySetInnerHTML={{__html: infoPtStop}}>
-            </div>
-        )
-    }
-
     function MapEvents() {
         const map = useMapEvents(
             {
             click: (e) => {
+            infoPtStop.current = "";
             const [x, y] = proj4(wgs84, lv95, [e.latlng.lng, e.latlng.lat]);
             const url_ident = "https://api3.geo.admin.ch/rest/services/all/MapServer/identify?geometry="+x+","+ y + "&imageDisplay=400,400,96&mapExtent="+ (x-4000)+ "," + (y-4000) + ","+ (x+4000) + "," + (y+4000) +"&geometryFormat=geojson&geometryType=esriGeometryPoint&lang=en&layers=all:ch.bav.haltestellen-oev&limit=10&returnGeometry=true&sr=2056&timeInstant=2021&tolerance=10"
             fetch(url_ident).then(response => response.json()).then(data => {
@@ -43,8 +33,16 @@ export default function PtMap() {
             ).then(id => {
             const url = "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bav.haltestellen-oev/"+id+"/htmlPopup?coord=" + x + "," + y + "&lang=en&tolerance=0&sr=2056"
             fetch(url).then(response => response.text()).then(data => {
-                setInfoPtStop(data);
-            })})
+                infoPtStop.current = data;
+                console.log(data);
+                if(infoPtStop.current != ""){
+                    console.log("maumau")
+                    map.openPopup(infoPtStop.current, e.latlng, {minWidth: 400, className: "PT_Popup"});
+                }
+            })
+            });
+            
+            
         },
         zoomend: () => {
             const currentZoom = map.getZoom();
@@ -76,7 +74,6 @@ export default function PtMap() {
             <WMSTileLayer url="https://wms.geo.admin.ch/" layers="ch.are.gueteklassen_oev" format="image/png" transparent={true} opacity={0.5} />
             <MapEvents/>
         </MapContainer>
-        <InfoBox/>
         <Legend/>
         </div>
     )
