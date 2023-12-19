@@ -582,9 +582,7 @@ h5 {
         grid-area: info;
     }
 
-    .info table {
-        display: none;
-    }
+    
 
     .legend {
         grid-area: legend;
@@ -600,9 +598,7 @@ h5 {
         }
     }
 
-     body .chbavhaltestellen-oev {
-        display: none;
-    }
+    
 }    
 
 
