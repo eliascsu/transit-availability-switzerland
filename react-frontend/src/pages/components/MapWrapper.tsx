@@ -13,6 +13,12 @@ import { makePTCirclesFromData } from '../utils/qual_layers';
 import { addPointToLine } from '../utils/utils';
 
 import '../pages.css';
+import proj4 from 'proj4';
+
+
+const wgs84 = "EPSG:4326"
+const lv95 = '+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +k_0=1 +x_0=2600000 +y_0=1200000 +ellps=bessel +towgs84=674.374,15.056,405.346,0,0,0,0 +units=m +no_defs'
+
 
 const defaultLineStyle = {
     color: "red",
@@ -42,13 +48,13 @@ const Map = React.memo(function Map() {
         getPopulationDensity().then(popArray => {
             if(popArray != undefined){
                 let heatArray = createHeatMap(popArray);
-                populationHeatMapCache.current = L.heatLayer(heatArray, {radius: 15, max: 10});
+                populationHeatMapCache.current = L.heatLayer(heatArray, {radius: 15, max: 1});
             }
         });
         getPopulationUnserved().then(popArray => {
             if(popArray != undefined){
                 let heatArray = createHeatMap(popArray);
-                populationUnservedHeatMapCache.current = L.heatLayer(heatArray, {radius: 15, max: 10});
+                populationUnservedHeatMapCache.current = L.heatLayer(heatArray, {radius: 15, max: 1});
             }
         })
         getPTData().then(data => {
@@ -83,25 +89,47 @@ const Map = React.memo(function Map() {
         click: (e) => {
             console.log(linesFromFormState);
             if(drawingState || true){
-                for (let line of userLinesRef.current) {
-                    L.geoJSON(line).removeFrom(map)
-                }
-                // On click add point to currently active line and redraw
-                let user_lines_geojson = userLinesRef.current;
-                userLinesRef.current = addPointToLine(user_lines_geojson, e.latlng);
 
-                // Redraw user lines
-                for (let feat of userLinesRef.current) {
-                    L.geoJSON(feat, {
-                        style: {
-                            color: getLineColor(feat.properties?.lineType),
-                            opacity: 1
-                        }
-                    }).addTo(map)
-                }
+                // Check if there is a PT stop nearby
+                const [x, y] = proj4(wgs84, lv95, [e.latlng.lng, e.latlng.lat]);
 
-                // Redraw pt quality layers
-                setUpdatePT(updatePT+1);
+                const url_ident = "https://api3.geo.admin.ch/rest/services/all/MapServer/identify?geometry="+x+","+ y + "&imageDisplay=400,400,96&mapExtent="+ (x-4000)+ "," + (y-4000) + ","+ (x+4000) + "," + (y+4000) +"&geometryFormat=geojson&geometryType=esriGeometryPoint&lang=en&layers=all:ch.bav.haltestellen-oev&limit=10&returnGeometry=true&sr=2056&timeInstant=2021&tolerance=5"
+                fetch(url_ident).then(response => response.json()).then(data => {
+                    if (data.results[0] == undefined)
+                        return e.latlng;
+                    console.log(data.results[0].geometry)
+                    return proj4(lv95, wgs84, data.results[0].geometry?.coordinates[0]);
+                }).then((coords) => {
+                    if (coords.lng == undefined)
+                        coords = [coords[0], coords[1]];
+                    else {
+                        coords = [coords.lng, coords.lat];
+                    }
+                    console.log(coords)
+                    return coords;
+                }).then((coords) => {
+
+                    for (let line of userLinesRef.current) {
+                        L.geoJSON(line).removeFrom(map)
+                    }
+                    // On click add point to currently active line and redraw
+                    let user_lines_geojson = userLinesRef.current;
+                    userLinesRef.current = addPointToLine(user_lines_geojson, coords);
+                    console.log(userLinesRef.current)
+                    // Redraw user lines
+                    for (let feat of userLinesRef.current) {
+                        L.geoJSON(feat, {
+                            style: {
+                                color: getLineColor(feat.properties?.lineType),
+                                opacity: 1
+                            }
+                        }).addTo(map).bringToFront();
+                    }
+
+                    // Redraw pt quality layers
+                    setUpdatePT(updatePT+1);
+                })
+
             }
         }
     });
