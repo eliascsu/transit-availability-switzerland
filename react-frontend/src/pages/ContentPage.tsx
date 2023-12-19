@@ -55,7 +55,7 @@ export default function ContentPage() {
                         <source src={Zuerich} type="video/mp4" />
                         Your browser does not support the video tag.
                     </video>
-                    <h1 id="contentTitel">Zürich</h1>
+                    <h1 id="contentTitel">Schweiz</h1>
                     <Link to="/" id="homeButton">
                         <img id="homeImg" src="https://cdn1.iconfinder.com/data/icons/duotone-essentials/24/chevron_backward-1024.png"/>
                         <h1>HOME</h1>

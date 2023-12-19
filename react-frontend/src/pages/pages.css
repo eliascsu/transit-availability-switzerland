@@ -290,6 +290,41 @@ h5 {
   }
 
 
+/* attributionsPage------------------------------*/
+#attributionsPage {
+    height: 100vh;
+    h3{
+        margin-bottom: 10px !important;
+    }
+}
+
+#attributions {
+    padding-top: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#att_title {
+    font-size: 60px;
+    margin: 30px;
+}
+
+#att_general {
+    margin-bottom: 20px;
+    li{
+        padding:15px;
+        font-size: 25px;
+    }
+}
+
+#att_backend {
+    li{
+        padding:25px;
+    }
+}
+
+
 /* contentPage------------------------------*/
 
 #contentPage {
@@ -324,12 +359,15 @@ h5 {
 #contentTitel {
     position:absolute;
     font-size: 150px;
-    top: 40%;
-    left: 40%;
+    
     color:antiquewhite !important;
-    z-index: 10;
-    margin-top: -5vh;
-    margin-left: -2vw;
+    z-index: 100;
+}
+
+#video-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #zurichVideo {
