@@ -39,11 +39,12 @@ setup(
         ]
     },
     install_requires=[
-        "Flask>=2.0.0",
-        "flask-restful>=0.3.9,<0.4",
-        "flask-cors>=3.0.10,<3.1",
-        "pandas>=1.4.1,<1.5",
+        "Flask",
+        "flask-restful",
+        "flask-cors",
+        "pandas",
         "scikit-learn",
+        "pandas_geojson"
     ],
     packages=find_packages(where="src", include=["server*"]),
     package_dir={"": "src"},
