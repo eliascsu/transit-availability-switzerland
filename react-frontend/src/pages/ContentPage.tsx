@@ -1,15 +1,15 @@
 import React, { useEffect, useRef } from "react";
-import { Layout, Row, Button } from "antd";
+import { Layout, Row } from "antd";
 import { Content, Footer } from "antd/es/layout/layout";
 import { Link } from "react-router-dom";
 import { Legend } from "./components/legend";
 import { MapWrapper } from "./components/MapWrapper";
-import { CheckBoxes, SwisstopoCheckbox } from "./components/Checkboxes";
+import { CheckBoxes } from "./components/Checkboxes";
 import PointControlBox from "./components/PointControlBox";
 import PopulationHeatmap from "./components/maps/Heatmap";
 import PtMap from "./components/maps/PtMap";
 import PtMap_desc from "./components/descriptions/PtMap_desc";
-import Zuerich from "./zuerich_minterpolated.mp4";
+import Zuerich from "./zuerich-265.mp4";
 import HeatMap_desc from "./components/descriptions/HeatMap_desc";
 
 const handleContextMenu: React.MouseEventHandler<HTMLVideoElement> = (event) => {
@@ -55,7 +55,6 @@ export default function ContentPage() {
                         <source src={Zuerich} type="video/mp4" />
                         Your browser does not support the video tag.
                     </video>
-                        <h1 id="contentTitel">Zürich</h1>
                     <h1 id="contentTitel">Zürich</h1>
                     <Link to="/" id="homeButton">
                         <img id="homeImg" src="https://cdn1.iconfinder.com/data/icons/duotone-essentials/24/chevron_backward-1024.png"/>

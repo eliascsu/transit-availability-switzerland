@@ -2,17 +2,67 @@
 .layout {
     background-color: #021430;
     height: 100vh;
+    padding: 0;
+    margin: 0 !important;
 }
 
 .content {
     padding: 0rem;
-    height: 1fr;
+    height: 100vh;
 }
 
 .footer {
     display: grid;
-    background-color: #021430;
+    background-color: #021430 !important;
     align-items: center;
+    align-self: center;
+}
+
+.label {
+    color: #122640 !important;
+    font-size: 1.5rem !important;
+    font-weight: 700 !important;
+    padding: 3rem;
+    position: relative;
+}
+
+#footerText {
+    color: #122640;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: inherit;
+    font-size: 3rem;
+    font-weight: 700;
+}
+
+.col4 {
+    width: 15vw;
+}
+
+.col16 {
+    width: 68vw;
+}
+
+#col8 {
+    height: 20vh;
+}
+
+.img_wrapper {
+    overflow: hidden;
+    position: relative;
+    
+}
+
+.background_img {
+    opacity: 0.4;
+    position: absolute;
+    left: 0;
+    top: 0;
+    max-width: 300%;
+    max-height: 500%;
+    width: 130%;
+    z-index: 0;
 }
 
 /*Text styling---------------*/
@@ -61,12 +111,6 @@ li {
     margin: 0 !important;
 }
 
-#footerLanding {
-    width: 100%;
-    padding: 0px;
-    z-index: 99;
-}
-
 /*---------------*/
 
 #title {
@@ -74,17 +118,22 @@ li {
     font-size: 7rem;
     font-weight: 700;
     line-height: 100%;
-    color: antiquewhite;
+    color: antiquewhite !important;
+    filter: drop-shadow(5px 5px 15px black);
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
     text-align: center;
     align-self: end;
+    margin-top: -15vh;
+    margin-left: 2.5vw;
 }
 
 #titelDiv {
     padding-top: 2rem;
     display: grid;
-    align-items:center;
+    align-items: center;
     /*grid-template-rows: 1.5fr 1fr;*/
     gap: 5px;
+    height: 80vh;
 }
 
 #topic {
@@ -110,11 +159,35 @@ li {
     text-align: center;
     font-size: 1.25rem;
     font-weight: 500;
-    height:2.5rem;
+    height: 2.5rem;
     width: 15rem;
+    margin-top: -15vh;
+    margin-left: 2.5vw;
 }
 
 #startButton:hover {
+    background-color: #55677D;
+    border-color: #55677D;
+}
+
+#attributionsButton {
+    background-color: #7E97B8;
+    color: antiquewhite;
+    border-color: antiquewhite;
+    border-width: 3px;
+    justify-self: center;
+    align-items: center;
+    text-align: center;
+    margin-top: 2px;
+    font-size: 1rem;
+    font-weight: 500;
+    height: 2rem;
+    width: 7.5rem;
+    margin-top: -35vh;
+    margin-left: 2.5vw;
+}
+
+#attributionsButton:hover {
     background-color: #55677D;
     border-color: #55677D;
 }
@@ -255,6 +328,8 @@ h5 {
     left: 40%;
     color:antiquewhite !important;
     z-index: 10;
+    margin-top: -5vh;
+    margin-left: -2vw;
 }
 
 #zurichVideo {
@@ -685,10 +760,6 @@ h5 {
 }
 .ant-form-item-required {
     display: block;
-}
-
-#attributionsButton {
-    color: white;
 }
 
 /* landing page------------------------------*/
