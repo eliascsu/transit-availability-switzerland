@@ -383,6 +383,8 @@ h5 {
     font-size: 150px;
     color:antiquewhite !important;
     z-index: 100;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    filter: drop-shadow(5px 5px 15px black);
 }
 
 #video-container {
@@ -395,7 +397,7 @@ h5 {
     position:relative;
     height: 100vh;
     width: 100%;
-    opacity: 0.3;
+    opacity: 0.7;
     object-fit: cover;
 }
 
