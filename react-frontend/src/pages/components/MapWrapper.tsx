@@ -22,7 +22,7 @@ const defaultLineStyle = {
 
 export const MapWrapper = React.memo(function MapWrapper() {
     return (
-        <MapContainer className="map-container" id="map-zurich" center={[47.36, 8.53]} zoom={10} scrollWheelZoom={true} zoomSnap={0.5}>
+        <MapContainer className="map-container" id="map-zurich" center={[47.36, 8.53]} zoom={10} scrollWheelZoom={true} zoomSnap={0.5} minZoom={8} maxBounds={new L.LatLngBounds([48.076,5.397], [45.599,11.416])}>
             <TileLayer maxZoom={100} url="https://tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey=119ad4f25bed4ec2a70aeba31a0fb12a" attribution="&copy; <a href=&quot;https://www.thunderforest.com/&quot;>Thunderforest</a> contributors"/>
             <TileLayer url="https://tiles.openrailwaymap.org/standard/{z}/{x}/{y}.png"></TileLayer>
             <Map></Map>
@@ -82,7 +82,7 @@ const Map = React.memo(function Map() {
     const map = useMapEvents({
         click: (e) => {
             console.log(linesFromFormState);
-            if(drawingState || true){
+            if(drawingState){
                 for (let line of userLinesRef.current) {
                     L.geoJSON(line).removeFrom(map)
                 }
