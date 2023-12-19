@@ -16,7 +16,8 @@ function LandingPage() {
                                     <h5>FWE 2023</h5>
                                 </div>
                             </Col>
-                            <Col span={16}/>
+                            <Col span={8}/>
+                            <Col span={8}/>
                         </Row>
                         <Row>
                             <Col span={4} className='col4'/>
