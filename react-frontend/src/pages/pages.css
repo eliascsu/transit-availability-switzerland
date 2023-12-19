@@ -705,6 +705,13 @@ h5 {
         grid-area: checkBoxes;
         display: flex;
         flex-direction: column;
+
+        h2 {
+            /*
+            padding-top: 2rem;
+            */
+            margin: 0;
+        }
     }
 
     #lineForm {
