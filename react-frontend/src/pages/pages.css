@@ -55,12 +55,13 @@
 }
 
 .background_img {
-    opacity: 0.6;
+    opacity: 0.4;
     position: absolute;
     left: 0;
     top: 0;
     max-width: 300%;
     max-height: 500%;
+    width: 130%;
     z-index: 0;
 }
 
