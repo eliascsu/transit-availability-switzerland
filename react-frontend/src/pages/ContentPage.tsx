@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { Layout, Row } from "antd";
+import { Layout, Row, Button } from "antd";
 import { Content, Footer } from "antd/es/layout/layout";
 import { Link } from "react-router-dom";
 import { Legend } from "./components/legend";
@@ -61,6 +61,14 @@ export default function ContentPage() {
                     <Link to="/" id="homeButton">
                         <img id="homeImg" src={back_chevron}/>
                         <h1>HOME</h1>
+                    </Link>
+                    <a href="#interactivePage" id="skipButton">
+                        <img id="homeImg" src={back_chevron}/>
+                        <h1>END</h1>
+                    </a>
+                    <Link id="attributionLink2" to="/attributions">
+                        <img id="homeImg" src={back_chevron}/>
+                        <h1>ATTRIBUTIONS</h1>
                     </Link>
                     </div>
                 </Row>

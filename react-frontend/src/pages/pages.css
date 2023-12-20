@@ -204,7 +204,6 @@ li {
 
 .leaflet-container div{
     border: none !important;
-    height: 15%;
     background: none;
 }
 
@@ -383,6 +382,30 @@ h5 {
     display: grid;
 }
 
+#attributionLink2 {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    top: 3rem !important;
+    right: 3rem !important;
+    h1 {
+        color: antiquewhite !important;
+        margin: 0;
+    }
+}
+
+#skipButton {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    bottom: 3rem !important;
+    right: 3rem !important;
+    h1 {
+        color: antiquewhite !important;
+        margin: 0;
+    }
+}
+
 #homeButton {
     display: flex;
     flex-direction: row;
@@ -544,10 +567,6 @@ h5 {
     .htmlpopup-content table {
         margin-bottom: 0;
     }
-
-    .cell-left:nth-child(1){
-        color: aqua;
-    }
 }
 
 /*Text Page 2---------------*/
@@ -642,23 +661,31 @@ h5 {
 }
 
 .custom-popup .leaflet-popup-content-wrapper {
-    background: red;
-    color: #fff;
-    font-size: 16px;
-    line-height: 24px;
-    border-radius: 0px;
+    background: white;
   }
+
+  .custom-popup .leaflet-popup-content {
+    border-radius: 8px 8px 8px 8px;
+  }
+
   .custom-popup .leaflet-popup-content-wrapper a {
-    color: red
+    color: #021430;
+    font-size: small;
+    border: none !important;
+    justify-content: end;
   }
-  .custom-popup .leaflet-popup-tip-container {
-    width: 30px;
-    height: 15px;
+
+  .custom-popup a:last-child {
+    border: 0px !important;
   }
+
+  .custom-popup .leaflet-popup-content-wrapper td {
+    color: white;
+    border: none !important;
+  }
+
   .custom-popup .leaflet-popup-tip {
-    background: transparent;
-    border: none;
-    box-shadow: none;
+    background-color: white;
   }
 
 
