@@ -2,7 +2,6 @@ import { Layout, Col, Row, Button } from 'antd';
 import { Link } from 'react-router-dom';
 import "./pages.css";
 import backChevron from "./chevron_back_white.png"
-import Column from 'antd/es/table/Column';
 
 const {Content, Footer} = Layout;
 
@@ -31,11 +30,16 @@ function AttributionsPage() {
                     </Row>
                     <Row>
                         <Col id='att_frontend'>
+                            <div id='att_frontend_first'>
                             <li><a href='https://ant.design/'>Ant Design</a></li>
                             <li><a href='https://leafletjs.com/'>Leaflet</a></li>
                             <li>Railway overlay © <a href="https://www.openrailwaymap.org/">OpenRailwayMap contributors</a></li>
+                            </div>
+                            <div id="att_frontend_sec">
                             <li>Maps © <a href="https://www.thunderforest.com/">Thunderforest</a></li>
                             <li>Data  © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a></li>
+                            <li>Return Image © <a href="https://icons8.com">icons8</a></li>
+                            </div>
                         </Col>
                     </Row>
                     <Row>

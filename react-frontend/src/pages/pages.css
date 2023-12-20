@@ -320,7 +320,7 @@ h5 {
 }
 
 #att_general {
-    margin-bottom: 10vh;
+    margin-bottom: 8vh;
     li {
         padding:15px;
         font-size: 1.25vw;
@@ -331,9 +331,25 @@ h5 {
 }
 
 #att_frontend {
-    margin-bottom: 10vh;
+    margin-bottom: 8vh;
+    display: block;
+
+}
+
+#att_frontend_first {
+    display: flex;
+    justify-content: space-around;
     li{
-        padding: 15px;
+        padding: 30px;
+        font-size: 1.25vw;
+    }
+}
+
+#att_frontend_sec {
+    display: flex;
+    justify-content: space-around;
+    li{
+        padding: 30px;
         font-size: 1.25vw;
     }
 }
@@ -345,7 +361,6 @@ h5 {
     }
     li:first-child{
         margin-right: 4.5vw;
-        margin-left: -10vw;
     }
 }
 
