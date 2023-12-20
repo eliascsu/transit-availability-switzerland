@@ -1,4 +1,4 @@
-import { Layout, Col, Row, Button } from 'antd';
+import { Layout, Col, Row } from 'antd';
 import { Link } from 'react-router-dom';
 import backChevron from "../svg/back_chevron.svg"
 import "./css/bundle.css";

@@ -7,7 +7,7 @@ import 'leaflet/dist/leaflet.css';
 
 import { useLayerContext } from '../ctx/LayerContext';
 import { postAndGetPoints, getPopulationDensity, getPTData, getScoreUserPtLine, getPopulationUnserved } from '../../router/resources/data';
-import type { Feature } from '../../types/data';
+
 import { getLineColor, createHeatMap } from '../utils/utils';
 import { makePTCirclesFromData } from '../utils/qual_layers';
 import { addPointToLine } from '../utils/utils';

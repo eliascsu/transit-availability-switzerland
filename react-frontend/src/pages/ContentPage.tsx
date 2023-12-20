@@ -1,12 +1,12 @@
 import React, { useEffect, useRef } from "react";
-import { Layout, Row, Button } from "antd";
+import { Layout, Row } from "antd";
 import { Content, Footer } from "antd/es/layout/layout";
 import { Link } from "react-router-dom";
 import Zuerich from "./zuerich.mp4";
 import back_chevron from "../svg/back_chevron.svg";
 import { Legend, MapWrapper, CheckBoxes, PointControlBox, PopulationHeatmap, PtMap, PtMap_desc, HeatMap_desc, CustomDesc, ScrollToBottom, ScrollToTop } from "./components";
 import "./css/bundle.css";
-import { BeatLoader, PacmanLoader } from "react-spinners";
+import { BeatLoader } from "react-spinners";
 
 
 const handleContextMenu: React.MouseEventHandler<HTMLVideoElement> = (event) => {
