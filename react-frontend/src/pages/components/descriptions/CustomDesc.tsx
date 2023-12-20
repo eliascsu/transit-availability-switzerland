@@ -1,6 +1,6 @@
 export default function CustomDesc() {
     return (
-        <div id ="pt-map-description">
+        <div id ="custom-map-description" className="reveal">
             <h2 id="title1">Custom</h2>
             <p id="info1">
                 On the following page you can try to improve the transit connectivity of Switzerland. To start drawing a new line, press the button on the right and 
