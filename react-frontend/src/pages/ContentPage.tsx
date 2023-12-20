@@ -1,20 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Layout, Row, Button } from "antd";
+import React, { useEffect, useRef } from "react";
+import { Layout, Row } from "antd";
 import { Content, Footer } from "antd/es/layout/layout";
 import { Link } from "react-router-dom";
-import { Legend } from "./components/legend";
-import { MapWrapper } from "./components/MapWrapper";
-import { CheckBoxes } from "./components/Checkboxes";
-import PointControlBox from "./components/PointControlBox";
-import PopulationHeatmap from "./components/maps/Heatmap";
-import PtMap from "./components/maps/PtMap";
-import PtMap_desc from "./components/descriptions/PtMap_desc";
 import Zuerich from "./zuerich.mp4";
-import HeatMap_desc from "./components/descriptions/HeatMap_desc";
 import back_chevron from "../svg/back_chevron.svg";
-import CustomDesc from "./components/descriptions/CustomDesc";
-import {ScrollToBottom, ScrollToTop} from "./components/ScrollToButton";
-import { BeatLoader,PacmanLoader } from "react-spinners";
+import { Legend, MapWrapper, CheckBoxes, PointControlBox, PopulationHeatmap, PtMap, PtMap_desc, HeatMap_desc, CustomDesc, ScrollToBottom, ScrollToTop } from "./components";
+import "./css/bundle.css";
+import { BeatLoader } from "react-spinners";
 
 
 const handleContextMenu: React.MouseEventHandler<HTMLVideoElement> = (event) => {
@@ -23,7 +15,7 @@ const handleContextMenu: React.MouseEventHandler<HTMLVideoElement> = (event) => 
 
 export default function ContentPage() {
     const videoRef = useRef<HTMLVideoElement>(null);
-    const [loadingState,setLoadingState] = useState<boolean>(true);
+    const loadingRef = useRef<boolean>(true);
     useEffect(() => {
         const observer = new IntersectionObserver(
             ([entry]) => {
@@ -53,26 +45,21 @@ export default function ContentPage() {
         };
     }, []);
 
-    useEffect(() => {
-        var timerID = setInterval(() => setLoadingState(false), 7000);
-        return () => clearInterval(timerID);
-      });
-
     return (
         <Layout className="layout" id="contentPage">
             <Content className="content" id="mapContent">
                 <div id="loading">
-                    <BeatLoader size={50} loading={loadingState} color="white"/>
+                    <BeatLoader size={50} loading={loadingRef.current} color="white"/>
                 </div>
-                <Row id="titelPage">
+                <Row id="titlePage">
                     <div id="video-container">
                     <video ref={videoRef} id="zurichVideo" playsInline autoPlay loop muted preload="" 								onContextMenu={handleContextMenu}>
                         <source src={Zuerich} type="video/mp4" />
                         Your browser does not support the video tag.
                     </video>
-                    <h1 id="contentTitel">Switzerland</h1>
-                    <Link to="/" id="homeButton">
-                        <img id="homeImg" src={back_chevron}/>
+                    <h1 id="contentTitle">Switzerland</h1>
+                    <Link to="/" className="homeButton">
+                        <img className="homeImg" src={back_chevron}/>
                         <h1>HOME</h1>
                     </Link>
                     <a id="skipButton">
@@ -84,19 +71,19 @@ export default function ContentPage() {
                     </Link>
                     </div>
                 </Row>
-                <Row id="textPage1">
+                <Row className="textPage">
                     <HeatMap_desc/>
                 </Row>
                 <Row id="popPage" className="page">
                     <PopulationHeatmap/>
                 </Row>
-                <Row id="textPage2">
+                <Row className="textPage">
                     <PtMap_desc/>
                 </Row>
                 <Row id="transportPage" className="page ">
                     <PtMap/>
                 </Row>
-                <Row id="textPage3">
+                <Row className="textPage">
                     <CustomDesc/>
                 </Row>
                 <Row id="interactivePage"className="page">
@@ -109,9 +96,9 @@ export default function ContentPage() {
                     </a>
                 </Row>
             </Content>
-            <Footer className="footer" id="mapFooter">
+            <Footer className="footer">
                 <span id="footerWrapper">
-                    <h5 id="credits">Elias Csuka, Joshua Durrant, Leander Hemmi, Cedric Koller, Mathias Schmid</h5>
+                    <h5 className="credits">Elias Csuka, Joshua Durrant, Leander Hemmi, Cedric Koller, Mathias Schmid</h5>
                 </span>
             </Footer>
         </Layout>
