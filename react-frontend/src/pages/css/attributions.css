@@ -1,0 +1,78 @@
+/* CSS Classes and IDs strictly used on the attributions page */
+
+/* IDs */
+#att_backend {
+    li {
+        padding: 15px;
+        font-size: 1.25vw;
+    }
+    li:first-child{
+        margin-right: 4.5vw;
+    }
+}
+
+#att_frontend {
+    margin-bottom: 8vh;
+    display: block;
+}
+
+#att_frontend_first {
+    display: flex;
+    justify-content: space-around;
+    li{
+        padding: 30px;
+        font-size: 1.25vw;
+    }
+}
+
+#att_frontend_sec {
+    display: flex;
+    justify-content: space-around;
+    li{
+        padding: 30px;
+        font-size: 1.25vw;
+    }
+}
+
+#att_general {
+    margin-bottom: 8vh;
+    li {
+        padding:15px;
+        font-size: 1.25vw;
+    }
+    li:first-child{
+        margin-right: 1vw;
+    }
+}
+
+#att_title {
+    font-size: 4vw;
+    margin: 1vw;
+    margin-bottom: 0;
+}
+
+#attributions {
+    padding-top: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    h3 {
+        color: hsl(205, 18%, 86%);
+    }
+}
+
+#attributionsPage {
+    height: 100vh;
+    h3 {
+        margin-bottom: 10px !important;
+    }
+}
+
+#underline {
+    border: none;
+    background-color: white;
+    height: 3px;
+    width: 100vw;
+    margin-bottom: 1rem;
+}

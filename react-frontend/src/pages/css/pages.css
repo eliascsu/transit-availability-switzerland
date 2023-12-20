@@ -1,0 +1,95 @@
+/* CSS Classes and IDs used across all pages or used in layout*/
+
+/* Classes */
+.content {
+    padding: 0rem;
+    height: 100vh;
+}
+
+.credits {
+    margin: 0 !important;
+}
+
+.footer {
+    display: grid;
+    background-color: #021430 !important;
+    align-items: center;
+    align-self: center;
+}
+
+.homeButton {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    top: 3rem !important;
+    left: 3rem !important;
+    h1 {
+        color: antiquewhite !important;
+    }
+}
+
+.homeImg {
+    height: 3rem;
+    width: 3rem;
+}
+
+.layout {
+    background-color: #021430;
+    height: 100vh;
+    padding: 0;
+    margin: 0 !important;
+}
+
+/* IDs */
+#footerText {
+    color: #122640;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: inherit;
+    font-size: 3rem;
+    font-weight: 700;
+}
+
+#attributionsButton {
+    background-color: #7E97B8;
+    color: antiquewhite;
+    border-color: antiquewhite;
+    border-width: 3px;
+    justify-self: center;
+    align-items: center;
+    text-align: center;
+    margin-top: 2px;
+    font-size: 1rem;
+    font-weight: 500;
+    height: 2rem;
+    width: 7.5rem;
+    margin-top: -35vh;
+    margin-left: 2.5vw;
+}
+
+#attributionsButton:hover {
+    background-color: #55677D;
+    border-color: #55677D;
+}
+
+#startButton {
+    background-color: #7E97B8;
+    color: antiquewhite;
+    border-color: antiquewhite;
+    border-width: 3px;
+    justify-self: center;
+    align-items: center;
+    text-align: center;
+    font-size: 1.25rem;
+    font-weight: 500;
+    height: 2.5rem;
+    width: 15rem;
+    margin-top: -15vh;
+    margin-left: 2.5vw;
+}
+
+#startButton:hover {
+    background-color: #55677D;
+    border-color: #55677D;
+}

@@ -1,0 +1,70 @@
+/* CSS Classes and IDs strictly used on the landing page */
+
+/* Classes */
+.ant-checkbox+span {
+    color: white;
+}
+
+.background_img {
+    opacity: 0.4;
+    position: absolute;
+    left: 0;
+    top: 0;
+    max-width: 300%;
+    max-height: 500%;
+    width: 130%;
+    z-index: 0;
+}
+
+.col4 {
+    width: 15vw;
+}
+
+.col16 {
+    width: 68vw;
+}
+
+.contentLink {
+    display: grid;
+    height: 100%;
+}
+
+.img_wrapper {
+    overflow: hidden;
+    position: relative;
+}
+
+.label {
+    color: #122640 !important;
+    font-size: 1.5rem !important;
+    font-weight: 700 !important;
+    padding: 3rem;
+    position: relative;
+}
+
+/* IDs */
+#col8 {
+    height: 20vh;
+}
+
+#title {
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 7rem;
+    font-weight: 700;
+    line-height: 100%;
+    color: antiquewhite !important;
+    filter: drop-shadow(5px 5px 15px black);
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    text-align: center;
+    align-self: end;
+    margin-top: -15vh;
+    margin-left: 2.5vw;
+}
+
+#titleDiv {
+    padding-top: 2rem;
+    display: grid;
+    align-items: center;
+    gap: 5px;
+    height: 80vh;
+}
