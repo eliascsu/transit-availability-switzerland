@@ -1,7 +1,7 @@
 import { Layout, Col, Row, Button } from 'antd';
 import { Link } from 'react-router-dom';
 import "./pages.css";
-import backChevron from "./chevron_back_white.png"
+import backChevron from "../svg/back_chevron.svg"
 
 const {Content, Footer} = Layout;
 
@@ -38,7 +38,6 @@ function AttributionsPage() {
                             <div id="att_frontend_sec">
                             <li>Maps © <a href="https://www.thunderforest.com/">Thunderforest</a></li>
                             <li>Data  © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a></li>
-                            <li>Return Image © <a href="https://icons8.com">icons8</a></li>
                             </div>
                         </Col>
                     </Row>

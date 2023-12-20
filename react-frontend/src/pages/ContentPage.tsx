@@ -11,8 +11,9 @@ import PtMap from "./components/maps/PtMap";
 import PtMap_desc from "./components/descriptions/PtMap_desc";
 import Zuerich from "./zuerich.mp4";
 import HeatMap_desc from "./components/descriptions/HeatMap_desc";
-import back_chevron from "./chevron_back_white.png"
+import back_chevron from "../svg/back_chevron.svg";
 import CustomDesc from "./components/descriptions/CustomDesc";
+import {ScrollToBottom, ScrollToTop} from "./components/ScrollToButton";
 
 const handleContextMenu: React.MouseEventHandler<HTMLVideoElement> = (event) => {
     event.preventDefault();
@@ -62,9 +63,8 @@ export default function ContentPage() {
                         <img id="homeImg" src={back_chevron}/>
                         <h1>HOME</h1>
                     </Link>
-                    <a href="#interactivePage" id="skipButton">
-                        <img id="homeImg" src={back_chevron}/>
-                        <h1>END</h1>
+                    <a id="skipButton">
+                        <ScrollToBottom/>
                     </a>
                     <Link id="attributionLink2" to="/attributions">
                         <img id="homeImg" src={back_chevron}/>
@@ -92,6 +92,9 @@ export default function ContentPage() {
                     <Legend/>
                     <CheckBoxes/>
                     <PointControlBox/>
+                    <a>
+                        <ScrollToTop/>
+                    </a>
                 </Row>
             </Content>
             <Footer className="footer" id="mapFooter">
