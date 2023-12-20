@@ -81,7 +81,7 @@ export default function ContentPage() {
                 <Row id="textPage2">
                     <PtMap_desc/>
                 </Row>
-                <Row id="transportPage" className="page">
+                <Row id="transportPage" className="page ">
                     <PtMap/>
                 </Row>
                 <Row id="textPage3">

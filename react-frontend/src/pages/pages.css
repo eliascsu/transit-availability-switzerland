@@ -456,7 +456,7 @@ h5 {
     padding: 0 3rem;
 
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 3fr;
+    grid-template-rows: 2fr 5fr;
     gap: 3rem;
     justify-items: center;
     grid-template-areas:
@@ -475,6 +475,19 @@ h5 {
         color: antiquewhite;
         align-self: start;
         text-align: center;
+    }
+
+    #title2 {
+        margin: 0;
+        grid-area: title2;
+        align-self: end;
+    }
+
+    #info2 {
+        grid-area: info2;
+        color: antiquewhite;
+        text-align: center;
+        align-self: start;
     }
 }
 
@@ -736,6 +749,47 @@ h5 {
     height: 75vh;
 }
 
+#custom-map-description {
+    display: grid;
+    padding: 0 3rem;
+
+    gap: 3rem;
+    justify-items: center;
+
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 2fr 3fr;
+    grid-template-areas:
+        "title1 title2"
+        "info1   info2"
+    ;
+    
+    #title1 {
+        margin: 0;
+        grid-area: title1;
+        align-self: end;
+    }
+
+    #title2 {
+        margin: 0;
+        grid-area: title2;
+        align-self: end;
+    }
+
+    #info1 {
+        grid-area: info1;
+        color: antiquewhite;
+        align-self: start;
+        text-align: center;
+    }
+
+    #info2 {
+        grid-area: info2;
+        color: antiquewhite;
+        text-align: center;
+        align-self: start;
+    }
+}
+
 /*interactive Page---------------*/
 
 #interactivePage {
@@ -920,3 +974,15 @@ h5 {
 .ant-checkbox+span {
     color: white;
 }
+
+.reveal{
+    position: relative;
+    transform: translateY(15vh);
+    opacity: 0;
+    transition: 1.5s all ease;
+  }
+
+  .reveal.active{
+    transform: translateY(0);
+    opacity: 1;
+  }

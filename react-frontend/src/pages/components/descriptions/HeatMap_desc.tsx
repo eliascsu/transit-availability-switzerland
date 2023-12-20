@@ -1,6 +1,6 @@
 export default function HeatMap_desc() {
     return (
-        <div id ="heatmap-description">
+        <div id ="heatmap-description" className="reveal">
             <h2 id="title1">Density</h2>
             <p id="info1">To understand how public transit can be improved, it is crucial to understand where
             people live and where they commute to. In a sense, Switzerland is a sprawling country,
