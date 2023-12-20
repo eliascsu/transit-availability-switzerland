@@ -2,18 +2,16 @@ import React, { useEffect, useRef } from "react";
 import { Layout, Row, Button } from "antd";
 import { Content, Footer } from "antd/es/layout/layout";
 import { Link } from "react-router-dom";
-import { Legend } from "./components/legend";
-import { MapWrapper } from "./components/MapWrapper";
-import { CheckBoxes } from "./components/Checkboxes";
-import PointControlBox from "./components/PointControlBox";
-import PopulationHeatmap from "./components/maps/Heatmap";
-import PtMap from "./components/maps/PtMap";
-import PtMap_desc from "./components/descriptions/PtMap_desc";
 import Zuerich from "./zuerich.mp4";
-import HeatMap_desc from "./components/descriptions/HeatMap_desc";
 import back_chevron from "../svg/back_chevron.svg";
 import CustomDesc from "./components/descriptions/CustomDesc";
 import {ScrollToBottom, ScrollToTop} from "./components/ScrollToButton";
+import { Legend, MapWrapper, CheckBoxes, PointControlBox, PopulationHeatmap, PtMap, PtMap_desc, HeatMap_desc } from "./components";
+import "./css/pages.css";
+import "./css/content.css";
+import "./css/lineform.css";
+import "./css/leaflet.css";
+import "./css/popup.css";
 
 const handleContextMenu: React.MouseEventHandler<HTMLVideoElement> = (event) => {
     event.preventDefault();
@@ -52,15 +50,15 @@ export default function ContentPage() {
     return (
         <Layout className="layout" id="contentPage">
             <Content className="content" id="mapContent">
-                <Row id="titelPage">
+                <Row id="titlePage">
                     <div id="video-container">
                     <video ref={videoRef} id="zurichVideo" playsInline autoPlay loop muted preload="" 								onContextMenu={handleContextMenu}>
                         <source src={Zuerich} type="video/mp4" />
                         Your browser does not support the video tag.
                     </video>
-                    <h1 id="contentTitel">Switzerland</h1>
-                    <Link to="/" id="homeButton">
-                        <img id="homeImg" src={back_chevron}/>
+                    <h1 id="contentTitle">Switzerland</h1>
+                    <Link to="/" className="homeButton">
+                        <img className="homeImg" src={back_chevron}/>
                         <h1>HOME</h1>
                     </Link>
                     <a id="skipButton">
@@ -72,19 +70,19 @@ export default function ContentPage() {
                     </Link>
                     </div>
                 </Row>
-                <Row id="textPage1">
+                <Row className="textPage">
                     <HeatMap_desc/>
                 </Row>
                 <Row id="popPage" className="page">
                     <PopulationHeatmap/>
                 </Row>
-                <Row id="textPage2">
+                <Row className="textPage">
                     <PtMap_desc/>
                 </Row>
                 <Row id="transportPage" className="page ">
                     <PtMap/>
                 </Row>
-                <Row id="textPage3">
+                <Row className="textPage">
                     <CustomDesc/>
                 </Row>
                 <Row id="interactivePage"className="page">
@@ -97,9 +95,9 @@ export default function ContentPage() {
                     </a>
                 </Row>
             </Content>
-            <Footer className="footer" id="mapFooter">
+            <Footer className="footer">
                 <span id="footerWrapper">
-                    <h5 id="credits">Elias Csuka, Joshua Durrant, Leander Hemmi, Cedric Koller, Mathias Schmid</h5>
+                    <h5 className="credits">Elias Csuka, Joshua Durrant, Leander Hemmi, Cedric Koller, Mathias Schmid</h5>
                 </span>
             </Footer>
         </Layout>

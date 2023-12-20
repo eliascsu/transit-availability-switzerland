@@ -142,7 +142,7 @@ function InfoBox() {
 
 function PopDescription() {
     return (
-        <h2 id="populationTitel">
+        <h2 id="populationTitle">
             <h2 className="highlightedText">Population density</h2> in Switzerland
         </h2>
     )

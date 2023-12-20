@@ -1,0 +1,279 @@
+/* CSS Classes and IDs used strictly on the content page */
+
+/* Classes */
+.page {
+    padding: 5rem 2rem 0rem 2rem;
+}
+
+.textPage {
+    height: 75vh;
+}
+
+/* IDs */
+#attributionLink2 {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    top: 3rem !important;
+    right: 3rem !important;
+    h1 {
+        color: antiquewhite !important;
+        margin: 0;
+    }
+}
+
+#contentPage {
+    height: 625vh;
+}
+
+#contentTitle {
+    position:absolute;
+    font-size: 150px;
+    color:antiquewhite !important;
+    z-index: 100;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    filter: drop-shadow(5px 5px 15px black);
+}
+
+#heatmap-description {
+    display: grid;
+    padding: 0 3rem;
+
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 3fr;
+    gap: 3rem;
+    justify-items: center;
+    grid-template-areas:
+        "title1 title2"
+        "info1   info2"
+    ;
+
+    #title1 {
+        margin: 0;
+        grid-area: title1;
+        align-self: end;
+    }
+
+    #info1 {
+        grid-area: info1;
+        color: antiquewhite;
+        align-self: start;
+        text-align: center;
+    }
+}
+
+#interactivePage {
+    padding-top: 5rem;
+    height: 100vh;
+    display: grid;
+    grid-template-rows: 3fr 4fr 3fr;
+    grid-template-columns: 2fr 1fr;
+    column-gap: 3rem;
+    grid-template-areas:
+        "map   checkBoxes"
+        "map   form"
+        "map   lineLegend";
+
+    #map-zurich {
+        grid-area: map;
+        height: 90%;
+        width: 100%;
+    }
+
+    #lineLegend {
+        grid-area: lineLegend;
+        height: 10rem;
+        padding-left: 2rem;
+    }
+
+    #checkBoxes {
+        grid-area: checkBoxes;
+        display: flex;
+        flex-direction: column;
+
+        h2 {
+            margin: 0;
+        }
+    }
+
+    #lineForm {
+        grid-area: form;
+        background-color: #021430;
+        height: 10rem;
+    }
+}
+
+#population-map {
+    height: 100%;
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    column-gap: 3rem;
+    grid-template-areas:
+        "map description" 
+        "map checkbox"
+        "map infobox";
+    
+    .leaflet-container {
+        grid-area: map;
+        height: 90% !important;
+        width: 100% !important;
+    }
+
+    #populationTitle {
+        grid-area: description;
+        padding-top: 2rem;
+    }
+
+    #swisstopoCheckbox {
+        grid-area: checkbox;
+
+        span {
+            display: flex;
+        }
+
+        p {
+            border: antiquewhite 1px solid;
+            border-radius: 8px 8px 8px 8px;
+            padding: 0.5rem;
+            align-self: center;
+
+        }
+        .ant-checkbox {
+            visibility: hidden;
+            display: none;
+        }
+    }
+    
+    #infoBox {
+        grid-area: infobox;
+    }
+
+    #populationTitle {
+        grid-area: description;
+        display: block;
+        margin: 0;
+    }
+}
+
+#popPage {
+    height: 100vh;
+}
+
+#public-transit-map {
+    height: inherit;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: 2fr 3fr 4fr;
+    column-gap: 3rem;
+    grid-template-areas: 
+        "title  map"
+        "info map"
+        "legend map";
+    
+    .leaflet-container {
+        grid-area: map;
+        height: 90% !important;
+        width: 100% !important;
+    }
+
+    #ptInfo {
+        grid-area: info;
+        justify-self: center;
+        align-self: center;
+        text-align: center;
+    }
+
+    #transitTitle {
+        grid-area: title;
+        margin: 0;
+    }
+
+    .legend {
+        grid-area: legend;
+        margin-bottom: 1rem;
+        height: 70%;
+        display: grid;
+    }
+}
+
+#pt-map-description {
+    display: grid;
+    padding: 0 3rem;
+
+    gap: 3rem;
+    justify-items: center;
+
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 2fr 5fr;
+    grid-template-areas:
+        "title1 title2"
+        "info1   info2"
+    ;
+    
+    #title1 {
+        margin: 0;
+        grid-area: title1;
+        align-self: end;
+    }
+
+    #title2 {
+        margin: 0;
+        grid-area: title2;
+        align-self: end;
+    }
+
+    #info1 {
+        grid-area: info1;
+        color: antiquewhite;
+        align-self: start;
+        text-align: center;
+    }
+
+    #info2 {
+        grid-area: info2;
+        color: antiquewhite;
+        text-align: center;
+        align-self: start;
+    }
+}
+
+#skipButton {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    bottom: 3rem !important;
+    right: 3rem !important;
+    h1 {
+        color: antiquewhite !important;
+        margin: 0;
+    }
+}
+
+#titlePage {
+    color: antiquewhite;
+    height: 100vh;
+    display: grid;
+}
+
+#transportPage {
+    height: 100vh;
+}
+
+#video-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#zurichVideo {
+    position:relative;
+    height: 100vh;
+    width: 100%;
+    opacity: 0.7;
+    object-fit: cover;
+}
+

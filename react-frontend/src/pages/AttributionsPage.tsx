@@ -1,7 +1,8 @@
 import { Layout, Col, Row, Button } from 'antd';
 import { Link } from 'react-router-dom';
-import "./pages.css";
 import backChevron from "../svg/back_chevron.svg"
+import "./css/pages.css";
+import "./css/attributions.css";
 
 const {Content, Footer} = Layout;
 
@@ -9,8 +10,8 @@ function AttributionsPage() {
     return (
         <Layout className="layout" id="attributionsPage">
             <Content className="content">
-                <Link to="/" id="homeButton">
-                    <img id="homeImg" src={backChevron}/>
+                <Link to="/" className="homeButton">
+                    <img className="homeImg" src={backChevron}/>
                     <h2>HOME</h2>
                 </Link>
                 <div id='attributions'>
@@ -59,9 +60,9 @@ function AttributionsPage() {
 
 
             </Content>
-            <Footer className="footer" id="footerLanding">
+            <Footer className="footer">
                 <span id="footerText">
-                    <h5 id="credits">Elias Csuka, Joshua Durrant, Leander Hemmi, Cedric Koller, Mathias Schmid</h5>
+                    <h5 className="credits">Elias Csuka, Joshua Durrant, Leander Hemmi, Cedric Koller, Mathias Schmid</h5>
                 </span>
             </Footer>
         </Layout>

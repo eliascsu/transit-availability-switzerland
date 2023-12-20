@@ -88,7 +88,7 @@ export default function PtMap() {
 function Legend() {
     return (
         <div className="legend">
-            <h4 id="legendTitel">Connection quality:</h4>
+            <h4 id="legendTitle">Connection quality:</h4>
             <div style={{ listStyleType: "none" }} id="legendList">
                 <div className="listElement">
                     <div id="rectangle" style={{
@@ -135,7 +135,7 @@ function InfoBox() {
 
 function Title() {
     return (
-        <h2 id="transitTitel">
+        <h2 id="transitTitle">
             Connection quality of <h2 className="highlightedText">public transport</h2> in Switzerland
         </h2>
     )

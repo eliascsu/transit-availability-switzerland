@@ -1,0 +1,111 @@
+/* CSS related classes and IDs for the lineform */
+
+/* Classes */
+
+.ant-btn {
+    margin: 0;
+    background-color: #49BFC1 !important;
+    box-shadow: none !important;
+    align-self: center;
+}
+
+.ant-col {
+    display: flex;
+    margin: 0;
+    flex-wrap: nowrap;
+    flex: none;
+}
+
+
+.ant-collapse-header {
+    height: 3rem;
+    border: none !important;
+    background-color: #49BFC1 !important;
+    border-color: #49BFC1 !important;
+    box-shadow: none !important;
+    border-radius: 8px 8px 8px 8px !important;
+
+    .ant-collapse-header-text {
+        font-weight: 600;
+        color:#021430;
+    }
+}
+
+.ant-collapse-header[aria-expanded="true"] {
+    border-radius: 8px 8px 0 0 !important;
+}
+
+.ant-collapse { 
+    border-color: #021430;
+    background-color:#021430;
+}
+.ant-collapse-item {
+    border-color:  #021430;
+    background-color: #021430;
+    height: 12rem;
+    border: 0 !important;
+
+}
+
+.ant-collapse-content-box {
+    height: 10rem;
+    padding: 0rem;
+}
+
+.ant-collapse-content_ant-collapse-content-active {
+    border: none;
+    background-color:  #021430;
+}
+
+.ant-form-item-control-input-content {
+    display: flex;
+    justify-content: center;
+    width: 1rem;
+}
+
+.ant-form-item-label {
+    align-content: center;
+    align-items: center;
+}
+
+.ant-form-item-required {
+    display: block;
+}
+
+.ant-form-item-row {
+    display: flex;
+    justify-content: space-evenly; 
+    align-content: center;
+    align-items: center;
+}
+
+.ant-select {
+    align-self: center;
+}
+
+.interval {
+    grid-area: interval;
+}
+
+.newLineForm {
+    height: 10rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-areas:
+        "transport"
+        "interval"
+        "submit"
+    ;
+}
+
+.transport {
+    grid-area: transport;
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+}
+
+.submit {
+    grid-area: submit;
+}

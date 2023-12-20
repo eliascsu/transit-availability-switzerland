@@ -1,0 +1,68 @@
+/* Leaflet related CSS classes and IDs */
+
+/* Classes */
+.chbfsvolkszaehlung-bevoelkerungsstatistik_einwohner {
+    font-size: 1rem;
+    color: antiquewhite;
+    border: antiquewhite 1px solid;
+
+    .htmlpopup-header {
+        display: flex;
+        border-bottom: antiquewhite 1px solid;
+        justify-content: center;
+    }
+
+    .htmlpopup-content table {
+        margin-bottom: 0;
+    }
+
+    .cell-left:nth-child(1){
+        color: aqua;
+    }
+}
+
+.leaflet-container {
+    border-radius: 8px 8px 8px 8px;
+}
+
+.leaflet-container a{
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    text-align: center !important;
+}
+
+.leaflet-container div{
+    border: none !important;
+    height: 15%;
+    background: none;
+}
+
+.leaflet-container a:last-child{
+    border-bottom: 1px solid !important;
+    border-color: hsl(195, 85%, 41%) !important;
+}
+
+g {
+    opacity: 0.5;
+}
+
+
+h5 {
+    color: hsl(205, 16%, 77%);
+}
+
+/* IDs */
+#swissTopoCheckboxDiv {
+    text-align: center;
+
+    #swisstopoCheckbox {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #swisstopoCheckbox p {
+        margin: 0;
+    }
+}
