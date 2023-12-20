@@ -6,6 +6,8 @@ import Zuerich from "./zuerich.mp4";
 import back_chevron from "../svg/back_chevron.svg";
 import { Legend, MapWrapper, CheckBoxes, PointControlBox, PopulationHeatmap, PtMap, PtMap_desc, HeatMap_desc, CustomDesc, ScrollToBottom, ScrollToTop } from "./components";
 import "./css/bundle.css";
+import { BeatLoader,PacmanLoader } from "react-spinners";
+
 
 const handleContextMenu: React.MouseEventHandler<HTMLVideoElement> = (event) => {
     event.preventDefault();
@@ -13,6 +15,7 @@ const handleContextMenu: React.MouseEventHandler<HTMLVideoElement> = (event) => 
 
 export default function ContentPage() {
     const videoRef = useRef<HTMLVideoElement>(null);
+    const loadingRef = useRef<boolean>(true);
     useEffect(() => {
         const observer = new IntersectionObserver(
             ([entry]) => {
@@ -41,9 +44,13 @@ export default function ContentPage() {
             }
         };
     }, []);
+
     return (
         <Layout className="layout" id="contentPage">
             <Content className="content" id="mapContent">
+                <div id="loading">
+                    <BeatLoader size={50} loading={loadingRef.current} color="white"/>
+                </div>
                 <Row id="titlePage">
                     <div id="video-container">
                     <video ref={videoRef} id="zurichVideo" playsInline autoPlay loop muted preload="" 								onContextMenu={handleContextMenu}>

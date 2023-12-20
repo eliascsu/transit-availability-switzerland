@@ -31,13 +31,13 @@ function AttributionsPage() {
                     <Row>
                         <Col id='att_frontend'>
                             <div id='att_frontend_first'>
-                            <li><a href='https://ant.design/'>Ant Design</a></li>
-                            <li><a href='https://leafletjs.com/'>Leaflet</a></li>
-                            <li>Railway overlay © <a href="https://www.openrailwaymap.org/">OpenRailwayMap contributors</a></li>
+                            <li>React framework: <a href='https://ant.design/'>Ant Design</a></li>
+                            <li>Interactive Maps with <a href='https://leafletjs.com/'>Leaflet</a></li>
+                            <li>Maps with <a href="https://www.thunderforest.com/">Thunderforest©</a></li>
                             </div>
                             <div id="att_frontend_sec">
-                            <li>Maps © <a href="https://www.thunderforest.com/">Thunderforest</a></li>
-                            <li>Data  © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a></li>
+                            <li>Railway overlay with <a href="https://www.openrailwaymap.org/">OpenRailwayMap©</a></li>
+                            <li>Data from <a href="https://www.openstreetmap.org/copyright">OpenStreetMap©</a></li>
                             </div>
                         </Col>
                     </Row>
@@ -46,12 +46,12 @@ function AttributionsPage() {
                     </Row>
                     <Row>
                         <Col id='att_backend'>
-                        <li> Statistik der Bevölkerung und Haushalte STATPOP <br/>
-                            <a href="https://www.bfs.admin.ch/bfs/de/home/dienstleistungen/geostat/geodaten-bundesstatistik/gebaeude-wohnungen-haushalte-personen/bevoelkerung-haushalte-ab-2010.assetdetail.27065723.html">Bundesamt für Statistik (BFS Nr: be-d-00.03-10-STATPOP-v122)</a>
+                        <li> Population and household statistics (STATPOP) from<br/>
+                            <a href="https://www.bfs.admin.ch/bfs/de/home/dienstleistungen/geostat/geodaten-bundesstatistik/gebaeude-wohnungen-haushalte-personen/bevoelkerung-haushalte-ab-2010.assetdetail.27065723.html">federal office for statistics (BFS Nr: be-d-00.03-10-STATPOP-v122)</a>
                         </li>
                         <li>
-                            Verkehrserschliessung in der Schweiz <br/>
-                            <a href="https://www.are.admin.ch/verkehrserschliessung">Bundesamt für Raumentwicklung ARE</a>
+                        Transport accessibility in Switzerland <br/>
+                            <a href="https://www.are.admin.ch/verkehrserschliessung">Federal Office for Spatial Development (ARE)</a>
                         </li>
                         </Col>
                     </Row>
