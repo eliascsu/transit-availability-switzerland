@@ -135,7 +135,7 @@ function InfoBox() {
         )
     }
     return (
-        <div id="infoBox" dangerouslySetInnerHTML={{__html: infoStatePopulation}}>
+        <div id="infoBox" dangerouslySetInnerHTML={{__html: infoStatePopulation.replace(/Population\scount/g, "Population Count / ha")}}>
         </div>
     )
 }
