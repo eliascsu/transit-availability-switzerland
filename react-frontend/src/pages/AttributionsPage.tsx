@@ -1,8 +1,7 @@
 import { Layout, Col, Row, Button } from 'antd';
 import { Link } from 'react-router-dom';
 import backChevron from "../svg/back_chevron.svg"
-import "./css/pages.css";
-import "./css/attributions.css";
+import "./css/bundle.css";
 
 const {Content, Footer} = Layout;
 

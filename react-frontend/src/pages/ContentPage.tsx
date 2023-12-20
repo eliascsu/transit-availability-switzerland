@@ -4,14 +4,8 @@ import { Content, Footer } from "antd/es/layout/layout";
 import { Link } from "react-router-dom";
 import Zuerich from "./zuerich.mp4";
 import back_chevron from "../svg/back_chevron.svg";
-import CustomDesc from "./components/descriptions/CustomDesc";
-import {ScrollToBottom, ScrollToTop} from "./components/ScrollToButton";
-import { Legend, MapWrapper, CheckBoxes, PointControlBox, PopulationHeatmap, PtMap, PtMap_desc, HeatMap_desc } from "./components";
-import "./css/pages.css";
-import "./css/content.css";
-import "./css/lineform.css";
-import "./css/leaflet.css";
-import "./css/popup.css";
+import { Legend, MapWrapper, CheckBoxes, PointControlBox, PopulationHeatmap, PtMap, PtMap_desc, HeatMap_desc, CustomDesc, ScrollToBottom, ScrollToTop } from "./components";
+import "./css/bundle.css";
 
 const handleContextMenu: React.MouseEventHandler<HTMLVideoElement> = (event) => {
     event.preventDefault();

@@ -5,6 +5,18 @@
     padding: 5rem 2rem 0rem 2rem;
 }
 
+.reveal{
+    position: relative;
+    transform: translateY(15vh);
+    opacity: 0;
+    transition: 1.5s all ease;
+  }
+
+  .reveal.active{
+    transform: translateY(0);
+    opacity: 1;
+  }
+
 .textPage {
     height: 75vh;
 }

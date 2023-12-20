@@ -1,7 +1,6 @@
 import { Layout, Col, Row, Button } from 'antd';
 import { Link } from 'react-router-dom';
-import "./css/pages.css";
-import "./css/landing.css";
+import "./css/bundle.css";
 
 const {Content} = Layout;
 

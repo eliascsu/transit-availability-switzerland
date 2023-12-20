@@ -7,5 +7,7 @@ import { Legend } from "./legend";
 import PointControlBox from "./PointControlBox";
 import { MapWrapper } from "./MapWrapper";
 import { Score } from "./Score";
+import CustomDesc from "./descriptions/CustomDesc";
+import { ScrollToTop, ScrollToBottom } from "./ScrollToButton";
 
-export { HeatMap_desc, PtMap_desc, PopulationHeatmap, PtMap, CheckBoxes, SwisstopoCheckbox, Legend, PointControlBox, MapWrapper, Score };
+export { HeatMap_desc, PtMap_desc, PopulationHeatmap, PtMap, CheckBoxes, SwisstopoCheckbox, Legend, PointControlBox, MapWrapper, Score, CustomDesc, ScrollToTop, ScrollToBottom };
