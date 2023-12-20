@@ -6,7 +6,7 @@ import Zuerich from "./zuerich.mp4";
 import back_chevron from "../svg/back_chevron.svg";
 import { Legend, MapWrapper, CheckBoxes, PointControlBox, PopulationHeatmap, PtMap, PtMap_desc, HeatMap_desc, CustomDesc, ScrollToBottom, ScrollToTop } from "./components";
 import "./css/bundle.css";
-import { BeatLoader,PacmanLoader } from "react-spinners";
+import { BeatLoader, PacmanLoader } from "react-spinners";
 
 
 const handleContextMenu: React.MouseEventHandler<HTMLVideoElement> = (event) => {
