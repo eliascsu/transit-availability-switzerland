@@ -1,6 +1,6 @@
 import { TileLayer, WMSTileLayer, useMap, useMapEvents } from "react-leaflet";
 import { MapContainer } from "react-leaflet";
-import L from "leaflet";
+import L, { LatLng, LatLngTuple } from "leaflet";
 
 import { useEffect, useRef, useState } from "react";
 import { useSwissTopoContext } from "../../ctx/Swisstopo";
@@ -16,6 +16,7 @@ export default function PtMap() {
     pt_stops_layer.current = L.tileLayer.wms("https://wms.geo.admin.ch/", {
         layers: "ch.bav.haltestellen-oev", transparent: true, format: "image/png"})
     const firstMount = useRef<boolean>(true);
+    const tmp = useRef<LatLng>(new LatLng(0,0));
 
 
     function MapEvents() {
@@ -28,6 +29,9 @@ export default function PtMap() {
             fetch(url_ident).then(response => response.json()).then(data => {
                 if (data.results[0].id != undefined)
                 console.log(data.results[0].id)
+                const [x, y] = proj4(lv95, wgs84, data.results[0].geometry.coordinates[0]);
+                tmp.current!.lat = y
+                tmp.current!.lng = x
                 return data.results[0].id;
             }
             ).then(id => {
@@ -35,9 +39,9 @@ export default function PtMap() {
             fetch(url).then(response => response.text()).then(data => {
                 infoPtStop.current = data;
                 console.log(data);
-                if(infoPtStop.current != ""){
+                if(infoPtStop.current != "" && tmp.current != undefined){
                     console.log("maumau")
-                    map.openPopup(infoPtStop.current, e.latlng, {minWidth: 400, className: "custom-popup"});
+                    map.openPopup(infoPtStop.current, tmp.current, {minWidth: 400, className: "custom-popup"});
                 }
             })
             });
