@@ -4,6 +4,7 @@ import { LayerVisibility } from "../../types/data";
 import { useLayerContext } from "../ctx/LayerContext";
 import { Score } from "./Score";
 import { useSwissTopoContext } from "../ctx/Swisstopo";
+import { useEffect, useState } from "react";
 
 export function CheckBoxes() {
     const {
@@ -55,11 +56,17 @@ export function CheckBoxes() {
       );
 }
 
+
 export function SwisstopoCheckbox() {
     const {useSwissTopoMap, setSwissTopoMap} = useSwissTopoContext()
+    const [loadingDelay, setLoadingDelay] = useState<boolean>(true);
+    useEffect(() => {
+        var timerID = setInterval(() => setLoadingDelay(false), 7000);
+        return () => clearInterval(timerID);
+      });
     return (
         <div id="swisstopoCheckbox">
-            <Checkbox checked={useSwissTopoMap} onChange={() => setSwissTopoMap(!useSwissTopoMap)}>{useSwissTopoMap ? <p>Switch to heatmap</p> : <p>Switch to SwissTopo layer</p>}</Checkbox>
+            <Checkbox disabled={loadingDelay} checked={useSwissTopoMap} onChange={() => setSwissTopoMap(!useSwissTopoMap)}>{useSwissTopoMap ? <p>Switch to heatmap</p> : <p>Switch to SwissTopo layer</p>}</Checkbox>
 
         </div>
     )
