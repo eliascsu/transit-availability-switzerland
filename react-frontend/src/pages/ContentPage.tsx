@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Layout, Row } from "antd";
 import { Content, Footer } from "antd/es/layout/layout";
 import { Link } from "react-router-dom";
@@ -15,7 +15,7 @@ const handleContextMenu: React.MouseEventHandler<HTMLVideoElement> = (event) => 
 
 export default function ContentPage() {
     const videoRef = useRef<HTMLVideoElement>(null);
-    const loadingRef = useRef<boolean>(true);
+    const [loadingState, setLoadingState] = useState<boolean>(true);
     useEffect(() => {
         const observer = new IntersectionObserver(
             ([entry]) => {
@@ -45,11 +45,16 @@ export default function ContentPage() {
         };
     }, []);
 
+    useEffect(() => {
+        var timerID = setInterval(() => setLoadingState(false), 7000);
+        return () => clearInterval(timerID);
+      });
+
     return (
         <Layout className="layout" id="contentPage">
             <Content className="content" id="mapContent">
                 <div id="loading">
-                    <BeatLoader size={50} loading={loadingRef.current} color="white"/>
+                    <BeatLoader size={50} loading={loadingState} color="white"/>
                 </div>
                 <Row id="titlePage">
                     <div id="video-container">
