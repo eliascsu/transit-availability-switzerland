@@ -445,6 +445,14 @@ h5 {
     object-fit: cover;
 }
 
+#loading{
+    position:sticky;
+    top: 8rem;
+    padding-left: 85vw;
+    height: 0;
+    z-index: 1000;
+}
+
 /*Text Page 1---------------*/
 
 #textPage1 {

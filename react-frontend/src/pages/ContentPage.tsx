@@ -14,6 +14,8 @@ import HeatMap_desc from "./components/descriptions/HeatMap_desc";
 import back_chevron from "../svg/back_chevron.svg";
 import CustomDesc from "./components/descriptions/CustomDesc";
 import {ScrollToBottom, ScrollToTop} from "./components/ScrollToButton";
+import { BeatLoader,PacmanLoader } from "react-spinners";
+
 
 const handleContextMenu: React.MouseEventHandler<HTMLVideoElement> = (event) => {
     event.preventDefault();
@@ -21,6 +23,7 @@ const handleContextMenu: React.MouseEventHandler<HTMLVideoElement> = (event) => 
 
 export default function ContentPage() {
     const videoRef = useRef<HTMLVideoElement>(null);
+    const loadingRef = useRef<boolean>(true);
     useEffect(() => {
         const observer = new IntersectionObserver(
             ([entry]) => {
@@ -49,9 +52,13 @@ export default function ContentPage() {
             }
         };
     }, []);
+
     return (
         <Layout className="layout" id="contentPage">
             <Content className="content" id="mapContent">
+                <div id="loading">
+                    <BeatLoader size={50} loading={loadingRef.current} color="white"/>
+                </div>
                 <Row id="titelPage">
                     <div id="video-container">
                     <video ref={videoRef} id="zurichVideo" playsInline autoPlay loop muted preload="" 								onContextMenu={handleContextMenu}>
