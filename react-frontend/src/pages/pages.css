@@ -320,10 +320,10 @@ h5 {
 }
 
 #att_general {
-    margin-bottom: 8vh;
+    margin-bottom: 10vh;
     li {
         padding:15px;
-        font-size: 25px;
+        font-size: 1.25vw;
     }
     li:first-child{
         margin-right: 1vw;
@@ -331,20 +331,20 @@ h5 {
 }
 
 #att_frontend {
-    margin-bottom: 8vh;
+    margin-bottom: 10vh;
     li{
         padding: 15px;
-        font-size: 25px;
+        font-size: 1.25vw;
     }
 }
 
 #att_backend {
     li {
         padding: 15px;
-        font-size: 25px;
+        font-size: 1.25vw;
     }
     li:first-child{
-        margin-right: 6vw;
+        margin-right: 4.5vw;
         margin-left: -10vw;
     }
 }
