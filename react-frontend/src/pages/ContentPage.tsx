@@ -12,6 +12,7 @@ import PtMap_desc from "./components/descriptions/PtMap_desc";
 import Zuerich from "./zuerich.mp4";
 import HeatMap_desc from "./components/descriptions/HeatMap_desc";
 import back_chevron from "./chevron_back_white.png"
+import CustomDesc from "./components/descriptions/CustomDesc";
 
 const handleContextMenu: React.MouseEventHandler<HTMLVideoElement> = (event) => {
     event.preventDefault();
@@ -84,6 +85,7 @@ export default function ContentPage() {
                     <PtMap/>
                 </Row>
                 <Row id="textPage3">
+                    <CustomDesc/>
                 </Row>
                 <Row id="interactivePage"className="page">
                     <MapWrapper/>
