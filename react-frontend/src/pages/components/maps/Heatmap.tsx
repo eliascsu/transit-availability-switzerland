@@ -9,6 +9,7 @@ import { useEffect, useRef } from "react";
 import "leaflet.heat";
 import proj4 from "proj4";
 import {SwisstopoCheckbox } from "../Checkboxes";
+import { log } from "console";
 
 
 const wgs84 = "EPSG:4326"
@@ -74,6 +75,8 @@ export default function PopulationHeatmap() {
         const map = useMapEvents(
             {
             click: (e) => {
+            console.log(scrollable.current);
+            scrollable.current = true;
             const [x, y] = proj4(wgs84, lv95, [e.latlng.lng, e.latlng.lat]);
             const url_ident = "https://api3.geo.admin.ch/rest/services/all/MapServer/identify?geometry="+x+","+ y + "&geometryFormat=geojson&geometryType=esriGeometryPoint&lang=en&layers=all:ch.bfs.volkszaehlung-bevoelkerungsstatistik_einwohner&limit=10&returnGeometry=true&sr=2056&timeInstant=2021&tolerance=0"
             fetch(url_ident).then(response => response.json()).then(data => {
@@ -90,12 +93,14 @@ export default function PopulationHeatmap() {
         return null;
     }
 
+    const scrollable = useRef(false);
+
     if (useSwissTopoMap) {
 
         remove_layers();
         return (
             <div id="population-map">
-            <MapContainer center={[47.36, 8.53]} zoom={10} scrollWheelZoom={true} zoomSnap={0.5} minZoom={8} style={{ height: '400px', width: '400px' }} maxBounds={new L.LatLngBounds([48.076,5.397], [45.599,11.416])}>
+            <MapContainer center={[47.36, 8.53]} zoom={10} scrollWheelZoom={scrollable.current} zoomSnap={0.5} minZoom={8} style={{ height: '400px', width: '400px' }} maxBounds={new L.LatLngBounds([48.076,5.397], [45.599,11.416])}>
                 <TileLayer
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
