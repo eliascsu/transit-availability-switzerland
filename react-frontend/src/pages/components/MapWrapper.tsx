@@ -93,6 +93,7 @@ const Map = React.memo(function Map() {
 
     const map = useMapEvents({
         click: (e) => {
+            map.scrollWheelZoom.enable();
             console.log(linesFromFormState);
             if(drawingState){
 
@@ -141,6 +142,7 @@ const Map = React.memo(function Map() {
     });
 
     useEffect(() => {
+        map.scrollWheelZoom.disable();
         pt_stops_layer.current?.addTo(map);
     },[])
 
