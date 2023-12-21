@@ -19,20 +19,13 @@
 
 #att_general {
     display: flex;
-    margin-bottom: 14vh;
-    li {
-        padding:15px;
-        font-size: 1.25vw;
-    }
-    li:first-child{
-        margin-right: 1vw;
-    }
+    flex-direction: column;
+    margin-bottom: 7vh;
 }
 
 #att_grid {
+    width: 100vw;
     display: grid;
-    gap: 1rem;
-    column-gap: 5rem;
 
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 4fr;
@@ -46,7 +39,7 @@
     grid-area: frontend;
     display: flex;
     flex-direction: column;
-    margin-left: 6vw;
+        margin-left: 17vw;
     li {
         padding:15px;
         font-size: 1.25vw;
@@ -57,7 +50,7 @@
     grid-area: backend;
     display: flex;
     flex-direction: column;
-    margin-right: -5vw;
+    margin-left: 5vw;
     li {
         padding:15px;
         font-size: 1.25vw;
@@ -66,12 +59,14 @@
 
 #att_frontend_title{
     grid-area: front_title;
-    margin-left: 13vw;
+    margin-top: 5vh;
+    margin-left: 23vw;
 }
 
 #att_backend_title{
     grid-area: back_title;
-    margin-left: 10vw;
+    margin-top: 5vh;
+    margin-left: 18vw;
 }
 
 #attributionsPage {
@@ -88,3 +83,23 @@
     width: 100vw;
     margin-bottom: 3rem;
 }
+
+#react_logo{
+    height: 5vh;
+}
+
+#react_router_logo{
+    height: 5vh;
+    margin-left: 6vw;
+}
+
+#react_link{
+    font-size: 4vh;
+    margin-left: 1vw;
+}
+
+#react_router_link{
+    font-size: 4vh;
+    margin-left: 1vw;
+}
+

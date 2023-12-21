@@ -2,6 +2,8 @@ import { Layout, Col, Row } from 'antd';
 import { Link } from 'react-router-dom';
 import backChevron from "../svg/back_chevron.svg"
 import "./css/bundle.css";
+import react_logo from "./react_logo.png"
+import react_router_logo from "./react_router.svg"
 
 const {Content, Footer} = Layout;
 
@@ -16,13 +18,12 @@ function AttributionsPage() {
                 <div id='attributions'>
                     <h2 id='att_title'>Attributions</h2>
                     <hr className="solid" id='underline'/>
-                    <Row>
-                        <h3>General</h3>
-                    </Row>
-                    <Row>
-                        <Col id='att_general'>
-                            <li><a href='https://react.dev/'>React</a></li>
-                            <li><a href='https://reactrouter.com/en/main'>React Router</a></li>
+                    <Row id='att_general'>
+                        <Col>
+                            <img src={react_logo} alt="react_logo" id='react_logo' />
+                            <a href='https://react.dev/' id='react_link'>React</a>
+                            <img src={react_router_logo} alt="react_router_logo" id='react_router_logo' />
+                            <a href='https://reactrouter.com/en/main' id='react_router_link'>React Router</a>
                         </Col>
                     </Row>
                     <Row id='att_grid'>
