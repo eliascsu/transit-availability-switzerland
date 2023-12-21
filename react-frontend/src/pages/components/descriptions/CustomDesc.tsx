@@ -14,9 +14,10 @@ export default function CustomDesc() {
             </p>
             <h2 id="title2">Unserved population</h2>
             <p id="info2">
-                This layer should serve as an aid to help you identify areas that are not connected to public transit. 
+                This layer displays the population that isn't served adequately by public transportation
+                and should serve as an aid to help you identify areas that are not connected to public transit when creating your custom lines. 
                 Consider adding lines that connect people from these areas to bigger
-                transit hubs to improve the likelihood of people using public transit.
+                transit hubs to improve the likelihood of people using public transit and make Switzerland a more connected country.
             </p>
         </div>
     )
