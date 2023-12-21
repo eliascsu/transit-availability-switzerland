@@ -1,17 +1,17 @@
 export default function HeatMap_desc() {
     return (
         <div id ="heatmap-description" className="reveal">
-            <h2 id="title1">Density</h2>
+            <h2 id="title1">Populations density</h2>
             <p id="info1">To understand how public transit can be improved, it is crucial to understand where
             people live and where they commute to. In a sense, Switzerland is a sprawling country,
             as 50% of the population lives in villages with less than 10'000 inhabitants. However,
             the majority of the population lives in the urban centers of Zurich, Geneva, Basel, Bern,
             and Lausanne. The population map shows the amount of people living per ha in Switzerland, 
-                essentially the housing density. More than 99% of housing units in Switzerland 
-                are geocoded and provided here. Households without an address in the province cannot be 
-                geocoded, but are included in the center-coordinate of the province. Therefore it might be 
-                possible for smaller provinces and city center coordinates to have a higher displayed population
-                density than there actually is. The data is provided by the Swiss Federal Statistical Office. 
+            essentially the housing density. More than 99% of housing units in Switzerland 
+            are geocoded and provided here. Households without an address in the province cannot be 
+            geocoded, but are included in the center-coordinate of the province. Therefore it might be 
+            possible for smaller provinces and city center coordinates to have a higher displayed population
+            density than there actually is. The data is provided by the Swiss Federal Statistical Office.
             </p>
             <h2 id="title2">Heatmap calculations</h2>
             <p id="info2">The heatmap is blue where few people live and gradually changes to green, then yellow and finally red, 

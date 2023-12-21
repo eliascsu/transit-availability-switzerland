@@ -241,7 +241,7 @@
     width: 100%;
     display: grid;
     grid-template-columns: 1fr 2fr;
-    grid-template-rows: 2fr 3fr 4fr;
+    grid-template-rows: 2fr 3fr 3fr;
     column-gap: 3rem;
     grid-template-areas: 
         "title  map"
@@ -269,7 +269,7 @@
     .legend {
         grid-area: legend;
         margin-bottom: 1rem;
-        height: 70%;
+        height: 50%;
         display: grid;
     }
 }
