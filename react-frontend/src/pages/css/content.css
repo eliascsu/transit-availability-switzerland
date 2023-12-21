@@ -42,7 +42,7 @@
 .contentTitle {
     position:absolute;
     font-size: 8rem;
-    color:var(--util) !important;
+    color: var(--util) !important;
     z-index: 100;
     text-shadow: -1px 0 var(--shadow), 0 1px var(--shadow), 1px 0 var(--shadow), 0 -1px var(--shadow);
     filter: drop-shadow(5px 5px 15px var(--shadow));
@@ -345,7 +345,7 @@
 }
 
 #titlePage {
-    color: var(--util);
+    color: antiquewhite;
     height: 100vh;
     display: grid;
 }
@@ -358,6 +358,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: #021430;
 }
 
 #zurichVideo {
