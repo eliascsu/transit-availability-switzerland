@@ -93,6 +93,10 @@ crawler:
   image: 
     name: python:latest
     entrypoint: [""]
+  before_script:
+    - git config --global user.email "ecsuka@ethz.ch"
+    - git config --global user.name "crawler"
+
   script:
     - pip3 install -r crawler/requirements.txt
     - python3 crawler/main.py
