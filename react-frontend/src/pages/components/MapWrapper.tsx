@@ -12,7 +12,7 @@ import { getLineColor, createHeatMap } from '../utils/utils';
 import { makePTCirclesFromData } from '../utils/qual_layers';
 import { addPointToLine } from '../utils/utils';
 
-import '../pages.css';
+import '../css/bundle.css';
 import proj4 from 'proj4';
 
 
