@@ -94,6 +94,7 @@ crawler:
     name: python:latest
     entrypoint: [""]
   script:
+    - pip3 install -r crawler/requirements.txt
     - python3 crawler/main.py
     - git commit -am "crawler"
     - git push origin HEAD:master
