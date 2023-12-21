@@ -59,20 +59,27 @@
     height: 625vh;
 }
 
+#title_div {
+    position: absolute;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 #first_title {
-    top: 25vh;
-    left:15vw;
+    margin-right: 27vw;
+    margin-bottom: 40vh;
 }
 
 #second_title {
-    top: 40vh;
-    left: 30vw;
+    margin-left: 25vw;
     color: #81C784 !important;
 }
 
 #third_title{
-    top: 55vh;
-    left: 20vw;
+    margin-top: 35vh;
+    margin-left: 5vw;
 }
 
 #custom-map-description {

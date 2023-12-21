@@ -62,9 +62,11 @@ export default function ContentPage() {
                         <source src={Zuerich} type="video/mp4" />
                         Your browser does not support the video tag.
                     </video>
+                    <div>
                     <h1 className="contentTitle" id="first_title">Transit</h1>
                     <h1 className="contentTitle" id="second_title">Availability</h1>
                     <h1 className="contentTitle" id="third_title">Switzerland</h1>
+                    </div>
                     <a id="skipButton">
                         <ScrollToBottom/>
                     </a>
