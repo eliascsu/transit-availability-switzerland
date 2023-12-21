@@ -9,6 +9,7 @@ import "./css/bundle.css";
 import { BeatLoader } from "react-spinners";
 import { useLoadingContext } from "./ctx/LoadingContext";
 import { ThemeContext } from "../App";
+import DarkLightButton from "./components/DarkLightButton";
 
 
 const handleContextMenu: React.MouseEventHandler<HTMLVideoElement> = (event) => {
@@ -70,7 +71,7 @@ export default function ContentPage() {
                     <a id="skipButton">
                         <ScrollToBottom/>
                     </a>
-                    <Switch onChange={context[1]} checked={context[0] === "dark"} id="switch"></Switch>
+                    <DarkLightButton/>
                     <Link id="attributionLink2" to="/attributions">
                         <img className="homeImg" src={back_chevron}/>
                         <h1>ATTRIBUTIONS</h1>
