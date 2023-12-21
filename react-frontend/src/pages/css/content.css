@@ -411,6 +411,15 @@
     margin-top: 75vh;
 }
 
+#switch {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    bottom: 3rem !important;
+    left: 3rem !important;
+    width: 2vw;
+}
+
 #titlePage {
     color: antiquewhite;
     height: 100vh;
@@ -434,5 +443,12 @@
     width: 100%;
     opacity: 0.6;
     object-fit: cover;
+}
+
+.scroll-to-top {
+    img {
+        -webkit-filter: invert(var(--invert-filter));
+        filter: invert(var(--invert-filter));
+    }
 }
 

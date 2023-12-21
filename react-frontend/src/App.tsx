@@ -5,6 +5,11 @@ import '@picocss/pico';
 import AttributionsPage from "./pages/AttributionsPage";
 import "./App.css";
 import { MathJaxContext } from "better-react-mathjax";
+import { createContext, useState } from "react";
+
+type ThemeContextType = [string, () => void];
+
+export const ThemeContext = createContext<ThemeContextType>(["", () => {}]);
 
 function reveal() {
   var reveals = document.querySelectorAll(".reveal");
@@ -25,20 +30,33 @@ function reveal() {
 window.addEventListener("scroll", reveal);
 
 function App() {
+  let mediaQueryObj = window.matchMedia('(prefers-color-scheme: dark)');
+  let isDarkMode = mediaQueryObj.matches;
+
+  const [theme, setTheme] = useState(isDarkMode ? "dark" : "light");
+
   const config = {
     loader: { load: ["input/asciimath"] }
   };
 
+  const toggleTheme = () => {
+    setTheme((curr) => (curr === "light" ? "dark" : "light"));
+  };
+
   return (
     <MathJaxContext config={config}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/oldpage" element={<LandingPage/>}/>
-          <Route path="/" element={<ContentPage/>}/>
-          <Route path="/attributions" element={<AttributionsPage/>}/>
-          <Route path="*" element={<ContentPage/>}/>
-        </Routes>
-      </BrowserRouter>
+      <ThemeContext.Provider value={[theme, toggleTheme]}>
+        <div id={theme}>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/oldpage" element={<LandingPage/>}/>
+              <Route path="/" element={<ContentPage/>}/>
+              <Route path="/attributions" element={<AttributionsPage/>}/>
+              <Route path="*" element={<ContentPage/>}/>
+            </Routes>
+          </BrowserRouter>
+        </div>
+      </ThemeContext.Provider>
     </MathJaxContext>
   );
 }

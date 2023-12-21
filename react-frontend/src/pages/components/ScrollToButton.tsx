@@ -1,5 +1,7 @@
+import { useEffect, useContext, useState } from "react";
 import double_down_chevron from "../../svg/double_down_chevron.svg";
 import double_up_chevron from "../../svg/double_up_chevron.svg";
+import { ThemeContext } from "../../App";
 
 import "../css/bundle.css";
 
@@ -18,8 +20,12 @@ export function ScrollToBottom() {
 }
 
 export function ScrollToTop() {
-    let mediaQueryObj = window.matchMedia('(prefers-color-scheme: dark)');
-    let isDarkMode = mediaQueryObj.matches;
+    const context = useContext(ThemeContext);
+    const [theme, setTheme] = useState(context[0]);
+
+    useEffect(() => {
+        setTheme(theme === "light" ? "dark" : "light");
+    }, [context[1]]);
 
     const scrollToTop = () => {
         window.scrollTo({
@@ -28,17 +34,9 @@ export function ScrollToTop() {
         });
     };
 
-    if (isDarkMode) {
-        return (
-            <div className="scroll-to-top" onClick={scrollToTop}>
-                <img src={double_up_chevron}></img>
-            </div>
-        );
-    } else {
-        return (
-            <div className="scroll-to-top invert-img" onClick={scrollToTop}>
-                <img src={double_up_chevron}></img>
-            </div>
-        );
-    }
+    return (
+        <div className="scroll-to-top" id={theme} onClick={scrollToTop}>
+            <img src={double_up_chevron}></img>
+        </div>
+    );
 }
