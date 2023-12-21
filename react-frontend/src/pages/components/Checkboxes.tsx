@@ -62,12 +62,12 @@ export function CheckBoxes() {
 }
 
 
-export function SwisstopoCheckbox() {
+export function SwisstopoButton() {
     const {useSwissTopoMap, setSwissTopoMap} = useSwissTopoContext()
     const {loadHeatmap} = useLoadingContext();
 
     return (
-        <div id="swisstopoCheckbox">
+        <div id="swisstopButton">
             <Button disabled={!loadHeatmap} onClick={() => setSwissTopoMap(!useSwissTopoMap)}>{useSwissTopoMap ? <p>Switch to heatmap</p> : <p>Switch to SwissTopo layer</p>}</Button>
         </div>
     )

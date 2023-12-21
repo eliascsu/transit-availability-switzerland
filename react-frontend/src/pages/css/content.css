@@ -10,6 +10,10 @@
     filter: drop-shadow(5px 5px 15px var(--shadow));
 }
 
+#HMformula {
+    font-size: 16px;
+}
+
 .invert-img {
     img {
         -webkit-filter: invert(1);
@@ -229,20 +233,41 @@
         padding-top: 2rem;
     }
 
-    #swisstopoCheckbox {
+
+    #swissTopoCheckboxDiv {
+        display: grid;
+        grid-template-rows: 1fr 1fr;
+        grid-template-areas:
+            "text"
+            "button";
+    }
+
+    #buttonText {
+        grid-area: text;
+    }
+
+    #swisstopButton{
         grid-area: checkbox;
+        grid-area: button;
+        justify-self: center;
+        height: auto;
+        width: 60%;
+
+        button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
         span {
             display: flex;
         }
 
         p {
-            border: var(--util) 1px solid;
-            border-radius: 8px 8px 8px 8px;
-            padding: 0.5rem;
-            align-self: center;
-
+            text-align: center;
+            margin: 0;
         }
+
         .ant-checkbox {
             visibility: hidden;
             display: none;
