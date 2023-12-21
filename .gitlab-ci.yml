@@ -1,8 +1,8 @@
 stages:
   - lint
+  - crawler
   - build
   - deploy
-  - crawler
 
 workflow:
   rules:
@@ -96,12 +96,16 @@ crawler:
   before_script:
     - git config --global user.email "ecsuka@ethz.ch"
     - git config --global user.name "crawler"
+    
 
   script:
+    - git clone https://ecsuka:${miau}@gitlab.inf.ethz.ch/course-fwe2023/students/project/flask/ecsuka_project_flask
+    - cd ecsuka_project_flask
     - pip3 install -r crawler/requirements.txt
     - python3 crawler/main.py
+    - git add --all
     - git commit -am "crawler"
-    - git push origin HEAD:master
+    - git push https://ecsuka:${miau}@gitlab.inf.ethz.ch/course-fwe2023/students/project/flask/ecsuka_project_flask HEAD:main
 
   only:
     - schedules

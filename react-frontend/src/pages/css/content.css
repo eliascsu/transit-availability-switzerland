@@ -182,11 +182,33 @@
         padding-left: 2rem;
     }
 
-    #checkBoxes {
-        grid-area: checkBoxes;
+    #info_text {
+        grid-area: score;
+        display: flex;
+        justify-content: center;
+    }
+    
+    .interactive_checkbox {
+        grid-area: checkboxes;
         display: flex;
         flex-direction: column;
+        justify-content: space-around;
+        padding-bottom: 4vh;
+    }
 
+    #interactive_text {
+        grid-area: description;
+        display: flex;
+        flex-direction: column;
+    }
+
+    #checkBoxes {
+        display: grid;
+        grid-template-rows: 1fr 3fr;
+        grid-template-columns: 1fr 5fr;
+        grid-template-areas:
+            "score   score"
+            "checkboxes   description";
         h2 {
             margin: 0;
         }
