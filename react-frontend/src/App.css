@@ -13,20 +13,24 @@
     --bg-color-underline: white;
     --shadow: black;
     --bg-color: #021430;
+    --border: #021430;
+    --invert: white;
   }
 }
 
 @media (prefers-color-scheme: light) {
   :root {
-    --highlighted-text-color: #C1F6CD;
-    --paragraph-text-color: #DDCFBE;
+    --highlighted-text-color: #2C9165;
+    --paragraph-text-color: black;
     --topic: #122640;
-    --util: antiquewhite;
-    --util2: #A4DFE0;
+    --util: black;
+    --util2: #49BFC1;
     --attributions: hsl(205, 18%, 86%);
     --bg-color-underline: white;
     --shadow: black;
-    --bg-color: #2374F6;
+    --bg-color: #f7f7f7;
+    --border: black;
+    --invert: black;
   }
 }
 

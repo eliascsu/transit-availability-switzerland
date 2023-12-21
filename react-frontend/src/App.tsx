@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route} from "react-router-dom";
 import '@picocss/pico';
 import AttributionsPage from "./pages/AttributionsPage";
 import "./App.css";
+import { MathJaxContext } from "better-react-mathjax";
 
 function reveal() {
   var reveals = document.querySelectorAll(".reveal");
@@ -24,15 +25,21 @@ function reveal() {
 window.addEventListener("scroll", reveal);
 
 function App() {
+  const config = {
+    loader: { load: ["input/asciimath"] }
+  };
+
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<LandingPage/>}/>
-        <Route path="/content" element={<ContentPage/>}/>
-        <Route path="/attributions" element={<AttributionsPage/>}/>
-        <Route path="*" element={<LandingPage/>}/>
-      </Routes>
-    </BrowserRouter>
+    <MathJaxContext config={config}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/oldpage" element={<LandingPage/>}/>
+          <Route path="/" element={<ContentPage/>}/>
+          <Route path="/attributions" element={<AttributionsPage/>}/>
+          <Route path="*" element={<ContentPage/>}/>
+        </Routes>
+      </BrowserRouter>
+    </MathJaxContext>
   );
 }
 

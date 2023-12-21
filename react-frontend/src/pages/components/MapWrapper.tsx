@@ -50,14 +50,14 @@ const Map = React.memo(function Map() {
     useEffect(() => {
         getPopulationDensity().then(popArray => {
             if(popArray != undefined){
-                let heatArray = createHeatMap(popArray);
+                let heatArray = createHeatMap(popArray, false);
                 populationHeatMapCache.current = L.heatLayer(heatArray, {radius: 15, max: 1});
             }
             setLoadHeatmap(true);
         });
         getPopulationUnserved().then(popArray => {
             if(popArray != undefined){
-                let heatArray = createHeatMap(popArray);
+                let heatArray = createHeatMap(popArray, true);
                 populationUnservedHeatMapCache.current = L.heatLayer(heatArray, {radius: 15, max: 1});
             }
             setLoadUnservedMap(true);
@@ -93,6 +93,7 @@ const Map = React.memo(function Map() {
 
     const map = useMapEvents({
         click: (e) => {
+            map.scrollWheelZoom.enable();
             console.log(linesFromFormState);
             if(drawingState){
 
@@ -141,6 +142,7 @@ const Map = React.memo(function Map() {
     });
 
     useEffect(() => {
+        map.scrollWheelZoom.disable();
         pt_stops_layer.current?.addTo(map);
     },[])
 

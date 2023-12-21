@@ -90,9 +90,15 @@ deploy_app:
 
 crawler:
   stage: crawler
+  image: 
+    name: python:latest
+    entrypoint: [""]
+  before_script:
+    - git config --global user.email "ecsuka@ethz.ch"
+    - git config --global user.name "crawler"
+
   script:
-    - yes | apt-get update
-    - yes | apt-get install python3
+    - pip3 install -r crawler/requirements.txt
     - python3 crawler/main.py
     - git commit -am "crawler"
     - git push origin HEAD:master

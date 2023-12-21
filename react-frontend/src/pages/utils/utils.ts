@@ -61,8 +61,14 @@ function getLineColor (lineType: string) {
     return lineColor;
 }
 
-function createHeatMap(data: PopulationArray) {
+function createHeatMap(data: PopulationArray, unserved: boolean) {
     let heatArray: HeatLatLngTuple[] = [];
+    if (unserved) {
+        for (let row of data) {
+            heatArray.push([parseFloat(row.lat), parseFloat(row.lng), parseFloat(row.intensity)*30] as HeatLatLngTuple);
+        }
+    return heatArray;
+    }
     if (data != undefined) {
         for (let row of data) {
             heatArray.push([parseFloat(row.lat), parseFloat(row.lng), parseFloat(row.intensity)] as HeatLatLngTuple);

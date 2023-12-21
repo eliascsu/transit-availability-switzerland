@@ -1,6 +1,22 @@
 /* CSS Classes and IDs used strictly on the content page */
 
 /* Classes */
+.contentTitle {
+    position:absolute;
+    font-size: 10vw;
+    color: antiquewhite !important;
+    z-index: 100;
+    text-shadow: -1px 0 var(--shadow), 0 1px var(--shadow), 1px 0 var(--shadow), 0 -1px var(--shadow);
+    filter: drop-shadow(5px 5px 15px var(--shadow));
+}
+
+.invert-img {
+    img {
+        -webkit-filter: invert(1);
+        filter: invert(1);
+    }
+}
+
 .page {
     padding: 5rem 2rem 0rem 2rem;
 }
@@ -25,11 +41,12 @@
 #attributionLink2 {
     display: flex;
     flex-direction: row;
+    align-items: center;
     position: absolute;
     top: 3rem !important;
-    right: 3rem !important;
+    left: 3rem !important;
     h1 {
-        color: var(--util) !important;
+        color: antiquewhite !important;
         margin: 0;
     }
 }
@@ -38,13 +55,20 @@
     height: 625vh;
 }
 
-#contentTitle {
-    position:absolute;
-    font-size: 150px;
-    color:var(--util) !important;
-    z-index: 100;
-    text-shadow: -1px 0 var(--shadow), 0 1px var(--shadow), 1px 0 var(--shadow), 0 -1px var(--shadow);
-    filter: drop-shadow(5px 5px 15px var(--shadow));
+#first_title {
+    top: 25vh;
+    left:15vw;
+}
+
+#second_title {
+    top: 40vh;
+    left: 30vw;
+    color: #81C784 !important;
+}
+
+#third_title{
+    top: 55vh;
+    left: 20vw;
 }
 
 #custom-map-description {
@@ -144,6 +168,8 @@
         grid-area: map;
         height: 90%;
         width: 100%;
+        border-style: solid;
+        border-color: var(--border);
     }
 
     #lineLegend {
@@ -171,8 +197,8 @@
 
 #loading {
     position:sticky;
-    top: 8rem;
-    padding-left: 85vw;
+    top: 5rem;
+    padding-left: 88vw;
     height: 0;
     z-index: 1000;
 }
@@ -194,6 +220,8 @@
         grid-area: map;
         height: 90% !important;
         width: 100% !important;
+        border-style: solid;
+        border-color: var(--border);
     }
 
     #populationTitle {
@@ -252,6 +280,8 @@
         grid-area: map;
         height: 90% !important;
         width: 100% !important;
+        border-style: solid;
+        border-color: var(--border);
     }
 
     #ptInfo {
@@ -327,8 +357,15 @@
     }
 }
 
+#skip_up_button {
+    display: flex;
+    position: absolute;
+    margin-left: 88vw;
+    margin-top: 75vh;
+}
+
 #titlePage {
-    color: var(--util);
+    color: antiquewhite;
     height: 100vh;
     display: grid;
 }
@@ -341,13 +378,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: #021430;
 }
 
 #zurichVideo {
     position:relative;
     height: 100vh;
     width: 100%;
-    opacity: 0.7;
+    opacity: 0.6;
     object-fit: cover;
 }
 

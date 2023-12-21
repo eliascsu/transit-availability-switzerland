@@ -1,3 +1,5 @@
+import { MathJax } from "better-react-mathjax"
+
 export default function HeatMap_desc() {
     return (
         <div id ="heatmap-description" className="reveal">
@@ -17,7 +19,7 @@ export default function HeatMap_desc() {
             <p id="info2">The heatmap is blue where few people live and gradually changes to green, then yellow and finally red, 
                 proportional to the amount of people that live in any given square hectar of space. 
                 The intensity for each point of the dataset is calculated as follows:
-                <img src="https://latex.codecogs.com/svg.image?\inline&space;\LARGE&space;&space;Intesity=(population/20)^{2}&plus;0.5" title=" Intesity=(population/20)^{2}+0.5" style={{filter: "invert(100%)"}}/>
+                <MathJax>{"`\\text{Intesity}=((\\text{Population})/20)^{2}+1/2`"}</MathJax>
                 and is capped at a maximum of 40.
                 Why do we not use a linear intensity scale?
                 Since a large amount of the population lives in a comparably small area in big 
