@@ -1,6 +1,22 @@
 /* CSS Classes and IDs used strictly on the content page */
 
 /* Classes */
+.contentTitle {
+    position:absolute;
+    font-size: 8rem;
+    color: antiquewhite !important;
+    z-index: 100;
+    text-shadow: -1px 0 var(--shadow), 0 1px var(--shadow), 1px 0 var(--shadow), 0 -1px var(--shadow);
+    filter: drop-shadow(5px 5px 15px var(--shadow));
+}
+
+.invert-img {
+    img {
+        -webkit-filter: invert(1);
+        filter: invert(1);
+    }
+}
+
 .page {
     padding: 5rem 2rem 0rem 2rem;
 }
@@ -30,22 +46,13 @@
     top: 3rem !important;
     left: 3rem !important;
     h1 {
-        color: var(--util) !important;
+        color: antiquewhite !important;
         margin: 0;
     }
 }
 
 #contentPage {
     height: 625vh;
-}
-
-.contentTitle {
-    position:absolute;
-    font-size: 8rem;
-    color: var(--util) !important;
-    z-index: 100;
-    text-shadow: -1px 0 var(--shadow), 0 1px var(--shadow), 1px 0 var(--shadow), 0 -1px var(--shadow);
-    filter: drop-shadow(5px 5px 15px var(--shadow));
 }
 
 #first_title {
@@ -161,6 +168,8 @@
         grid-area: map;
         height: 90%;
         width: 100%;
+        border-style: solid;
+        border-color: var(--border);
     }
 
     #lineLegend {
@@ -211,6 +220,8 @@
         grid-area: map;
         height: 90% !important;
         width: 100% !important;
+        border-style: solid;
+        border-color: var(--border);
     }
 
     #populationTitle {
@@ -269,6 +280,8 @@
         grid-area: map;
         height: 90% !important;
         width: 100% !important;
+        border-style: solid;
+        border-color: var(--border);
     }
 
     #ptInfo {

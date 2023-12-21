@@ -42,7 +42,7 @@
 
 /* IDs */
 #footerText {
-    color: #122640;
+    color: var(--topic);
     display: flex;
     align-items: center;
     justify-content: center;
