@@ -6,7 +6,7 @@ WORKDIR /srv
 
 RUN npm install --force
 RUN npm install -g serve
-RUN npm install --save-dev @types/leaflet
+RUN npm install --save-dev @types/leaflet --force
 
 RUN npm run build
 
