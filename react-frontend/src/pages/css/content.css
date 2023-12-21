@@ -201,6 +201,12 @@
         flex-direction: column;
         justify-content: space-around;
         padding-bottom: 4vh;
+
+        .ant-checkbox-wrapper {
+            margin-top: 0.25rem;
+            padding-bottom: 3.15rem;
+        }
+
     }
 
     #interactive_text {
