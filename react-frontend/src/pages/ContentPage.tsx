@@ -91,7 +91,7 @@ export default function ContentPage() {
                     <Legend/>
                     <CheckBoxes/>
                     <PointControlBox/>
-                    <a>
+                    <a id="skip_up_button">
                         <ScrollToTop/>
                     </a>
                 </Row>

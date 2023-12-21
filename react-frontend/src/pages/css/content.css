@@ -3,7 +3,7 @@
 /* Classes */
 .contentTitle {
     position:absolute;
-    font-size: 8rem;
+    font-size: 10vw;
     color: antiquewhite !important;
     z-index: 100;
     text-shadow: -1px 0 var(--shadow), 0 1px var(--shadow), 1px 0 var(--shadow), 0 -1px var(--shadow);
@@ -56,19 +56,19 @@
 }
 
 #first_title {
-    top: 20vh;
-    left:25vw;
+    top: 25vh;
+    left:15vw;
 }
 
 #second_title {
-    top: 35vh;
-    left: 40vw;
+    top: 40vh;
+    left: 30vw;
     color: #81C784 !important;
 }
 
 #third_title{
-    top: 50vh;
-    left: 30vw;
+    top: 55vh;
+    left: 20vw;
 }
 
 #custom-map-description {
@@ -355,6 +355,13 @@
         color: var(--util) !important;
         margin: 0;
     }
+}
+
+#skip_up_button {
+    display: flex;
+    position: absolute;
+    margin-left: 88vw;
+    margin-top: 75vh;
 }
 
 #titlePage {
