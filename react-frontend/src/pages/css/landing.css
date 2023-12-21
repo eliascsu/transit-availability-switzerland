@@ -2,7 +2,7 @@
 
 /* Classes */
 .ant-checkbox+span {
-    color: var(--bg-color-underline);
+    color: var(--invert);
 }
 
 .background_img {

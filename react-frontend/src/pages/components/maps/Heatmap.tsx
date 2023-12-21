@@ -31,7 +31,7 @@ export default function PopulationHeatmap() {
             .then(popArray => {
                 let heatArray: HeatLatLngTuple[] = [];
                 if(popArray != undefined){
-                    heatArray = createHeatMap(popArray);
+                    heatArray = createHeatMap(popArray, false);
                     console.log(layers.current)
                     if (layers.current == null) {
                         layers.current = L.heatLayer(heatArray, {radius: 15, max: 20});
