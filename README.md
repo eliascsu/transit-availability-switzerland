@@ -261,6 +261,10 @@ How do we run the crawler scripts in gitlab?
 Or should we rather run them once locally and push the data to the repository?
 How do we access the gitlab website? We still can't see the URL in the CI/CD pipeline.
 
+### Week 3
+
+This week we refactored most of the code, splitting components into different files and functions, using context where necessary. We also reimplemented the logic for the user lines and stops using linestrings. This is much more robust and slightly more performant. We also added an editing mode that is active when the line Form is expanded as well as an attributions page. We added standalone public transport and population density maps to make the content more digestible and guide the user along the website. Also in line with making the content more digestible we added texts explaining the website goals and features. The score is now calculated based on the number of missing people that the newly added user lines cover. Lastly we added the 3D video of Zürich on the content page and improved and fixed the css styling of most of the components. 
+
 
 ## Q&A
 How to run crawler weekly with CI/CD
@@ -276,7 +280,7 @@ We will evaluate your code every week, based on the corresponding version.Versio
 Tags:
 - Week 1: [Stable Release](https://gitlab.inf.ethz.ch/course-fwe2023/students/project/flask/ecsuka_project_flask/-/tags/stable-week-1)
 - Week 2: [Stable Release](https://gitlab.inf.ethz.ch/course-fwe2023/students/project/flask/ecsuka_project_flask/-/tags/stable-week-2)
-- Week 3: ..
+- Week 3: [Stable Release](https://gitlab.inf.ethz.ch/course-fwe2023/students/project/flask/ecsuka_project_flask/-/tags/stable-week-3)
 - ...
 
 
