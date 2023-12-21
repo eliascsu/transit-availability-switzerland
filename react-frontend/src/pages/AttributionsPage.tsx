@@ -25,26 +25,20 @@ function AttributionsPage() {
                             <li><a href='https://reactrouter.com/en/main'>React Router</a></li>
                         </Col>
                     </Row>
-                    <Row>
+                    <Row id='att_grid'>
+                        <Col id='att_frontend_title'>
                         <h3>Frontend</h3>
-                    </Row>
-                    <Row>
+                        </Col>
+                        <Col id='att_backend_title'>
+                        <h3>Backend</h3>
+                        </Col>
                         <Col id='att_frontend'>
-                            <div id='att_frontend_first'>
                             <li>React framework: <a href='https://ant.design/'>Ant Design</a></li>
                             <li>Interactive Maps with <a href='https://leafletjs.com/'>Leaflet</a></li>
                             <li>Maps with <a href="https://www.thunderforest.com/">Thunderforest©</a></li>
-                            </div>
-                            <div id="att_frontend_sec">
                             <li>Railway overlay with <a href="https://www.openrailwaymap.org/">OpenRailwayMap©</a></li>
                             <li>Data from <a href="https://www.openstreetmap.org/copyright">OpenStreetMap©</a></li>
-                            </div>
                         </Col>
-                    </Row>
-                    <Row>
-                        <h3>Backend</h3>
-                    </Row>
-                    <Row>
                         <Col id='att_backend'>
                         <li> Population and household statistics (STATPOP) from<br/>
                             <a href="https://www.bfs.admin.ch/bfs/de/home/dienstleistungen/geostat/geodaten-bundesstatistik/gebaeude-wohnungen-haushalte-personen/bevoelkerung-haushalte-ab-2010.assetdetail.27065723.html">federal office for statistics (BFS Nr: be-d-00.03-10-STATPOP-v122)</a>
