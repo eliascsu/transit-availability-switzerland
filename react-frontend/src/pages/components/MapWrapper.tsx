@@ -100,7 +100,7 @@ const Map = React.memo(function Map() {
                 // Check if there is a PT stop nearby
                 const [x, y] = proj4(wgs84, lv95, [e.latlng.lng, e.latlng.lat]);
 
-                const url_ident = "https://api3.geo.admin.ch/rest/services/all/MapServer/identify?geometry="+x+","+ y + "&imageDisplay=400,400,96&mapExtent="+ (x-4000)+ "," + (y-4000) + ","+ (x+4000) + "," + (y+4000) +"&geometryFormat=geojson&geometryType=esriGeometryPoint&lang=en&layers=all:ch.bav.haltestellen-oev&limit=10&returnGeometry=true&sr=2056&timeInstant=2021&tolerance=5"
+                const url_ident = "https://api3.geo.admin.ch/rest/services/all/MapServer/identify?geometry="+x+","+ y + "&imageDisplay=400,400,96&mapExtent="+ (x-4000)+ "," + (y-4000) + ","+ (x+4000) + "," + (y+4000) +"&geometryFormat=geojson&geometryType=esriGeometryPoint&lang=en&layers=all:ch.bav.haltestellen-oev&limit=10&returnGeometry=true&sr=2056&timeInstant=2021&tolerance=7"
                 fetch(url_ident).then(response => response.json()).then(data => {
                     if (data.results[0] == undefined)
                         return e.latlng;

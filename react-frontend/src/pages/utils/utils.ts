@@ -71,7 +71,7 @@ function createHeatMap(data: PopulationArray, unserved: boolean) {
     }
     if (data != undefined) {
         for (let row of data) {
-            heatArray.push([parseFloat(row.lat), parseFloat(row.lng), parseFloat(row.intensity)] as HeatLatLngTuple);
+            heatArray.push([parseFloat(row.lat), parseFloat(row.lng), parseFloat(row.intensity)*2.25] as HeatLatLngTuple);
         }
     }
     return heatArray;
