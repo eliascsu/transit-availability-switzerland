@@ -105,7 +105,7 @@ crawler:
     - python3 crawler/main.py
     - git add --all
     - git commit -am "crawler"
-    - git push https://ecsuka:${miau}@gitlab.inf.ethz.ch/course-fwe2023/students/project/flask/ecsuka_project_flask HEAD:master --quiet
+    - git push https://ecsuka:${miau}@gitlab.inf.ethz.ch/course-fwe2023/students/project/flask/ecsuka_project_flask HEAD:main
 
   only:
     - schedules
