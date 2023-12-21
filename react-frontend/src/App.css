@@ -2,8 +2,7 @@
 
 /* Root */
 
-@media (prefers-color-scheme: dark) {
-  :root {
+#dark {
     --highlighted-text-color: #80ED99;
     --paragraph-text-color: #DDCFBE;
     --topic: #122640;
@@ -15,11 +14,10 @@
     --bg-color: #021430;
     --border: #021430;
     --invert: white;
-  }
+    --invert-filter: 1;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
+#light {
     --highlighted-text-color: #2C9165;
     --paragraph-text-color: black;
     --topic: #122640;
@@ -31,8 +29,9 @@
     --bg-color: #f7f7f7;
     --border: black;
     --invert: black;
+    --invert-filter: 0;
   }
-}
+
 
 /* Classes */
 .highlightedText {

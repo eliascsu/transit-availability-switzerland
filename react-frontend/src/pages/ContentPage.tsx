@@ -1,5 +1,5 @@
-import React, { useEffect, useRef} from "react";
-import { Layout, Row } from "antd";
+import React, { useContext, useEffect, useRef} from "react";
+import { Layout, Row, Switch } from "antd";
 import { Content, Footer } from "antd/es/layout/layout";
 import { Link } from "react-router-dom";
 import Zuerich from "./zuerich.mp4";
@@ -8,6 +8,7 @@ import { Legend, MapWrapper, CheckBoxes, PointControlBox, PopulationHeatmap, PtM
 import "./css/bundle.css";
 import { BeatLoader } from "react-spinners";
 import { useLoadingContext } from "./ctx/LoadingContext";
+import { ThemeContext } from "../App";
 
 
 const handleContextMenu: React.MouseEventHandler<HTMLVideoElement> = (event) => {
@@ -47,6 +48,8 @@ export default function ContentPage() {
 
     const { allLoaded } = useLoadingContext();
 
+    const context = useContext(ThemeContext);
+
     return (
         <Layout className="layout" id="contentPage">
             <Content className="content" id="mapContent">
@@ -65,8 +68,9 @@ export default function ContentPage() {
                     <a id="skipButton">
                         <ScrollToBottom/>
                     </a>
+                    <Switch onChange={context[1]} checked={context[0] === "dark"} id="switch"></Switch>
                     <Link id="attributionLink2" to="/attributions">
-                        <img id="homeImg" src={back_chevron}/>
+                        <img className="homeImg" src={back_chevron}/>
                         <h1>ATTRIBUTIONS</h1>
                     </Link>
                     </div>
