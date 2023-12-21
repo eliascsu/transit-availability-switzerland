@@ -1,47 +1,13 @@
 /* CSS Classes and IDs strictly used on the attributions page */
 
 /* IDs */
-#att_backend {
-    li {
-        padding: 15px;
-        font-size: 1.25vw;
-    }
-    li:first-child{
-        margin-right: 4.5vw;
-    }
-}
-
-#att_frontend {
-    margin-bottom: 8vh;
-    display: block;
-}
-
-#att_frontend_first {
+#attributions {
     display: flex;
-    justify-content: space-around;
-    li{
-        padding: 30px;
-        font-size: 1.25vw;
-    }
-}
-
-#att_frontend_sec {
-    display: flex;
-    justify-content: space-around;
-    li{
-        padding: 30px;
-        font-size: 1.25vw;
-    }
-}
-
-#att_general {
-    margin-bottom: 8vh;
-    li {
-        padding:15px;
-        font-size: 1.25vw;
-    }
-    li:first-child{
-        margin-right: 1vw;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    h3 {
+        color: var(--attributions) !important;
     }
 }
 
@@ -51,15 +17,56 @@
     margin-bottom: 0;
 }
 
-#attributions {
-    padding-top: 50px;
+#att_general {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    h3 {
-        color: hsl(205, 18%, 86%);
+    margin-bottom: 7vh;
+}
+
+#att_grid {
+    width: 100vw;
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 4fr;
+    grid-template-areas:
+        "front_title back_title"
+        "frontend backend"
+    ;
+}
+
+#att_frontend {
+    grid-area: frontend;
+    display: flex;
+    flex-direction: column;
+        margin-left: 17vw;
+    li {
+        padding:15px;
+        font-size: 1.25vw;
     }
+}
+ 
+#att_backend {
+    grid-area: backend;
+    display: flex;
+    flex-direction: column;
+    margin-left: 5vw;
+    li {
+        padding:15px;
+        font-size: 1.25vw;
+    }
+}
+
+#att_frontend_title{
+    grid-area: front_title;
+    margin-top: 5vh;
+    margin-left: 23vw;
+}
+
+#att_backend_title{
+    grid-area: back_title;
+    margin-top: 5vh;
+    margin-left: 18vw;
 }
 
 #attributionsPage {
@@ -71,8 +78,28 @@
 
 #underline {
     border: none;
-    background-color: white;
+    background-color: var(--bg-color-underline);
     height: 3px;
     width: 100vw;
-    margin-bottom: 1rem;
+    margin-bottom: 3rem;
 }
+
+#react_logo{
+    height: 5vh;
+}
+
+#react_router_logo{
+    height: 5vh;
+    margin-left: 6vw;
+}
+
+#react_link{
+    font-size: 4vh;
+    margin-left: 1vw;
+}
+
+#react_router_link{
+    font-size: 4vh;
+    margin-left: 1vw;
+}
+

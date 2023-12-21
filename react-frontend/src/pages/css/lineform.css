@@ -4,7 +4,7 @@
 
 .ant-btn {
     margin: 0;
-    background-color: #49BFC1 !important;
+    background-color: var(--util2) !important;
     box-shadow: none !important;
     align-self: center;
 }
@@ -20,14 +20,14 @@
 .ant-collapse-header {
     height: 3rem;
     border: none !important;
-    background-color: #49BFC1 !important;
-    border-color: #49BFC1 !important;
+    background-color: var(--util2) !important;
+    border-color: var(--util2) !important;
     box-shadow: none !important;
     border-radius: 8px 8px 8px 8px !important;
 
     .ant-collapse-header-text {
         font-weight: 600;
-        color:#021430;
+        color:var(--bg-color);
     }
 }
 
@@ -36,12 +36,12 @@
 }
 
 .ant-collapse { 
-    border-color: #021430;
-    background-color:#021430;
+    border-color: var(--bg-color);
+    background-color:var(--bg-color);
 }
 .ant-collapse-item {
-    border-color:  #021430;
-    background-color: #021430;
+    border-color:  var(--bg-color);
+    background-color: var(--bg-color);
     height: 12rem;
     border: 0 !important;
 
@@ -54,7 +54,7 @@
 
 .ant-collapse-content_ant-collapse-content-active {
     border: none;
-    background-color:  #021430;
+    background-color:  var(--bg-color);
 }
 
 .ant-form-item-control-input-content {
