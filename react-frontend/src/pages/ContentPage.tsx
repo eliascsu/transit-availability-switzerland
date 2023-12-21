@@ -7,6 +7,7 @@ import back_chevron from "../svg/back_chevron.svg";
 import { Legend, MapWrapper, CheckBoxes, PointControlBox, PopulationHeatmap, PtMap, PtMap_desc, HeatMap_desc, CustomDesc, ScrollToBottom, ScrollToTop } from "./components";
 import "./css/bundle.css";
 import { BeatLoader } from "react-spinners";
+import { useLoadingContext } from "./ctx/LoadingContext";
 
 
 const handleContextMenu: React.MouseEventHandler<HTMLVideoElement> = (event) => {
@@ -50,11 +51,13 @@ export default function ContentPage() {
         return () => clearInterval(timerID);
       });
 
+    const { allLoaded } = useLoadingContext();
+
     return (
         <Layout className="layout" id="contentPage">
             <Content className="content" id="mapContent">
                 <div id="loading">
-                    <BeatLoader size={50} loading={loadingState} color="white"/>
+                    <BeatLoader size={35} loading={!allLoaded} color="white"/>
                 </div>
                 <Row id="titlePage">
                     <div id="video-container">

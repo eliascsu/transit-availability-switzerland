@@ -5,6 +5,7 @@ import { useLayerContext } from "../ctx/LayerContext";
 import { Score } from "./Score";
 import { useSwissTopoContext } from "../ctx/Swisstopo";
 import { useEffect, useState } from "react";
+import { useLoadingContext } from "../ctx/LoadingContext";
 
 export function CheckBoxes() {
     const {
@@ -13,6 +14,8 @@ export function CheckBoxes() {
         linesFromFormState, setLinesFromFormState,
         drawingState, setDrawingState
     } = useLayerContext();
+
+    const { allLoaded } = useLoadingContext();
 
     const CheckboxGroup = Checkbox.Group;
     const options = ['PublicTransport', 'PopulationDensity', 'PopulationUnserved'];
@@ -23,6 +26,7 @@ export function CheckBoxes() {
     const populationUnserved = (element: CheckboxValueType) => element == 'PopulationUnserved';
 
     const onChange = (list: CheckboxValueType[]) => {
+        if (allLoaded) {
         setCheckboxValues(list);
         if (list.some(publicTransport)) {
             layers.transportLayer = true;
@@ -41,6 +45,7 @@ export function CheckBoxes() {
         }
         setVisibleLayersState(layers);
         console.log(layers);
+    }
   };
 
     return (
@@ -59,15 +64,10 @@ export function CheckBoxes() {
 
 export function SwisstopoCheckbox() {
     const {useSwissTopoMap, setSwissTopoMap} = useSwissTopoContext()
-    const [loadingDelay, setLoadingDelay] = useState<boolean>(true);
-    useEffect(() => {
-        var timerID = setInterval(() => setLoadingDelay(false), 7000);
-        return () => clearInterval(timerID);
-      });
+    const {loadHeatmap} = useLoadingContext();
     return (
         <div id="swisstopoCheckbox">
-            <Checkbox disabled={loadingDelay} checked={useSwissTopoMap} onChange={() => setSwissTopoMap(!useSwissTopoMap)}>{useSwissTopoMap ? <p>Switch to heatmap</p> : <p>Switch to SwissTopo layer</p>}</Checkbox>
-
+            <Checkbox disabled={!loadHeatmap} checked={useSwissTopoMap} onChange={() => setSwissTopoMap(!useSwissTopoMap)}>{useSwissTopoMap ? <p>Switch to heatmap</p> : <p>Switch to SwissTopo layer</p>}</Checkbox>
         </div>
     )
 }

@@ -6,15 +6,18 @@ import reportWebVitals from './reportWebVitals';
 import { LayerProvider } from './pages/ctx/LayerContext'
 import { StProvider } from './pages/ctx/Swisstopo'
 import { HeatmapProvider } from './pages/ctx/Swisstopo';
+import { LoadingProvider } from './pages/ctx/LoadingContext';
 
 ReactDOM.render(
   <React.StrictMode>
     <LayerProvider>
+      <LoadingProvider>
       <HeatmapProvider>
       <StProvider>
       <App />
       </StProvider>
       </HeatmapProvider>
+      </LoadingProvider>
     </LayerProvider>
   </React.StrictMode>,
   document.getElementById('root')

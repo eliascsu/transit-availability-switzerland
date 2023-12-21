@@ -14,6 +14,7 @@ import { addPointToLine } from '../utils/utils';
 
 import '../pages.css';
 import proj4 from 'proj4';
+import { useLoadingContext } from '../ctx/LoadingContext';
 
 
 const wgs84 = "EPSG:4326"
@@ -43,6 +44,8 @@ const Map = React.memo(function Map() {
     const populationHeatMapCache = useRef<L.HeatLayer>();
     const populationUnservedHeatMapCache = useRef<L.HeatLayer>();
 
+    const {setLoadHeatmap, setLoadPtMap, setLoadUnservedMap} = useLoadingContext();
+
     // Populate caches
     useEffect(() => {
         getPopulationDensity().then(popArray => {
@@ -50,17 +53,20 @@ const Map = React.memo(function Map() {
                 let heatArray = createHeatMap(popArray);
                 populationHeatMapCache.current = L.heatLayer(heatArray, {radius: 15, max: 1});
             }
+            setLoadHeatmap(true);
         });
         getPopulationUnserved().then(popArray => {
             if(popArray != undefined){
                 let heatArray = createHeatMap(popArray);
                 populationUnservedHeatMapCache.current = L.heatLayer(heatArray, {radius: 15, max: 1});
             }
+            setLoadUnservedMap(true);
         })
         getPTData().then(data => {
             if(data != undefined){
                 geoJsonCache.current = makePTCirclesFromData(data);
             }
+            setLoadPtMap(true);
         })
     }, [])
 
@@ -137,10 +143,6 @@ const Map = React.memo(function Map() {
     useEffect(() => {
         pt_stops_layer.current?.addTo(map);
     },[])
-
-    useEffect(() => {
-        
-    }, [updatePT, userLinesRef])
 
     useEffect(() => {
         if (visibleLayersState.popLayer){
