@@ -1,8 +1,8 @@
 stages:
   - lint
+  - crawler
   - build
   - deploy
-  - crawler
 
 workflow:
   rules:
