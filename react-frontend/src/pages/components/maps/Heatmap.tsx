@@ -8,7 +8,7 @@ import { useHeatmapContext, useSwissTopoContext } from "../../ctx/Swisstopo";
 import { useEffect, useRef, useState, useReducer } from "react";
 import "leaflet.heat";
 import proj4 from "proj4";
-import {SwisstopoCheckbox } from "../Checkboxes";
+import {SwisstopoButton } from "../Checkboxes";
 import React from "react"
 
 
@@ -151,8 +151,8 @@ function PopDescription() {
 function CheckboxDisplay() {
     return (
         <div id="swissTopoCheckboxDiv">
-            <p>This checkbox allows you to switch between two different population density maps - one provided by SwissTopo (default) and another custom map designed to highlight population hotspots with an exponential grading scale</p>
-            <SwisstopoCheckbox/>
+            <p id="buttonText">This checkbox allows you to switch between two different population density maps - one provided by SwissTopo (default) and another custom map designed to highlight population hotspots with an exponential grading scale</p>
+            <SwisstopoButton/>
         </div>
     )
 }

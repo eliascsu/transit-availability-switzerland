@@ -8,7 +8,7 @@ export function Score() {
     
     return (
         <div id="info_text">
-            <h2>{score} people now served</h2>
+            <h2>{score} new people served</h2>
         </div>
     );
 }

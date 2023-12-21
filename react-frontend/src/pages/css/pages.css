@@ -34,7 +34,7 @@
 }
 
 .layout {
-    background-color: var(--bg-color);
+    background-color: var(---color);
     height: 100vh;
     padding: 0;
     margin: 0 !important;

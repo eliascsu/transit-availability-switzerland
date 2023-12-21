@@ -1,4 +1,4 @@
-import { Checkbox } from "antd";
+import { Checkbox, Button } from "antd";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
 import { LayerVisibility } from "../../types/data";
 import { useLayerContext } from "../ctx/LayerContext";
@@ -51,23 +51,24 @@ export function CheckBoxes() {
     return (
         <div id="checkBoxes">
           <Score/>
-          <p>Population Density Map: Highlights population hotspots.
-                Public Transport Connection Quality Map: Shows public transport connectivity.
-                Limited Public Transport Access Map: Marks areas with poor public transport access.
-                Toggle these maps for targeted insights.
-            </p>
-          <CheckboxGroup options={options} value={checkboxValues} onChange={onChange}/>
+          <CheckboxGroup className="interactive_checkbox" options={options} value={checkboxValues} onChange={onChange}/>
+          <div id="interactive_text">
+            <p>Public Transport Connection Quality Map:<br/> Shows public transport connectivity.</p>
+            <p>Population Density Map:<br/> Highlights population hotspots.</p>
+            <p>Limited Public Transport Access Map:<br/> Marks areas with poor public transport access.</p>
+            </div>
         </div>
       );
 }
 
 
-export function SwisstopoCheckbox() {
+export function SwisstopoButton() {
     const {useSwissTopoMap, setSwissTopoMap} = useSwissTopoContext()
     const {loadHeatmap} = useLoadingContext();
+
     return (
-        <div id="swisstopoCheckbox">
-            <Checkbox disabled={!loadHeatmap} checked={useSwissTopoMap} onChange={() => setSwissTopoMap(!useSwissTopoMap)}>{useSwissTopoMap ? <p>Switch to heatmap</p> : <p>Switch to SwissTopo layer</p>}</Checkbox>
+        <div id="swisstopButton">
+            <Button disabled={!loadHeatmap} onClick={() => setSwissTopoMap(!useSwissTopoMap)}>{useSwissTopoMap ? <p>Switch to heatmap</p> : <p>Switch to SwissTopo layer</p>}</Button>
         </div>
     )
 }
