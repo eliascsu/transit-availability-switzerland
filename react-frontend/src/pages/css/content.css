@@ -25,9 +25,10 @@
 #attributionLink2 {
     display: flex;
     flex-direction: row;
+    align-items: center;
     position: absolute;
     top: 3rem !important;
-    right: 3rem !important;
+    left: 3rem !important;
     h1 {
         color: var(--util) !important;
         margin: 0;
@@ -38,13 +39,29 @@
     height: 625vh;
 }
 
-#contentTitle {
+.contentTitle {
     position:absolute;
-    font-size: 150px;
-    color:var(--util) !important;
+    font-size: 8rem;
+    color: var(--util) !important;
     z-index: 100;
     text-shadow: -1px 0 var(--shadow), 0 1px var(--shadow), 1px 0 var(--shadow), 0 -1px var(--shadow);
     filter: drop-shadow(5px 5px 15px var(--shadow));
+}
+
+#first_title {
+    top: 20vh;
+    left:25vw;
+}
+
+#second_title {
+    top: 35vh;
+    left: 40vw;
+    color: #81C784 !important;
+}
+
+#third_title{
+    top: 50vh;
+    left: 30vw;
 }
 
 #custom-map-description {
@@ -171,8 +188,8 @@
 
 #loading {
     position:sticky;
-    top: 8rem;
-    padding-left: 85vw;
+    top: 5rem;
+    padding-left: 88vw;
     height: 0;
     z-index: 1000;
 }
@@ -328,7 +345,7 @@
 }
 
 #titlePage {
-    color: var(--util);
+    color: antiquewhite;
     height: 100vh;
     display: grid;
 }
@@ -341,13 +358,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: #021430;
 }
 
 #zurichVideo {
     position:relative;
     height: 100vh;
     width: 100%;
-    opacity: 0.7;
+    opacity: 0.6;
     object-fit: cover;
 }
 

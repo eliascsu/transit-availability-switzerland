@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef} from "react";
 import { Layout, Row } from "antd";
 import { Content, Footer } from "antd/es/layout/layout";
 import { Link } from "react-router-dom";
@@ -16,7 +16,6 @@ const handleContextMenu: React.MouseEventHandler<HTMLVideoElement> = (event) => 
 
 export default function ContentPage() {
     const videoRef = useRef<HTMLVideoElement>(null);
-    const [loadingState, setLoadingState] = useState<boolean>(true);
     useEffect(() => {
         const observer = new IntersectionObserver(
             ([entry]) => {
@@ -46,11 +45,6 @@ export default function ContentPage() {
         };
     }, []);
 
-    useEffect(() => {
-        var timerID = setInterval(() => setLoadingState(false), 7000);
-        return () => clearInterval(timerID);
-      });
-
     const { allLoaded } = useLoadingContext();
 
     return (
@@ -65,11 +59,9 @@ export default function ContentPage() {
                         <source src={Zuerich} type="video/mp4" />
                         Your browser does not support the video tag.
                     </video>
-                    <h1 id="contentTitle">Switzerland</h1>
-                    <Link to="/" className="homeButton">
-                        <img className="homeImg" src={back_chevron}/>
-                        <h1>HOME</h1>
-                    </Link>
+                    <h1 className="contentTitle" id="first_title">Transit</h1>
+                    <h1 className="contentTitle" id="second_title">Availability</h1>
+                    <h1 className="contentTitle" id="third_title">Switzerland</h1>
                     <a id="skipButton">
                         <ScrollToBottom/>
                     </a>
