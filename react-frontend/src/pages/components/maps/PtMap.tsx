@@ -133,6 +133,8 @@ function InfoBox() {
             This map visually represents the quality of public transport connections throughout Switzerland.
             It displays data on train, bus, and tram connectivity and coverage. Key transport hubs are emphasized, and areas with less frequent or reliable service are identified.
             It offes a clear overview of the Swiss public transport network's quality and accessibility.
+            <br/><br/>
+            Click on a Stop to display the next departures
         </p>
     )
 }

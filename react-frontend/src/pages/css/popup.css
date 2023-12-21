@@ -2,32 +2,44 @@
 
 /* Classes */
 .custom-popup .leaflet-popup-content-wrapper {
-    background: white;
-  }
+  background: white !important;
+}
 
-  .custom-popup .leaflet-popup-content {
-    border-radius: 8px 8px 8px 8px;
-  }
+.custom-popup .leaflet-popup-content {
+  border-radius: 8px 8px 8px 8px;
 
-  .custom-popup .leaflet-popup-content-wrapper a {
-    color: #021430;
-    font-size: small;
-    border: none !important;
-    justify-content: end;
-  }
+}
 
-  .custom-popup a:last-child {
-    border: 0px !important;
-  }
+.leaflet-container div {
+  height: auto !important;
 
-  .custom-popup .leaflet-popup-content-wrapper td {
-    color: white;
-    border: none !important;
-  }
+}
 
-  .custom-popup .leaflet-popup-tip {
-    background-color: white;
-  }
+.custom-popup .leaflet-popup-content-wrapper a {
+  color: #021430;
+  font-size: small;
+  border: none !important;
+  justify-content: end;
+}
+
+.custom-popup a:last-child {
+  border: 0px !important;
+}
+
+.custom-popup .leaflet-popup-content-wrapper td {
+  color: white;
+  border: none !important;
+}
+
+.leaflet-popup-tip-container .leaflet-popup-tip {
+  height: 17px !important;
+  width: 17px !important;
+  background-color: white !important;
+}
+
+.custom-popup .leaflet-popup-tip-container {
+  height: 20px !important;
+}
 
 .htmlpopup-header {
     color: antiquewhite;
@@ -48,12 +60,12 @@
 }
 
 /* IDs */
-#legendTitel {
-    color: #DDCFBE;
-    margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
-    text-align: center;
-    border-bottom: #DDCFBE 1px solid;
+#legendTitle {
+  color: #DDCFBE;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  text-align: center;
+  border-bottom: #DDCFBE 1px solid;
 }
 
 #legendList {
