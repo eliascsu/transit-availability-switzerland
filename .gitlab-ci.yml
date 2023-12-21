@@ -100,8 +100,9 @@ crawler:
   script:
     - pip3 install -r crawler/requirements.txt
     - python3 crawler/main.py
+    - git add --all
     - git commit -am "crawler"
-    - git push origin HEAD:master
+    - git push origin HEAD:master --quiet
 
   only:
     - schedules
