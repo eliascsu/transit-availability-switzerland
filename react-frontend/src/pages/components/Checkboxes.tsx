@@ -1,4 +1,4 @@
-import { Checkbox } from "antd";
+import { Checkbox, Button } from "antd";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
 import { LayerVisibility } from "../../types/data";
 import { useLayerContext } from "../ctx/LayerContext";
@@ -65,9 +65,10 @@ export function CheckBoxes() {
 export function SwisstopoCheckbox() {
     const {useSwissTopoMap, setSwissTopoMap} = useSwissTopoContext()
     const {loadHeatmap} = useLoadingContext();
+
     return (
         <div id="swisstopoCheckbox">
-            <Checkbox disabled={!loadHeatmap} checked={useSwissTopoMap} onChange={() => setSwissTopoMap(!useSwissTopoMap)}>{useSwissTopoMap ? <p>Switch to heatmap</p> : <p>Switch to SwissTopo layer</p>}</Checkbox>
+            <Button disabled={!loadHeatmap} onClick={() => setSwissTopoMap(!useSwissTopoMap)}>{useSwissTopoMap ? <p>Switch to heatmap</p> : <p>Switch to SwissTopo layer</p>}</Button>
         </div>
     )
 }
