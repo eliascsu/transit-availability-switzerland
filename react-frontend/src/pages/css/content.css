@@ -29,7 +29,7 @@
     top: 3rem !important;
     right: 3rem !important;
     h1 {
-        color: antiquewhite !important;
+        color: var(--util) !important;
         margin: 0;
     }
 }
@@ -41,10 +41,10 @@
 #contentTitle {
     position:absolute;
     font-size: 150px;
-    color:antiquewhite !important;
+    color:var(--util) !important;
     z-index: 100;
-    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-    filter: drop-shadow(5px 5px 15px black);
+    text-shadow: -1px 0 var(--shadow), 0 1px var(--shadow), 1px 0 var(--shadow), 0 -1px var(--shadow);
+    filter: drop-shadow(5px 5px 15px var(--shadow));
 }
 
 #custom-map-description {
@@ -75,14 +75,14 @@
 
     #info1 {
         grid-area: info1;
-        color: antiquewhite;
+        color: var(--util);
         align-self: start;
         text-align: center;
     }
 
     #info2 {
         grid-area: info2;
-        color: antiquewhite;
+        color: var(--util);
         text-align: center;
         align-self: start;
     }
@@ -109,7 +109,7 @@
 
     #info1 {
         grid-area: info1;
-        color: antiquewhite;
+        color: var(--util);
         align-self: start;
         text-align: center;
     }
@@ -122,7 +122,7 @@
 
     #info2 {
         grid-area: info2;
-        color: antiquewhite;
+        color: var(--util);
         text-align: center;
         align-self: start;
     }
@@ -164,9 +164,17 @@
 
     #lineForm {
         grid-area: form;
-        background-color: #021430;
+        background-color: var(--bg-color);
         height: 10rem;
     }
+}
+
+#loading {
+    position:sticky;
+    top: 8rem;
+    padding-left: 85vw;
+    height: 0;
+    z-index: 1000;
 }
 
 #population-map {
@@ -201,7 +209,7 @@
         }
 
         p {
-            border: antiquewhite 1px solid;
+            border: var(--util) 1px solid;
             border-radius: 8px 8px 8px 8px;
             padding: 0.5rem;
             align-self: center;
@@ -294,14 +302,14 @@
 
     #info1 {
         grid-area: info1;
-        color: antiquewhite;
+        color: var(--util);
         align-self: start;
         text-align: center;
     }
 
     #info2 {
         grid-area: info2;
-        color: antiquewhite;
+        color: var(--util);
         text-align: center;
         align-self: start;
     }
@@ -314,13 +322,13 @@
     bottom: 3rem !important;
     right: 3rem !important;
     h1 {
-        color: antiquewhite !important;
+        color: var(--util) !important;
         margin: 0;
     }
 }
 
 #titlePage {
-    color: antiquewhite;
+    color: var(--util);
     height: 100vh;
     display: grid;
 }

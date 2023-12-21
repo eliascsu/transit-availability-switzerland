@@ -3,12 +3,12 @@
 /* Classes */
 .chbfsvolkszaehlung-bevoelkerungsstatistik_einwohner {
     font-size: 1rem;
-    color: antiquewhite;
-    border: antiquewhite 1px solid;
+    color: var(--util);
+    border: var(--util) 1px solid;
 
     .htmlpopup-header {
         display: flex;
-        border-bottom: antiquewhite 1px solid;
+        border-bottom: var(--util) 1px solid;
         justify-content: center;
     }
 

@@ -78,7 +78,7 @@
 
 #underline {
     border: none;
-    background-color: white;
+    background-color: var(--bg-color-underline);
     height: 3px;
     width: 100vw;
     margin-bottom: 3rem;

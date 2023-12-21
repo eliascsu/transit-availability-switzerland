@@ -1,33 +1,63 @@
 /* Text stylings used across all pages */
 
+/* Root */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --highlighted-text-color: #80ED99;
+    --paragraph-text-color: #DDCFBE;
+    --topic: #122640;
+    --util: antiquewhite;
+    --util2: #49BFC1;
+    --attributions: hsl(205, 18%, 86%);
+    --bg-color-underline: white;
+    --shadow: black;
+    --bg-color: #021430;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --highlighted-text-color: #C1F6CD;
+    --paragraph-text-color: #DDCFBE;
+    --topic: #122640;
+    --util: antiquewhite;
+    --util2: #A4DFE0;
+    --attributions: hsl(205, 18%, 86%);
+    --bg-color-underline: white;
+    --shadow: black;
+    --bg-color: #2374F6;
+  }
+}
+
 /* Classes */
 .highlightedText {
   margin: 0;
   display: block;
-  color: #80ED99 !important;
+  color: var(--highlighted-text-color) !important;
 }
 
 p {
-  color: #DDCFBE !important;
+  color: var(--paragraph-text-color) !important;
 }
 
 td {
-  color: antiquewhite !important;
+  color: var(--util) !important;
 }
 
 h2 {
-  color: antiquewhite !important;
+  color: var(--util) !important;
   display: flex;
   text-align: center;
 }
 
 li {
-  color: antiquewhite;
+  color: var(--util) !important;
 }
 
 /* IDs */
 #topic {
-  color: #122640;
+  color: var(--topic) !important;
   font-size: 1.5rem;
   font-weight: 700;
 }
