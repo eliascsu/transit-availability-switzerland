@@ -13,6 +13,8 @@
     --bg-color-underline: white;
     --shadow: black;
     --bg-color: #021430;
+    --border: #021430;
+    --invert: red;
   }
 }
 
@@ -27,6 +29,8 @@
     --bg-color-underline: white;
     --shadow: black;
     --bg-color: #f7f7f7;
+    --border: black;
+    --invert: black;
   }
 }
 
