@@ -66,13 +66,13 @@ Generated with `tree --gitignore`
 .
 ├── backend-project
 │   ├── data
-│   │   ├── Population.csv -> Population for each ha. Created by crawler/main.py
-│   │   ├── pt-stops.geojson -> Public transit stops and quality. Created by crawler/main.py
-│   │   ├── UnservedPopulation.csv -> Population not served by PT for each ha. Created by crawler/main.py
-│   │   └── user-pt-stops.geojson -> User created PT stops. Created by backend-server
+│   │   ├── Population-2.csv
+│   │   ├── Population.csv
+│   │   ├── pt-stops.geojson
+│   │   └── UnservedPopulation.csv
 │   ├── Dockerfile
 │   ├── docs
-│   │   └── API.md -> Documentation of the API
+│   │   └── API.md
 │   ├── MANIFEST.in
 │   ├── package.json
 │   ├── package-lock.json
@@ -92,12 +92,14 @@ Generated with `tree --gitignore`
 │       │   ├── __pycache__
 │       │   ├── resources
 │       │   │   ├── datasets
+│       │   │   │   ├── __init__.py
 │       │   │   │   ├── PopulationHeatmap.py
 │       │   │   │   ├── pt_stops_are.py
 │       │   │   │   └── __pycache__
 │       │   │   ├── __init__.py
 │       │   │   ├── __pycache__
 │       │   │   └── user
+│       │   │       ├── __init__.py
 │       │   │       ├── pt_stops.py
 │       │   │       └── __pycache__
 │       │   └── router
@@ -112,7 +114,6 @@ Generated with `tree --gitignore`
 │           ├── requires.txt
 │           ├── SOURCES.txt
 │           └── top_level.txt
-├── census.py
 ├── crawler
 │   ├── calc_coverage.py
 │   ├── constants.py
@@ -121,7 +122,11 @@ Generated with `tree --gitignore`
 │   ├── heatmap.py
 │   ├── main.py
 │   ├── __pycache__
+│   ├── requirements.txt
+│   ├── Score_implementation.md
 │   └── utils.py
+├── geojson
+│   └── myAgency
 ├── helm
 │   ├── charts
 │   ├── Chart.yaml
@@ -131,17 +136,20 @@ Generated with `tree --gitignore`
 │   │   ├── ingress.yaml
 │   │   └── service.yaml
 │   └── values.yaml
-├── OeV_Haltestellen_ARE.geojson
 ├── react-frontend
 │   ├── Dockerfile
 │   ├── package.json
 │   ├── package-lock.json
 │   ├── public
 │   │   ├── favicon.ico
+│   │   ├── favicon_old.ico
 │   │   ├── index.html
 │   │   ├── logo192.png
 │   │   ├── logo512.png
 │   │   ├── manifest.json
+│   │   ├── metro_map.svg
+│   │   ├── modified_colored_metro_map1.svg
+│   │   ├── modified_colored_metro_map.svg
 │   │   ├── OeV_Haltestellen_ARE.csv
 │   │   ├── OeV_Haltestellen_ARE.geojson
 │   │   └── robots.txt
@@ -154,11 +162,49 @@ Generated with `tree --gitignore`
 │   │   ├── index.tsx
 │   │   ├── logo.svg
 │   │   ├── pages
+│   │   │   ├── AttributionsPage.tsx
+│   │   │   ├── components
+│   │   │   │   ├── Checkboxes.tsx
+│   │   │   │   ├── DarkLightButton.tsx
+│   │   │   │   ├── descriptions
+│   │   │   │   │   ├── CustomDesc.tsx
+│   │   │   │   │   ├── HeatMap_desc.tsx
+│   │   │   │   │   └── PtMap_desc.tsx
+│   │   │   │   ├── FormComponent.tsx
+│   │   │   │   ├── index.tsx
+│   │   │   │   ├── layers
+│   │   │   │   ├── legend.tsx
+│   │   │   │   ├── maps
+│   │   │   │   │   ├── Heatmap.tsx
+│   │   │   │   │   └── PtMap.tsx
+│   │   │   │   ├── MapWrapper.tsx
+│   │   │   │   ├── PointControlBox.tsx
+│   │   │   │   ├── Score.tsx
+│   │   │   │   └── ScrollToButton.tsx
 │   │   │   ├── ContentPage.tsx
+│   │   │   ├── css
+│   │   │   │   ├── attributions.css
+│   │   │   │   ├── bundle.css
+│   │   │   │   ├── content.css
+│   │   │   │   ├── landing.css
+│   │   │   │   ├── leaflet.css
+│   │   │   │   ├── lineform.css
+│   │   │   │   ├── pages.css
+│   │   │   │   └── popup.css
+│   │   │   ├── ctx
+│   │   │   │   ├── LayerContext.tsx
+│   │   │   │   ├── LoadingContext.tsx
+│   │   │   │   └── Swisstopo.tsx
+│   │   │   ├── help.d.ts
 │   │   │   ├── LandingPage.tsx
-│   │   │   ├── pages.css
-│   │   │   └── utils
-│   │   │       └── strings.tsx
+│   │   │   ├── react_logo.png
+│   │   │   ├── react_router.svg
+│   │   │   ├── utils
+│   │   │   │   ├── colors.ts
+│   │   │   │   ├── qual_layers.ts
+│   │   │   │   ├── strings.tsx
+│   │   │   │   └── utils.ts
+│   │   │   └── zuerich.mp4
 │   │   ├── react-app-env.d.ts
 │   │   ├── reportWebVitals.ts
 │   │   ├── router
@@ -166,6 +212,14 @@ Generated with `tree --gitignore`
 │   │   │   └── resources
 │   │   │       └── data.ts
 │   │   ├── setupTests.ts
+│   │   ├── svg
+│   │   │   ├── back_chevron.svg
+│   │   │   ├── double_down_chevron.svg
+│   │   │   ├── double_up_chevron.svg
+│   │   │   ├── front_chevron.svg
+│   │   │   ├── info_icon.svg
+│   │   │   ├── moon_outline_icon.svg
+│   │   │   └── sun_icon.svg
 │   │   └── types
 │   │       ├── data.ts
 │   │       └── margin.ts

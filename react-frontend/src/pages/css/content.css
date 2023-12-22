@@ -205,10 +205,9 @@
         grid-area: checkboxes;
         display: flex;
         flex-direction: column;
-        justify-content: space-around;
 
         span{
-            margin-bottom: 3.5vh;
+            margin-bottom: 3vh;
         }
     }
 
@@ -219,13 +218,14 @@
 
         p {
             font-size: medium;
+            margin-bottom: 5vh;
         }
     }
 
     #checkBoxes {
         display: grid;
         grid-template-rows: 1fr 3fr;
-        grid-template-columns: 1fr 5fr;
+        grid-template-columns: 1fr 2fr;
         grid-template-areas:
             "score   score"
             "checkboxes   description";
