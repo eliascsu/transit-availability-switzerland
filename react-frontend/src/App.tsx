@@ -5,7 +5,7 @@ import '@picocss/pico';
 import AttributionsPage from "./pages/AttributionsPage";
 import "./App.css";
 import { MathJaxContext } from "better-react-mathjax";
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 type ThemeContextType = [string, () => void];
 
@@ -30,6 +30,7 @@ function reveal() {
 window.addEventListener("scroll", reveal);
 
 function App() {
+
   let mediaQueryObj = window.matchMedia('(prefers-color-scheme: dark)');
   let isDarkMode = mediaQueryObj.matches;
 

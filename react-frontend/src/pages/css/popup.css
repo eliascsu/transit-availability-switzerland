@@ -61,11 +61,11 @@
 
 /* IDs */
 #legendTitle {
-  color: var(--util);
+  color: var(--paragraph-text-color);
   margin-bottom: 1rem;
   padding-bottom: 0.5rem;
   text-align: center;
-  border-bottom: var(--util) 1px solid;
+  border-bottom: var(--paragraph-text-color) 1px solid;
 }
 
 #legendList {
