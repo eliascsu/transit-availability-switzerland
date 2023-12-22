@@ -11,7 +11,7 @@
 
 ## Project Description 
 
-### Transit Availability in Urban and Suburban Areas
+### Transit Availability in Switzerland
 
 The goal of this project is to provide an application to display urban mobility data in contrast to population density. The issue consists of possible unequal access to mobility for some people living in urban and suburban areas. The application will visualize this, using OGD provided by the city of Zurich, with the possibility of extending the functionality for other urban areas. We do this by showing a map of the city, and overlaying a heatmap of the population over said area. Then, transit lines are added to the map, to visualize them. 
 
