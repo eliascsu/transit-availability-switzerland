@@ -10,7 +10,7 @@ import "leaflet.heat";
 import proj4 from "proj4";
 import {SwisstopoButton } from "../Checkboxes";
 import React from "react"
-
+import info_icon from "../../../svg/info_icon.svg"
 
 const wgs84 = "EPSG:4326"
 const lv95 = '+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +k_0=1 +x_0=2600000 +y_0=1200000 +ellps=bessel +towgs84=674.374,15.056,405.346,0,0,0,0 +units=m +no_defs'
@@ -131,7 +131,7 @@ function InfoBox() {
     console.log(infoStatePopulation)
     if (infoStatePopulation == "") {
         return (
-            <p style={{textAlign: "center"}}>Click on a tile to display info</p>
+            <p style={{textAlign: "center"}}><img src={info_icon}/> Click on a tile to display info</p>
         )
     }
     return (
