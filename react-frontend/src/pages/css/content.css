@@ -10,10 +10,6 @@
     filter: drop-shadow(5px 5px 15px var(--shadow));
 }
 
-#HMformula {
-    font-size: 16px;
-}
-
 .invert-img {
     img {
         -webkit-filter: invert(1);
@@ -37,6 +33,13 @@
     opacity: 1;
   }
 
+  .scroll-to-top {
+    img {
+        -webkit-filter: invert(var(--invert-filter));
+        filter: invert(var(--invert-filter));
+    }
+}
+
 .textPage {
     height: 75vh;
 }
@@ -56,7 +59,11 @@
 }
 
 #contentPage {
-    height: 625vh;
+    height: 635vh;
+}
+
+#HMformula {
+    font-size: 16px;
 }
 
 #title_div {
@@ -430,7 +437,12 @@
     position: absolute;
     bottom: 3rem !important;
     left: 3rem !important;
-    width: 2vw;
+    width: 10vw;
+    height: 10vh;
+    img {
+        -webkit-filter: invert(1);
+        filter: invert(1);
+    }
 }
 
 #titlePage {
@@ -458,10 +470,4 @@
     object-fit: cover;
 }
 
-.scroll-to-top {
-    img {
-        -webkit-filter: invert(var(--invert-filter));
-        filter: invert(var(--invert-filter));
-    }
-}
 
