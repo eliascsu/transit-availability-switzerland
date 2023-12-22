@@ -258,19 +258,25 @@ To run the Dummy project you have to:
 - open a terminal instance and using the command ```cd``` move to the folder where the project has been downloaded;
 
 To run the backend
-- open the backend folder called "backend-project"
-- to start the backend first you need to create a virtual environment using conda
-    ```conda create -n nameOfTheEnvironment```
-  - to activate the virtual environment run the command ```conda activate nameOfTheEnvironment```
-  - install the requirements using the command ```pip3 install .```
-  - If you want to make changes and test them in real time, you can install the package in editable mode using the command```pip install -e .```
-  - to start the backend use the command ```python3 -m gamut_server.router.app``` or use the ```start-server``` command directly on your terminal
+- These instructions are for a unix based system, you might need to adapt them for other systems
+
+- ```cd backend-project``` Switch to project dir
+- `python -m venv venv` Create a virtual environment
+- `source ./venv/bin/activate` Activate the virtual environment
+- `pip install -e .` Install the pkg in editable mode
+- `python -m src.server.router.app` Start the backend
 
 To run the frontend
-- Open a new terminal window and go to the project folder
-- Enter the frontend folder called "react-frontend"
-- Do the following command to start the front end ```npm install```, ```npm start```
-If all the steps have been successfully executed a new browser window witht he dummy project loaded will open automatically.
+- `cd react-frontend` Switch to proj dir
+- `npm i --force` Install required packages
+- `npm start` Start the frontend
+
+To update the data files:
+- `cd crawler`
+- `python -m venv venv` Create a virtual environment
+- `source ./venv/bin/activate` Activate the virtual environment
+- `cd ..` switch to root folder
+- `python crawler/main.py`
 
 ## Milestones
 - [x] Week 1
