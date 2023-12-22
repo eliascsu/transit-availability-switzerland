@@ -5,6 +5,7 @@ import L, { LatLng, LatLngTuple } from "leaflet";
 import { useEffect, useRef, useState } from "react";
 import { useSwissTopoContext } from "../../ctx/Swisstopo";
 import proj4 from "proj4";
+import InfoIcon from "../../../svg/info_icon.svg"
 
 const wgs84 = "EPSG:4326"
 const lv95 = '+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +k_0=1 +x_0=2600000 +y_0=1200000 +ellps=bessel +towgs84=674.374,15.056,405.346,0,0,0,0 +units=m +no_defs'
@@ -134,7 +135,7 @@ function InfoBox() {
             It displays data on train, bus, and tram connectivity and coverage. Key transport hubs are emphasized, and areas with less frequent or reliable service are identified.
             It offes a clear overview of the Swiss public transport network's quality and accessibility.
             <br/><br/>
-            Click on a Stop to display the next departures
+            <img src={InfoIcon}/>   Click on a Stop to display the next departures
         </p>
     )
 }
