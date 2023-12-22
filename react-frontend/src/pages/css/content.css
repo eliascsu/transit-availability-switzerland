@@ -76,7 +76,7 @@
 
 #first_title {
     margin-right: 27vw;
-    margin-bottom: 40vh;
+    margin-bottom: 44vh;
 }
 
 #second_title {
@@ -85,7 +85,7 @@
 }
 
 #third_title{
-    margin-top: 35vh;
+    margin-top: 37vh;
     margin-left: 5vw;
 }
 
@@ -333,6 +333,7 @@
 #popPage {
     height: 100vh;
 }
+
 
 #public-transit-map {
     height: inherit;

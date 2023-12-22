@@ -1,19 +1,35 @@
 import { Layout, Col, Row } from 'antd';
 import { Link } from 'react-router-dom';
-import backChevron from "../svg/back_chevron.svg"
+import backChevronWhite from "../svg/back_chevron_white.svg"
+import backChevronBlack from "../svg/back_chevron_black.svg"
 import "./css/bundle.css";
 import react_logo from "./react_logo.png"
-import react_router_logo from "./react_router.svg"
+import react_router_dark from "../svg/react_router_dark.svg"
+import react_router_light from "../svg/react_router_light.svg"
+import { ThemeContext } from '../App';
+import { useContext } from 'react';
 
-const {Content, Footer} = Layout;
+
 
 function AttributionsPage() {
+    let react_router_logo:string;
+    let backChevron:string;
+    const {Content, Footer} = Layout;
+    const context = useContext(ThemeContext);
+    if(context[0]==="dark"){
+        react_router_logo = react_router_dark;
+        backChevron = backChevronWhite;
+    }
+    else{
+        react_router_logo = react_router_light;
+        backChevron = backChevronBlack;
+    }
     return (
         <Layout className="layout" id="attributionsPage">
             <Content className="content">
                 <Link to="/" className="homeButton">
                     <img className="homeImg" src={backChevron}/>
-                    <h2>HOME</h2>
+                    <h2 id='attributionHome'>HOME</h2>
                 </Link>
                 <div id='attributions'>
                     <h2 id='att_title'>Attributions</h2>

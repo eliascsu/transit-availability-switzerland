@@ -9,15 +9,16 @@
     .htmlpopup-header {
         display: flex;
         border-bottom: var(--util) 1px solid;
+        color: var(--util);
         justify-content: center;
+
+        span {
+            color: var(--util);
+        }
     }
 
     .htmlpopup-content table {
         margin-bottom: 0;
-    }
-
-    .cell-left:nth-child(1){
-        color: aqua;
     }
 }
 

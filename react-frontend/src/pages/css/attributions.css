@@ -6,9 +6,6 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    h3 {
-        color: var(--attributions) !important;
-    }
 }
 
 #att_title {
@@ -101,5 +98,9 @@
 #react_router_link{
     font-size: 4vh;
     margin-left: 1vw;
+}
+
+#attributionHome {
+    margin-top: 4px;
 }
 
