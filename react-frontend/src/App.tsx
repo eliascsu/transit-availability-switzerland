@@ -5,7 +5,7 @@ import '@picocss/pico';
 import AttributionsPage from "./pages/AttributionsPage";
 import "./App.css";
 import { MathJaxContext } from "better-react-mathjax";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 
 type ThemeContextType = [string, () => void];
 
