@@ -18,12 +18,12 @@ export function CheckBoxes() {
     const { allLoaded } = useLoadingContext();
 
     const CheckboxGroup = Checkbox.Group;
-    const options = ['PublicTransport', 'PopulationDensity', 'PopulationUnserved'];
+    const options = ['Public Transport map', 'Population Density map', 'Limited public transport access map'];
     const layers: LayerVisibility = {popLayer:false, transportLayer:false, popUnservedLayer:false}
 
-    const publicTransport = (element: CheckboxValueType) => element == 'PublicTransport';
-    const populationDensity = (element: CheckboxValueType) => element == 'PopulationDensity';
-    const populationUnserved = (element: CheckboxValueType) => element == 'PopulationUnserved';
+    const publicTransport = (element: CheckboxValueType) => element == 'Public Transport map';
+    const populationDensity = (element: CheckboxValueType) => element == 'Population Density map';
+    const populationUnserved = (element: CheckboxValueType) => element == 'Limited public transport access map';
 
     const onChange = (list: CheckboxValueType[]) => {
         if (allLoaded) {
@@ -53,9 +53,9 @@ export function CheckBoxes() {
           <Score/>
           <CheckboxGroup className="interactive_checkbox" options={options} value={checkboxValues} onChange={onChange}/>
           <div id="interactive_text">
-            <p>Public Transport Connection Quality Map:<br/> Shows public transport connectivity.</p>
-            <p>Population Density Map:<br/> Highlights population hotspots.</p>
-            <p>Limited Public Transport Access Map:<br/> Marks areas with poor public transport access.</p>
+            <p>Shows public transport connectivity.</p>
+            <p>Highlights population hotspots.</p>
+            <p>Marks areas with poor public transport access.</p>
             </div>
         </div>
       );
