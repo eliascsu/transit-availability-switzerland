@@ -8,6 +8,7 @@
 
 .credits {
     margin: 0 !important;
+    color: var(--paragraph-text-color) !important;
 }
 
 .footer {

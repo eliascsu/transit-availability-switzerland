@@ -30,6 +30,7 @@ function reveal() {
 window.addEventListener("scroll", reveal);
 
 function App() {
+
   let mediaQueryObj = window.matchMedia('(prefers-color-scheme: dark)');
   let isDarkMode = mediaQueryObj.matches;
 
