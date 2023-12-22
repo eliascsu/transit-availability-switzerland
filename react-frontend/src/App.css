@@ -23,7 +23,7 @@
     --util: black;
     --util2: #49BFC1;
     --attributions: hsl(205, 18%, 86%);
-    --bg-color-underline: white;
+    --bg-color-underline: black;
     --shadow: black;
     --bg-color: #f7f7f7;
     --border: black;
@@ -51,6 +51,10 @@ h2 {
   color: var(--util) !important;
   display: flex;
   text-align: center;
+}
+
+h3{
+  color: var(--util) !important;
 }
 
 li {

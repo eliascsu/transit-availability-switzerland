@@ -3,7 +3,7 @@ import { Layout, Row, Switch } from "antd";
 import { Content, Footer } from "antd/es/layout/layout";
 import { Link } from "react-router-dom";
 import Zuerich from "./zuerich.mp4";
-import back_chevron from "../svg/back_chevron.svg";
+import back_chevron from "../svg/back_chevron_white.svg";
 import { Legend, MapWrapper, CheckBoxes, PointControlBox, PopulationHeatmap, PtMap, PtMap_desc, HeatMap_desc, CustomDesc, ScrollToBottom, ScrollToTop } from "./components";
 import "./css/bundle.css";
 import { BeatLoader } from "react-spinners";
