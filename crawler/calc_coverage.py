@@ -40,7 +40,7 @@ def calculate_population_served_per_coordinate(x, y, kat, population):
 def main():
     with open(os.path.join(data_root, "pt-stops.geojson")) as f:
         public_transport = json.load(f)
-
+    pop = pd.read_csv(os.path.join(data_root, "Population.csv"))
     total_population = pop["pop_actual"].sum()
     sum = 0
 
@@ -64,7 +64,6 @@ def main():
     pop.to_csv(os.path.join(data_root, "UnservedPopulation.csv"), index=False,)
 
     time_end = time.time()
-    print("Time elapsed: ", time_end - time_start)
 
 if __name__ == "__main__":
     main()
