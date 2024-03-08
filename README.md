@@ -2,6 +2,8 @@
 
 [[_TOC_]]
 
+## Website hosted [here](http://ecsuka-project-flask.course-fwe-2023.isginf.ch/)
+
 ## Team Members
 1. Joshua Durrant \<jdurrant>
 2. Leander Hemmi \<hemmil>
