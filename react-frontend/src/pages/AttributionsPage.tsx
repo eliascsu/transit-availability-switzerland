@@ -72,7 +72,7 @@ function AttributionsPage() {
             </Content>
             <Footer className="footer">
                 <span id="footerText">
-                    <h5 className="credits">Elias Csuka, Joshua Durrant, Leander Hemmi, Cedric Koller, Mathias Schmid</h5>
+                    <h5 className="credits">Elias Csuka, Joshua Durrant, Leander Hemmi, Cedric Koller, Mathias Schmid | <a href="https://github.com/neonfighter28/transit-availability-switzerland">Source Code</a></h5>
                 </span>
             </Footer>
         </Layout>
