@@ -1,0 +1,161 @@
+{
+    "folders": [
+      {
+        "name": "Frontend",
+        "path": "./react-frontend",
+      },
+      {
+        "name": "Backend",
+        "path": "./backend-project",
+      },
+      {
+        "name": "Crawler",
+        "path": "./crawler",
+      },
+      {
+        "name": "Additional Files",
+        "path": ".",
+      },
+    ],
+
+    "launch": {
+      "version": "0.2.0",
+      "configurations": [
+        {
+          "type": "chrome",
+          "request": "launch",
+          "name": "launch-frontend",
+          "url": "http://localhost:3000",
+          "webRoot": "${workspaceFolder:Frontend}/../dist",
+          "preLaunchTask": "build-frontend",
+          "sourceMaps": true,
+          "sourceMapPathOverrides": {
+            "webpack:///../node_modules/*": "${workspaceFolder:Frontend}/node_modules/*",
+            "webpack:///./*": "${workspaceFolder:Frontend}/src/*",
+          },
+          "presentation": {
+            "hidden": false,
+            "group": "Site",
+            "order": 1,
+          },
+        },
+      ],
+      "compounds": [
+        {
+          "name": "Debug Site",
+          "configurations": ["launch-frontend"],
+          "presentation": {
+            "hidden": false,
+            "group": "meow",
+            "order": 1
+          }
+        }
+      ]
+    },
+
+    "tasks": {
+      "version": "2.0.0",
+      "tasks": [
+        {
+          "label": "build-frontend",
+          "type": "process",
+          "command": "yarn",
+          "windows": {
+            "command": "yarn.cmd"
+          },
+          "args": [
+            "--cwd",
+            "${workspaceFolder:Frontend}",
+            "start",
+          ],
+          "problemMatcher": {
+            "owner": "webpack",
+            "fileLocation": "absolute",
+            "source": "webpack-dev-server",
+            "pattern": [
+              {
+                "regexp": "^\\[tsl\\] ERROR in (.*)\\((\\d+),(\\d+)\\)$",
+                "file": 1,
+                "line": 2,
+                "column": 3,
+              },
+              {
+                "regexp": "^\\s*(.*)$",
+                "message": 1,
+              }
+            ],
+            "background": {
+              "activeOnStart": true,
+              "beginsPattern": "^(?:asset|module).*$",
+              "endsPattern": "(?:compiled.*(?:successfully|warning|error))",
+            },
+          },
+          "group": "none",
+          "presentation": {
+            "echo": true,
+            "reveal": "silent",
+            "focus": false,
+            "panel": "shared",
+          },
+          "isBackground": true,
+          "promptOnClose": false,
+        },
+      ],
+    },
+
+    "settings": {
+      "editor.detectIndentation": true,
+      "editor.insertSpaces": true,
+      "editor.tabSize": 2,
+
+      "files.eol": "\n",
+      "files.trimTrailingWhitespace": true,
+      "files.insertFinalNewline": true,
+
+      "files.exclude": {
+        "node_modules": true,
+        "dist": true,
+        "react-frontend": true,
+        "backend-project": true,
+        "crawler": true,
+        "buildversion.json": true,
+        "bin": true,
+        "obj": true,
+        ".git": true,
+        "**/.gitignore": true,
+        "**/*lock.json": true,
+        "**/*.lock": true,
+        "**/*.log": true,
+        "**/__pycache__": true,
+      },
+
+      "typescript.preferences.importModuleSpecifier": "project-relative",
+      "typescript.suggest.autoImports": false,
+      "typescript.suggest.paths": true,
+      "typescript.updateImportsOnFileMove.enabled": "never",
+      "typescript.format.insertSpaceAfterCommaDelimiter": true,
+      "typescript.format.insertSpaceAfterSemicolonInForStatements": true,
+      "typescript.format.insertSpaceBeforeAndAfterBinaryOperators": true,
+      "typescript.format.insertSpaceAfterKeywordsInControlFlowStatements": true,
+      "typescript.format.insertSpaceAfterFunctionKeywordForAnonymousFunctions": true,
+      "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyParenthesis": false,
+      "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets": false,
+      "typescript.format.insertSpaceAfterOpeningAndBeforeClosingTemplateStringBraces": false,
+      "typescript.format.insertSpaceAfterOpeningAndBeforeClosingJsxExpressionBraces": false,
+      "typescript.format.placeOpenBraceOnNewLineForFunctions": false,
+      "typescript.format.placeOpenBraceOnNewLineForControlBlocks": false,
+
+      "javascript.preferences.importModuleSpecifier": "project-relative",
+      "javascript.format.insertSpaceAfterCommaDelimiter": true,
+      "javascript.format.insertSpaceAfterSemicolonInForStatements": true,
+      "javascript.format.insertSpaceBeforeAndAfterBinaryOperators": true,
+      "javascript.format.insertSpaceAfterKeywordsInControlFlowStatements": true,
+      "javascript.format.insertSpaceAfterFunctionKeywordForAnonymousFunctions": true,
+      "javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyParenthesis": false,
+      "javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets": false,
+      "javascript.format.insertSpaceAfterOpeningAndBeforeClosingTemplateStringBraces": false,
+      "javascript.format.insertSpaceAfterOpeningAndBeforeClosingJsxExpressionBraces": false,
+      "javascript.format.placeOpenBraceOnNewLineForFunctions": false,
+      "javascript.format.placeOpenBraceOnNewLineForControlBlocks": false,
+    },
+  }

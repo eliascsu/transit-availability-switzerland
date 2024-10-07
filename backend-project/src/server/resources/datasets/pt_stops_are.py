@@ -1,6 +1,6 @@
 import os
 from pandas_geojson import read_geojson
-
+import json
 from flask_restful import Resource
 
 class pt_stops_are(Resource):
@@ -11,6 +11,10 @@ class pt_stops_are(Resource):
 
     def get(self):
         path_name = os.path.join(self.data_root, "pt-stops.geojson")
-        data = read_geojson(path_name)
-
+        with open(path_name, "r") as f:
+            data = f.read()
+        try:
+            _ = read_geojson(path_name)
+        except BaseException:
+            raise Exception("Could not validate data is GeoJSON")
         return data
