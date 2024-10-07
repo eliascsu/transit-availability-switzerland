@@ -81,6 +81,13 @@ export default function (theme: Theme): Interpolation<Theme> {
       flexDirection: "column",
       flex: "1 0 0px",
     },
+    ".leaflet-container": {
+      gridArea: "map",
+      height: "90% !important",
+      width: "100% !important",
+      "border-style": "solid",
+      "border-color": "var(--border)",
+    },
   };
 
   return globalStlyes;

@@ -33,7 +33,7 @@ export const MapProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       const response = await fetch(BASE_URL + url);
       const data = await response.json();
       if (isPopulationArray(data)) {
-        if (didCancel.current) return;
+        // if (didCancel.current) return; // todo: very funky
         setPopulationDensity(data);
         setPopulationDensityLoaded(true);
       }

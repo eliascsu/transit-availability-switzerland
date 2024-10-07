@@ -1,5 +1,5 @@
 import { lineColors } from "./colors";
-import L, { HeatLatLngTuple } from "leaflet";
+import { HeatLatLngTuple } from "leaflet";
 import type { PopulationPoint } from "../models/data";
 
 /**
@@ -68,7 +68,7 @@ function createHeatMap(data: PopulationPoint[], unserved: boolean) {
     }
     return heatArray;
   }
-  if (data != undefined) {
+  if (data != null) {
     for (const row of data) {
       heatArray.push([parseFloat(row.lat), parseFloat(row.lng), parseFloat(row.intensity) * 2.25] as HeatLatLngTuple);
     }
