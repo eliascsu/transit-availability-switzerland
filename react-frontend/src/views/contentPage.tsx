@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Zuerich from "../zuerich.mp4";
 import PopulationHeatmap from "../components/Heatmap";
+import PtMap from "../components/PtMap";
 
 export default function ContentPage() {
   const videoRef = React.useRef<HTMLVideoElement>(null);
@@ -88,6 +89,17 @@ export default function ContentPage() {
         }}
       >
         <PopulationHeatmap />
+      </Box>
+      <Box
+        sx={{
+          height: "100vh", // Full viewport height for the next section
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "antiquewhite",
+        }}
+      >
+        <PtMap />
       </Box>
     </Box>
   );

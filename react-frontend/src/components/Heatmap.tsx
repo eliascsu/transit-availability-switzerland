@@ -3,6 +3,7 @@ import React from "react";
 import { TileLayer, WMSTileLayer, useMapEvents } from "react-leaflet";
 import { MapContainer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+import InfoTwoToneIcon from "@mui/icons-material/InfoTwoTone";
 
 import L from "leaflet";
 import { createHeatMap } from "../utils/utils";
@@ -10,7 +11,6 @@ import { createHeatMap } from "../utils/utils";
 import "leaflet.heat";
 import proj4 from "proj4";
 // import { SwisstopoButton } from "../Checkboxes";
-// import info_icon from "../../../svg/info_icon.svg";
 import MapContext from "../context/mapContext";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
@@ -43,7 +43,7 @@ export default function PopulationHeatmap() {
     if (populationDensity != null) {
       const heatArray = createHeatMap(populationDensity, false);
       console.log(layers.current);
-      if (layers.current == null) {
+      if (layers.current == null && heatArray.length > 0) {
         layers.current = L.heatLayer(heatArray, { radius: 15, max: 20 });
         heatMapLayer.current = L.heatLayer(heatArray, { radius: 15, max: 20 });
       }
@@ -84,7 +84,7 @@ export default function PopulationHeatmap() {
 
     React.useEffect(() => {
       layers.current = heatMapLayer.current;
-      layers.current.addTo(map);
+      layers.current?.addTo(map);
     }, [map]);
     return null;
   }
@@ -275,7 +275,7 @@ const InfoBox: React.FC<{ infoStatePopulation: string }> = ({
   if (infoStatePopulation === "") {
     return (
       <p style={{ textAlign: "center" }}>
-        {/*<img src={info_icon}/>*/} Click on a tile to display info
+        <InfoTwoToneIcon/> Click on a tile to display info
       </p>
     );
   }
@@ -285,7 +285,7 @@ const InfoBox: React.FC<{ infoStatePopulation: string }> = ({
       dangerouslySetInnerHTML={{
         __html: infoStatePopulation.replace(
           /Population\scount/g,
-          "Population Count / ha"
+          "Population Count / ha",
         ),
       }}
     />
