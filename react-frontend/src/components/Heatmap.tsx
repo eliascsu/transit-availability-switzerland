@@ -1,32 +1,32 @@
+import React from "react";
+
 import { TileLayer, WMSTileLayer, useMapEvents } from "react-leaflet";
 import { MapContainer } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
 
-import L, { HeatLatLngTuple } from "leaflet";
+import L from "leaflet";
 import { createHeatMap } from "../utils/utils";
 // import { useHeatmapContext, useSwissTopoContext } from "../../ctx/Swisstopo";
-import { useEffect, useRef, useState, useReducer } from "react";
 import "leaflet.heat";
 import proj4 from "proj4";
 // import { SwisstopoButton } from "../Checkboxes";
-import React from "react";
 // import info_icon from "../../../svg/info_icon.svg";
 import MapContext from "../context/mapContext";
 
 const wgs84 = "EPSG:4326";
-const lv95 = " \
-  +proj=somerc +lat_0=46.95240555555556 \
-  +lon_0=7.439583333333333 +k_0=1 +x_0=2600000 +y_0=1200000 +ellps=bessel +towgs84=674.374,15.056,405.346,0,0,0,0 +units=m +no_defs";
+const lv95 = "+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +k_0=1 +x_0=2600000 +y_0=1200000 +ellps=bessel +towgs84=674.374,15.056,405.346,0,0,0,0 +units=m +no_defs";
 
 // proj4.defs(wgs84, wgs84)
 proj4.defs("EPSG:2056", lv95);
 
 export default function PopulationHeatmap() {
+  const didCancel = React.useRef(false);
+  React.useEffect(() => () => { didCancel.current = true; }, []);
   // const { useSwissTopoMap } = useSwissTopoContext();
   const { populationDensity } = React.useContext(MapContext);
-  // const { infoStatePopulation, setInfoStatePopulation } = useHeatmapContext();
-  const layers = useRef<any>(null);
-  const heatMapLayer = useRef<any>(null);
-  const [, forceUpdate] = useReducer(x => x + 1, 0);
+  const [infoStatePopulation, setInfoStatePopulation] = React.useState<string>("");
+  const layers = React.useRef<any>(null);
+  const heatMapLayer = React.useRef<any>(null);
 
   React.useEffect(() => {
     if (populationDensity != undefined) {
@@ -42,23 +42,25 @@ export default function PopulationHeatmap() {
   function AddHeatLayer() {
     const map = useMapEvents(
       {
-        click: (e) => {
+        click: async (e) => {
           map.scrollWheelZoom.enable();
           const [x, y] = proj4(wgs84, lv95, [e.latlng.lng, e.latlng.lat]);
           const url_ident = "https://api3.geo.admin.ch/rest/services/all/MapServer/identify?geometry=" + x + "," + y + "&geometryFormat=geojson&geometryType=esriGeometryPoint&lang=en&layers=all:ch.bfs.volkszaehlung-bevoelkerungsstatistik_einwohner&limit=10&returnGeometry=true&sr=2056&timeInstant=2021&tolerance=0";
-          fetch(url_ident).then(response => response.json()).then(data => {
-            if (data.results[0].id != undefined)
-              return data.results[0].id;
-          },
-          ).then(id => {
-            const url = "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.volkszaehlung-bevoelkerungsstatistik_einwohner/" + id + "/htmlPopup?coord=" + x + "," + y + "&lang=en&tolerance=1&sr=2056";
-            fetch(url).then(response => response.text()).then(data => {
-              // setInfoStatePopulation(data);
-            });});
+          const response = await fetch(url_ident);
+          const data = await response.json();
+          const id = data.results[0]?.id;
+          if (id == null) return;
+          console.log(id);
+
+          const url = "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.volkszaehlung-bevoelkerungsstatistik_einwohner/" + id + "/htmlPopup?coord=" + x + "," + y + "&lang=en&tolerance=1&sr=2056";
+          const response2 = await fetch(url);
+          const data2 = await response2.text();
+          if (didCancel.current) return;
+          setInfoStatePopulation(data2 ?? "");
         },
       });
 
-    useEffect(() => {
+    React.useEffect(() => {
       layers.current = heatMapLayer.current;
       layers.current.addTo(map);
     }, []);
@@ -73,20 +75,23 @@ export default function PopulationHeatmap() {
   function AddEvents() {
     const map = useMapEvents(
       {
-        click: (e) => {
+        click: async (e) => {
+          // Identify the point on the map
           map.scrollWheelZoom.enable();
           const [x, y] = proj4(wgs84, lv95, [e.latlng.lng, e.latlng.lat]);
           const url_ident = "https://api3.geo.admin.ch/rest/services/all/MapServer/identify?geometry=" + x + "," + y + "&geometryFormat=geojson&geometryType=esriGeometryPoint&lang=en&layers=all:ch.bfs.volkszaehlung-bevoelkerungsstatistik_einwohner&limit=10&returnGeometry=true&sr=2056&timeInstant=2021&tolerance=0";
-          fetch(url_ident).then(response => response.json()).then(data => {
-            if (data.results[0].id != undefined)
-              console.log(data.results[0].id);
-            return data.results[0].id;
-          },
-          ).then(id => {
-            const url = "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.volkszaehlung-bevoelkerungsstatistik_einwohner/" + id + "/htmlPopup?coord=" + x + "," + y + "&lang=en&tolerance=0&sr=2056";
-            fetch(url).then(response => response.text()).then(data => {
-              // setInfoStatePopulation(data);
-            });});
+          const response = await fetch(url_ident);
+          const data = await response.json();
+          const id = data.results[0]?.id;
+          if (id == undefined) return;
+          console.log(id);
+
+          // Get the population data for the point
+          const url = "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.volkszaehlung-bevoelkerungsstatistik_einwohner/" + id + "/htmlPopup?coord=" + x + "," + y + "&lang=en&tolerance=0&sr=2056";
+          const response2 = await fetch(url);
+          const data2 = await response2.text();
+          if (didCancel.current) return;
+          setInfoStatePopulation(data2 ?? "");
         },
       });
     return null;
@@ -114,7 +119,7 @@ export default function PopulationHeatmap() {
             </MapContainer>
             <PopDescription/>
             <CheckboxDisplay/>
-            {/* <InfoBox/> */}
+            <InfoBox infoStatePopulation={infoStatePopulation} />
             </div>
     );
   }
@@ -137,23 +142,22 @@ export default function PopulationHeatmap() {
       </MapContainer>
       <PopDescription/>
       <CheckboxDisplay/>
-      {/* <InfoBox/> */}
+      <InfoBox infoStatePopulation={infoStatePopulation}/>
     </div>
   );
 }
 
-// function InfoBox() {
-//   const { infoStatePopulation } = useHeatmapContext();
-//   console.log(infoStatePopulation);
-//   if (infoStatePopulation == "") {
-//     return (
-//             <p style={{ textAlign: "center" }}>{ /*<img src={info_icon}/>*/} Click on a tile to display info</p>
-//     );
-//   }
-//   return (
-//         <div id="infoBox" dangerouslySetInnerHTML={{ __html: infoStatePopulation.replace(/Population\scount/g, "Population Count / ha") }}/>
-//   );
-// }
+const InfoBox: React.FC<{ infoStatePopulation: string }> = ({ infoStatePopulation }) => {
+  console.log(infoStatePopulation);
+  if (infoStatePopulation == "") {
+    return (
+            <p style={{ textAlign: "center" }}>{ /*<img src={info_icon}/>*/} Click on a tile to display info</p>
+    );
+  }
+  return (
+        <div id="infoBox" dangerouslySetInnerHTML={{ __html: infoStatePopulation.replace(/Population\scount/g, "Population Count / ha") }}/>
+  );
+};
 
 function PopDescription() {
   return (

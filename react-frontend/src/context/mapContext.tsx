@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PopulationPoint, isPopulationArray } from "../models/data";
-export const BASE_URL = process.env.NODE_ENV === "production" ? `http://be.${window.location.hostname}/api/v1` : "http://localhost:8000/api/v1"
+export const BASE_URL = process.env.NODE_ENV === "production" ? `http://be.${window.location.hostname}/api/v1` : "http://localhost:8000/api/v1";
 
 /**export const BASE_URL = process.env.NODE_ENV==="production"? `http://be.${window.location.hostname}/api/v1`:"http://localhost:8000/api/v1"
 
@@ -29,8 +29,8 @@ export const MapProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const getPopulationDensity = async () => {
     try {
-      const url = "datasets/population-heatmap";
-      const response = await fetch(`/api/v1/${url}`);
+      const url = "/datasets/population-heatmap";
+      const response = await fetch(BASE_URL + url);
       const data = await response.json();
       if (isPopulationArray(data)) {
         if (didCancel.current) return;

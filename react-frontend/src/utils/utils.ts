@@ -16,21 +16,20 @@ export function addPointToLine(userLines: GeoJSON.Feature[], coords: number[]) {
         properties: {
           lineType: "pending",
           interval: -1,
-          Hst_kat: -1
+          Hst_kat: -1,
         } as GeoJSON.GeoJsonProperties,
         geometry: {
           type: "LineString",
-          coordinates: [coords]
-        } as GeoJSON.Geometry
-      } as GeoJSON.Feature
-    )
+          coordinates: [coords],
+        } as GeoJSON.Geometry,
+      } as GeoJSON.Feature,
+    );
   };
-  let last_line_geojson2 = userLines[userLines.length - 1];
+  const last_line_geojson2 = userLines[userLines.length - 1];
   (last_line_geojson2.geometry as GeoJSON.LineString).coordinates.push(coords);
   userLines[userLines.length - 1] = last_line_geojson2;
   return userLines;
 }
-
 
 /**
  * Returns the color of the line based on the line type
@@ -50,7 +49,7 @@ function getLineColor(lineType: string) {
     }
     case "S_Bahn": {
       lineColor = lineColors.S_Bahn;
-      break
+      break;
     }
     default: {
       console.log("BAD LINE");
@@ -62,15 +61,15 @@ function getLineColor(lineType: string) {
 }
 
 function createHeatMap(data: PopulationPoint[], unserved: boolean) {
-  let heatArray: HeatLatLngTuple[] = [];
+  const heatArray: HeatLatLngTuple[] = [];
   if (unserved) {
-    for (let row of data) {
+    for (const row of data) {
       heatArray.push([parseFloat(row.lat), parseFloat(row.lng), parseFloat(row.intensity) * 30] as HeatLatLngTuple);
     }
     return heatArray;
   }
   if (data != undefined) {
-    for (let row of data) {
+    for (const row of data) {
       heatArray.push([parseFloat(row.lat), parseFloat(row.lng), parseFloat(row.intensity) * 2.25] as HeatLatLngTuple);
     }
   }
