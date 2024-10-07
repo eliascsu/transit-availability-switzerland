@@ -16,16 +16,8 @@ import '../css/bundle.css';
 import proj4 from 'proj4';
 import { useLoadingContext } from '../ctx/LoadingContext';
 
-
 const wgs84 = "EPSG:4326"
 const lv95 = '+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +k_0=1 +x_0=2600000 +y_0=1200000 +ellps=bessel +towgs84=674.374,15.056,405.346,0,0,0,0 +units=m +no_defs'
-
-
-const defaultLineStyle = {
-    color: "red",
-    weight: 2,
-    opacity: 1,
-}
 
 export const MapWrapper = React.memo(function MapWrapper() {
     return (
@@ -39,7 +31,6 @@ export const MapWrapper = React.memo(function MapWrapper() {
 
 
 const Map = React.memo(function Map() {
-    //const map = useMap();
     const geoJsonCache = useRef<L.GeoJSON<any, any>[]>([]);
     const populationHeatMapCache = useRef<L.HeatLayer>();
     const populationUnservedHeatMapCache = useRef<L.HeatLayer>();
@@ -83,8 +74,6 @@ const Map = React.memo(function Map() {
     const pt_stops_layer = useRef<L.TileLayer.WMS>()
     pt_stops_layer.current = L.tileLayer.wms("https://wms.geo.admin.ch/", {
         layers: "ch.bav.haltestellen-oev", transparent: true, format: "image/png", minZoom: 14, maxZoom: 20})
-
-    const firstMount = useRef<boolean>(true);
 
     const {
         visibleLayersState, linesFromFormState,

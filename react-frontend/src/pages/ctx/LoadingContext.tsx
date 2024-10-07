@@ -24,11 +24,14 @@ export const useLoadingContext = () => {
 
 export const LoadingProvider: React.FC = ({ children }) => {
     const [loadHeatmap, setLoadHeatmap] = useState<boolean>(false);
-    const [loadPtMap, setLoadPtMap] = useState<boolean>(false);
+    const [loadPtMap, setLoadPtMap] = useState<boolean>(true);
     const [loadUnservedMap, setLoadUnservedMap] = useState<boolean>(false);
     const [allLoaded, setAllLoaded] = useState<boolean>(false);
 
     useEffect(() => {
+        console.log("loadHeatmap: ", loadHeatmap);
+        console.log("loadPtMap: ", loadPtMap);
+        console.log("loadUnservedMap: ", loadUnservedMap);
         if (loadHeatmap && loadPtMap && loadUnservedMap) {
             setAllLoaded(true);
             console.log("all loaded");

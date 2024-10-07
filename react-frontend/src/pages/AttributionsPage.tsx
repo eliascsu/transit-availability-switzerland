@@ -12,8 +12,8 @@ import { useContext } from 'react';
 
 
 function AttributionsPage() {
-    let react_router_logo:string;
-    let backChevron:string;
+    let react_router_logo: string;
+    let backChevron: string;
     const {Content, Footer} = Layout;
     const context = useContext(ThemeContext);
     if(context[0]==="dark"){

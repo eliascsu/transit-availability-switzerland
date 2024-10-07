@@ -1,7 +1,3 @@
-/**
- *
- */
-
 import L from 'leaflet';
 import { FeatureCollection } from '../../types/data';
 import { classColors } from './colors';
@@ -29,16 +25,22 @@ const qualityLayerConfig = {
  * @param layerType Either 'A', 'B', 'C' or 'D'
  * @returns Quality layer as L.geoJSON
  */
-function createQualityLayer(data: GeoJSON.Feature[] | FeatureCollection, layerType: 'A' | 'B' | 'C' | 'D') {
+function createQualityLayer(data: GeoJSON.Feature[], layerType: 'A' | 'B' | 'C' | 'D') {
     const config = qualityLayerConfig[layerType];
+    console.log("createQualityLayer");
+    console.log(data[0]);
 
     return L.geoJSON(data, {
         filter(geoJsonFeature) {
+            console.log("createQualityLayer filter");
+            console.log(geoJsonFeature);
             let kat = geoJsonFeature.properties.Hst_Kat;
             return config.categories.includes(kat) && geoJsonFeature.properties.Haltestellen_No != "false";
         },
         pointToLayer: function (geoJsonFeature, latlng) {
-            const properties = geoJsonFeature.properties;
+            console.log("createQualityLayer");
+            console.log(geoJsonFeature);
+            const properties = geoJsonFeature?.properties;
             let radiusIndex = config.categories.indexOf(properties.Hst_Kat);
             let radius = config.radius[radiusIndex] || 20; // Default radius if not found
 
@@ -85,9 +87,11 @@ function createQualityLayerLineString(data: any, layerType: 'A' | 'B' | 'C' | 'D
  */
 
 function makePTCirclesFromData(data: GeoJSON.Feature[]){
-    console.log(data[0]);
+    console.log("makePTCirclesFromData");
+    console.log(typeof(data));
     // Working with the default layers
-    if (data[0] == undefined) {
+    if (data[0] != undefined) {
+        console.log("makePTCirclesFromData: default layers");
         let layers: L.GeoJSON<any, any>[] = [];
         let geoJsonLayerA = createQualityLayer(data, "A")
         let geoJsonLayerB = createQualityLayer(data, "B")
@@ -98,6 +102,7 @@ function makePTCirclesFromData(data: GeoJSON.Feature[]){
         layers.push(geoJsonLayerC);
         layers.push(geoJsonLayerB);
         layers.push(geoJsonLayerA);
+        console.log(layers);
         return layers
     }
     // Working with the user layers

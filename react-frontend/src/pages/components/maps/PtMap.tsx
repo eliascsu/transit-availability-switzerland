@@ -143,7 +143,7 @@ function InfoBox() {
 function Title() {
     return (
         <h2 id="transitTitle">
-            Connection quality of <h2 className="highlightedText">public transport</h2> in Switzerland
+            Connection quality of <div className="highlightedText">public transport</div> in Switzerland
         </h2>
     )
 }
