@@ -10,4 +10,18 @@ import { Score } from "./Score";
 import CustomDesc from "./descriptions/CustomDesc";
 import { ScrollToTop, ScrollToBottom } from "./ScrollToButton";
 
-export { HeatMap_desc, PtMap_desc, PopulationHeatmap, PtMap, CheckBoxes, SwisstopoButton, Legend, PointControlBox, MapWrapper, Score, CustomDesc, ScrollToTop, ScrollToBottom };
+export {
+  HeatMap_desc,
+  PtMap_desc,
+  PopulationHeatmap,
+  PtMap,
+  CheckBoxes,
+  SwisstopoButton,
+  Legend,
+  PointControlBox,
+  MapWrapper,
+  Score,
+  CustomDesc,
+  ScrollToTop,
+  ScrollToBottom,
+};

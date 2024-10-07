@@ -5,7 +5,7 @@ export function Score() {
         score
     } = useLayerContext();
     console.log("score: " + score);
-    
+
     return (
         <div id="info_text">
             <h2>{score} new people served</h2>

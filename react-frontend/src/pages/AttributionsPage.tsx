@@ -1,30 +1,28 @@
-import { Layout, Col, Row } from 'antd';
-import { Link } from 'react-router-dom';
-import backChevronWhite from "../svg/back_chevron_white.svg"
-import backChevronBlack from "../svg/back_chevron_black.svg"
+import { Layout, Col, Row } from "antd";
+import { Link } from "react-router-dom";
+import backChevronWhite from "../svg/back_chevron_white.svg";
+import backChevronBlack from "../svg/back_chevron_black.svg";
 import "./css/bundle.css";
-import react_logo from "./react_logo.png"
-import react_router_dark from "../svg/react_router_dark.svg"
-import react_router_light from "../svg/react_router_light.svg"
-import { ThemeContext } from '../App';
-import { useContext } from 'react';
-
-
+import react_logo from "./react_logo.png";
+import react_router_dark from "../svg/react_router_dark.svg";
+import react_router_light from "../svg/react_router_light.svg";
+import { ThemeContext } from "../App";
+import { useContext } from "react";
 
 function AttributionsPage() {
-    let react_router_logo: string;
-    let backChevron: string;
-    const {Content, Footer} = Layout;
-    const context = useContext(ThemeContext);
-    if(context[0]==="dark"){
-        react_router_logo = react_router_dark;
-        backChevron = backChevronWhite;
-    }
-    else{
-        react_router_logo = react_router_light;
-        backChevron = backChevronBlack;
-    }
-    return (
+  let react_router_logo: string;
+  let backChevron: string;
+  const { Content, Footer } = Layout;
+  const context = useContext(ThemeContext);
+  if (context[0] === "dark") {
+    react_router_logo = react_router_dark;
+    backChevron = backChevronWhite;
+  }
+  else {
+    react_router_logo = react_router_light;
+    backChevron = backChevronBlack;
+  }
+  return (
         <Layout className="layout" id="attributionsPage">
             <Content className="content">
                 <Link to="/" className="homeButton">
@@ -68,7 +66,6 @@ function AttributionsPage() {
                     </Row>
                 </div>
 
-
             </Content>
             <Footer className="footer">
                 <span id="footerText">
@@ -76,7 +73,7 @@ function AttributionsPage() {
                 </span>
             </Footer>
         </Layout>
-    );
+  );
 }
 
 export default AttributionsPage;

@@ -5,35 +5,35 @@ import { useLayerContext } from "../ctx/LayerContext";
 import FormComponent from "./FormComponent";
 
 export default function PointControlBox() {
-    const { 
-        visibleLayersState, setVisibleLayersState,
-        checkboxValues, setCheckboxValues,
-        linesFromFormState, setLinesFromFormState,
-        drawingState, setDrawingState,
-    } = useLayerContext();
-    const [form] = Form.useForm();
+  const {
+    visibleLayersState, setVisibleLayersState,
+    checkboxValues, setCheckboxValues,
+    linesFromFormState, setLinesFromFormState,
+    drawingState, setDrawingState,
+  } = useLayerContext();
+  const [form] = Form.useForm();
 
-    const onFinish = (values: any) => {
-        console.log('Success:', values);
-        let newLine: Line = {
-            intervall: values.interval,
-            typ: values.transportType
-        }
-
-        setLinesFromFormState([...linesFromFormState, newLine]);
-        form.resetFields(); // Reset form fields after the operation
+  const onFinish = (values: any) => {
+    console.log("Success:", values);
+    const newLine: Line = {
+      intervall: values.interval,
+      typ: values.transportType,
     };
 
-    const onCollapse = (key: string | string[]) => {
-        console.log('Collapse state changed:', key);
-        setDrawingState(key.length == 1);
-    }
+    setLinesFromFormState([...linesFromFormState, newLine]);
+    form.resetFields(); // Reset form fields after the operation
+  };
 
-    useEffect(() => {
-        return(console.log("unmounting"))
-    }, [])
+  const onCollapse = (key: string | string[]) => {
+    console.log("Collapse state changed:", key);
+    setDrawingState(key.length == 1);
+  };
 
-    return (
+  useEffect(() => {
+    return (console.log("unmounting"));
+  }, []);
+
+  return (
         <FormComponent form={form} onFinish={onFinish} onCollapse={onCollapse}></FormComponent>
-    );
+  );
 }

@@ -2,7 +2,6 @@ import { CheckboxValueType } from "antd/es/checkbox/Group";
 import { Feature, FeatureCollection, LayerVisibility, Line } from "../../types/data";
 import { createContext, useContext, useRef, useState } from "react";
 
-
 interface LayerContextType {
   visibleLayersState: LayerVisibility;
   setVisibleLayersState: React.Dispatch<React.SetStateAction<LayerVisibility>>;
@@ -22,13 +21,16 @@ const LayerContext = createContext<LayerContextType | undefined>(undefined);
 export const useLayerContext = () => {
   const context = useContext(LayerContext);
   if (!context) {
-    throw new Error('useLayerContext must be used within a LayerProvider');
+    throw new Error("useLayerContext must be used within a LayerProvider");
   }
   return context;
 };
 
+type LayerProviderProps = {
+  children: React.ReactNode;
+};
 
-export const LayerProvider: React.FC = ({ children }) => {
+export const LayerProvider: React.FC<LayerProviderProps> = ({ children }) => {
   const [visibleLayersState, setVisibleLayersState] = useState<LayerVisibility>({ popLayer: false, transportLayer: false, popUnservedLayer: false });
   const [checkboxValues, setCheckboxValues] = useState<CheckboxValueType[]>([]);
   const [linesFromFormState, setLinesFromFormState] = useState<Line[]>([]);
@@ -37,8 +39,7 @@ export const LayerProvider: React.FC = ({ children }) => {
   const userLinesRef = useRef<GeoJSON.Feature[]>([]);
 
   // Send GeoJSON FeatureCollection to backend
-  let sender: FeatureCollection = { type: "FeatureCollection", features: userLinesRef.current as Feature[] };
-
+  const sender: FeatureCollection = { type: "FeatureCollection", features: userLinesRef.current as Feature[] };
 
   const value = {
     visibleLayersState,
@@ -51,7 +52,7 @@ export const LayerProvider: React.FC = ({ children }) => {
     drawingState,
     setDrawingState,
     userLinesRef,
-    score, setScore
+    score, setScore,
   };
 
   return (
