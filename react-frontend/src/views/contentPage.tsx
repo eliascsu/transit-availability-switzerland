@@ -5,6 +5,10 @@ import Zuerich from "../zuerich.mp4";
 import PopulationHeatmap from "../components/Heatmap";
 import PtMap from "../components/PtMap";
 
+import Page from "./page";
+import MapWrapper from "../components/MapWrapper";
+import CheckBoxes from "../components/Checkboxes";
+
 export default function ContentPage() {
   const videoRef = React.useRef<HTMLVideoElement>(null);
 
@@ -66,12 +70,12 @@ export default function ContentPage() {
         <Box
           sx={{
             position: "absolute",
-            top: "50%", // Center the text vertically
-            left: "50%", // Center the text horizontally
-            transform: "translate(-50%, -50%)", // Offset to truly center the text
-            color: "white", // Text color to contrast the video
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            color: "white",
             textAlign: "center",
-            zIndex: 1, // Ensure it appears above the video
+            zIndex: 1,
           }}
         >
           <Typography variant="h1">Transit availability in Switzerland</Typography>
@@ -79,28 +83,16 @@ export default function ContentPage() {
       </Box>
 
       {/* Heatmap */}
-      <Box
-        sx={{
-          height: "100vh", // Full viewport height for the next section
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: "antiquewhite",
-        }}
-      >
+      <Page>
         <PopulationHeatmap />
-      </Box>
-      <Box
-        sx={{
-          height: "100vh", // Full viewport height for the next section
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: "antiquewhite",
-        }}
-      >
+      </Page>
+      <Page>
         <PtMap />
-      </Box>
+      </Page>
+      <Page>
+        <MapWrapper />
+        <CheckBoxes />
+      </Page>
     </Box>
   );
 }

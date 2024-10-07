@@ -13,6 +13,7 @@ import ColorModeContext, {
 } from "./context/colorModeContext";
 
 import { MapProvider } from "./context/mapContext";
+import { LayerProvider } from "./context/LayerContext";
 
 import createMuiTheme from "./theme";
 
@@ -36,19 +37,21 @@ const App: React.FC = () => {
 
   return (
     <CacheProvider value={cache}>
-      <ThemeProvider theme={theme}>
-        <MapProvider>
-          <CssBaseline />
-          {globalFonts.map((font) => font)}
-          <GlobalStyles styles={createGlobalStyles} />
+        <ThemeProvider theme={theme}>
+          <MapProvider>
+            <LayerProvider>
+              <CssBaseline />
+              {globalFonts.map((font) => font)}
+              <GlobalStyles styles={createGlobalStyles} />
 
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" Component={ContentPage} />
-            </Routes>
-          </BrowserRouter>
-        </MapProvider>
-      </ThemeProvider>
+              <BrowserRouter>
+                <Routes>
+                  <Route path="/" Component={ContentPage} />
+                </Routes>
+              </BrowserRouter>
+            </LayerProvider>
+          </MapProvider>
+        </ThemeProvider>
     </CacheProvider>
   );
 };

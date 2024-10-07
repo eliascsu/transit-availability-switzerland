@@ -157,5 +157,18 @@
       "javascript.format.insertSpaceAfterOpeningAndBeforeClosingJsxExpressionBraces": false,
       "javascript.format.placeOpenBraceOnNewLineForFunctions": false,
       "javascript.format.placeOpenBraceOnNewLineForControlBlocks": false,
+
+      "i18n-ally.localesPaths": [
+        "**/src/locales"
+      ],
+      "i18n-ally.enabledFrameworks": ["react-i18next"],
+      "i18n-ally.keystyle": "nested",
+      "i18n-ally.extract.autoDetect" : true,
+      "i18n-ally.refactor.templates": [
+        {
+            "template": "{t(\"{key}\")}",
+            "description": "{t(\"{key}\")}"
+        },
+      ],
     },
   }

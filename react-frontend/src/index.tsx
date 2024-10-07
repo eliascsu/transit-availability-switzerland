@@ -6,6 +6,8 @@ import { createRoot } from "react-dom/client";
 import App from "./App";
 import { ColorModeProvider } from "./context/colorModeContext";
 
+import "./i18n";
+
 const appDiv = document.getElementById("root")!;
 
 const root = createRoot(appDiv);
@@ -14,5 +16,5 @@ root.render(
     <ColorModeProvider>
         <App />
     </ColorModeProvider>
-  </StrictMode>
+  </StrictMode>,
 );

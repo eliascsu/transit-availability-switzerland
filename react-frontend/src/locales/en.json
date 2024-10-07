@@ -1,0 +1,10 @@
+{
+  "heatmap": {
+    "checkbox-switch": "This checkbox allows you to switch between two different population density maps - one provided by SwissTopo (default) and another custom map designed to highlight population hotspots with an exponential grading scale",
+    "click-on-a-tile-to-display-info": "Click on a tile to display info",
+    "population-density-in-switzerland": "Population density in Switzerland",
+    "population-count-ha": "Population Count / ha",
+    "switch-to-heatmap-layer": "Switch to heatmap",
+    "switch-to-swisstopo-layer": "Switch to SwissTopo layer"
+  }
+}

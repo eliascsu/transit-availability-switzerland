@@ -34,6 +34,7 @@ export default function PtMap() {
           const response2 = await fetch(url);
           const data2 = await response2.text();
           infoPtStop.current = data2;
+          tmp.current = e.latlng;
 
           if (infoPtStop.current != "" && tmp.current != undefined) {
             map.openPopup(infoPtStop.current, tmp.current, { minWidth: 400, className: "custom-popup" });
@@ -67,19 +68,18 @@ export default function PtMap() {
   return (
     <div
       style={{
-        height: "inherit",
+        height: "100%",
         width: "100%",
-        display: "grid",
-        gridTemplateColumns: "1fr 2fr",
-        gridTemplateRows: "2fr 3fr 3fr",
+        display: "flex",
         columnGap: "3rem",
-        gridTemplateAreas:`
-          "title  map"
-          "info map"
-          "legend map"
-        `,
+        margin: "16px",
       }}
     >
+      <div style={{ flexBasis: "33.33%" }}>
+        <Title/>
+        <Legend/>
+        <InfoBox/>
+      </div>
       <MapContainer
         center={[47.36, 8.53]}
         zoom={10}
@@ -95,9 +95,6 @@ export default function PtMap() {
         <WMSTileLayer url="https://wms.geo.admin.ch/" layers="ch.are.gueteklassen_oev" format="image/png" transparent={true} opacity={0.5} />
         <MapEvents/>
       </MapContainer>
-      <Title/>
-      <Legend/>
-      <InfoBox/>
     </div>
   );
 }
