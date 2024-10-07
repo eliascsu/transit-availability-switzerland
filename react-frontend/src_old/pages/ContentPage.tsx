@@ -11,7 +11,6 @@ import { useLoadingContext } from "./ctx/LoadingContext";
 import { ThemeContext } from "../App";
 import DarkLightButton from "./components/DarkLightButton";
 
-
 const handleContextMenu: React.MouseEventHandler<HTMLVideoElement> = (event) => {
     event.preventDefault();
   };

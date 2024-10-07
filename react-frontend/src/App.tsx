@@ -1,64 +1,56 @@
-import LandingPage from "./pages/LandingPage";
-import ContentPage from "./pages/ContentPage";
+import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import AttributionsPage from "./pages/AttributionsPage";
-import "./App.css";
-import { MathJaxContext } from "better-react-mathjax";
-import { createContext, useState } from "react";
 
-type ThemeContextType = [string, () => void];
+import { CacheProvider } from "@emotion/react";
+import createCache from "@emotion/cache";
 
-export const ThemeContext = createContext<ThemeContextType>(["", () => {}]);
+import { ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import GlobalStyles from "@mui/material/GlobalStyles";
 
-function reveal() {
-  const reveals = document.querySelectorAll(".reveal");
+import ColorModeContext, {
+  ColorModeProvider,
+} from "./context/colorModeContext";
 
-  for (let i = 0; i < reveals.length; i++) {
-    const windowHeight = window.innerHeight;
-    const elementTop = reveals[i].getBoundingClientRect().top;
-    const elementVisible = 150;
+import { MapProvider } from "./context/mapContext";
 
-    if (elementTop < windowHeight - elementVisible) {
-      reveals[i].classList.add("active");
-    } else {
-      reveals[i].classList.remove("active");
-    }
-  }
-}
+import createMuiTheme from "./theme";
 
-window.addEventListener("scroll", reveal);
+import ContentPage from "./views/contentPage";
 
-function App() {
+import createGlobalStyles, { globalFonts } from "./app.styles";
 
-  const mediaQueryObj = window.matchMedia("(prefers-color-scheme: dark)");
-  const isDarkMode = mediaQueryObj.matches;
+const App: React.FC = () => {
+  const { mode } = React.useContext(ColorModeContext);
 
-  const [theme, setTheme] = useState(isDarkMode ? "dark" : "light");
+  const cache = React.useMemo(
+    () =>
+      createCache({
+        key: "css",
+        stylisPlugins: [],
+      }),
+    [],
+  );
 
-  const config = {
-    loader: { load: ["input/asciimath"] },
-  };
-
-  const toggleTheme = () => {
-    setTheme((curr) => (curr === "light" ? "dark" : "light"));
-  };
+  const theme = React.useMemo(() => createMuiTheme(mode), [mode]);
 
   return (
-    <MathJaxContext config={config}>
-      <ThemeContext.Provider value={[theme, toggleTheme]}>
-        <div id={theme}>
+    <CacheProvider value={cache}>
+      <ThemeProvider theme={theme}>
+        <MapProvider>
+          <CssBaseline />
+          {globalFonts.map((font) => font)}
+          <GlobalStyles styles={createGlobalStyles} />
+
           <BrowserRouter>
             <Routes>
-              <Route path="/oldpage" element={<LandingPage/>}/>
-              <Route path="/" element={<ContentPage/>}/>
-              <Route path="/attributions" element={<AttributionsPage/>}/>
-              <Route path="*" element={<ContentPage/>}/>
+              <Route path="/" Component={ContentPage} />
             </Routes>
           </BrowserRouter>
-        </div>
-      </ThemeContext.Provider>
-    </MathJaxContext>
+        </MapProvider>
+      </ThemeProvider>
+    </CacheProvider>
   );
-}
+};
 
 export default App;
