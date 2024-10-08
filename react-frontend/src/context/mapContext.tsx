@@ -20,8 +20,6 @@ type MapContextType = {
   ptStopsAre: GeoJSON.Feature[],
 
   postUserPoints: (userPoints: GeoJSON.Feature[]) => void,
-  userPoints: GeoJSON.Feature[],
-  setUserPoints: (userPoints: GeoJSON.Feature[]) => void,
 
   getScoreUserPtLines: () => Promise<number>,
 };
@@ -37,8 +35,6 @@ const MapContext = React.createContext<MapContextType>({
   ptStopsAre: [],
 
   postUserPoints: () => { },
-  userPoints: [],
-  setUserPoints: () => { },
 
   getScoreUserPtLines: () => Promise.resolve(0),
 });
@@ -54,7 +50,6 @@ export const MapProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [populationDensity, setPopulationDensity] = React.useState<PopulationPoint[]>([]);
   const [populationUnserved, setPopulationUnserved] = React.useState<PopulationPoint[]>([]);
   const [ptStopsAre, setPtStopsAre] = React.useState<GeoJSON.Feature[]>([]);
-  const [userPoints, setUserPoints] = React.useState<GeoJSON.Feature[]>([]);
 
   const isLoadingPopulation = React.useRef<boolean>(false);
   const isLoadingPopulationUnserved = React.useRef<boolean>(false);
@@ -115,25 +110,6 @@ export const MapProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
   };
 
-  const postPoints = async (userPoints: GeoJSON.Feature[]) => {
-    try {
-      const url = "/user/pt-stops";
-      const response = await fetch(BASE_URL + url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userPoints),
-      });
-      const data = await response.json();
-      if (Array.isArray(data)) {
-        setUserPoints(data);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   const postUserPoints = async (userPoints: GeoJSON.Feature[]) => {
     try {
       const url = "/user/pt-stops";
@@ -172,12 +148,6 @@ export const MapProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     getPopulationUnserved();
   }, []);
 
-  React.useEffect(() => {
-    if (userPoints.length > 0) {
-      postPoints(userPoints);
-    }
-  }, [userPoints]);
-
   return (
     <MapContext.Provider value={
       {
@@ -189,9 +159,6 @@ export const MapProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
         ptStopsAreLoaded,
         ptStopsAre,
-
-        userPoints,
-        setUserPoints,
 
         postUserPoints,
         getScoreUserPtLines,
