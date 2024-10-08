@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "@emotion/styled";
 
-import "leaflet.heat";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
+import "leaflet.heat";
 import { TileLayer, WMSTileLayer, useMapEvents } from "react-leaflet";
 
 import proj4 from "proj4";
