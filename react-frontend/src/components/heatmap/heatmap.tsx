@@ -49,7 +49,23 @@ const Description: React.FC<
       >
         <b>{t("heatmap.population-density-in-switzerland")}</b>
       </Typography>
-      <InfoBox infoStatePopulation={infoStatePopulation} />
+      {(
+        infoStatePopulation === "" ? (
+          <p style={{ textAlign: "center" }}>
+            <InfoTwoToneIcon/> {t("heatmap.click-on-a-tile-to-display-info")}
+          </p>
+        ) : (
+          <div
+            id="infoBox"
+            dangerouslySetInnerHTML={{
+              __html: infoStatePopulation.replace(
+                /Population\scount/g,
+                t("heatmap.population-count-ha"),
+              ),
+            }}
+          />
+        )
+      )}
       <div
         id="swissTopoCheckboxDiv"
         style={{
@@ -206,27 +222,3 @@ export default function PopulationHeatmap() {
     </>
   );
 }
-
-const InfoBox: React.FC<{ infoStatePopulation: string }> = ({
-  infoStatePopulation,
-}) => {
-  const { t } = useTranslation();
-  if (infoStatePopulation === "") {
-    return (
-      <p style={{ textAlign: "center" }}>
-        <InfoTwoToneIcon/> {t("heatmap.click-on-a-tile-to-display-info")}
-      </p>
-    );
-  }
-  return (
-    <div
-      id="infoBox"
-      dangerouslySetInnerHTML={{
-        __html: infoStatePopulation.replace(
-          /Population\scount/g,
-          t("heatmap.population-count-ha"),
-        ),
-      }}
-    />
-  );
-};
