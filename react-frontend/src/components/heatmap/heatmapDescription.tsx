@@ -19,6 +19,7 @@ type HeatmapDescriptionProps = {
 const HeatmapDescription: React.FC<HeatmapDescriptionProps> = ({ useSwissTopoMap, setSwissTopoMap, infoStatePopulation }) => {
   const { t } = useTranslation();
   const { populationDensityLoaded } = React.useContext(MapContext);
+
   return (
     <Box style={{
       flexBasis: "33.33%",

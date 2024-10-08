@@ -56,8 +56,15 @@ export const MapProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [ptStopsAre, setPtStopsAre] = React.useState<GeoJSON.Feature[]>([]);
   const [userPoints, setUserPoints] = React.useState<GeoJSON.Feature[]>([]);
 
+  const isLoadingPopulation = React.useRef<boolean>(false);
+  const isLoadingPopulationUnserved = React.useRef<boolean>(false);
+  const isLoadingPtStopsAre = React.useRef<boolean>(false);
+
   const getPopulationDensity = async () => {
     try {
+      if (isLoadingPopulation.current) return;
+      isLoadingPopulation.current = true;
+
       const url = "/datasets/population-heatmap";
       const response = await fetch(BASE_URL + url);
       const data = await response.json();
@@ -73,6 +80,9 @@ export const MapProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const getPopulationUnserved = async () => {
     try {
+      if (isLoadingPopulationUnserved.current) return;
+      isLoadingPopulationUnserved.current = true;
+
       const url = "/datasets/population-unserved";
       const response = await fetch(BASE_URL + url);
       const data = await response.json();
@@ -88,6 +98,9 @@ export const MapProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const getPtStopsAre = async () => {
     try {
+      if (isLoadingPtStopsAre.current) return;
+      isLoadingPtStopsAre.current = true;
+
       const url = "/datasets/pt-stops-are";
       const response = await fetch(BASE_URL + url);
       const data = await response.json();
