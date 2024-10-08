@@ -47,7 +47,7 @@ function getLineColor(lineType: string) {
       lineColor = lineColors.Bus;
       break;
     }
-    case "S_Bahn": {
+    case "S-Bahn": {
       lineColor = lineColors.S_Bahn;
       break;
     }

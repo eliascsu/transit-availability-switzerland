@@ -2,9 +2,10 @@ import React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Zuerich from "../zuerich.mp4";
-import PopulationHeatmap from "../components/Heatmap";
+import PopulationHeatmap from "../components/heatmap/heatmap";
 import PtMap from "../components/PtMap";
 
+import CustomDesc from "../components/CustomDesc";
 import Page from "./page";
 import MapWrapper from "../components/MapWrapper";
 
@@ -87,6 +88,9 @@ export default function ContentPage() {
       </Page>
       <Page>
         <PtMap />
+      </Page>
+      <Page>
+        <CustomDesc />
       </Page>
       <Page>
         <MapWrapper />

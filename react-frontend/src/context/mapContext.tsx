@@ -142,9 +142,9 @@ export const MapProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     try {
       const url = "/user/pt-stops";
       const response = await fetch(BASE_URL + url);
-      const data: number = await response.json();
+      const data: any = await response.json();
 
-      return data;
+      return data.population_served;
 
     } catch (error) {
       console.error(error);

@@ -13,56 +13,54 @@ export function CheckBoxes() {
   } = React.useContext(LayerContext);
 
   return (
-        <div id="checkBoxes">
-          <Score/>
-          <FormGroup>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  onChange={(e) => { setVisibleLayersState(
-                    {
-                      ...visibleLayersState,
-                      transportLayer: e.target.checked,
-                    });
-                  }}
-                  checked={visibleLayersState.transportLayer}
-                />}
-              label="Public Transport map"
+    <>
+      <Score/>
+      <FormGroup>
+        <FormControlLabel
+          control={
+            <Checkbox
+              onChange={(e) => { setVisibleLayersState(
+                {
+                  ...visibleLayersState,
+                  transportLayer: e.target.checked,
+                });
+              }}
+              checked={visibleLayersState.transportLayer}
+            />}
+          label="Public Transport map"
+          title="Shows public transport connectivity."
+        />
+        <FormControlLabel
+          control={
+            <Checkbox
+              onChange={(event) => {
+                setVisibleLayersState({
+                  ...visibleLayersState,
+                  popLayer: event.target.checked,
+                });
+              }}
+              checked={visibleLayersState.popLayer}
             />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  onChange={(event) => {
-                    setVisibleLayersState({
-                      ...visibleLayersState,
-                      popLayer: event.target.checked,
-                    });
-                  }}
-                  checked={visibleLayersState.popLayer}
-                />
-              }
-              label="Population Density map"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  onChange={(e) => { setVisibleLayersState(
-                    {
-                      ...visibleLayersState,
-                      popUnservedLayer: e.target.checked,
-                    });
-                  }}
-              checked={visibleLayersState.popUnservedLayer}
-               />}
-              label="Unserved Population map"
-            />
-          </FormGroup>
-          {/* <div id="interactive_text">
-            <p>Shows public transport connectivity.</p>
-            <p>Highlights population hotspots.</p>
-            <p>Marks areas with poor public transport access.</p>
-            </div> */}
-        </div>
+          }
+          label="Population Density map"
+          title="Highlights population hotspots."
+        />
+        <FormControlLabel
+          control={
+            <Checkbox
+              onChange={(e) => { setVisibleLayersState(
+                {
+                  ...visibleLayersState,
+                  popUnservedLayer: e.target.checked,
+                });
+              }}
+          checked={visibleLayersState.popUnservedLayer}
+            />}
+          label="Unserved Population map"
+          title="Marks areas with poor public transport access"
+        />
+      </FormGroup>
+    </>
   );
 }
 
