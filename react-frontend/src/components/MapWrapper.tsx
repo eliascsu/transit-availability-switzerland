@@ -1,30 +1,60 @@
 import React, { useEffect, useState, useRef } from "react";
 
-import { TileLayer, useMapEvents } from "react-leaflet";
-import L from "leaflet";
 import "leaflet.heat";
 import "leaflet/dist/leaflet.css";
+import L from "leaflet";
+import { TileLayer, useMapEvents } from "react-leaflet";
 
-import { getLineColor, createHeatMap } from "../utils/utils";
-import { makePTCirclesFromData } from "../utils/qual_layers";
-import { addPointToLine } from "../utils/utils";
+import Box from "@mui/material/Box";
 
 import { WGS84, LV95 } from "../utils/constants";
 
+import {
+  addPointToLine,
+  createHeatMap,
+  getLineColor,
+} from "../utils/utils";
+import { makePTCirclesFromData } from "../utils/qual_layers";
+
+import CheckBoxes from "./Checkboxes";
+import FormComponent from "./FormComponent";
 import StyledMapContainer from "./mapContainer";
 
-import MapContext from "../context/mapContext";
 import LayerContext from "../context/LayerContext";
+import MapContext from "../context/mapContext";
 
 import proj4 from "proj4";
 
 const MapWrapper = React.memo(function MapWrapper() {
   return (
-    <StyledMapContainer>
-      <TileLayer maxZoom={100} url="https://tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey=119ad4f25bed4ec2a70aeba31a0fb12a" attribution="&copy; <a href=&quot;https://www.thunderforest.com/&quot;>Thunderforest</a> contributors" />
-      <TileLayer url="https://tiles.openrailwaymap.org/standard/{z}/{x}/{y}.png"></TileLayer>
-      <Map></Map>
-    </StyledMapContainer>
+    <>
+    <Box
+      style={{
+        height: "100%",
+        width: "100%",
+        display: "flex",
+        columnGap: "3rem",
+        margin: "16px",
+        paddingTop: "32px",
+      }}
+    >
+      <StyledMapContainer>
+        <TileLayer maxZoom={100} url="https://tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey=119ad4f25bed4ec2a70aeba31a0fb12a" attribution="&copy; <a href=&quot;https://www.thunderforest.com/&quot;>Thunderforest</a> contributors" />
+        <TileLayer url="https://tiles.openrailwaymap.org/standard/{z}/{x}/{y}.png"></TileLayer>
+        <Map></Map>
+      </StyledMapContainer>
+      <Box style={{
+        flexBasis: "33.33%",
+        height: "90%",
+        flexDirection: "column",
+        display: "flex",
+        justifyContent: "space-between",
+      }}>
+        <CheckBoxes/>
+        <FormComponent />
+      </Box>
+    </Box>
+    </>
   );
 });
 
@@ -83,6 +113,7 @@ const Map = React.memo(function Map() {
     click: async (e) => {
       map.scrollWheelZoom.enable();
       console.log(linesFromFormState);
+      console.log(drawingState);
       if (drawingState) {
 
         // Check if there is a PT stop nearby (snapping)
@@ -91,15 +122,12 @@ const Map = React.memo(function Map() {
         const url_ident = "https://api3.geo.admin.ch/rest/services/all/MapServer/identify?geometry=" + x + "," + y + "&imageDisplay=400,400,96&mapExtent=" + (x - 4000) + "," + (y - 4000) + "," + (x + 4000) + "," + (y + 4000) + "&geometryFormat=geojson&geometryType=esriGeometryPoint&lang=en&layers=all:ch.bav.haltestellen-oev&limit=10&returnGeometry=true&sr=2056&timeInstant=2021&tolerance=7";
         const response = await fetch(url_ident);
         const data = await response.json();
-        if (data.results[0] == undefined)
-          return e.latlng;
-        console.log(data.results[0].geometry);
-        let coords = proj4(LV95, WGS84, data.results[0].geometry?.coordinates[0]);
-        console.log(coords);
-        if (coords.lng == undefined)
-          coords = [coords[0], coords[1]];
+        let coords;
+        if (data.results[0]) {
+          coords = proj4(LV95, WGS84, data.results[0].geometry?.coordinates[0]) as number[];
+        }
         else {
-          coords = [coords.lng, coords.lat];
+          coords = [e.latlng.lng, e.latlng.lat];
         }
 
         for (const line of userLinesRef.current) {
@@ -167,7 +195,7 @@ const Map = React.memo(function Map() {
         layer.removeFrom(map);
       }
     }
-  }, [visibleLayersState.transportLayer]);
+  }, [visibleLayersState.transportLayer, updatePT]);
 
   /**
      * On form submit redraw user lines

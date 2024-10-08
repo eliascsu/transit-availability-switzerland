@@ -7,7 +7,6 @@ import PtMap from "../components/PtMap";
 
 import Page from "./page";
 import MapWrapper from "../components/MapWrapper";
-import CheckBoxes from "../components/Checkboxes";
 
 export default function ContentPage() {
   const videoRef = React.useRef<HTMLVideoElement>(null);
@@ -91,7 +90,6 @@ export default function ContentPage() {
       </Page>
       <Page>
         <MapWrapper />
-        <CheckBoxes />
       </Page>
     </Box>
   );
