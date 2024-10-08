@@ -1,5 +1,9 @@
 import React from "react";
 
+import Card from "@mui/material/Card";
+import Divider from "@mui/material/Divider";
+import Typography from "@mui/material/Typography";
+
 import { TileLayer, WMSTileLayer, useMap, useMapEvents } from "react-leaflet";
 import { MapContainer } from "react-leaflet";
 import L, { LatLng, LatLngTuple } from "leaflet";
@@ -101,43 +105,26 @@ export default function PtMap() {
 
 function Legend() {
   return (
-        <div className="legend">
-            <h4 id="legendTitle">Connection quality:</h4>
-            <div style={{ listStyleType: "none" }} id="legendList">
-                <div className="listElement">
-                    <div id="rectangle" style={{
-                      width: "20px",
-                      height:"15px",
-                      background:"#700038",
-                    }}>
-                    </div><p>Very good connection quality</p>
-                </div>
-                <div className="listElement">
-                    <div id="rectangle" style={{
-                      width: "20px",
-                      height:"15px",
-                      background:"#9966FF",
-                    }}>
-                    </div><p>Good connection quality</p>
-                </div>
-                <div className="listElement">
-                    <div id="rectangle" style={{
-                      width: "20px",
-                      height:"15px",
-                      background:"#00B000",
-                    }}>
-                    </div><p>Medium connection quality</p>
-                </div>
-                <div className="listElement">
-                    <div id="rectangle" style={{
-                      width: "20px",
-                      height:"15px",
-                      background:"#B3FF40",
-                    }}>
-                    </div><p>Bad connection quality</p>
-                </div>
+        <Card variant="outlined" sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "flex-start",
+          padding: 1,
+          bgcolor: (theme) => theme.palette.background.default,
+        }}>
+            <Typography id="legendTitle">Connection quality:</Typography>
+            <Divider sx={{
+              margin: 1,
+              color: "black",
+              width: "90%",
+            }}/>
+            <div style={{ listStyleType: "none" }} >
+                <LegendRow color="#700038" text="Very good connection quality"/>
+                <LegendRow color="#9966FF" text="Good connection quality"/>
+                <LegendRow color="#00B000" text="Medium connection quality"/>
+                <LegendRow color="#B3FF40" text="Bad connection quality"/>
             </div>
-        </div>
+        </Card>
   );
 }
 
@@ -159,5 +146,31 @@ function Title() {
         <h2 id="transitTitle">
             Connection quality of <div className="highlightedText">public transport</div> in Switzerland
         </h2>
+  );
+}
+
+const Rectangle: React.FC<{ color: string }> = ({ color }) => {
+  return (
+    <div id="rectangle" style={{
+      width: "20px",
+      height: "15px",
+      background: color,
+    }}>
+    </div>
+  );
+};
+
+const LegendRow: React.FC<{ color: string, text: string }> = ({ color, text }) => {
+  return (
+    <div style={{
+      display: "flex",
+      flexDirection: "row",
+      gap: "1rem",
+      alignItems: "center",
+      height: "30px",
+    }}>
+      <Rectangle color={color}/>
+      <Typography>{text}</Typography>
+    </div>
   );
 }

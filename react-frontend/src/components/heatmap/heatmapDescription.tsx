@@ -21,19 +21,19 @@ const HeatmapDescription: React.FC<HeatmapDescriptionProps> = ({ useSwissTopoMap
   const { populationDensityLoaded } = React.useContext(MapContext);
 
   return (
-    <Box style={{
+    <Box sx={{
       flexBasis: "33.33%",
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
       height: "90%",
-      gap: "1rem",
+      gap: 1,
     }}>
       <Typography variant="h6" style={{ paddingTop: "2rem" }}>
         <b>{t("heatmap.population-density-in-switzerland")}</b>
       </Typography>
       <Divider style={{ margin: 1, color: "black" }}/>
-      <Box style={{ padding: "8px", gap: "8px" }} >
+      <Box sx={{ padding: 1, gap: 1 }} >
         <Typography variant="body1">
           {t("heatmap.checkbox-switch")}
         </Typography>
@@ -41,7 +41,10 @@ const HeatmapDescription: React.FC<HeatmapDescriptionProps> = ({ useSwissTopoMap
           variant="outlined"
           disabled={!populationDensityLoaded}
           onClick={() => setSwissTopoMap(!useSwissTopoMap)}
-          style={{ width: "100%" }}
+          sx={{
+            width: "100%",
+            backgroundColor: (theme) => theme.palette.background.default,
+          }}
         >
           {useSwissTopoMap ? (
             <p>{t("heatmap.switch-to-heatmap-layer")}</p>
@@ -50,16 +53,17 @@ const HeatmapDescription: React.FC<HeatmapDescriptionProps> = ({ useSwissTopoMap
           )}
         </Button>
       </Box>
-      <Card variant="outlined" style={{ padding: "8px", gap: "8px" }} sx={{
-        bgcolor: "antiquewhite",
+      <Card variant="outlined" sx={{
+        padding: 1,
+        gap: 1,
+        bgcolor: (theme) => theme.palette.background.default,
         width: "100%",
-        padding: "8px",
       }}>
-        <Typography style={{
+        <Typography sx={{
           textAlign: "center",
           display: "flex",
           alignItems: "center",
-          gap: "8px",
+          gap: 1,
           justifyContent: "center",
         }}>
           <InfoTwoToneIcon/> {t("heatmap.click-on-a-tile-to-display-info")}
@@ -67,8 +71,8 @@ const HeatmapDescription: React.FC<HeatmapDescriptionProps> = ({ useSwissTopoMap
         {
           infoStatePopulation && (
           <>
-            <Divider style={{
-              margin: "8px",
+            <Divider sx={{
+              margin: 1,
               color: "black",
             }}/>
             <Typography

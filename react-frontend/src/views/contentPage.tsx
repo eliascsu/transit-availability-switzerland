@@ -1,15 +1,25 @@
 import React from "react";
+
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+
 import Zuerich from "../zuerich.mp4";
+
+import CustomDesc from "../components/CustomDesc";
+import MapWrapper from "../components/MapWrapper";
 import PopulationHeatmap from "../components/heatmap/heatmap";
 import PtMap from "../components/PtMap";
 
-import CustomDesc from "../components/CustomDesc";
+import DarkModeTwoTone from "@mui/icons-material/DarkModeTwoTone";
+import LightModeTwoTone from "@mui/icons-material/LightModeTwoTone";
+
+import ColorModeContext from "../context/colorModeContext";
+
 import Page from "./page";
-import MapWrapper from "../components/MapWrapper";
 
 export default function ContentPage() {
+  const { mode, toggleColorMode } = React.useContext(ColorModeContext);
+
   const videoRef = React.useRef<HTMLVideoElement>(null);
 
   React.useEffect(() => {
@@ -80,19 +90,35 @@ export default function ContentPage() {
         >
           <Typography variant="h1">Transit availability in Switzerland</Typography>
         </Box>
+        {/* Toggle dark/light mode */}
+        <Box
+          sx={{
+            position: "absolute",
+            bottom: "2rem",
+            left: "2rem",
+            color: "white",
+            zIndex: 1,
+          }}
+        >
+          {mode === "dark" ? (
+            <LightModeTwoTone onClick={toggleColorMode} />
+          ) : (
+            <DarkModeTwoTone onClick={toggleColorMode} />
+          )}
+        </Box>
       </Box>
 
       {/* Heatmap */}
-      <Page>
+      <Page height="100vh">
         <PopulationHeatmap />
       </Page>
-      <Page>
+      <Page height="100vh">
         <PtMap />
       </Page>
-      <Page>
+      <Page height="60vh">
         <CustomDesc />
       </Page>
-      <Page>
+      <Page height="100vh">
         <MapWrapper />
       </Page>
     </Box>
