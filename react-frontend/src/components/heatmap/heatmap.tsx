@@ -1,8 +1,6 @@
 import React from "react";
 import styled from "@emotion/styled";
 
-import { useTranslation } from "react-i18next";
-
 import "leaflet.heat";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
@@ -10,10 +8,8 @@ import { TileLayer, WMSTileLayer, useMapEvents } from "react-leaflet";
 
 import proj4 from "proj4";
 
-import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import InfoTwoToneIcon from "@mui/icons-material/InfoTwoTone";
-import Typography from "@mui/material/Typography";
+import HeatmapDescription from "./heatmapDescription";
 
 import MapContext from "../../context/mapContext";
 
@@ -32,53 +28,6 @@ const PageContainer = styled(Box)`
   margin: 16px;
   padding-top: 32px;
 `;
-
-type DescriptionProps = {
-  useSwissTopoMap: boolean;
-  setSwissTopoMap: (value: boolean) => void;
-  infoStatePopulation: string;
-};
-
-const Description: React.FC<DescriptionProps> = ({ useSwissTopoMap, setSwissTopoMap, infoStatePopulation }) => {
-  const { t } = useTranslation();
-  const { populationDensityLoaded } = React.useContext(MapContext);
-  return (
-    <Box style={{ flexBasis: "33.33%" }}>
-      <Typography variant="h6" style={{ paddingTop: "2rem" }}>
-        <b>{t("heatmap.population-density-in-switzerland")}</b>
-      </Typography>
-      {(
-        infoStatePopulation === "" ? (
-          <Typography style={{ textAlign: "center" }}>
-            <InfoTwoToneIcon/> {t("heatmap.click-on-a-tile-to-display-info")}
-          </Typography>
-        ) : (
-          <Typography
-            dangerouslySetInnerHTML={{
-              __html: infoStatePopulation.replace(
-                /Population\scount/g,
-                t("heatmap.population-count-ha"),
-              ),
-            }}
-          />
-        )
-      )}
-      <Typography variant="body1">
-        {t("heatmap.checkbox-switch")}
-      </Typography>
-      <Button
-        disabled={!populationDensityLoaded}
-        onClick={() => setSwissTopoMap(!useSwissTopoMap)}
-      >
-        {useSwissTopoMap ? (
-          <p>{t("heatmap.switch-to-heatmap-layer")}</p>
-        ) : (
-          <p>{t("heatmap.switch-to-swisstopo-layer")}</p>
-        )}
-      </Button>
-    </Box>
-  );
-};
 
 export default function PopulationHeatmap() {
   const didCancel = React.useRef(false);
@@ -181,7 +130,7 @@ export default function PopulationHeatmap() {
             />
             <AddEvents />
           </StyledMapContainer>
-          <Description
+          <HeatmapDescription
             useSwissTopoMap={useSwissTopoMap}
             setSwissTopoMap={setSwissTopoMap}
             infoStatePopulation={infoStatePopulation}
@@ -198,7 +147,7 @@ export default function PopulationHeatmap() {
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
           <AddHeatLayer />
         </StyledMapContainer>
-        <Description
+        <HeatmapDescription
           useSwissTopoMap={useSwissTopoMap}
           setSwissTopoMap={setSwissTopoMap}
           infoStatePopulation={infoStatePopulation}
