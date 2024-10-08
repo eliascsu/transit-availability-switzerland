@@ -95,42 +95,45 @@ export default function PopulationHeatmap() {
     }
   }, [populationDensity]);
 
+  const getPopup = async (e: any) => {
+    const [x, y] = proj4(WGS84, LV95, [e.latlng.lng, e.latlng.lat]);
+    const url_identify =
+      "https://api3.geo.admin.ch/rest/services/all/MapServer/identify?geometry=" +
+      x +
+      "," +
+      y +
+      "&geometryFormat=geojson" +
+      "&geometryType=esriGeometryPoint" +
+      "&lang=en" +
+      "&layers=all:ch.bfs.volkszaehlung-bevoelkerungsstatistik_einwohner" +
+      "&limit=10" +
+      "&returnGeometry=true" +
+      "&sr=2056" +
+      "&timeInstant=2021" +
+      "&tolerance=0";
+    const response = await fetch(url_identify);
+    const data = await response.json();
+    const id = data.results[0]?.id;
+    if (id == null) return;
+
+    const url =
+      "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.volkszaehlung-bevoelkerungsstatistik_einwohner/" +
+      id +
+      "/htmlPopup?coord=" +
+      x +
+      "," +
+      y +
+      "&lang=en&tolerance=1&sr=2056";
+    const response2 = await fetch(url);
+    const data2 = await response2.text();
+    setInfoStatePopulation(data2 ?? "");
+  };
+
   function AddHeatLayer() {
     const map = useMapEvents({
       click: async (e) => {
         map.scrollWheelZoom.enable();
-        const [x, y] = proj4(WGS84, LV95, [e.latlng.lng, e.latlng.lat]);
-        const url_identify =
-          "https://api3.geo.admin.ch/rest/services/all/MapServer/identify?geometry=" +
-          x +
-          "," +
-          y +
-          "&geometryFormat=geojson" +
-          "&geometryType=esriGeometryPoint" +
-          "&lang=en" +
-          "&layers=all:ch.bfs.volkszaehlung-bevoelkerungsstatistik_einwohner" +
-          "&limit=10" +
-          "&returnGeometry=true" +
-          "&sr=2056" +
-          "&timeInstant=2021" +
-          "&tolerance=0";
-        const response = await fetch(url_identify);
-        const data = await response.json();
-        const id = data.results[0]?.id;
-        if (id == null) return;
-
-        const url =
-          "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.volkszaehlung-bevoelkerungsstatistik_einwohner/" +
-          id +
-          "/htmlPopup?coord=" +
-          x +
-          "," +
-          y +
-          "&lang=en&tolerance=1&sr=2056";
-        const response2 = await fetch(url);
-        const data2 = await response2.text();
-        if (didCancel.current) return;
-        setInfoStatePopulation(data2 ?? "");
+        getPopup(e);
       },
     });
 
@@ -150,35 +153,7 @@ export default function PopulationHeatmap() {
       click: async (e) => {
         // Identify the point on the map
         map.scrollWheelZoom.enable();
-        const [x, y] = proj4(WGS84, LV95, [e.latlng.lng, e.latlng.lat]);
-        const url_ident =
-          "https://api3.geo.admin.ch/rest/services/all/MapServer/identify?geometry=" +
-          x +
-          "," +
-          y +
-          "&geometryFormat=geojson" +
-          "&geometryType=esriGeometryPoint" +
-          "&lang=en" +
-          "&layers=all:ch.bfs.volkszaehlung-bevoelkerungsstatistik_einwohner" +
-          "&limit=10&returnGeometry=true&sr=2056&timeInstant=2021&tolerance=0";
-        const response = await fetch(url_ident);
-        const data = await response.json();
-        const id = data.results[0]?.id;
-        if (id == null) return;
-
-        // Get the population data for the point
-        const url =
-          "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.volkszaehlung-bevoelkerungsstatistik_einwohner/" +
-          id +
-          "/htmlPopup?coord=" +
-          x +
-          "," +
-          y +
-          "&lang=en&tolerance=0&sr=2056";
-        const response2 = await fetch(url);
-        const data2 = await response2.text();
-        // if (didCancel.current) { return };
-        setInfoStatePopulation(data2 ?? "");
+        getPopup(e);
       },
     });
     return null;
