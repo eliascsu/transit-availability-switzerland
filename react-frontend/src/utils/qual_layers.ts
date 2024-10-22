@@ -1,5 +1,4 @@
 import L from "leaflet";
-import { FeatureCollection } from "../models/data";
 import { classColors } from "./colors";
 
 // Configuration of markers

@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 
+import L from "leaflet";
 import "leaflet.heat";
 import "leaflet/dist/leaflet.css";
-import L from "leaflet";
 import { TileLayer, useMapEvents } from "react-leaflet";
 
 import Box from "@mui/material/Box";

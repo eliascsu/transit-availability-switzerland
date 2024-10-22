@@ -4,15 +4,15 @@ import Card from "@mui/material/Card";
 import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
 
-import { TileLayer, WMSTileLayer, useMap, useMapEvents } from "react-leaflet";
-import { MapContainer } from "react-leaflet";
-import L, { LatLng, LatLngTuple } from "leaflet";
+import "leaflet/dist/leaflet.css";
 
-import proj4 from "proj4";
+import { TileLayer, WMSTileLayer, useMapEvents } from "react-leaflet";
+import { MapContainer } from "react-leaflet";
+import L, { LatLng } from "leaflet";
+
 import InfoTwoToneIcon from "@mui/icons-material/InfoTwoTone";
 
-const wgs84 = "EPSG:4326";
-const lv95 = "+proj=somerc +lat_0=46.95240555555556 +lon_0=7.439583333333333 +k_0=1 +x_0=2600000 +y_0=1200000 +ellps=bessel +towgs84=674.374,15.056,405.346,0,0,0,0 +units=m +no_defs";
+import { getPopupPublicTransportStop } from "../api/swisstopo";
 
 export default function PtMap() {
   const infoPtStop = React.useRef<string>("");
@@ -27,17 +27,7 @@ export default function PtMap() {
         click: async (e) => {
           map.scrollWheelZoom.enable();
           infoPtStop.current = "";
-          const [x, y] = proj4(wgs84, lv95, [e.latlng.lng, e.latlng.lat]);
-          const url_ident = "https://api3.geo.admin.ch/rest/services/all/MapServer/identify?geometry=" + x + "," + y + "&imageDisplay=400,400,96&mapExtent=" + (x - 4000) + "," + (y - 4000) + "," + (x + 4000) + "," + (y + 4000) + "&geometryFormat=geojson&geometryType=esriGeometryPoint&lang=en&layers=all:ch.bav.haltestellen-oev&limit=10&returnGeometry=true&sr=2056&timeInstant=2021&tolerance=10";
-          const response = await fetch(url_ident);
-          const data = await response.json();
-          const id = data.results[0]?.id;
-          if (id == null) return;
-          const url = "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bav.haltestellen-oev/" + id + "/htmlPopup?coord=" + x + "," + y + "&lang=en&tolerance=0&sr=2056";
-
-          const response2 = await fetch(url);
-          const data2 = await response2.text();
-          infoPtStop.current = data2;
+          infoPtStop.current = await getPopupPublicTransportStop(e.latlng.lat, e.latlng.lng);
           tmp.current = e.latlng;
 
           if (infoPtStop.current != "" && tmp.current != undefined) {
@@ -173,4 +163,4 @@ const LegendRow: React.FC<{ color: string, text: string }> = ({ color, text }) =
       <Typography>{text}</Typography>
     </div>
   );
-}
+};

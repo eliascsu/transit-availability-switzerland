@@ -1,12 +1,10 @@
 import React from "react";
 import styled from "@emotion/styled";
 
-import "leaflet/dist/leaflet.css";
 import L from "leaflet";
+import "leaflet/dist/leaflet.css";
 import "leaflet.heat";
 import { TileLayer, WMSTileLayer, useMapEvents } from "react-leaflet";
-
-import proj4 from "proj4";
 
 import Box from "@mui/material/Box";
 import HeatmapDescription from "./heatmapDescription";
@@ -14,11 +12,9 @@ import HeatmapDescription from "./heatmapDescription";
 import MapContext from "../../context/mapContext";
 
 import { createHeatMap } from "../../utils/utils";
-import { WGS84, LV95 } from "../../utils/constants";
 
 import StyledMapContainer from "../mapContainer";
-
-proj4.defs("EPSG:2056", LV95);
+import { getPopupPopulationDensity } from "../../api/swisstopo";
 
 const PageContainer = styled(Box)`
   height: 100%;
@@ -49,45 +45,12 @@ export default function PopulationHeatmap() {
     }
   }, [populationDensity]);
 
-  const getPopup = async (e: any) => {
-    const [x, y] = proj4(WGS84, LV95, [e.latlng.lng, e.latlng.lat]);
-    const url_identify =
-      "https://api3.geo.admin.ch/rest/services/all/MapServer/identify?geometry=" +
-      x +
-      "," +
-      y +
-      "&geometryFormat=geojson" +
-      "&geometryType=esriGeometryPoint" +
-      "&lang=en" +
-      "&layers=all:ch.bfs.volkszaehlung-bevoelkerungsstatistik_einwohner" +
-      "&limit=10" +
-      "&returnGeometry=true" +
-      "&sr=2056" +
-      "&timeInstant=2021" +
-      "&tolerance=0";
-    const response = await fetch(url_identify);
-    const data = await response.json();
-    const id = data.results[0]?.id;
-    if (id == null) return;
-
-    const url =
-      "https://api3.geo.admin.ch/rest/services/ech/MapServer/ch.bfs.volkszaehlung-bevoelkerungsstatistik_einwohner/" +
-      id +
-      "/htmlPopup?coord=" +
-      x +
-      "," +
-      y +
-      "&lang=en&tolerance=1&sr=2056";
-    const response2 = await fetch(url);
-    const data2 = await response2.text();
-    setInfoStatePopulation(data2 ?? "");
-  };
-
   function AddHeatLayer() {
     const map = useMapEvents({
       click: async (e) => {
         map.scrollWheelZoom.enable();
-        getPopup(e);
+        const data2 = await getPopupPopulationDensity(e.latlng.lng, e.latlng.lat);
+        setInfoStatePopulation(data2 ?? "");
       },
     });
 
@@ -107,7 +70,8 @@ export default function PopulationHeatmap() {
       click: async (e) => {
         // Identify the point on the map
         map.scrollWheelZoom.enable();
-        getPopup(e);
+        const data2 = await getPopupPopulationDensity(e.latlng.lng, e.latlng.lat);
+        setInfoStatePopulation(data2 ?? "");
       },
     });
     return null;
