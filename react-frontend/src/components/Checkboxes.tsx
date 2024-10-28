@@ -1,20 +1,22 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 import Checkbox from "@mui/material/Checkbox";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import Typography from "@mui/material/Typography";
 
 import LayerContext from "../context/LayerContext";
-import Score from "./Score";
 
-export function CheckBoxes() {
+const CheckBoxes: React.FC = () => {
+  const { t } = useTranslation();
   const {
-    visibleLayersState, setVisibleLayersState,
+    visibleLayersState, setVisibleLayersState, score,
   } = React.useContext(LayerContext);
 
   return (
     <>
-      <Score/>
+      <Typography variant="h6"><b>{score} {t("new-people-served")}</b></Typography>
       <FormGroup>
         <FormControlLabel
           control={
@@ -62,6 +64,6 @@ export function CheckBoxes() {
       </FormGroup>
     </>
   );
-}
+};
 
 export default CheckBoxes;

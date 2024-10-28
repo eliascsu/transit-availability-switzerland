@@ -1,4 +1,4 @@
-export default function PtMap_desc() {
+const PtMap_desc: React.FC = () => {
   return (
     <div id="pt-map-description" className="reveal">
       <h2 id="title1">Attractiveness</h2>
@@ -25,4 +25,6 @@ export default function PtMap_desc() {
       </p>
     </div>
   );
-}
+};
+
+export default PtMap_desc;

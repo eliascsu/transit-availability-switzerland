@@ -1,14 +1,19 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
+import Paper from "@mui/material/Paper";
+
 import LayerContext from "../context/LayerContext";
 
 import { Line } from "../models/data";
 
-function FormComponent() {
+const FormComponent: React.FC = () => {
+  const { t } = useTranslation();
+
   const {
     drawingState,
     setDrawingState,
@@ -29,12 +34,17 @@ function FormComponent() {
     setInterval(7);
   };
   return (
-    <div id='lineForm'>
-      <Typography variant="body1">
-        Create your own line
+    <Paper sx={{
+      bgcolor: (theme) => theme.palette.background.default,
+      padding: 1,
+    }}
+      variant="outlined"
+    >
+      <Typography variant="h6">
+        <b>{t("create-your-own-line")}</b>
       </Typography>
       <Button onClick={() => { setDrawingState(!drawingState); }}>{drawingState ? "Stop drawing" : "Start drawing"}</Button>
-      <Select value={"Bus"} onChange={(e) => { setType(e.target.value); }} style={{ width: 130 }}>
+      <Select value={t("bus")} onChange={(e) => { setType(e.target.value); }} style={{ width: 130 }}>
         <MenuItem value={"Bus"}>Bus</MenuItem>
         <MenuItem value={"Tram"}>Tram</MenuItem>
         <MenuItem value={"S_Bahn"}>S-Bahn</MenuItem>
@@ -47,8 +57,8 @@ function FormComponent() {
         <MenuItem value={60}>1h</MenuItem>
       </Select>
       <Button onClick={onSubmit}>Submit</Button>
-    </div>
+    </Paper>
   );
-}
+};
 
 export default FormComponent;

@@ -1,3 +1,10 @@
 {
-
+  "click-on-a-stop-to-display-the-next-departures": "Wähle eine Station aus, um die nächsten Verbindungen anzuzeigen",
+  "bus": "Bus",
+  "create-your-own-line": "Zeichne deine eigene Linie",
+  "heatmap": {
+    "population-count-ha": "Bevölkerungsdichte / ha",
+    "switch-to-heatmap-layer": "Wechsle zur Heatmap"
+  },
+  "new-people-served": "neu erschlossene Anwohner"
 }

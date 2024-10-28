@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -14,13 +15,25 @@ import DarkModeTwoTone from "@mui/icons-material/DarkModeTwoTone";
 import LightModeTwoTone from "@mui/icons-material/LightModeTwoTone";
 
 import ColorModeContext from "../context/colorModeContext";
+import LanguageContext from "../context/languageContext";
 
 import Page from "./page";
+import { ExpandLess, ExpandMore, Inbox } from "@mui/icons-material";
+import { Collapse, List, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 
 export default function ContentPage() {
+  const { t } = useTranslation();
+
   const { mode, toggleColorMode } = React.useContext(ColorModeContext);
 
   const videoRef = React.useRef<HTMLVideoElement>(null);
+  const { current, change, available } = React.useContext(LanguageContext);
+
+  const [open, setOpen] = React.useState(true);
+
+  const handleClick = () => {
+    setOpen(!open);
+  };
 
   React.useEffect(() => {
     const observer = new IntersectionObserver(
@@ -73,7 +86,7 @@ export default function ContentPage() {
           onContextMenu={(event) => event.preventDefault()}
         >
           <source src={Zuerich} type="video/mp4" />
-          Your browser does not support the video tag.
+          {t("your-browser-does-not-support-the-video-tag")}
         </video>
 
         {/* Overlay Text */}
@@ -88,7 +101,7 @@ export default function ContentPage() {
             zIndex: 1,
           }}
         >
-          <Typography variant="h1">Transit availability in Switzerland</Typography>
+          <Typography variant="h1">{t("transit-availability-in-switzerland")}</Typography>
         </Box>
         {/* Toggle dark/light mode */}
         <Box
@@ -107,15 +120,44 @@ export default function ContentPage() {
           )}
         </Box>
       </Box>
+      {/* Language */}
+      <Box
+        sx={{
+          position: "absolute",
+          top: "2rem",
+          right: "2rem",
+          color: "white",
+          zIndex: 1,
+        }}
+      >
+      <ListItemButton onClick={handleClick}>
+        <ListItemIcon>
+          <Inbox />
+        </ListItemIcon>
+        <ListItemText primary={current} />
+        {open ? <ExpandLess /> : <ExpandMore />}
+      </ListItemButton>
+        <Collapse in={open} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            {
+              available.map((language) => (
+                <ListItemButton sx={{ pl: 4 }} onClick={() => change(language)}>
+                  <ListItemText primary={language} />
+                </ListItemButton>
+              ))
+            }
+          </List>
+        </Collapse>
+      </Box>
 
-      {/* Heatmap */}
+      {/* Components */}
       <Page height="100vh">
         <PopulationHeatmap />
       </Page>
       <Page height="100vh">
         <PtMap />
       </Page>
-      <Page height="60vh">
+      <Page height="40vh">
         <CustomDesc />
       </Page>
       <Page height="100vh">

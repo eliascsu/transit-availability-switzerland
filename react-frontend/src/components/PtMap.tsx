@@ -1,8 +1,5 @@
 import React from "react";
-
-import Card from "@mui/material/Card";
-import Divider from "@mui/material/Divider";
-import Typography from "@mui/material/Typography";
+import { useTranslation } from "react-i18next";
 
 import "leaflet/dist/leaflet.css";
 
@@ -13,8 +10,10 @@ import L, { LatLng } from "leaflet";
 import InfoTwoToneIcon from "@mui/icons-material/InfoTwoTone";
 
 import { getPopupPublicTransportStop } from "../api/swisstopo";
+import Legend from "./ptmap/legend";
 
 export default function PtMap() {
+  const { t } = useTranslation();
   const infoPtStop = React.useRef<string>("");
   const pt_stops_layer = React.useRef<L.TileLayer.WMS>();
   pt_stops_layer.current = L.tileLayer.wms("https://wms.geo.admin.ch/", { layers: "ch.bav.haltestellen-oev", transparent: true, format: "image/png" });
@@ -70,9 +69,15 @@ export default function PtMap() {
       }}
     >
       <div style={{ flexBasis: "33.33%" }}>
-        <Title/>
+        <h2 id="transitTitle">
+            {t("connection-quality-of")} <div className="highlightedText">{t("public-transport")}</div> {t("in-switzerland")}
+        </h2>
         <Legend/>
-        <InfoBox/>
+        <p id="ptInfo">
+            {t("pt-info")}
+            <br/><br/>
+            <InfoTwoToneIcon />   {t("click-on-a-stop-to-display-the-next-departures")}
+        </p>
       </div>
       <MapContainer
         center={[47.36, 8.53]}
@@ -93,74 +98,3 @@ export default function PtMap() {
   );
 }
 
-function Legend() {
-  return (
-        <Card variant="outlined" sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "flex-start",
-          padding: 1,
-          bgcolor: (theme) => theme.palette.background.default,
-        }}>
-            <Typography id="legendTitle">Connection quality:</Typography>
-            <Divider sx={{
-              margin: 1,
-              color: "black",
-              width: "90%",
-            }}/>
-            <div style={{ listStyleType: "none" }} >
-                <LegendRow color="#700038" text="Very good connection quality"/>
-                <LegendRow color="#9966FF" text="Good connection quality"/>
-                <LegendRow color="#00B000" text="Medium connection quality"/>
-                <LegendRow color="#B3FF40" text="Bad connection quality"/>
-            </div>
-        </Card>
-  );
-}
-
-function InfoBox() {
-  return (
-        <p id="ptInfo">
-            This map visually represents the quality of public transport connections throughout Switzerland.
-            It displays data on train, bus, and tram connectivity and coverage.
-            Key transport hubs are emphasized, and areas with less frequent or reliable service are identified.
-            It offes a clear overview of the Swiss public transport network's quality and accessibility.
-            <br/><br/>
-            <InfoTwoToneIcon />   Click on a Stop to display the next departures
-        </p>
-  );
-}
-
-function Title() {
-  return (
-        <h2 id="transitTitle">
-            Connection quality of <div className="highlightedText">public transport</div> in Switzerland
-        </h2>
-  );
-}
-
-const Rectangle: React.FC<{ color: string }> = ({ color }) => {
-  return (
-    <div id="rectangle" style={{
-      width: "20px",
-      height: "15px",
-      background: color,
-    }}>
-    </div>
-  );
-};
-
-const LegendRow: React.FC<{ color: string, text: string }> = ({ color, text }) => {
-  return (
-    <div style={{
-      display: "flex",
-      flexDirection: "row",
-      gap: "1rem",
-      alignItems: "center",
-      height: "30px",
-    }}>
-      <Rectangle color={color}/>
-      <Typography>{text}</Typography>
-    </div>
-  );
-};

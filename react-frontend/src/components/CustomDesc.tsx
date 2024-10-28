@@ -26,7 +26,7 @@ const SlideInDiv = styled.div`
   }
 `;
 
-function SlideInComponent() {
+const SlideInComponent: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
   const divRef = useRef(null); // Create a ref to target the div
 
@@ -91,6 +91,6 @@ function SlideInComponent() {
       </div>
     </SlideInDiv>
   );
-}
+};
 
 export default SlideInComponent;

@@ -7,14 +7,14 @@ import "leaflet.heat";
 import { TileLayer, WMSTileLayer, useMapEvents } from "react-leaflet";
 
 import Box from "@mui/material/Box";
-import HeatmapDescription from "./heatmapDescription";
 
 import MapContext from "../../context/mapContext";
 
 import { createHeatMap } from "../../utils/utils";
+import { getPopupPopulationDensity } from "../../api/swisstopo";
 
 import StyledMapContainer from "../mapContainer";
-import { getPopupPopulationDensity } from "../../api/swisstopo";
+import HeatmapDescription from "./heatmapDescription";
 
 const PageContainer = styled(Box)`
   height: 100%;
@@ -25,7 +25,7 @@ const PageContainer = styled(Box)`
   padding-top: 32px;
 `;
 
-export default function PopulationHeatmap() {
+const PopulationHeatmap: React.FC = () => {
   const didCancel = React.useRef(false);
   React.useEffect(() => () => { didCancel.current = true; }, []);
 
@@ -119,4 +119,6 @@ export default function PopulationHeatmap() {
       </PageContainer>
     </>
   );
-}
+};
+
+export default PopulationHeatmap;

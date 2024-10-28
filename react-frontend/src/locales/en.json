@@ -6,5 +6,15 @@
     "population-count-ha": "Population Count / ha",
     "switch-to-heatmap-layer": "Switch to heatmap",
     "switch-to-swisstopo-layer": "Switch to SwissTopo layer"
-  }
+  },
+  "your-browser-does-not-support-the-video-tag": "Your browser does not support the video tag.",
+  "transit-availability-in-switzerland": "Transit availability in Switzerland",
+  "new-people-served": "new people served",
+  "pt-info": "This map visually represents the quality of public transport connections throughout Switzerland. It displays data on train, bus, and tram connectivity and coverage. Key transport hubs are emphasized, and areas with less frequent or reliable service are identified. It offes a clear overview of the Swiss public transport network's quality and accessibility.",
+  "click-on-a-stop-to-display-the-next-departures": "Click on a Stop to display the next departures",
+  "connection-quality-of": "Connection quality of",
+  "public-transport": "public transport",
+  "in-switzerland": "in Switzerland",
+  "create-your-own-line": "Create your own line",
+  "bus": "Bus"
 }
