@@ -3,8 +3,7 @@ import React from "react";
 import { PopulationPoint, isPopulationArray } from "../models/data";
 export const BASE_URL = process.env.NODE_ENV === "production" ? `http://be.${window.location.hostname}/api/v1` : "http://localhost:8000/api/v1";
 
-/**export const BASE_URL = process.env.NODE_ENV==="production"? `http://be.${window.location.hostname}/api/v1`:"http://localhost:8000/api/v1"
-
+/**
  * get the data points through a post request
  * @param id the identifier of the point array
 */

@@ -1,5 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 
 import "leaflet/dist/leaflet.css";
 
@@ -59,8 +61,8 @@ export default function PtMap() {
   }
 
   return (
-    <div
-      style={{
+    <Box
+      sx={{
         height: "100%",
         width: "100%",
         display: "flex",
@@ -68,17 +70,17 @@ export default function PtMap() {
         margin: "16px",
       }}
     >
-      <div style={{ flexBasis: "33.33%" }}>
-        <h2 id="transitTitle">
-            {t("connection-quality-of")} <div className="highlightedText">{t("public-transport")}</div> {t("in-switzerland")}
-        </h2>
+      <Box sx={{ flexBasis: "33.33%" }}>
+        <Typography variant="h2" id="transitTitle">
+          {t("connection-quality-of")} <Box component="span" className="highlightedText">{t("public-transport")}</Box> {t("in-switzerland")}
+        </Typography>
         <Legend/>
-        <p id="ptInfo">
-            {t("pt-info")}
-            <br/><br/>
-            <InfoTwoToneIcon />   {t("click-on-a-stop-to-display-the-next-departures")}
-        </p>
-      </div>
+        <Typography variant="body1" id="ptInfo">
+          {t("pt-info")}
+          <br/><br/>
+          <InfoTwoToneIcon /> {t("click-on-a-stop-to-display-the-next-departures")}
+        </Typography>
+      </Box>
       <MapContainer
         center={[47.36, 8.53]}
         zoom={10}
@@ -89,12 +91,12 @@ export default function PtMap() {
         maxBounds={new L.LatLngBounds([48.076, 5.397], [45.599, 11.416])}
       >
         <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <WMSTileLayer url="https://wms.geo.admin.ch/" layers="ch.are.gueteklassen_oev" format="image/png" transparent={true} opacity={0.5} />
         <MapEvents/>
       </MapContainer>
-    </div>
+    </Box>
   );
 }
 

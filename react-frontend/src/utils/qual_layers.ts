@@ -1,22 +1,43 @@
 import L from "leaflet";
 import { classColors } from "./colors";
 
-// Configuration of markers
-const geojsonMarkerOptions = {
-  radius: 20,
-  color: "#ff7800",
+const BASE_MARKER_OPTIONS = Object.freeze({
   stroke: false,
   opacity: 1,
   fillOpacity: 1,
-};
+});
 
-// Configuration for each quality layer
-const qualityLayerConfig = {
-  A: { color: classColors.ClassA, categories: [1, 2], radius: [500, 300] },
-  B: { color: classColors.ClassB, categories: [1, 2, 3], radius: [750, 500, 300] },
-  C: { color: classColors.ClassC, categories: [1, 2, 3, 4], radius: [1000, 750, 500, 300] },
-  D: { color: classColors.ClassD, categories: [2, 3, 4, 5], radius: [1000, 750, 500, 300] },
-};
+// Optimize layer configuration with pre-computed maps for faster lookups
+const QUALITY_LAYER_CONFIG = {
+  A: { color: classColors.ClassA, categoryMap: new Set([1, 2]), radiusMap: new Map([[1, 500], [2, 300]]) },
+  B: { color: classColors.ClassB, categoryMap: new Set([1, 2, 3]), radiusMap: new Map([[1, 750], [2, 500], [3, 300]]) },
+  C: { color: classColors.ClassC, categoryMap: new Set([1, 2, 3, 4]), radiusMap: new Map([[1, 1000], [2, 750], [3, 500], [4, 300]]) },
+  D: { color: classColors.ClassD, categoryMap: new Set([2, 3, 4, 5]), radiusMap: new Map([[2, 1000], [3, 750], [4, 500], [5, 300]]) },
+} as const;
+
+type LayerType = keyof typeof QUALITY_LAYER_CONFIG;
+
+// Cache for circle creation
+const circleCache = new Map<string, L.Circle>();
+
+/**
+ * Creates a circle with memoization to reuse identical circles
+ */
+function createCircle(latlng: L.LatLng, color: string, radius: number): L.Circle {
+  const key = `${latlng.lng},${color},${radius}`;
+  let circle = circleCache.get(key);
+
+  if (!circle) {
+    circle = L.circle(latlng, {
+      ...BASE_MARKER_OPTIONS,
+      color,
+      radius,
+    });
+    circleCache.set(key, circle);
+  }
+
+  return circle;
+}
 
 /**
  * Create a quality layer based on the given data and layer type
@@ -24,47 +45,54 @@ const qualityLayerConfig = {
  * @param layerType Either 'A', 'B', 'C' or 'D'
  * @returns Quality layer as L.geoJSON
  */
-function createQualityLayer(data: GeoJSON.Feature[], layerType: "A" | "B" | "C" | "D") {
-  const config = qualityLayerConfig[layerType];
+/**
+ * Create a quality layer based on the given data and layer type
+ */
+function createQualityLayer(data: GeoJSON.Feature[], layerType: LayerType): L.GeoJSON {
+  const config = QUALITY_LAYER_CONFIG[layerType];
+
   return L.geoJSON(data, {
-    filter(geoJsonFeature) {
-      const kat = geoJsonFeature.properties.Hst_Kat;
-      return config.categories.includes(kat) && geoJsonFeature.properties.Haltestellen_No != "false";
+    filter: (feature) => {
+      const kat = feature.properties.Hst_Kat;
+      return config.categoryMap.has(kat) && feature.properties.Haltestellen_No !== "false";
     },
-    pointToLayer: function (geoJsonFeature, latlng) {
-      const properties = geoJsonFeature?.properties;
-      const radiusIndex = config.categories.indexOf(properties.Hst_Kat);
-      const radius = config.radius[radiusIndex] || 20; // Default radius if not found
-
-      geojsonMarkerOptions.color = config.color;
-      geojsonMarkerOptions.radius = radius;
-
-      return L.circle(latlng, geojsonMarkerOptions);
+    pointToLayer: (feature, latlng) => {
+      const kat = feature.properties.Hst_Kat;
+      const radius = config.radiusMap.get(kat) ?? 20;
+      return createCircle(latlng, config.color, radius);
     },
   });
 }
 
-function createQualityLayerLineString(data: any, layerType: "A" | "B" | "C" | "D") {
-  // data should be GeoJson.Feature[] and a linestring
-  const config = qualityLayerConfig[layerType];
-  const layer: L.GeoJSON = L.geoJSON();
+/**
+ * Create a quality layer for LineString features
+ */
+function createQualityLayerLineString(data: any, layerType: LayerType): L.GeoJSON {
+  const config = QUALITY_LAYER_CONFIG[layerType];
+  const layer = L.geoJSON();
+
+  // Process features in batch for better performance
+  const circles: L.Circle[] = [];
+
   for (const feature of data) {
-    const props = feature.properties;
-    const kat = props.Hst_kat;
-    for (const coord_pair of feature.geometry.coordinates) {
-      const latlng = L.latLng(coord_pair[1], coord_pair[0]);
-      const radiusIndex = config.categories.indexOf(kat);
-      const radius = config.radius[radiusIndex] || 20; // Default radius if not found
+    const kat = feature.properties?.Hst_kat;
+    const radius = config.radiusMap.get(kat) ?? 20;
 
-      geojsonMarkerOptions.color = config.color;
-      geojsonMarkerOptions.radius = radius;
-
-      const circle = L.circle(latlng, geojsonMarkerOptions);
-      circle.addTo(layer);
+    // Process all coordinates for this feature
+    if (feature.geometry.coordinates) {
+      for (const [lng, lat] of feature.geometry.coordinates) {
+        const latlng = L.latLng(lat, lng);
+        circles.push(createCircle(latlng, config.color, radius));
+      }
     }
   }
+
+  // Batch add all circles to the layer
+  circles.forEach(circle => circle.addTo(layer));
+
   return layer;
 }
+
 /**
  * Create a quality layer
  * @param data GeoJSON data
@@ -72,40 +100,20 @@ function createQualityLayerLineString(data: any, layerType: "A" | "B" | "C" | "D
  * @returns Quality layer as L.geoJSON
  */
 
-function makePTCirclesFromData(data: GeoJSON.Feature[]) {
-  console.log("makePTCirclesFromData");
-  console.log(typeof (data));
-  // Working with the default layers
-  if (data[0] != undefined) {
-    console.log("makePTCirclesFromData: default layers");
-    const layers: L.GeoJSON<any, any>[] = [];
-    const geoJsonLayerA = createQualityLayer(data, "A");
-    const geoJsonLayerB = createQualityLayer(data, "B");
-    const geoJsonLayerC = createQualityLayer(data, "C");
-    const geoJsonLayerD = createQualityLayer(data, "D");
-
-    layers.push(geoJsonLayerD);
-    layers.push(geoJsonLayerC);
-    layers.push(geoJsonLayerB);
-    layers.push(geoJsonLayerA);
-    console.log(layers);
-    return layers;
+function makePTCirclesFromData(data: GeoJSON.Feature[]): L.GeoJSON[] {
+  if (!data.length) {
+    return [];
   }
-  // Working with the user layers
-  else {
-    // Types are now linestrings
-    const layers: L.GeoJSON<any, any>[] = [];
-    const geoJsonLayerA = createQualityLayerLineString(data, "A");
-    const geoJsonLayerB = createQualityLayerLineString(data, "B");
-    const geoJsonLayerC = createQualityLayerLineString(data, "C");
-    const geoJsonLayerD = createQualityLayerLineString(data, "D");
 
-    layers.push(geoJsonLayerD);
-    layers.push(geoJsonLayerC);
-    layers.push(geoJsonLayerB);
-    layers.push(geoJsonLayerA);
-    return layers;
-  }
+  const layerTypes: LayerType[] = ["D", "C", "B", "A"];
+  const createLayerFn = data[0] !== undefined ? createQualityLayer : createQualityLayerLineString;
+
+  return layerTypes.map(type => createLayerFn(data, type));
 }
 
-export { createQualityLayer, createQualityLayerLineString, makePTCirclesFromData };
+// Clear circle cache when needed
+function clearCircleCache(): void {
+  circleCache.clear();
+}
+
+export { createQualityLayer, createQualityLayerLineString, makePTCirclesFromData, clearCircleCache };

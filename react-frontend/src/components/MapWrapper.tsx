@@ -14,7 +14,7 @@ import {
   createHeatMap,
   getLineColor,
 } from "../utils/utils";
-import { makePTCirclesFromData } from "../utils/qual_layers";
+import { clearCircleCache, makePTCirclesFromData } from "../utils/qual_layers";
 
 import CheckBoxes from "./Checkboxes";
 import FormComponent from "./FormComponent";
@@ -88,6 +88,7 @@ const Map = React.memo(function Map() {
   useEffect(() => {
     if (ptStopsAre != null && ptStopsAre.length > 0) {
       geoJsonCache.current = makePTCirclesFromData(ptStopsAre);
+      clearCircleCache();
     }
   }, [ptStopsAre]);
 
@@ -182,7 +183,7 @@ const Map = React.memo(function Map() {
     if (visibleLayersState.transportLayer) {
       geoJsonLayersRef.current = geoJsonCache.current;
 
-      if (geoJsonLayersRef.current.length == 0) {
+      if (geoJsonLayersRef.current.length === 0) {
         return;
       }
       geoJsonLayersRef.current[0].addTo(map);

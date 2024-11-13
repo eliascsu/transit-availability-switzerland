@@ -37,6 +37,7 @@ const App: React.FC = () => {
 
   return (
     <CacheProvider value={cache}>
+      <ColorModeProvider>
         <ThemeProvider theme={theme}>
           <MapProvider>
             <LayerProvider>
@@ -52,6 +53,7 @@ const App: React.FC = () => {
             </LayerProvider>
           </MapProvider>
         </ThemeProvider>
+      </ColorModeProvider>
     </CacheProvider>
   );
 };
