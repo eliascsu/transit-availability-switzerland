@@ -71,8 +71,8 @@ export default function PtMap() {
       }}
     >
       <Box sx={{ flexBasis: "33.33%" }}>
-        <Typography variant="h2" id="transitTitle">
-          {t("connection-quality-of")} <Box component="span" className="highlightedText">{t("public-transport")}</Box> {t("in-switzerland")}
+        <Typography variant="h6" id="transitTitle">
+          <b>{t("connection-quality-of")} <Box component="span" className="highlightedText">{t("public-transport")}</Box> {t("in-switzerland")}</b>
         </Typography>
         <Legend/>
         <Typography variant="body1" id="ptInfo">

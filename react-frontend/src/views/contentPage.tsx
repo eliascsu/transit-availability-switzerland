@@ -4,8 +4,6 @@ import { useTranslation } from "react-i18next";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
-import Zuerich from "../zuerich.mp4";
-
 import CustomDesc from "../components/CustomDesc";
 import MapWrapper from "../components/MapWrapper";
 import PopulationHeatmap from "../components/heatmap/heatmap";
@@ -20,13 +18,14 @@ import LanguageContext from "../context/languageContext";
 import Page from "./page";
 import { ExpandLess, ExpandMore, Inbox } from "@mui/icons-material";
 import { Collapse, List, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
+import PtMap_desc from "../components/PtMap_desc";
+import SplashVideo from "../components/splashVideo";
 
 export default function ContentPage() {
   const { t } = useTranslation();
 
   const { mode, toggleColorMode } = React.useContext(ColorModeContext);
 
-  const videoRef = React.useRef<HTMLVideoElement>(null);
   const { current, change, available } = React.useContext(LanguageContext);
 
   const [open, setOpen] = React.useState(true);
@@ -34,31 +33,6 @@ export default function ContentPage() {
   const handleClick = () => {
     setOpen(!open);
   };
-
-  React.useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          videoRef.current?.play();
-        } else {
-          videoRef.current?.pause();
-        }
-      },
-      {
-        threshold: 0.5,
-      },
-    );
-
-    if (videoRef.current) {
-      observer.observe(videoRef.current);
-    }
-
-    return () => {
-      if (videoRef.current) {
-        observer.unobserve(videoRef.current);
-      }
-    };
-  }, []);
 
   return (
     <Box>
@@ -71,23 +45,7 @@ export default function ContentPage() {
         }}
       >
         {/* Video */}
-        <video
-          ref={videoRef}
-          muted
-          loop
-          style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            position: "absolute",
-            top: 0,
-            left: 0,
-          }}
-          onContextMenu={(event) => event.preventDefault()}
-        >
-          <source src={Zuerich} type="video/mp4" />
-          {t("your-browser-does-not-support-the-video-tag")}
-        </video>
+        <SplashVideo />
 
         {/* Overlay Text */}
         <Box
@@ -151,8 +109,25 @@ export default function ContentPage() {
       </Box>
 
       {/* Components */}
+      <Page sx={{
+        height: "40vh",
+        flexDirection: "row",
+      }}>
+        <div>
+          <Typography variant="h6"><b>{t("heatmap.populations-density")}</b></Typography>
+          <Typography variant="body1">{t("heatmap.heatmap-description")}</Typography>
+        </div>
+        <div>
+          <Typography variant="h6"><b>{t("heatmap.heatmap-calculations")}</b></Typography>
+          <Typography variant="body1">{t("heatmap.heatmap-calculations-description")}
+          </Typography>
+        </div>
+      </Page>
       <Page height="100vh">
         <PopulationHeatmap />
+      </Page>
+      <Page height="40vh">
+        <PtMap_desc />
       </Page>
       <Page height="100vh">
         <PtMap />

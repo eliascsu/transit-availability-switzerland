@@ -7,8 +7,6 @@ import { TileLayer, useMapEvents } from "react-leaflet";
 
 import Box from "@mui/material/Box";
 
-import { WGS84, LV95 } from "../utils/constants";
-
 import {
   addPointToLine,
   createHeatMap,
@@ -23,7 +21,7 @@ import StyledMapContainer from "./mapContainer";
 import LayerContext from "../context/LayerContext";
 import MapContext from "../context/mapContext";
 
-import proj4 from "proj4";
+import { isPtStopNearby } from "../api/swisstopo";
 
 const MapWrapper = React.memo(function MapWrapper() {
   return (
@@ -41,7 +39,7 @@ const MapWrapper = React.memo(function MapWrapper() {
       <StyledMapContainer>
         <TileLayer maxZoom={100} url="https://tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey=119ad4f25bed4ec2a70aeba31a0fb12a" attribution="&copy; <a href=&quot;https://www.thunderforest.com/&quot;>Thunderforest</a> contributors" />
         <TileLayer url="https://tiles.openrailwaymap.org/standard/{z}/{x}/{y}.png"></TileLayer>
-        <Map></Map>
+        <Map/>
       </StyledMapContainer>
       <Box style={{
         flexBasis: "33.33%",
@@ -72,21 +70,21 @@ const Map = React.memo(function Map() {
   } = React.useContext(MapContext);
 
   useEffect(() => {
-    if (populationDensity != null && populationDensity.length > 0) {
+    if (populationDensity.length > 0) {
       const heatArray = createHeatMap(populationDensity, false);
       populationHeatMapCache.current = L.heatLayer(heatArray, { radius: 15, max: 1 });
     }
   }, [populationDensity]);
 
   useEffect(() => {
-    if (populationUnserved != null && populationUnserved.length > 0) {
+    if (populationUnserved.length > 0) {
       const heatArray = createHeatMap(populationUnserved, true);
       populationUnservedHeatMapCache.current = L.heatLayer(heatArray, { radius: 15, max: 1 });
     }
   }, [populationUnserved]);
 
   useEffect(() => {
-    if (ptStopsAre != null && ptStopsAre.length > 0) {
+    if (ptStopsAre.length > 0) {
       geoJsonCache.current = makePTCirclesFromData(ptStopsAre);
       clearCircleCache();
     }
@@ -116,20 +114,7 @@ const Map = React.memo(function Map() {
       console.log(linesFromFormState);
       console.log(drawingState);
       if (drawingState) {
-
-        // Check if there is a PT stop nearby (snapping)
-        const [x, y] = proj4(WGS84, LV95, [e.latlng.lng, e.latlng.lat]);
-
-        const url_ident = "https://api3.geo.admin.ch/rest/services/all/MapServer/identify?geometry=" + x + "," + y + "&imageDisplay=400,400,96&mapExtent=" + (x - 4000) + "," + (y - 4000) + "," + (x + 4000) + "," + (y + 4000) + "&geometryFormat=geojson&geometryType=esriGeometryPoint&lang=en&layers=all:ch.bav.haltestellen-oev&limit=10&returnGeometry=true&sr=2056&timeInstant=2021&tolerance=7";
-        const response = await fetch(url_ident);
-        const data = await response.json();
-        let coords;
-        if (data.results[0]) {
-          coords = proj4(LV95, WGS84, data.results[0].geometry?.coordinates[0]) as number[];
-        }
-        else {
-          coords = [e.latlng.lng, e.latlng.lat];
-        }
+        const coords =  await isPtStopNearby(e.latlng.lat, e.latlng.lng);
 
         for (const line of userLinesRef.current) {
           L.geoJSON(line).removeFrom(map);
@@ -157,7 +142,7 @@ const Map = React.memo(function Map() {
   useEffect(() => {
     map.scrollWheelZoom.disable();
     pt_stops_layer.current?.addTo(map);
-  }, []);
+  }, [map]);
 
   useEffect(() => {
     if (visibleLayersState.popLayer) {
@@ -211,7 +196,7 @@ const Map = React.memo(function Map() {
     // First set the type and interval for the new line
     const lineInfo = linesFromFormState[linesFromFormState.length - 1];
     const lastFeature = userLinesRef.current[userLinesRef.current.length - 1];
-    if (lastFeature != undefined && linesFromFormState.length > 0) {
+    if (linesFromFormState.length > 0) {
       const typ = lineInfo.typ;
       const interval = lineInfo.intervall;
       let kat;
